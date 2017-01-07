@@ -1,0 +1,33 @@
+$published: #5CB85C;
+$drafted: #d9534f;
+$scheduled: #5bc0de;
+$pending: #f0ad4e;
+$hidden: #a7a7a7;
+
+.status-indicator {
+  width: 12px;
+  height: 12px;
+  display: block;
+  border-radius: 50%;
+  margin-top: 3px;
+}
+
+.status-indicator--published {
+  background-color: $published;
+}
+
+.status-indicator--drafted {
+  background-color: $drafted;
+}
+
+.status-indicator--scheduled {
+  background-color: $scheduled;
+}
+
+.status-indicator--pending {
+  background-color: $pending;
+}
+
+.status-indicator--hidden {
+  background-color: $hidden;
+}

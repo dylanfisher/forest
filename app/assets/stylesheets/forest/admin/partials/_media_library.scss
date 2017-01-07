@@ -1,0 +1,27 @@
+.media-library-image-row {
+  max-width: 100px;
+}
+
+.media-library-image {
+  margin-bottom: 15px;
+  height: 0;
+  padding-bottom: 100%;
+  background-size: cover;
+  background-position: center;
+}
+
+.media-library-image--list {
+  margin-bottom: 0;
+}
+
+.media-library__list-actions {
+  display: none;
+}
+
+.media-library__list-table-row {
+  &:hover {
+    .media-library__list-actions {
+      display: block;
+    }
+  }
+}

@@ -1,0 +1,17 @@
+<%= simple_form_for(@media_item) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= image_tag @media_item.attachment.url(:medium) if @media_item.attachment.present? && @media_item.attachment.content_type.match(/\Aimage\/.*\z/) %>
+    <%= f.input :attachment %>
+    <%= f.input :title %>
+    <%= f.input :slug %>
+    <%= f.input :caption %>
+    <%= f.input :alternative_text %>
+    <%= f.input :description %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

@@ -1,0 +1,51 @@
+.admin {
+  th {
+    a {
+      &.active {
+        position: relative;
+
+        &:after {
+          position: absolute;
+          right: -10px;
+        }
+
+        &.order--default {
+          &:after {
+            content: 'v';
+          }
+        }
+
+        &.order--reverse {
+          &:after {
+            content: '^';
+          }
+        }
+      }
+    }
+  }
+}
+
+.admin-header {
+  h1 {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .pagination {
+    margin-bottom: 0;
+  }
+}
+
+.admin-header__item {
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 15px;
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.admin-header__body {
+  margin-top: 20px;
+}

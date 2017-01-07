@@ -1,0 +1,40 @@
+<%= simple_form_for(@menu) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <div class="well">
+      <%= f.input :title %>
+      <%= f.input :slug %>
+      <%= f.input :structure, as: :hidden %>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-6">
+        <button type="button" class="btn btn-primary" id="menu__add-item-button">Add menu item</button>
+        <br><br>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="well">
+          <div class="dd dd-temporary" id="menu__new-item-placeholder">
+            <div class="dd-empty"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6">
+        <div class="dd" id="dd-primary">
+          <ol class="dd-list">
+            <%= render partial: 'list_item', collection: @menu.structure_json %>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, class: 'btn-success' %>
+  </div>
+<% end %>

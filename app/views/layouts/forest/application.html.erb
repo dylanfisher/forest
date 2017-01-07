@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Forest</title>
-  <%= stylesheet_link_tag    "forest/application", media: "all" %>
-  <%= javascript_include_tag "forest/application" %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
+  <head>
+    <%= render 'layouts/forest/shared_head' %>
 
-<%= yield %>
+    <%= stylesheet_link_tag    'forest/application_public', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'forest/application_public', 'data-turbolinks-track': 'reload' %>
+  </head>
 
-</body>
+  <body class="<%= @body_classes %> public">
+    <%# TODO: admin nav bar styles in public %>
+    <%= render 'forest/admin/navigation' if show_admin_navigation? %>
+    <div class="container-fluid">
+      <%= yield %>
+    </div>
+  </body>
 </html>

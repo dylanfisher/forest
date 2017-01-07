@@ -1,0 +1,16 @@
+<%= simple_form_for(@user) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :email, required: true, autofocus: true %>
+    <%= f.input :password, required: true, hint: ("6 characters minimum") if @user.new_record? %>
+    <%= f.input :password_confirmation, required: true if @user.new_record? %>
+    <%= f.input :first_name %>
+    <%= f.input :last_name %>
+    <%= f.association :user_groups %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, class: 'btn-success' %>
+  </div>
+<% end %>

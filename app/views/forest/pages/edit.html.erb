@@ -1,0 +1,15 @@
+<div class="admin-header">
+  <div id="notice"><%= notice %></div>
+  <div class="well">
+    <div class="row">
+      <div class="col-sm-8">
+        <h1><%= @page.title %> <span class="badge">Page <%= @page.id %></span></h1>
+      </div>
+      <div class="col-sm-4 text-right">
+        <%= link_to 'View page', @page, class: 'btn btn-primary' %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render 'form', page: @page %>

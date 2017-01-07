@@ -1,0 +1,28 @@
+<div class="admin-header">
+  <div id="notice"><%= notice %></div>
+  <div class="well">
+    <h1>Resources <span class="badge"><%= number_with_delimiter @resources.count %></span></h1>
+  </div>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th width="10%">Index</th>
+        <th width="80%">Resource type</th>
+        <th width="10%">Count</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @resources.each_with_index do |resource, index| %>
+        <tr>
+          <td><%= index + 1 %></td>
+          <td><%= link_to resource.model_name.human.titleize.pluralize, polymorphic_path(resource) %></td>
+          <td><%= number_with_delimiter resource.count %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

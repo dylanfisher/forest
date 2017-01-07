@@ -1,0 +1,22 @@
+<li class="dd-item" data-id="<%= list_item['id'] %>">
+  <div class="dd-content form-group">
+    <div class="row dd-expander-row">
+      <div class="col-sm-9">
+        <div class="dd-handle">Item <%= list_item['id'] %></div>
+      </div>
+      <div class="col-sm-3">
+        <div class="dd-input-expand"></div>
+        <div class="dd-input-collapse"></div>
+      </div>
+    </div>
+    <div class="dd-input">
+      <label for="exampleInputName2">Navigation label</label>
+      <input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
+    </div>
+  </div>
+  <% if list_item['children'] %>
+    <ol class="dd-list">
+      <%= render partial: 'list_item', collection: list_item['children'] %>
+    </ol>
+  <% end %>
+</li>

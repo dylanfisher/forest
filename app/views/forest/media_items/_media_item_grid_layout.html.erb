@@ -1,0 +1,6 @@
+<div class="media-item--grid col-xs-4 col-sm-3 col-md-2">
+  <% attachment_or_placeholder_url = media_item.attachment.exists? ? media_item.attachment.url(:medium) : 'https://placeholdit.imgix.net/~text?w=600&h=400' %>
+  <%= link_to edit_media_item_path(media_item), class: 'media-library-link' do %>
+    <%= content_tag :div, '', class: 'media-library-image img-rounded', style: "background-image: url(#{image_url attachment_or_placeholder_url})" %>
+  <% end %>
+</div>

@@ -1,0 +1,48 @@
+<%= simple_form_for(@page) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="row">
+    <div class="col-sm-12">
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Metadata</h3>
+        </div>
+        <div class="panel-body">
+          <div class="form-inputs">
+            <div class="row">
+              <div class="col-sm-6">
+                <%= f.input :status, as: :select, collection: Page.statuses.keys.to_a, include_blank: false %>
+                <%= f.input :title %>
+                <%= f.input :slug %>
+                <%= f.input :description %>
+                <%= f.button :submit, class: 'btn-success' %>
+              </div>
+              <div class="col-sm-6">
+                <%# TODO: better media item chooser %>
+                <%= f.association :featured_image, collection: MediaItem.images, hint: 'The featured image is displayed when people share this page on social media, and may also be used in the page template.' %>
+                <%= image_tag @page.featured_image.attachment.url(:medium), class: 'img-rounded page__featured-image' if @page.featured_image.present? %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Page Layout</h3>
+        </div>
+        <div class="panel-body">
+          <div class="form-inputs">
+            <div class="row">
+              <div class="col-sm-12">
+                Modules go here
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+<% end %>

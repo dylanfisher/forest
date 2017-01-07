@@ -1,0 +1,14 @@
+<div class="admin-header">
+  <div class="well">
+    <div class="row">
+      <div class="col-sm-4">
+        <h1>New Page</h1>
+      </div>
+      <div class="col-sm-8 text-right">
+        <%= link_to 'Back', pages_path, class: 'btn btn-default' %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render 'form', page: @page %>

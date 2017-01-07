@@ -1,0 +1,14 @@
+// Display
+.block        { display: block; }
+.inline       { display: inline; }
+.inline-block { display: inline-block; }
+
+// Vertical alignment
+.va-top      { vertical-align: top; }
+.va-middle   { vertical-align: middle; }
+.va-bottom   { vertical-align: bottom; }
+.va-baseline { vertical-align: baseline; }
+
+.text-light {
+  color: #ddd;
+}

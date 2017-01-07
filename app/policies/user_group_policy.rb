@@ -1,0 +1,2 @@
+class UserGroupPolicy < ApplicationPolicy
+end

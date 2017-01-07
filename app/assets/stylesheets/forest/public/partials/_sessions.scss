@@ -1,0 +1,13 @@
+.controller--sessions,
+.controller--confirmations,
+.controller--passwords,
+.controller--registrations,
+.controller--unlocks {
+  background-image: image-url('admin/forest.jpg');
+  background-size: cover;
+  background-position: center;
+
+  .panel {
+    margin-top: 80px;
+  }
+}

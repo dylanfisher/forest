@@ -1,0 +1,20 @@
+<div class="panel-heading">
+  <h1 class="panel-title">New user registration</h1>
+</div>
+
+<div class="panel-body">
+  <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+    <%= f.error_notification %>
+
+    <div class="form-group">
+      <p class="help-block">Welcome to Forest. Please create the admin user for this app.</p>
+      <%= f.input :email, required: true, autofocus: true %>
+      <%= f.input :password, required: true, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length) %>
+      <%= f.input :password_confirmation, required: true %>
+    </div>
+
+    <div class="form-actions">
+      <%= f.button :submit, 'Sign up', class: 'btn btn-primary' %>
+    </div>
+  <% end %>
+</div>

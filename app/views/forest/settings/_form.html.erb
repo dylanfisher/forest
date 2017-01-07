@@ -1,0 +1,19 @@
+<%= simple_form_for(@setting) do |f| %>
+  <div class="admin-header">
+    <div class="well">
+      <div class="row">
+        <div class="col-sm-8">
+          <h1><%= @setting.title.presence || 'Editing Setting' %></h1>
+        </div>
+        <div class="col-sm-4 text-right">
+          <%= f.button :submit, class: 'btn btn-success' %>
+        </div>
+      </div>
+      <%= f.error_notification %>
+    </div>
+  </div>
+
+  <div class="form-inputs">
+    <%= f.input :value %>
+  </div>
+<% end %>

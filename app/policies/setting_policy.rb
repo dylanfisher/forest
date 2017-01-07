@@ -1,0 +1,2 @@
+class SettingPolicy < ApplicationPolicy
+end

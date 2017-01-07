@@ -1,0 +1,77 @@
+<div class="admin-header">
+  <div id="notice"><%= notice %></div>
+  <div class="well">
+    <div class="row">
+      <div class="col-sm-8">
+        <h1 class="admin-header__item">Versions <span class="badge"><%= number_with_delimiter @versions.total_count %></span> <small><%= @page.title %></small></h1>
+      </div>
+      <div class="col-sm-4 text-right">
+        <%= link_to "Edit page", edit_page_path(@page), class: 'btn btn-info' %>
+      </div>
+      <div class="admin-header__body col-sm-12">
+        <%= dropdown_select_form url: page_versions_path,
+          id: 'by_status',
+          select_options: Page.statuses.keys.to_a.collect{ |x| [x.titleize, x] },
+          title: 'All Statuses' %>
+      </div>
+      <div class="col-sm-6">
+        <%= paginate @versions %>
+      </div>
+      <div class="col-sm-6 text-right admin-header__search">
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th></th>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Slug</th>
+        <th>Description</th>
+        <th>Author</th>
+        <th>Created&nbsp;at</th>
+        <th>Updated&nbsp;at</th>
+        <th colspan="2"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% if ( params[:page].blank? || params[:page] == 1 ) && ( params[:by_status].blank? || @page.status == params[:by_status] ) %>
+        <tr>
+          <td><%= status_indicator @page %></td>
+          <td>Current Version</td>
+          <td><%= @page.title %></td>
+          <td><%= @page.slug %></td>
+          <td><%= @page.description %></td>
+          <td><%= User.find(@page.versions.last&.version_author)&.display_name if @page.versions.last&.version_author %></td>
+          <td><%= @page.created_at.to_formatted_s(:short) %></td>
+          <td><%= @page.updated_at.to_formatted_s(:short) %></td>
+          <td width="1"><%= link_to 'Show', @page, class: 'btn btn-xs btn-primary', role: 'button' %></td>
+          <td width="1"><%= link_to 'Edit', edit_page_path(@page), class: 'btn btn-xs btn-info', role: 'button' %></td>
+        </tr>
+      <% end %>
+      <% @versions.each do |version| %>
+        <% page = version.reify %>
+        <tr>
+          <td><%= status_indicator page %></td>
+          <td><%= version.id %></td>
+          <td><%= page.title %></td>
+          <td><%= page.slug %></td>
+          <td><%= page.description %></td>
+          <td><%= User.find(version.version_author)&.display_name if version&.version_author %></td>
+          <td><%= page.created_at.to_formatted_s(:short) %></td>
+          <td><%= page.updated_at.to_formatted_s(:short) %></td>
+          <td width="1"><%= link_to 'Show', page_version_path(page, version), class: 'btn btn-xs btn-primary', role: 'button' %></td>
+          <td width="1"><%= link_to 'Restore', restore_page_version_path(page, version), class: 'btn btn-xs btn-success', role: 'button', title: 'Restore this version', data: { confirm: 'Are you sure you want to restore this version to the current version?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<%= paginate @versions %>
