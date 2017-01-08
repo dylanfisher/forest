@@ -1,5 +1,5 @@
 class MediaItem < ApplicationRecord
-  include Rails.application.routes.url_helpers
+  include Forest::Engine.routes.url_helpers
 
   extend FriendlyId
   friendly_id :slug_candidates, use: :slugged
@@ -43,7 +43,7 @@ class MediaItem < ApplicationRecord
   private
 
     def self.grouped_by_year_month
-      self.group("strftime('%Y%m', created_at)").distinct
+      self.select("DISTINCT ON (DATE_TRUNC('month', created_at)) *")
     end
 
     def slug_candidates

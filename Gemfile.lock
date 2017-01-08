@@ -5,6 +5,7 @@ PATH
       bootstrap-sass (~> 3.3.6)
       cocoon
       devise
+      faker
       friendly_id (~> 5.2)
       has_scope
       jquery-fileupload-rails
@@ -82,6 +83,8 @@ GEM
       warden (~> 1.2.3)
     erubis (2.7.0)
     execjs (2.7.0)
+    faker (1.7.0)
+      i18n (~> 0.5)
     friendly_id (5.2.0)
       activerecord (>= 4.0.0)
     globalid (0.3.7)
