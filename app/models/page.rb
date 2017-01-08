@@ -24,9 +24,7 @@ class Page < ApplicationRecord
   scope :by_updated_at, -> (orderer = :desc) { order(updated_at: orderer) }
   scope :by_status, -> (status) { where(status: status) }
   scope :search, -> (query) {
-    where(self.column_names.reject{ |x|
-      %w(id created_at updated_at).include? x
-    }.collect{ |x|
+    where(self.columns.select{ |x| x.type == :string }.map(&:name).collect{ |x|
       x + ' LIKE :query'
     }.join(' OR '), query: "%#{query}%")
   }

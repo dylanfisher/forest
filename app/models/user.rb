@@ -12,9 +12,7 @@ class User < ApplicationRecord
   scope :by_last_name, -> (orderer = :asc) { order(last_name: orderer) }
   scope :by_created_at, -> (orderer = :desc) { order(created_at: orderer) }
   scope :search, -> (query) {
-    where(self.column_names.reject{ |x|
-      %w(id created_at updated_at).include? x
-    }.collect{ |x|
+    where(self.columns.select{ |x| x.type == :string }.map(&:name).collect{ |x|
       x + ' LIKE :query'
     }.join(' OR '), query: "%#{query}%")
   }

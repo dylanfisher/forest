@@ -57,6 +57,7 @@
       <% end %>
       <% @versions.each do |version| %>
         <% page = version.reify %>
+        <% next if page.nil? %>
         <tr>
           <td><%= status_indicator page %></td>
           <td><%= version.id %></td>
