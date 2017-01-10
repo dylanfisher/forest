@@ -36,7 +36,16 @@
           <div class="form-inputs">
             <div class="row">
               <div class="col-sm-12">
-                Modules go here
+
+                <div id='page_slots'>
+                  <%= f.simple_fields_for :page_slots do |page_slot| %>
+                    <%= render 'page_slot_fields', f: page_slot %>
+                  <% end %>
+                  <div class='links'>
+                    <%= link_to_add_association 'add page_slot', f, :page_slots %>
+                  </div>
+                </div>
+
               </div>
             </div>
           </div>

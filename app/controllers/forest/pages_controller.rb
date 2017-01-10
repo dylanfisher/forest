@@ -93,8 +93,41 @@ module Forest
     # PATCH/PUT /pages/1.json
     def update
       authorize @page
+
+      @blocks = {}
+
+      # TODO: Handle block type deletion
+
+      params[:page][:page_slots_attributes].each_pair { |index, blockable_params|
+        block_type = blockable_params['blockable_type']
+        block_constant = block_type.safe_constantize
+        block_fields = blockable_params['block_fields']
+        blockable_id = params[:page][:page_slots_attributes][index][:blockable_id]
+
+        next if block_fields.nil?
+
+        if blockable_id.present?
+          block = block_constant.find blockable_id
+          existing_attributes = HashWithIndifferentAccess.new
+          block.permitted_params.each { |a| existing_attributes[a] = block[a] }
+        else
+          block = block_type.constantize.new
+        end
+
+        new_attributes = block_fields.permit block.permitted_params
+
+        # TODO: not sure if a more precise diff between hashes is necessary
+        if block.new_record? || (existing_attributes.to_a - new_attributes.as_json.to_a).present?
+          block.assign_attributes block_fields.permit(block.permitted_params)
+          @blocks[index] = block
+        end
+
+        params[:page][:page_slots_attributes][index].delete :block_fields
+      }
+
       respond_to do |format|
         if @page.update(page_params)
+          save_blocks
           format.html { redirect_to edit_page_path(@page), notice: 'Page was successfully updated.' }
           format.json { render :show, status: :ok, location: @page }
         else
@@ -130,9 +163,21 @@ module Forest
         end
       end
 
+      def save_blocks
+        return unless @blocks.present?
+        @blocks.each_pair do |index, block|
+          if block.save
+            @page.page_slots[index.to_i].update_column :blockable_id, block.id
+          else
+            format.html { render :edit, notice: "Unable to update #{block.class.name.titleize}." }
+          end
+        end
+      end
+
       # Never trust parameters from the scary internet, only allow the white list through.
       def page_params
-        params.require(:page).permit(:title, :slug, :description, :status, :version_id, :featured_image_id, :media_item_ids)
+        params.require(:page).permit(:title, :slug, :description, :status, :version_id, :featured_image_id, :media_item_ids,
+          page_slots_attributes: [:id, :_destroy, :page_id, :page_version_id, :blockable_id, :blockable_type, :blockable_version_id, *BlockType.block_type_params])
       end
   end
 end

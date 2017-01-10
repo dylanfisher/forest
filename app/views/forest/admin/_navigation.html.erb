@@ -43,6 +43,9 @@
             <p class="navbar-text">
               <%= content_tag :span, t(@page.status, scope: [:page, :status]), class: 'badge', title: 'Page Status' %>
             </p>
+            <p class="navbar-text">
+              <%= link_to 'Edit page', edit_page_path(@page) %>
+            </p>
           </li>
         <% end %>
         <li><%= link_to 'Settings', settings_path %></li>
