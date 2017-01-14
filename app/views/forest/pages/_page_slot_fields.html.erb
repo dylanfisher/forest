@@ -1,13 +1,14 @@
-<div class="nested-fields">
+<%= content_tag :div, class: 'nested-fields', data: { block_type: f.object.blockable_type, block_type_id: f.object.blockable_id } do %>
   <div class="panel panel-default">
-    <% if f.object.blockable_type %>
-      <div class="panel-heading sortable-handle">
-        <%= f.object.blockable_type.humanize %>
-      </div>
-    <% end %>
-    <div class="panel-body">
-      <%= f.input :blockable_type, collection: BlockType.all, value_method: :name, include_blank: false %>
+    <div class="panel-heading sortable-handle">
+      <%= f.object.blockable_type %>
+      <%= f.object.blockable_id %>
+      <button type="button" class="btn btn-default btn-xs pull-right" data-block-collapser>
+        <div class="glyphicon glyphicon-minus"></div>
+      </button>
+    </div>
 
+    <div class="panel-body">
       <% if f.object.blockable_type %>
         <%= f.simple_fields_for 'block_fields' do |block_f| %>
           <%= render "#{f.object.blockable_type.underscore}_fields", block_f: block_f, f: f %>
@@ -15,7 +16,7 @@
       <% else %>
         <div class="block-type-field-templates">
           <% BlockType.all.each do |blockable_type| %>
-            <%= content_tag :div, class: "block-type-field-template block-type-field-template__#{blockable_type.name.underscore}", data: { block_type: blockable_type.name } do %>
+            <%= content_tag :div, class: "block-type-field-template block-type-field-template__#{blockable_type.name.underscore}", data: { block_type: blockable_type.name, block_type_id: blockable_type.id } do %>
               <%= f.simple_fields_for 'block_fields' do |block_f| %>
                 <%= render "#{blockable_type.name.underscore}_fields", block_f: block_f, f: f %>
               <% end %>
@@ -24,6 +25,7 @@
         </div>
       <% end %>
 
+      <%= f.input :blockable_type, collection: BlockType.all, value_method: :name, include_blank: false %>
       <%= f.input :page_id, as: :hidden %>
       <%= f.input :page_version_id, as: :hidden %>
       <%= f.input :blockable_id, as: :hidden %>
@@ -32,5 +34,6 @@
 
       <%= link_to_remove_association 'Remove Block', f, class: 'btn btn-warning' %>
     </div>
+
   </div>
-</div>
+<% end %>

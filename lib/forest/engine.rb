@@ -13,10 +13,9 @@ module Forest
 
     initializer :assets, :group => :all do
       Rails.application.config.assets.precompile += %w(
-        forest/application_admin.css
-        forest/application_public.css
-        forest/application_admin.js
-        forest/application_public.js
+        forest/application_admin.css forest/application_public.css
+        forest/application_admin.js forest/application_public.js
+        jquery2.js
       )
     end
 

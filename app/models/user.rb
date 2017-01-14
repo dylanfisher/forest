@@ -6,6 +6,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  store :settings, accessors: [ :page_settings ], coder: JSON
+
   has_and_belongs_to_many :user_groups
 
   scope :by_id, -> (orderer = :desc) { order(id: orderer) }

@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'pg'
 
   s.add_dependency 'sass-rails', '~> 5.0'
-  s.add_dependency 'jquery-rails'
+  s.add_dependency 'jquery-rails-cdn'
   s.add_dependency 'jquery-ui-rails'
   s.add_dependency 'turbolinks', '~> 5'
   s.add_dependency 'pry-rails'

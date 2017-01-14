@@ -5,3 +5,11 @@
     display: block;
   }
 }
+
+.nested-fields {
+  &.collapsed {
+    .panel-body {
+      display: none;
+    }
+  }
+}

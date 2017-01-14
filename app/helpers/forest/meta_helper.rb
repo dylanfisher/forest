@@ -1,7 +1,7 @@
 module Forest
   module MetaHelper
     def page_title
-      [content_for(:page_title) || @page_title, site_title].reject(&:blank?).join(divider).html_safe
+      [content_for(:page_title) || @page_title, site_title].reject(&:blank?).join(divider).squish.html_safe
     end
 
     def site_title
@@ -9,7 +9,7 @@ module Forest
     end
 
     def page_description
-      [content_for(:page_description) || @page_description, site_description].reject(&:blank?).first.html_safe
+      [content_for(:page_description) || @page_description, site_description].reject(&:blank?).first.squish.html_safe
     end
 
     def page_featured_image

@@ -5,18 +5,33 @@ App.MarkdownTextEditor = {
     $textAreas.each(function() {
       that.instances.push( new SimpleMDE({
         element: this,
-        hideIcons: ['preview', 'side-by-side', 'fullscreen'],
         spellChecker: false,
         status: false,
+        toolbar: [
+          'bold',
+          'italic',
+          'heading',
+          '|',
+          'unordered-list',
+          'ordered-list',
+          '|',
+          'link',
+          '|',
+          'guide',
+        ],
         shortcuts: {
-          'toggleCodeBlock': null,
           'drawImage': null,
-          'toggleOrderedList': null,
-          'toggleHeadingBigger': null,
-          'toggleSideBySide': null,
+          'drawLink': null,
+          'cleanBlock': null,
+          'toggleBlockquote': null,
+          'toggleCodeBlock': null,
           'toggleFullScreen': null,
-          'togglePreview': null,
+          'toggleHeadingBigger': null,
           'toggleHeadingSmaller': null,
+          'toggleOrderedList': null,
+          'togglePreview': null,
+          'toggleSideBySide': null,
+          'toggleUnorderedList': null,
         }
       }) );
     });

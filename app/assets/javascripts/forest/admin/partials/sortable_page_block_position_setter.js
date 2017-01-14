@@ -6,7 +6,9 @@ App.pageLoad.push(function() {
 
   $pageSlots.sortable({
     items: $pageSlots,
-    handle: '.sortable-handle'
+    handle: '.sortable-handle:not(button), .sortable-handle:not(a)',
+    placeholder: 'ui-state-highlight',
+    forcePlaceholderSize: true,
   });
 
   $pageSlots.offOn('sortupdate.pageSlotSort', function(e, ui) {

@@ -33,8 +33,11 @@ $(document).on('change', '#page_slots .page_page_slots_blockable_type select', f
   var $select = $(this);
   var blockType = $select.val();
   var $wrapper = $select.closest('.nested-fields');
+  var $blockHeader = $wrapper.find('[data-block-type-header]');
   var $templateFields = $wrapper.find('.block-type-field-template');
   var $templateField = $wrapper.find('.block-type-field-template[data-block-type="' + blockType + '"]');
+
+  $blockHeader.html(blockType);
 
   $templateFields.removeClass('active');
   $templateField.addClass('active');
