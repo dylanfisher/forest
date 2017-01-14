@@ -1,6 +1,6 @@
 <%= content_tag :div, class: 'nested-fields', data: { block_type: f.object.blockable_type, block_type_id: f.object.blockable_id } do %>
   <div class="panel panel-default">
-    <div class="panel-heading sortable-handle">
+    <div class="panel-heading sortable-handle" data-block-type-header>
       <%= f.object.blockable_type %>
       <%= f.object.blockable_id %>
       <button type="button" class="btn btn-default btn-xs pull-right" data-block-collapser>

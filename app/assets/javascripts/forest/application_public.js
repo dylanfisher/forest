@@ -12,6 +12,7 @@
 //
 //= require jquery_ujs
 //= require turbolinks
+//= require bootstrap-sprockets
 //= require_tree ./public/vendor
 //= require forest/main
 //= require_tree ./public/partials
