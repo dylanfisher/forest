@@ -1,13 +1,13 @@
-class TitleBlock < BaseBlock
+class TextBlock < BaseBlock
   def self.permitted_params
-    [:title]
+    [:text]
   end
 
   def self.display_name
-    'Title Block'
+    'Text Block'
   end
 
   def self.display_icon
-    'glyphicon glyphicon-font'
+    'glyphicon glyphicon-align-left'
   end
 end

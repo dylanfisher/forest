@@ -98,10 +98,11 @@ module Forest
 
       # TODO: Handle block type deletion
 
-      params[:page][:page_slots_attributes].each_pair { |index, blockable_params|
+      params[:page][:page_slots_attributes] && params[:page][:page_slots_attributes].each_pair do |index, blockable_params|
         block_type = blockable_params['blockable_type']
         block_constant = block_type.safe_constantize
         block_fields = blockable_params['block_fields']
+        position = blockable_params['position']
         blockable_id = params[:page][:page_slots_attributes][index][:blockable_id]
 
         next if block_fields.nil?
@@ -111,7 +112,7 @@ module Forest
           existing_attributes = HashWithIndifferentAccess.new
           block.permitted_params.each { |a| existing_attributes[a] = block[a] }
         else
-          block = block_type.constantize.new
+          block = block_type.safe_constantize.new
         end
 
         new_attributes = block_fields.permit block.permitted_params
@@ -119,11 +120,11 @@ module Forest
         # TODO: not sure if a more precise diff between hashes is necessary
         if block.new_record? || (existing_attributes.to_a - new_attributes.as_json.to_a).present?
           block.assign_attributes block_fields.permit(block.permitted_params)
-          @blocks[index] = block
+          @blocks[position] = block
         end
 
         params[:page][:page_slots_attributes][index].delete :block_fields
-      }
+      end
 
       respond_to do |format|
         if @page.update(page_params)
@@ -165,9 +166,10 @@ module Forest
 
       def save_blocks
         return unless @blocks.present?
-        @blocks.each_pair do |index, block|
+        @blocks.each_pair do |position, block|
           if block.save
-            @page.page_slots[index.to_i].update_column :blockable_id, block.id
+            # TODO: this is feeling a little brittle
+            @page.page_slots.select { |a| a.position == position.to_i }.first.update_column :blockable_id, block.id
           else
             format.html { render :edit, notice: "Unable to update #{block.class.name.titleize}." }
           end
@@ -177,7 +179,7 @@ module Forest
       # Never trust parameters from the scary internet, only allow the white list through.
       def page_params
         params.require(:page).permit(:title, :slug, :description, :status, :version_id, :featured_image_id, :media_item_ids,
-          page_slots_attributes: [:id, :_destroy, :page_id, :page_version_id, :blockable_id, :blockable_type, :blockable_version_id, *BlockType.block_type_params])
+          page_slots_attributes: [:id, :_destroy, :page_id, :page_version_id, :blockable_id, :blockable_type, :blockable_version_id, :position, *BlockType.block_type_params])
       end
   end
 end

@@ -8,4 +8,16 @@ class BlockType < ApplicationRecord
       }
     end
   end
+
+  def self.collection_for_picker
+    self.all
+  end
+
+  def display_name
+    self.name.constantize.display_name
+  end
+
+  def display_icon
+    self.name.constantize.display_icon
+  end
 end

@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  include Searchable
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -11,11 +13,6 @@ class User < ApplicationRecord
   scope :by_first_name, -> (orderer = :asc) { order(first_name: orderer) }
   scope :by_last_name, -> (orderer = :asc) { order(last_name: orderer) }
   scope :by_created_at, -> (orderer = :desc) { order(created_at: orderer) }
-  scope :search, -> (query) {
-    where(self.columns.select{ |x| x.type == :string }.map(&:name).collect{ |x|
-      x + ' LIKE :query'
-    }.join(' OR '), query: "%#{query}%")
-  }
 
   def display_name
     [first_name, email].reject(&:blank?).first

@@ -1,0 +1,7 @@
+.block-type-field-template {
+  display: none;
+
+  &.active {
+    display: block;
+  }
+}

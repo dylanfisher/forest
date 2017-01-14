@@ -42,8 +42,25 @@
                     <%= render 'page_slot_fields', f: page_slot %>
                   <% end %>
                   <div class='links'>
-                    <%= link_to_add_association 'add page_slot', f, :page_slots %>
+                    <%= link_to_add_association 'Add Block', f, :page_slots, class: 'hidden' %>
                   </div>
+                </div>
+
+                <div class="dropup" id="block-dropdown">
+                  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    Add Block
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <% BlockType.collection_for_picker.each do |block_type| %>
+                      <li>
+                        <%= link_to '#', class: 'block-dropdown__item', data: { block_type: block_type.name, block_type_id: block_type.id } do %>
+                          <%= content_tag :span, '', class: block_type.display_icon, 'aria-hidden': true %>
+                          &nbsp;&nbsp;
+                          <%= block_type.display_name %>
+                        <% end %>
+                      </li>
+                    <% end %>
+                  </ul>
                 </div>
 
               </div>
@@ -51,6 +68,10 @@
           </div>
         </div>
       </div>
+
+      <%= f.button :submit, class: 'btn-success' %>
+      <br>
+      <br>
 
     </div>
   </div>

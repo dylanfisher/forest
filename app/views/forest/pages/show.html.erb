@@ -1,14 +1,18 @@
-<% content_for :page_description, @page.description if @page.description.present? %>
-<% content_for :page_featured_image, @page.featured_image.attachment.url(:large) if @page.featured_image.present? %>
+<% cache @page do %>
+  <% content_for :page_description, @page.description if @page.description.present? %>
+  <% content_for :page_featured_image, @page.featured_image.attachment.url(:large) if @page.featured_image.present? %>
 
-<%= content_tag(:h1, @page.title) if @page.title.present? %>
+  <%= content_tag(:h1, @page.title) if @page.title.present? %>
 
-<p>
-  <b>Description:</b>
-  <%= @page.description %>
-</p>
+  <p>
+    <b>Description:</b>
+    <%= @page.description %>
+  </p>
 
-<p>
-  <b>Status:</b>
-  <%= @page.status %>
-</p>
+  <p>
+    <b>Status:</b>
+    <%= @page.status %>
+  </p>
+
+  <%= render partial: 'forest/pages/block', collection: @page.blocks %>
+<% end %>

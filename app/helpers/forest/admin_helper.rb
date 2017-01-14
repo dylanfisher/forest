@@ -26,5 +26,17 @@ module Forest
         'bg-warning'
       end
     end
+
+    def admin_area?
+      request_parts.first == 'admin'
+    end
+
+    def public_area?
+      !admin_area?
+    end
+
+    def request_parts
+      request.path.split('/').reject(&:blank?)
+    end
   end
 end

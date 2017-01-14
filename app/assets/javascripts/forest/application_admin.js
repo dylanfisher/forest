@@ -12,11 +12,13 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery-ui/widgets/sortable
 //= require jquery-fileupload
 //= require jquery-fileupload/basic-plus
 //= require turbolinks
 //= require bootstrap-sprockets
 //= require cocoon
+//= require ./admin/lib/jquery_plugins
 //= require_tree ./admin/vendor
 //= require forest/main
 //= require_tree ./admin/partials

@@ -1,25 +1,36 @@
 <div class="nested-fields">
   <div class="panel panel-default">
     <% if f.object.blockable_type %>
-      <div class="panel-heading">
+      <div class="panel-heading sortable-handle">
         <%= f.object.blockable_type.humanize %>
       </div>
     <% end %>
     <div class="panel-body">
-      <%= f.input :blockable_type, collection: BlockType.all, value_method: :name %>
-      <%= f.input :blockable_id, label: 'blockable_id' %>
+      <%= f.input :blockable_type, collection: BlockType.all, value_method: :name, include_blank: false %>
 
       <% if f.object.blockable_type %>
-        <%= f.simple_fields_for 'block_fields' do |blockable_type| %>
-          <%= blockable_type.input :title, input_html: { value: f.object.blockable&.title } %>
+        <%= f.simple_fields_for 'block_fields' do |block_f| %>
+          <%= render "#{f.object.blockable_type.underscore}_fields", block_f: block_f, f: f %>
         <% end %>
+      <% else %>
+        <div class="block-type-field-templates">
+          <% BlockType.all.each do |blockable_type| %>
+            <%= content_tag :div, class: "block-type-field-template block-type-field-template__#{blockable_type.name.underscore}", data: { block_type: blockable_type.name } do %>
+              <%= f.simple_fields_for 'block_fields' do |block_f| %>
+                <%= render "#{blockable_type.name.underscore}_fields", block_f: block_f, f: f %>
+              <% end %>
+            <% end %>
+          <% end %>
+        </div>
       <% end %>
 
       <%= f.input :page_id, as: :hidden %>
       <%= f.input :page_version_id, as: :hidden %>
+      <%= f.input :blockable_id, as: :hidden %>
       <%= f.input :blockable_version_id, as: :hidden %>
+      <%= f.input :position, as: :hidden %>
 
-      <%= link_to_remove_association 'remove block', f %>
+      <%= link_to_remove_association 'Remove Block', f, class: 'btn btn-warning' %>
     </div>
   </div>
 </div>
