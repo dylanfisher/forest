@@ -34,6 +34,10 @@ App.MarkdownTextEditor = {
           'toggleUnorderedList': null,
         }
       }) );
+
+      $(document).one('turbolinks:before-cache.markdownTextEditor', function() {
+        that.teardown();
+      });
     });
   },
   teardown: function() {
@@ -45,14 +49,9 @@ App.MarkdownTextEditor = {
 };
 
 App.pageLoad.push(function() {
-  var $textAreas = $('#page_slots .form-group.text textarea');
-  App.MarkdownTextEditor.initialize( $textAreas );
+  App.MarkdownTextEditor.initialize( $('#page_slots .form-group.text textarea') );
 });
 
 $(document).on('app:page-slot-after-insert', function(event, nestedFields) {
   App.MarkdownTextEditor.initialize( $(nestedFields).find('.form-group.text textarea') );
-});
-
-$(document).on('turbolinks:before-cache.markdownTextEditor', function() {
-  App.MarkdownTextEditor.teardown();
 });

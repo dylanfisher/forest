@@ -9,18 +9,7 @@
   <table class="fileupload__table table table-striped"><tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody></table>
 <% end %>
 
-<script>
-  var fileUploadErrors = {
-    maxFileSize: 'File is too big',
-    minFileSize: 'File is too small',
-    acceptFileTypes: 'Filetype not allowed',
-    maxNumberOfFiles: 'Max number of files exceeded',
-    uploadedBytes: 'Uploaded bytes exceed file size',
-    emptyResult: 'Empty file upload result'
-  };
-</script>
-
-<!-- The template to display files available for upload -->
+<%# The template to display files available for upload %>
 <script id="template-upload" type="text/x-tmpl">
   {% for (var i=0, file; file=o.files[i]; i++) { %}
   <tr class="template-upload fade">
@@ -52,7 +41,7 @@
   {% } %}
 </script>
 
-  <!-- The template to display files available for download -->
+<%# The template to display files available for download %>
 <script id="template-download" type="text/x-tmpl">
   {% for (var i=0, file; file=o.files[i]; i++) { %}
     <tr class="template-download hidden">
@@ -79,35 +68,4 @@
       </td>
     </tr>
   {% } %}
-</script>
-
-<script>
-  $(function() {
-    if ( !$('#fileupload').length ) return;
-
-    // TODO: fix turbolinks event stacking on media upload
-    // this destroy method doesn't seem to work.
-    // if ( $('#fileupload').data('blueimpFileupload') ) {
-    //   $('#fileupload').fileupload('destroy');
-    // }
-
-    $('#fileupload').fileupload({
-      autoUpload: true,
-      sequentialUploads: true,
-    }).on('fileuploadstart', function (e) {
-      $('#progress').removeClass('hidden').addClass('fade in');
-    }).on('fileuploadprogressall', function (e, data) {
-      var progress = parseInt( data.loaded / data.total * 100, 10 );
-      $('#progress .progress-bar').css( 'width', progress + '%' );
-    }).on('fileuploadcompleted', function(e, data) {
-      var previewLink = $('.template-download .preview a').attr('href');
-      var previewImageUrl = $('.template-download .preview img').attr('src');
-      var previewHTML = '<div class="col-xs-4 col-sm-3 col-md-2"><a class="media-library-link" href="' + previewLink + '"><div class="media-library-image img-rounded" style="background-image: url(' + previewImageUrl + ')"></div></a></div>';
-
-      $('.template-download').remove();
-      $(previewHTML).prependTo( $('.media-library [data-infinite-load]') );
-
-      // $('#progress').addClass('hidden');
-    });
-  });
 </script>
