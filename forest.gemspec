@@ -36,5 +36,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'jquery-fileupload-rails'
   s.add_dependency 'paper_trail'
   s.add_dependency 'cocoon'
+  s.add_dependency 'redcarpet'
   s.add_dependency 'faker' # Remove this eventually
 end
