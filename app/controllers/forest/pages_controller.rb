@@ -96,6 +96,7 @@ module Forest
 
       @blocks = {}
 
+      # TODO: Clean this controller up and move methods to model
       # TODO: Handle block type deletion
 
       params[:page][:page_slots_attributes] && params[:page][:page_slots_attributes].each_pair do |index, blockable_params|
@@ -115,10 +116,10 @@ module Forest
           block = block_type.safe_constantize.new
         end
 
-        new_attributes = block_fields.permit block.permitted_params
+        block_attributes = block_fields.permit block.permitted_params
 
         # TODO: not sure if a more precise diff between hashes is necessary
-        if block.new_record? || (existing_attributes.to_a - new_attributes.as_json.to_a).present?
+        if block.new_record? || (existing_attributes.to_a - block_attributes.as_json.to_a).present?
           block.assign_attributes block_fields.permit(block.permitted_params)
           @blocks[position] = block
         end
@@ -179,7 +180,7 @@ module Forest
       # Never trust parameters from the scary internet, only allow the white list through.
       def page_params
         params.require(:page).permit(:title, :slug, :description, :status, :version_id, :featured_image_id, :media_item_ids,
-          page_slots_attributes: [:id, :_destroy, :page_id, :page_version_id, :blockable_id, :blockable_type, :blockable_version_id, :position, *BlockType.block_type_params])
+          page_slots_attributes: [:id, :_destroy, :page_id, :page_version_id, :blockable_id, :blockable_type, :blockable_previous_version_id, :position, *BlockType.block_type_params])
       end
   end
 end

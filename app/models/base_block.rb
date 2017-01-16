@@ -1,7 +1,11 @@
 class BaseBlock < ApplicationRecord
   self.abstract_class = true
 
-  has_many :page_slots, as: :blockable
+  has_paper_trail
+
+  after_update :set_page_slot_previous_version
+
+  has_one :page_slot, class_name: 'PageSlot', foreign_key: 'blockable_id'
 
   def self.display_name
     'Base Block'
@@ -22,5 +26,11 @@ class BaseBlock < ApplicationRecord
   def permitted_params
     self.class.permitted_params
   end
+
+  private
+
+    def set_page_slot_previous_version
+      self.page_slot.update_column :blockable_previous_version_id, self.versions.last.id
+    end
 
 end
