@@ -25,7 +25,7 @@ Forest::Engine.routes.draw do
     resources :settings
     resources :users
     resources :user_groups
-    end
+  end
 
   # Devise
   devise_for :users, class_name: 'User', module: :devise
