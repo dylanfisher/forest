@@ -8,6 +8,8 @@ class User < ApplicationRecord
 
   store :settings, accessors: [ :page_settings ], coder: JSON
 
+  before_create :assign_default_user_groups
+
   has_and_belongs_to_many :user_groups
 
   scope :by_id, -> (orderer = :desc) { order(id: orderer) }
@@ -31,4 +33,12 @@ class User < ApplicationRecord
   def in_group?(name)
     user_groups.any? { |ug| ug.name == name }
   end
+
+  private
+
+    def assign_default_user_groups
+      if self.class.count == 0
+        self.user_groups << UserGroup.find_by_name('admin')
+      end
+    end
 end
