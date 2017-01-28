@@ -1,46 +1,84 @@
-App.pageLoad.push(function() {
-  var $infiniteLoader = $('[data-infinite-load]');
-  var $nextPageLink = $infiniteLoader.find('[rel="next"]');
+App.InfiniteLoader = {
+  instances: [],
+  scrollListeners: [],
+  initialize: function($elements, options) {
+    var that = this;
+    options = options ? options : {};
+    $scrollListener = options.$scrollListener ? options.$scrollListener : $(window);
+    this.scrollListeners.push($scrollListener);
 
-  if ( $infiniteLoader.length && $nextPageLink.length ) {
-    var nextPageUrl = $nextPageLink.attr('href');
-    var nextPageLinkOffset = $nextPageLink.offset().top;
-    var scrollOffsetPoint = App.windowHeight * 2;
+    $elements.each(function(index) {
+      var $element = $(this);
+      var $nextPageLink = $element.find('[rel="next"]');
 
-    $(window).on('resize.infiniteLoader', function() {
-      scrollOffsetPoint = App.windowHeight * 2;
-    });
+      that.instances.push( $element );
 
-    $(window).on('scroll.infiniteLoader', function() {
-      if ( $infiniteLoader.data('disabled') ) return;
+      if ( $element.length && $nextPageLink.length ) {
+        var nextPageUrl = $nextPageLink.attr('href');
+        var nextPageLinkOffset = $nextPageLink.position().top;
+        var scrollOffsetPoint = App.windowHeight * 2;
 
-      if ( nextPageLinkOffset - App.scrollTop < scrollOffsetPoint ) {
-        $nextPageLink.trigger('click').after('<div class="loading-indicator col-sm-12 text-center"><span class="glyphicon glyphicon-hourglass"></span> Loading...</div>');
-
-        $.get(nextPageUrl, function(data) {
-          var content = $(data).find('[data-infinite-load]').html();
-
-          $nextPageLink.remove();
-          $infiniteLoader.find('.loading-indicator').remove();
-          $infiniteLoader.append(content);
-          $nextPageLink = $infiniteLoader.find('[rel="next"]');
-
-          if ( $nextPageLink.length ) {
-            nextPageUrl = $nextPageLink.attr('href');
-            nextPageLinkOffset = $nextPageLink.offset().top;
-            $infiniteLoader.data('disabled', false);
-            $(window).trigger('scroll.infiniteLoader');
-          } else {
-            $(window).off('scroll.infiniteLoader resize.infiniteLoader');
-          }
+        $(window).on('resize.infiniteLoader', function() {
+          scrollOffsetPoint = App.windowHeight * 2;
         });
 
-        $infiniteLoader.data('disabled', true);
+        $scrollListener.on('scroll.infiniteLoader', function() {
+          if ( $element.data('disabled') ) return;
+
+          var scrollTop = $scrollListener.scrollTop();
+
+          if ( nextPageLinkOffset - scrollTop < scrollOffsetPoint ) {
+            $nextPageLink.trigger('click').after('<div class="loading-indicator col-sm-12 text-center"><span class="glyphicon glyphicon-hourglass"></span> Loading...</div>');
+
+            $.get(nextPageUrl, function(data) {
+              var content = $(data).find('[data-infinite-load]').html();
+
+              $nextPageLink.remove();
+              $element.find('.loading-indicator').remove();
+              $element.append(content);
+              $nextPageLink = $element.find('[rel="next"]');
+
+              if ( $nextPageLink.length ) {
+                nextPageUrl = $nextPageLink.attr('href');
+                nextPageLinkOffset = $nextPageLink.position().top;
+                $element.data('disabled', false);
+                $scrollListener.trigger('scroll.infiniteLoader');
+              } else {
+                $scrollListener.off('scroll.infiniteLoader');
+                $(window).off('resize.infiniteLoader');
+              }
+            });
+
+            $element.data('disabled', true);
+          }
+        });
+      } else {
+        for ( var i = this.scrollListeners.length - 1; i >= 0; i-- ) {
+          this.scrollListeners[i].off('scroll.infiniteLoader');
+        }
+        $(window).off('resize.infiniteLoader');
       }
     });
-  } else {
-    $(window).off('scroll.infiniteLoader resize.infiniteLoader');
-  }
 
-  $(window).trigger('scroll.infiniteLoader');
+    $(document).one('turbolinks:before-cache.infiniteLoader', function() {
+      that.teardown();
+    });
+  },
+  unbindScroll: function($element) {
+    $element.off('scroll.infiniteLoader');
+  },
+  teardown: function() {
+    for ( var i = this.scrollListeners.length - 1; i >= 0; i-- ) {
+      this.scrollListeners[i].off('scroll.infiniteLoader');
+    }
+    if ( this.instances.length ) {
+      $(window).off('resize.infiniteLoader');
+    }
+    this.instances = [];
+    this.scrollListeners = [];
+  }
+};
+
+App.pageLoad.push(function() {
+  App.InfiniteLoader.initialize( $('[data-infinite-load]') );
 });

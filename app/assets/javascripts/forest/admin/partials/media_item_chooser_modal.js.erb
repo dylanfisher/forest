@@ -1,0 +1,74 @@
+App.MediaItemChooser = {
+  instances: [],
+  initialize: function($elements) {
+    var that = this;
+
+    $elements.each(function() {
+      var $element = $(this);
+
+      that.instances.push( $element );
+
+      $element
+        .on('show.bs.modal', function() {
+          var $modalBody = $element.find('.modal-body');
+
+          $.ajax('<%= Forest::Engine.routes.url_helpers.media_items_path %>')
+            .done(function(data) {
+              $modalBody.html( $(data).find('.media-library') );
+              App.InfiniteLoader.initialize( $element.find('[data-infinite-load]'), { $scrollListener: $element } );
+            }).fail(function() {
+              var error = 'Unable to fetch media items index.';
+              console.warn(error);
+              $modalBody.html(error);
+            });
+        })
+        .on('hide.bs.modal', function() {
+          that.destroyModal();
+        })
+        .on('hidden.bs.modal', function() {
+          var $modalBody = $element.find('.modal-body');
+
+          $modalBody.empty();
+        });
+    });
+
+    $(document).one('turbolinks:before-cache.mediaItemChooser', function() {
+      that.teardown();
+    });
+  },
+  destroyModal: function() {
+    for ( var i = this.instances.length - 1; i >= 0; i-- ) {
+      App.InfiniteLoader.unbindScroll( this.instances[i] );
+    }
+  },
+  teardown: function() {
+    this.destroyModal();
+    for ( var i = this.instances.length - 1; i >= 0; i-- ) {
+      this.instances[i].removeClass('fade').modal('hide');
+    }
+    this.instances = [];
+  }
+};
+
+App.pageLoad.push(function() {
+  App.MediaItemChooser.initialize( $('.media-item-chooser') );
+});
+
+$(document).on('click', '[data-media-item-input]', function() {
+  App.MediaItemChooser.inputSelector = $(this).attr('data-media-item-input');
+});
+
+$(document).on('click', '.media-item-chooser .media-library-link', function(e) {
+  e.preventDefault();
+
+  var id = $(this).attr('data-media-item-id');
+  var imageUrl = $(this).attr('data-image-url');
+
+  if ( App.MediaItemChooser.inputSelector ) {
+    $(App.MediaItemChooser.inputSelector).val(id);
+    if ( $(App.MediaItemChooser.inputSelector + '_preview').length )  {
+      $('#page_featured_image_id_preview').attr('src', imageUrl);
+    }
+    $(this).closest('.modal').modal('hide');
+  }
+});
