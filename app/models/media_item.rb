@@ -8,6 +8,8 @@ class MediaItem < ApplicationRecord
   validates_attachment_content_type :attachment, content_type: /\Aimage\/.*\z/
   validates_attachment_presence :attachment
 
+  before_save :set_default_metadata
+
   belongs_to :attachable, polymorphic: true
 
   scope :by_id, -> (orderer = :desc) { order(id: orderer) }
@@ -56,5 +58,11 @@ class MediaItem < ApplicationRecord
 
     def should_generate_new_friendly_id?
       slug.blank?
+    end
+
+    def set_default_metadata
+      if self.title.blank?
+        self.title = attachment_file_name.sub(/\.(jpg|jpeg|png|gif)$/i, '')
+      end
     end
 end
