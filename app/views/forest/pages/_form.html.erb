@@ -25,17 +25,25 @@
               </div>
               <div class="col-sm-6">
                 <%= f.association :featured_image, as: :hidden %>
+                <% modal_data_attributes = {
+                  toggle: 'modal',
+                  target: '.media-item-chooser',
+                  media_item_input: '#page_featured_image_id',
+                  media_item_modal_path: media_items_path } %>
 
                 <%= image_tag @page.featured_image.attachment.url(:medium),
                   class: 'img-rounded page__featured-image cursor-pointer',
                   id: 'page_featured_image_id_preview',
                   data: {
-                    toggle: 'modal',
-                    target: '.media-item-chooser',
-                    media_item_input: '#page_featured_image_id'
+                    **modal_data_attributes
                   } if @page.featured_image.present? %>
                 <br><br>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".media-item-chooser" data-media-item-input="#page_featured_image_id">Featured Image</button>
+                <%= content_tag :button, 'Featured Image',
+                  type: 'button',
+                  class: 'btn btn-primary',
+                  data: {
+                    **modal_data_attributes
+                  } %>
                 <br><br>
                 <p>The featured image is displayed when people share this page on social media, and may also be used in the page template.</p>
                 <br><br>
@@ -52,7 +60,6 @@
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
                       </div>
                     </div>
                   </div>
