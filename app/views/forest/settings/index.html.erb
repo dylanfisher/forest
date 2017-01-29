@@ -35,7 +35,7 @@
           <td><%= setting.id %></td>
           <td><%= setting.title %></td>
           <td><%= setting.slug %></td>
-          <td><%= setting.value %></td>
+          <td><%= truncate setting.value %></td>
           <td><%= setting.created_at.to_formatted_s(:short) %></td>
           <td width="1"><%= link_to 'Edit', edit_setting_path(setting), class: 'btn btn-xs btn-info', role: 'button' %></td>
         </tr>

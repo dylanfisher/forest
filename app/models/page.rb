@@ -1,5 +1,6 @@
 class Page < ApplicationRecord
   include Searchable
+  include FilterModelScopes
 
   extend FriendlyId
   friendly_id :title, use: :slugged
@@ -8,6 +9,8 @@ class Page < ApplicationRecord
   # has_paper_trail, meta: {
   #   author_id: :author_id
   # }
+
+  validates_presence_of :title
 
   has_one :current_version, -> { reorder(created_at: :desc, id: :desc) }, class_name: "PaperTrail::Version", foreign_key: 'item_id'
   has_one :current_published_version, -> { reorder(created_at: :desc, id: :desc).where_object(status: 1) }, class_name: "PaperTrail::Version", foreign_key: 'item_id'
@@ -24,13 +27,6 @@ class Page < ApplicationRecord
     pending: 4,
     hidden: 5
   }
-
-  scope :by_id, -> (orderer = :desc) { order(id: orderer) }
-  scope :by_title, -> (orderer = :asc) { order(title: orderer) }
-  scope :by_slug, -> (orderer = :asc) { order(slug: orderer) }
-  scope :by_created_at, -> (orderer = :desc) { order(created_at: orderer) }
-  scope :by_updated_at, -> (orderer = :desc) { order(updated_at: orderer) }
-  scope :by_status, -> (status) { where(status: status) }
 
   def blocks
     @blocks ||= page_slots.includes(:blockable).collect(&:blockable)

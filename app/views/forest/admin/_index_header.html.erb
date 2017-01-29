@@ -1,5 +1,6 @@
 <% model = model_name.constantize %>
 <% model_names = model.model_name %>
+<% should_paginate = local_assigns.fetch :paginate, true %>
 
 <div class="admin-header">
   <div id="notice"><%= notice %></div>
@@ -15,16 +16,18 @@
         <% end %>
       </div>
       <div class="col-sm-4 text-right">
-        <%= link_to "New #{model_names.singular}", send("new_#{model_names.singular_route_key}_path"), class: 'btn btn-success' %>
+        <%= link_to "New #{model_names.singular.titleize}", send("new_#{model_names.singular_route_key}_path"), class: 'btn btn-success' %>
       </div>
       <% if content_for? :index_header_body %>
         <div class="admin-header__body col-sm-12">
           <%= content_for :index_header_body %>
         </div>
       <% end %>
-      <div class="col-sm-6">
-        <%= paginate records %>
-      </div>
+      <% if should_paginate %>
+        <div class="col-sm-6">
+          <%= paginate records %>
+        </div>
+      <% end %>
       <div class="col-sm-6 text-right admin-header__search">
       </div>
     </div>

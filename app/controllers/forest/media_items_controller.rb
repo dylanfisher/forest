@@ -7,6 +7,7 @@ module Forest
     layout 'forest/admin', except: [:show]
 
     has_scope :by_date
+    has_scope :search
 
     # GET /media_items
     def index

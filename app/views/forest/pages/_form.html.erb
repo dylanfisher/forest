@@ -31,12 +31,12 @@
                   media_item_input: '#page_featured_image_id',
                   media_item_modal_path: media_items_path } %>
 
-                <%= image_tag @page.featured_image.attachment.url(:medium),
+                <%= image_tag "#{@page.featured_image&.attachment&.url(:medium)}",
                   class: 'img-rounded page__featured-image cursor-pointer',
                   id: 'page_featured_image_id_preview',
                   data: {
                     **modal_data_attributes
-                  } if @page.featured_image.present? %>
+                  } %>
                 <br><br>
                 <%= content_tag :button, 'Featured Image',
                   type: 'button',

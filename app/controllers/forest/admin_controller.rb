@@ -7,6 +7,7 @@ module Forest
     def index
       authorize :dashboard, :index?
       @resources = [Page, Menu, MediaItem, User, UserGroup]
+      @page_title = 'Dashboard'
     end
   end
 end

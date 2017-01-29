@@ -154,6 +154,7 @@ module Forest
       # Use callbacks to share common setup or constraints between actions.
       def set_page
         @page = Page.friendly.find(params[:id])
+        @page_title = @page.title
         # TODO: Published page scope. Maybe add a association on Page so that a page has_one current_published_version.
         # This could be set in a after_save filter when updating page statuses.
         # @page = Page.friendly.find(params[:id]).versions.where_object(status: 1).last.reify

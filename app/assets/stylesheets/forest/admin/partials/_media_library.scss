@@ -16,13 +16,13 @@
 }
 
 .media-library__list-actions {
-  display: none;
+  visibility: hidden;
 }
 
 .media-library__list-table-row {
   &:hover {
     .media-library__list-actions {
-      display: block;
+      visibility: visible;
     }
   }
 }

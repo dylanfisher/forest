@@ -2,16 +2,23 @@ require_dependency "forest/application_controller"
 
 module Forest
   class UserGroupsController < ApplicationController
+    include FilterControllerScopes
+
+    layout 'forest/admin'
+
     before_action :set_user_group, only: [:show, :edit, :update, :destroy]
+
+    has_scope :by_name
 
     # GET /user_groups
     def index
-      @user_groups = UserGroup.all
+      @user_groups = apply_scopes(UserGroup).by_name.page params[:page]
       authorize @user_groups
     end
 
     # GET /user_groups/1
     def show
+      authorize @user_group
     end
 
     # GET /user_groups/new

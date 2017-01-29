@@ -1,42 +1,16 @@
-<div class="admin-header">
-  <% if notice %>
-    <div id="notice" class="alert alert-warning" role="alert">
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-      <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-      <span class="sr-only">Error:</span>
-      <%= notice %>
-    </div>
+<% content_for :index_header_body do %>
+  <%= link_to media_items_path(layout: :list), class: 'btn btn-link btn-md' do %>
+    <span class="glyphicon glyphicon-th-list"></span>
   <% end %>
 
-  <div class="well">
-    <div class="row">
-      <div class="col-sm-8">
-        <h1>Media Library <span class="badge"><%= number_with_delimiter @media_items.total_count %></span></h1>
-      </div>
-      <div class="col-sm-4 text-right">
-        <%= link_to 'New Media Item', new_media_item_path, class: 'btn btn-success', title: 'Drag and drop media items anwhere on this page to upload multiple.' %>
-      </div>
-      <div class="admin-header__body col-sm-12">
-        <%= link_to media_items_path(layout: :list), class: 'btn btn-link btn-md' do %>
-          <span class="glyphicon glyphicon-th-list"></span>
-        <% end %>
+  <%= link_to media_items_path(layout: :grid), class: 'btn btn-link btn-md' do %>
+    <span class="glyphicon glyphicon-th-large"></span>
+  <% end %>
 
-        <%= link_to media_items_path(layout: :grid), class: 'btn btn-link btn-md' do %>
-          <span class="glyphicon glyphicon-th-large"></span>
-        <% end %>
+  <%= dropdown_select_form url: media_items_path, id: 'by_date', select_options: MediaItem.dates_for_filter, title: 'All Dates' %>
+<% end %>
 
-        <%= dropdown_select_form url: media_items_path, id: 'by_date', select_options: MediaItem.dates_for_filter, title: 'All Dates' %>
-      </div>
-      <% if @layout == :list %>
-        <div class="col-sm-12">
-          <%= paginate @media_items %>
-        </div>
-      <% end %>
-    </div>
-  </div>
-</div>
+<%= render 'forest/admin/index_header', records: @media_items, model_name: 'MediaItem', paginate: false %>
 
 <%= render 'forest/admin/file_upload' %>
 

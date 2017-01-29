@@ -8,7 +8,7 @@ class Setting < ApplicationRecord
   scope :by_created_at, -> (orderer = :desc) { order(created_at: orderer) }
 
   def self.for(title)
-    self.settings.select { |setting| setting.slug == title.to_s }.first
+    self.settings.select { |setting| setting.slug.underscore == title.to_s.underscore }.first
   end
 
   private

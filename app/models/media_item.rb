@@ -1,5 +1,6 @@
 class MediaItem < ApplicationRecord
   include Forest::Engine.routes.url_helpers
+  include Searchable
 
   extend FriendlyId
   friendly_id :slug_candidates, use: :slugged
