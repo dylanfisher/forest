@@ -53,12 +53,16 @@ App.InfiniteLoader = {
           }
         });
       } else {
-        for ( var i = this.scrollListeners.length - 1; i >= 0; i-- ) {
-          this.scrollListeners[i].off('scroll.infiniteLoader');
+        if ( this.scrollListeners ) {
+          for ( var i = this.scrollListeners.length - 1; i >= 0; i-- ) {
+            this.scrollListeners[i].off('scroll.infiniteLoader');
+          }
         }
         $(window).off('resize.infiniteLoader');
       }
     });
+
+    $scrollListener.trigger('scroll.infiniteLoader');
 
     $(document).one('turbolinks:before-cache.infiniteLoader', function() {
       that.teardown();
