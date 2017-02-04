@@ -1,17 +1,35 @@
 <%= simple_form_for(@media_item) do |f| %>
   <%= f.error_notification %>
 
-  <div class="form-inputs">
-    <%= image_tag @media_item.attachment.url(:medium) if @media_item.attachment.present? && @media_item.attachment.content_type.match(/\Aimage\/.*\z/) %>
-    <%= f.input :attachment %>
-    <%= f.input :title %>
-    <%= f.input :slug %>
-    <%= f.input :caption %>
-    <%= f.input :alternative_text %>
-    <%= f.input :description %>
-  </div>
+  <div class="row">
+    <div class="col-sm-12">
 
-  <div class="form-actions">
-    <%= f.button :submit %>
+      <div class="panel panel-default" data-collapse-parent>
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            Metadata
+          </h3>
+        </div>
+        <div class="panel-body" data-collapse-body>
+          <div class="form-inputs">
+            <div class="row">
+              <div class="col-sm-6">
+                <%= f.input :attachment %>
+                <%= f.input :title %>
+                <%= f.input :slug %>
+                <%= f.input :caption %>
+                <%= f.input :alternative_text %>
+                <%= f.input :description %>
+                <%= f.button :submit, class: 'btn-success' %>
+              </div>
+              <div class="col-sm-6">
+                <%= image_tag @media_item.attachment.url(:medium) if @media_item.attachment.present? && @media_item.attachment.content_type.match(/\Aimage\/.*\z/) %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </div>
 <% end %>

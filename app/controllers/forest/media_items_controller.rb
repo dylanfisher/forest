@@ -56,7 +56,7 @@ module Forest
     def update
       authorize @media_item
       if @media_item.update(media_item_params)
-        redirect_to @media_item, notice: 'Media item was successfully updated.'
+        redirect_to edit_media_item_path(@media_item), notice: 'Media item was successfully updated.'
       else
         render :edit
       end
