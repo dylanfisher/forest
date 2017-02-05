@@ -36,6 +36,7 @@ module Forest
       authorize @page
       @version = @page.versions.find(params['version_id'])
       @page = @version.reify
+      @page.reify_page_slots!
 
       respond_to do |format|
         if @page.save
@@ -58,6 +59,7 @@ module Forest
       authorize @page
       @version = @page.versions.find(params['version_id'])
       @page = @version.reify
+      # TODO: some way to reify blocks for other versions
       render :show
     end
 
@@ -99,9 +101,11 @@ module Forest
       # TODO: Clean this controller up and move methods to model
       # TODO: Handle block type deletion
 
+      blocks_updated = false
+
       params[:page][:page_slots_attributes] && params[:page][:page_slots_attributes].each_pair do |index, blockable_params|
         block_type = blockable_params['blockable_type']
-        block_constant = block_type.safe_constantize
+        block_constant = block_type.constantize
         block_fields = blockable_params['block_fields']
         position = blockable_params['position']
         blockable_id = params[:page][:page_slots_attributes][index][:blockable_id]
@@ -113,7 +117,7 @@ module Forest
           existing_attributes = HashWithIndifferentAccess.new
           block.permitted_params.each { |a| existing_attributes[a] = block[a] }
         else
-          block = block_type.safe_constantize.new
+          block = block_type.constantize.new
         end
 
         block_attributes = block_fields.permit block.permitted_params
@@ -122,9 +126,15 @@ module Forest
         if block.new_record? || (existing_attributes.to_a - block_attributes.as_json.to_a).present?
           block.assign_attributes block_fields.permit(block.permitted_params)
           @blocks[position] = block
+          blocks_updated = true
         end
 
         params[:page][:page_slots_attributes][index].delete :block_fields
+      end
+
+      # TODO: There's a bug where you can update a page a second time even if you didn't change any attributes
+      if blocks_updated
+        @page.updated_at = Time.now
       end
 
       respond_to do |format|
@@ -180,7 +190,7 @@ module Forest
 
       # Never trust parameters from the scary internet, only allow the white list through.
       def page_params
-        params.require(:page).permit(:title, :slug, :description, :status, :version_id, :featured_image_id, :media_item_ids,
+        params.require(:page).permit(:title, :slug, :description, :status, :version_id, :featured_image_id, :media_item_ids, :page_slot_cache,
           page_slots_attributes: [:id, :_destroy, :page_id, :page_version_id, :blockable_id, :blockable_type, :blockable_previous_version_id, :position, *BlockType.block_type_params])
       end
   end

@@ -15,7 +15,7 @@ class Setting < ApplicationRecord
 
     def self.settings
       @settings ||= Rails.cache.fetch Setting.all.cache_key do
-        Setting.all.to_a
+        Setting.all
       end
     end
 

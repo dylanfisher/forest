@@ -29,13 +29,14 @@
     <thead>
       <tr>
         <th></th>
-        <th>ID</th>
+        <th>Index</th>
         <th>Title</th>
         <th>Slug</th>
         <th>Description</th>
         <th>Author</th>
         <th>Created&nbsp;at</th>
         <th>Updated&nbsp;at</th>
+        <th>Diff</th>
         <th colspan="2"></th>
       </tr>
     </thead>
@@ -51,6 +52,7 @@
           <td><%= User.find(@page.versions.last&.version_author)&.display_name if @page.versions.last&.version_author %></td>
           <td><%= @page.created_at.to_formatted_s(:short) %></td>
           <td><%= @page.updated_at.to_formatted_s(:short) %></td>
+          <td></td>
           <td width="1"><%= link_to 'Show', @page, class: 'btn btn-xs btn-primary', role: 'button' %></td>
           <td width="1"><%= link_to 'Edit', edit_page_path(@page), class: 'btn btn-xs btn-info', role: 'button' %></td>
         </tr>
@@ -60,13 +62,26 @@
         <% next if page.nil? %>
         <tr>
           <td><%= status_indicator page %></td>
-          <td><%= version.id %></td>
+          <td><%= content_tag :span, version.index %></td>
           <td><%= page.title %></td>
           <td><%= page.slug %></td>
           <td><%= page.description %></td>
           <td><%= User.find(version.version_author)&.display_name if version&.version_author %></td>
           <td><%= page.created_at.to_formatted_s(:short) %></td>
           <td><%= page.updated_at.to_formatted_s(:short) %></td>
+          <td>
+            <%# TODO: better diff? or remove it? %>
+            <% begin %>
+              <%= ( @page.attributes.reject { |a| %w(page_slot_cache created_at updated_at).include? a }.to_a - page.attributes.reject { |a| %w(page_slot_cache created_at updated_at).include? a }.to_a ).flatten %>
+              <br>
+              <% current_page_json = @page.attributes.select { |a| %w(page_slot_cache).include? a }['page_slot_cache'].collect{ |a| a[:block_as_json] } %>
+              <% versioned_page_json = page.attributes.select { |a| %w(page_slot_cache).include? a }['page_slot_cache'].collect{ |a| a[:block_as_json] } %>
+              <%= ( versioned_page_json - current_page_json ).flatten %>
+              <br>
+              <%= ( current_page_json - versioned_page_json ).flatten %>
+            <% rescue => e %>
+            <% end %>
+          </td>
           <td width="1"><%= link_to 'Show', page_version_path(page, version), class: 'btn btn-xs btn-primary', role: 'button' %></td>
           <td width="1"><%= link_to 'Restore', restore_page_version_path(page, version), class: 'btn btn-xs btn-success', role: 'button', title: 'Restore this version', data: { confirm: 'Are you sure you want to restore this version to the current version?' } %></td>
         </tr>

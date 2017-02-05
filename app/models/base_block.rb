@@ -30,7 +30,7 @@ class BaseBlock < ApplicationRecord
   private
 
     def set_page_slot_previous_version
-      self.page_slot.update_column :blockable_previous_version_id, self.versions.last.id
+      # self.page_slot.update_column :blockable_previous_version_id, self.versions.last.id
     end
 
 end
