@@ -19,6 +19,7 @@ module Forest
 
     # GET /settings/1
     def show
+      authorize @setting
     end
 
     # GET /settings/new

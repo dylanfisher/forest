@@ -36,6 +36,7 @@ Forest::Engine.routes.draw do
     get 'logout', to: 'devise/sessions#destroy'
   end
 
+  get 'user/:id', to: 'users#show', as: 'show_user'
   get 'media/:id', to: 'media_items#show', as: 'show_media_item'
   get ':id', to: 'pages#show', as: 'show_page'
 end

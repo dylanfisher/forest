@@ -9,7 +9,7 @@
     <div class="row">
       <div class="col-sm-8">
         <h1>
-          <%= record.try(:title) || record.try(:name) %>
+          <%= record.try(:display_name) || record.try(:title) || record.try(:name) %>
           <small><%= record.class.model_name.singular.titleize %> <%= record.id %></small>
           <% if record.is_a? Page %>
             <%= link_to "<span class='badge'>#{record.versions.count} versions</span>".html_safe, page_versions_path(record) %>
@@ -17,6 +17,7 @@
         </h1>
       </div>
       <div class="col-sm-4 text-right">
+        <%= link_to "All #{record.class.model_name.plural.titleize}", send("#{record.class.model_name.route_key}_path"), class: 'btn btn-link' %>
         <% if Forest::Engine.routes.url_helpers.respond_to? "show_#{record.class.model_name.singular_route_key}_path" %>
           <%= link_to "View #{record.class.model_name.singular.titleize}", send("show_#{record.class.model_name.singular_route_key}_path", record), class: 'btn btn-primary' %>
         <% else %>

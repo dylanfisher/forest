@@ -1,0 +1,1 @@
+Setting.expire_cache

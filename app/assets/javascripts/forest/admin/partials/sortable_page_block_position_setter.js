@@ -9,6 +9,7 @@ App.pageLoad.push(function() {
     handle: '.sortable-handle:not(button), .sortable-handle:not(a)',
     placeholder: 'ui-state-highlight',
     forcePlaceholderSize: true,
+    tolerance: 'pointer',
   });
 
   $pageSlots.offOn('sortupdate.pageSlotSort', function(e, ui) {
