@@ -8,7 +8,7 @@ module Forest
 
     # GET /menus
     def index
-      @menus = Menu.all
+      @menus = apply_scopes(Menu).page params[:page]
       authorize @menus
     end
 

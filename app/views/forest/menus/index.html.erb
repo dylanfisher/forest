@@ -1,31 +1,29 @@
-<p id="notice"><%= notice %></p>
+<%= render 'forest/admin/index_header', records: @menus, model_name: 'Menu' %>
 
-<h1>Menus</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Slug</th>
-      <th>Structure</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @menus.each do |menu| %>
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
       <tr>
-        <td><%= menu.title %></td>
-        <td><%= menu.slug %></td>
-        <td><%= menu.structure %></td>
-        <td><%= link_to 'Show', menu %></td>
-        <td><%= link_to 'Edit', edit_menu_path(menu) %></td>
-        <td><%= link_to 'Destroy', menu, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <th>Title</th>
+        <th>Slug</th>
+        <th>Structure</th>
+        <th colspan="3"></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
 
-<br>
+    <tbody>
+      <% @menus.each do |menu| %>
+        <tr>
+          <td><%= menu.title %></td>
+          <td><%= menu.slug %></td>
+          <td><%= menu.structure %></td>
+          <td><%= link_to 'Show', menu %></td>
+          <td><%= link_to 'Edit', edit_menu_path(menu) %></td>
+          <td><%= link_to 'Destroy', menu, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 
-<%= link_to 'New Menu', new_menu_path %>
+<%= paginate @menus %>
