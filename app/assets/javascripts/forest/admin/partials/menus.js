@@ -1,19 +1,10 @@
+// TODO: Implement teardown method for turbolinks:before-cache
 App.pageLoad.push(function() {
   var $nestable = $('.dd');
 
-  $nestable.nestable({
-    group: 1
-  });
+  $nestable.nestable();
 
-  $('#menu_structure').val( getSerializedJSON() );
-
-  $nestable.on('change', function() {
-    if ( $(this).closest('#dd-primary').length ) {
-      $('#menu_structure').val( getSerializedJSON() );
-    }
-  });
-
-  function getSerializedJSON() {
+  App.getSerializedJSON = function() {
     var $items = $nestable.find('.dd-item');
 
     $items.each(function() {
@@ -25,22 +16,47 @@ App.pageLoad.push(function() {
         var inputName = $thisInput.attr('name');
         var inputValue = $thisInput.val();
 
-        $thisInput.closest('.dd-item').attr('data-' + inputName, inputValue);
+        $thisInput.closest('.dd-item').data(inputName, inputValue);
       });
     });
 
     return window.JSON.stringify( $nestable.nestable( 'serialize' ) );
   }
+
+  $('#menu_structure').val( App.getSerializedJSON() );
+
+  $nestable.on('change', function() {
+    if ( $(this).closest('#dd-primary').length ) {
+      var $selects = $nestable.find('select');
+
+      $selects.each(function() {
+        var $select = $(this);
+
+        var $parent = $select.closest('.dd-input');
+        var $hiddenInput = $parent.find('.dd-input__input-for-select');
+        var value = $select.find(':selected').val();
+
+        $hiddenInput.val(value);
+      });
+
+      $('#menu_structure').val( App.getSerializedJSON() );
+    }
+  });
 });
 
 $(document).on('click', '#menu__add-item-button', function() {
-  var $placeholder = $('#menu__new-item-placeholder');
-  if ( $placeholder.find('.dd-empty').length ) {
-    $placeholder.html('<ol class="dd-list"></ol>');
-  }
-  var $ddList = $placeholder.find('.dd-list:first');
-  var itemId = $('.dd-item').length + 1;
-  var itemHtml = '<li class="dd-item" data-id="' + itemId + '"><div class="dd-handle">Item ' + itemId + '</div></li>';
+  var $menu = $('#dd-primary');
 
-  $placeholder.append( itemHtml );
+  if ( $menu.find('.dd-empty').length ) {
+    $menu.html('<ol class="dd-list"></ol>');
+  }
+
+  var $ddList = $menu.find('.dd-list:first');
+  var itemId = $menu.find('.dd-item').length + 1;
+  var $template = $('#dd-item-template');
+
+  $template.find('.dd-item').attr('data-id', itemId);
+  $template.find('.dd-handle').html('Item ' + itemId);
+
+  $ddList.append( $template.html() );
 });

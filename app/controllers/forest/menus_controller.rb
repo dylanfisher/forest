@@ -60,6 +60,7 @@ module Forest
       # Use callbacks to share common setup or constraints between actions.
       def set_menu
         @menu = Menu.friendly.find(params[:id])
+        @pages = Page.all
       end
 
       # Only allow a trusted parameter "white list" through.

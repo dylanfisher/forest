@@ -1,9 +1,29 @@
-<li class="dd-item" data-id="<%= list_item['id'] %>">
+<%= content_tag :li,
+  class: 'dd-item',
+  data: {
+    id: list_item['id'],
+    name: list_item['name'],
+    url: list_item['url'],
+    page: list_item['page'],
+  } do %>
   <div class="dd-content form-group">
     <div class="dd-handle">Item <%= list_item['id'] %></div>
     <div class="dd-input">
-      <label for="navigationLabel">Navigation label</label>
-      <input type="text" class="dd-input__input form-control" name="navigationLabel">
+      <label for="name">Navigation label</label>
+      <input type="text" class="dd-input__input form-control" name="name" value="<%= list_item['name'] %>">
+    </div>
+    <div class="dd-input">
+      <label for="url">Page</label>
+      <%= select_tag 'pages',
+        options_from_collection_for_select(@pages, 'id', 'title', list_item['page'].to_i),
+        class: 'dd-input__select form-control',
+        id: '',
+        include_blank: true %>
+      <input type="hidden" class="dd-input__input dd-input__input-for-select form-control" name="page" value="<%= list_item['page'] %>">
+    </div>
+    <div class="dd-input">
+      <label for="url">Custom URL</label>
+      <input type="text" class="dd-input__input form-control" name="url" value="<%= list_item['url'] %>">
     </div>
   </div>
   <% if list_item['children'] %>
@@ -11,4 +31,4 @@
       <%= render partial: 'list_item', collection: list_item['children'] %>
     </ol>
   <% end %>
-</li>
+<% end %>

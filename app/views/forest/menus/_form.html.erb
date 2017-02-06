@@ -33,14 +33,6 @@
 
       <div class="row">
         <div class="col-sm-6">
-          <div class="well">
-            <div class="dd dd-temporary" id="menu__new-item-placeholder">
-              <div class="dd-empty"></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-sm-6">
           <div class="dd" id="dd-primary">
             <% if @menu.structure_as_json.present? %>
               <ol class="dd-list">
@@ -57,3 +49,28 @@
   </div>
 
 <% end %>
+
+<div class="dd-item-template" id="dd-item-template">
+  <%= content_tag :li, class: 'dd-item' do %>
+    <div class="dd-content form-group">
+      <div class="dd-handle">Item</div>
+      <div class="dd-input">
+        <label for="name">Navigation label</label>
+        <input type="text" class="dd-input__input form-control" name="name">
+      </div>
+      <div class="dd-input">
+        <label for="url">Page</label>
+        <%= select_tag 'pages',
+          options_from_collection_for_select(@pages, 'id', 'title'),
+          class: 'dd-input__select form-control',
+          id: '',
+          include_blank: true %>
+        <input type="hidden" class="dd-input__input dd-input__input-for-select form-control" name="page">
+      </div>
+      <div class="dd-input">
+        <label for="url">Custom URL</label>
+        <input type="text" class="dd-input__input form-control" name="url">
+      </div>
+    </div>
+  <% end %>
+</div>
