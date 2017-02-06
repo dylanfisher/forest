@@ -2,7 +2,7 @@ class Menu < ApplicationRecord
   extend FriendlyId
   friendly_id :title, use: :slugged
 
-  def structure_json
+  def structure_as_json
     JSON.parse (structure.presence || '[]')
   end
 

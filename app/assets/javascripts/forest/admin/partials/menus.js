@@ -1,23 +1,35 @@
 App.pageLoad.push(function() {
   var $nestable = $('.dd');
-  var $input = $('#menu_structure');
-  var initialStructure = $input.val();
 
   $nestable.nestable({
     group: 1
   });
 
-  $input.val( getSerializedJSON() );
+  $('#menu_structure').val( getSerializedJSON() );
 
   $nestable.on('change', function() {
     if ( $(this).closest('#dd-primary').length ) {
-      $input.val( getSerializedJSON() );
+      $('#menu_structure').val( getSerializedJSON() );
     }
   });
 
   function getSerializedJSON() {
-    var serialized = $nestable.nestable( 'serialize' );
-    return window.JSON.stringify( serialized );
+    var $items = $nestable.find('.dd-item');
+
+    $items.each(function() {
+      var $item = $(this);
+      var $inputs = $item.find('.dd-input__input');
+
+      $inputs.each(function() {
+        var $thisInput = $(this);
+        var inputName = $thisInput.attr('name');
+        var inputValue = $thisInput.val();
+
+        $thisInput.closest('.dd-item').attr('data-' + inputName, inputValue);
+      });
+    });
+
+    return window.JSON.stringify( $nestable.nestable( 'serialize' ) );
   }
 });
 
@@ -31,14 +43,4 @@ $(document).on('click', '#menu__add-item-button', function() {
   var itemHtml = '<li class="dd-item" data-id="' + itemId + '"><div class="dd-handle">Item ' + itemId + '</div></li>';
 
   $placeholder.append( itemHtml );
-});
-
-$(document).on('click', '.dd-input-expand, .dd-input-collapse', function() {
-  var $wrapper = $(this).closest('.dd-item');
-
-  if ( $wrapper.hasClass('dd-expanded') ) {
-    $wrapper.removeClass('dd-expanded');
-  } else {
-    $wrapper.addClass('dd-expanded');
-  }
 });

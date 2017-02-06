@@ -60,7 +60,8 @@
 }
 
 .dd-input {
-  display: none;
+  // display: none;
+  padding: 0 10px 10px;
 }
 
 .dd-input-expand,
@@ -84,23 +85,23 @@
   border-bottom: 5px solid #000;
 }
 
-.dd-expanded {
-  & > .dd-content {
-    & > .dd-expander-row {
-      .dd-input-expand {
-        display: none;
-      }
+// .dd-expanded {
+//   & > .dd-content {
+//     & > .dd-expander-row {
+//       .dd-input-expand {
+//         display: none;
+//       }
 
-      .dd-input-collapse {
-        display: block;
-      }
-    }
+//       .dd-input-collapse {
+//         display: block;
+//       }
+//     }
 
-    & .dd-input {
-      display: block;
-    }
-  }
-}
+//     & .dd-input {
+//       display: block;
+//     }
+//   }
+// }
 
 .dd-item > button {
   display: block;

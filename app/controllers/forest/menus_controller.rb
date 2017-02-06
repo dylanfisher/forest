@@ -33,7 +33,7 @@ module Forest
       authorize @menu
 
       if @menu.save
-        redirect_to @menu, notice: 'Menu was successfully created.'
+        redirect_to edit_menu_path(@menu), notice: 'Menu was successfully created.'
       else
         render :new
       end
@@ -43,7 +43,7 @@ module Forest
     def update
       authorize @menu
       if @menu.update(menu_params)
-        redirect_to @menu, notice: 'Menu was successfully updated.'
+        redirect_to edit_menu_path(@menu), notice: 'Menu was successfully updated.'
       else
         render :edit
       end
