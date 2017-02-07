@@ -17,14 +17,14 @@ class Setting < ApplicationRecord
   end
 
   def self.expire_cache
-    Rails.cache.delete Setting::CACHE_KEY
+    Rails.cache.delete self::CACHE_KEY
   end
 
   private
 
     def self.settings
       Rails.cache.fetch CACHE_KEY do
-        Setting.all
+        self.all
       end
     end
 

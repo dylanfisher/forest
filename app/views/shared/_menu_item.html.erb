@@ -1,0 +1,19 @@
+<% classes = ['menu__item'] %>
+<% classes.push 'menu__item--with-children' if item['children'].present? %>
+<% classes.push "menu__item--#{item['name'].parameterize}" %>
+<%= content_tag :li, class: classes.join(' ') do %>
+  <% if item['url'].present? %>
+    <% link = item['url'] %>
+  <% elsif item['page'].present? %>
+    <%# TODO: more performant page lookup? Or just make sure this menu partial is cached properly? %>
+    <% link = Page.find(item['page']).slug %>
+  <% else %>
+    <% link = '#' %>
+  <% end %>
+  <%= link_to item['name'], link %>
+  <% if item['children'].present? %>
+    <%= content_tag :ul, class: "menu__sub-menu" do %>
+      <%= render partial: 'shared/menu_item', collection: item['children'], as: 'item' %>
+    <% end %>
+  <% end %>
+<% end %>

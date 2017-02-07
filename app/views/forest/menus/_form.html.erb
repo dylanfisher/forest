@@ -24,23 +24,28 @@
         </div>
       </div>
 
-      <div class="row">
-        <div class="col-sm-6">
-          <button type="button" class="btn btn-primary" id="menu__add-item-button">Add menu item</button>
-          <br><br>
+      <div class="panel panel-default" data-collapse-parent>
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            Menu Structure
+          </h3>
         </div>
-      </div>
-
-      <div class="row">
-        <div class="col-sm-6">
-          <div class="dd" id="dd-primary">
-            <% if @menu.structure_as_json.present? %>
-              <ol class="dd-list">
-                <%= render partial: 'list_item', collection: @menu.structure_as_json %>
-              </ol>
-            <% else %>
-              <div class="dd-empty"></div>
-            <% end %>
+        <div class="panel-body" data-collapse-body>
+          <div class="form-inputs">
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="dd" id="dd-primary">
+                  <% if @menu.structure_as_json.present? %>
+                    <ol class="dd-list">
+                      <%= render partial: 'list_item', collection: @menu.structure_as_json %>
+                    </ol>
+                  <% else %>
+                    <div class="dd-empty"></div>
+                  <% end %>
+                </div>
+                <button type="button" class="btn btn-primary" id="menu__add-item-button">Add menu item</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

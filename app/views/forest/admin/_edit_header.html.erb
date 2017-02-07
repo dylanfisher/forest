@@ -17,6 +17,7 @@
         </h1>
       </div>
       <div class="col-sm-4 text-right">
+        <%= link_to "New #{record.class.model_name.singular.titleize}", send("new_#{record.class.model_name.singular_route_key}_path"), class: 'btn btn-link' %>
         <%= link_to "All #{record.class.model_name.plural.titleize}", send("#{record.class.model_name.route_key}_path"), class: 'btn btn-link' %>
         <% if Forest::Engine.routes.url_helpers.respond_to? "show_#{record.class.model_name.singular_route_key}_path" %>
           <%= link_to "View #{record.class.model_name.singular.titleize}", send("show_#{record.class.model_name.singular_route_key}_path", record), class: 'btn btn-primary' %>
