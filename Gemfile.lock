@@ -2,26 +2,26 @@ PATH
   remote: .
   specs:
     forest (0.1.0)
-      bootstrap-sass (~> 3.3.6)
+      bootstrap-sass
       cocoon
       devise
       faker
-      friendly_id (~> 5.2)
+      friendly_id
       has_scope
       jquery-fileupload-rails
       jquery-rails-cdn
       jquery-ui-rails
       kaminari
       paper_trail
-      paperclip (~> 5.0.0)
+      paperclip
       pry-rails
       pundit
-      rails (~> 5.0.1)
+      rails
       rails_12factor
       redcarpet
-      sass-rails (~> 5.0)
+      sass-rails
       simple_form
-      turbolinks (~> 5)
+      turbolinks
 
 GEM
   remote: https://rubygems.org/
@@ -228,4 +228,4 @@ DEPENDENCIES
   pg
 
 BUNDLED WITH
-   1.13.6
+   1.14.2

@@ -4,7 +4,7 @@ class Menu < ApplicationRecord
 
   CACHE_KEY = 'forest_menus'
 
-  # TODO: Add HABTM page association to menu and remove the pages method currently defined here here
+  # has_many :pages, through: :menu_pages
 
   after_save :_expire_cache
   after_destroy :_expire_cache
@@ -16,7 +16,7 @@ class Menu < ApplicationRecord
     self.menus.select { |menu| menu.slug == slug.to_s }.first
   end
 
-  def self.expire_cache
+  def self.expire_cache!
     Rails.cache.delete CACHE_KEY
   end
 
@@ -41,7 +41,7 @@ class Menu < ApplicationRecord
     end
 
     def _expire_cache
-      self.class.expire_cache
+      self.class.expire_cache!
     end
 
 end

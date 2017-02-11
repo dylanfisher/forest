@@ -17,6 +17,7 @@ class Page < ApplicationRecord
   has_one :current_published_version, -> { reorder(created_at: :desc, id: :desc).where_object(status: 1) }, class_name: "PaperTrail::Version", foreign_key: 'item_id'
   has_many :media_items, as: :attachable
   has_many :page_slots, -> { order(:position) }
+  # has_many :menus, through: :menu_pages
   belongs_to :featured_image, class_name: 'MediaItem'
 
   accepts_nested_attributes_for :page_slots, allow_destroy: true

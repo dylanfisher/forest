@@ -16,7 +16,7 @@ class Setting < ApplicationRecord
     self.settings.select { |setting| setting.slug.underscore == title.to_s.underscore }.first
   end
 
-  def self.expire_cache
+  def self.expire_cache!
     Rails.cache.delete self::CACHE_KEY
   end
 
@@ -33,6 +33,6 @@ class Setting < ApplicationRecord
     end
 
     def _expire_cache
-      self.class.expire_cache
+      self.class.expire_cache!
     end
 end
