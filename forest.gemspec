@@ -16,24 +16,24 @@ Gem::Specification.new do |s|
 
   s.files = Dir['{app,config,db,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.md']
 
-  s.add_dependency 'rails', '~> 5.0.1'
+  s.add_dependency 'rails'
 
   s.add_development_dependency 'pg'
 
   s.add_dependency 'rails_12factor'
-  s.add_dependency 'sass-rails', '~> 5.0'
+  s.add_dependency 'sass-rails'
   s.add_dependency 'jquery-rails-cdn'
   s.add_dependency 'jquery-ui-rails'
-  s.add_dependency 'turbolinks', '~> 5'
+  s.add_dependency 'turbolinks'
   s.add_dependency 'pry-rails'
   s.add_dependency 'kaminari'
-  s.add_dependency 'friendly_id', '~> 5.2'
+  s.add_dependency 'friendly_id'
   s.add_dependency 'devise'
   s.add_dependency 'pundit'
-  s.add_dependency 'bootstrap-sass', '~> 3.3.6'
+  s.add_dependency 'bootstrap-sass'
   s.add_dependency 'simple_form'
   s.add_dependency 'has_scope'
-  s.add_dependency 'paperclip', '~> 5.0.0'
+  s.add_dependency 'paperclip'
   s.add_dependency 'jquery-fileupload-rails'
   s.add_dependency 'paper_trail'
   s.add_dependency 'cocoon'
