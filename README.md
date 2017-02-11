@@ -66,6 +66,16 @@ And then execute:
 $ bundle
 ```
 
+## TODO
+
+- [ ] csv import/export
+- [ ] page status for scheduled, pending and hidden states
+- [ ] better page versioning, page history navigation, restore content blocks with page version
+- [ ] additional default content blocks, mainly image and/or gallery, maybe video and/or oEmbed
+- [ ] solution for color picker, date picker, map picker, etc. similar to ACF
+- [ ] purge cache button
+- [ ] better settings UI, ability to set multiple data types, e.g. boolean, or association
+
 ## Contributing
 If you are interested in contributing to this project please [get in touch](mailto:hi@dylanfisher.com).
 
