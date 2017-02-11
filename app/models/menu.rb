@@ -24,9 +24,13 @@ class Menu < ApplicationRecord
     JSON.parse (structure.presence || '[]')
   end
 
-  # def pages
-  #   Page.find(structure_as_json.collect { |a| a['page'] }.reject(&:blank?))
-  # end
+  def pages
+    Page.find(structure_as_json.collect { |a| a['page'] }.reject(&:blank?))
+  end
+
+  def cache_key
+    "#{super}/#{Digest::MD5.hexdigest(pages.collect(&:cache_key).join)}"
+  end
 
   private
 
