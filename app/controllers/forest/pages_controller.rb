@@ -138,8 +138,11 @@ module Forest
       end
 
       respond_to do |format|
-        if @page.update(page_params)
-          save_blocks
+        @page.assign_attributes page_params
+        if @page.valid?
+          @page.save
+          save_blocks # bad pattern?
+          @page.set_page_slot_cache! # bad pattern?
           format.html { redirect_to edit_page_path(@page), notice: 'Page was successfully updated.' }
           format.json { render :show, status: :ok, location: @page }
         else
@@ -181,6 +184,7 @@ module Forest
         @blocks.each_pair do |position, block|
           if block.save
             # TODO: this is feeling a little brittle
+            # @page.page_slots.select { |a| a.position == position.to_i }.first.blockable_id = block.id
             @page.page_slots.select { |a| a.position == position.to_i }.first.update_column :blockable_id, block.id
           else
             format.html { render :edit, notice: "Unable to update #{block.class.name.titleize}." }

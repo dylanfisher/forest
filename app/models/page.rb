@@ -11,7 +11,7 @@ class Page < ApplicationRecord
 
   validates_presence_of :title
 
-  before_save :set_page_slot_cache
+  # before_save :set_page_slot_cache
 
   has_one :current_version, -> { reorder(created_at: :desc, id: :desc) }, class_name: "PaperTrail::Version", foreign_key: 'item_id'
   has_one :current_published_version, -> { reorder(created_at: :desc, id: :desc).where_object(status: 1) }, class_name: "PaperTrail::Version", foreign_key: 'item_id'
@@ -45,22 +45,22 @@ class Page < ApplicationRecord
     end.reject(&:blank?)
   end
 
+  def set_page_slot_cache!
+    self.update_column :page_slot_cache, page_slots.includes(:blockable).collect do |page_slot|
+      {
+        page_slot_id: page_slot.id,
+        blockable_id: page_slot.blockable_id,
+        blockable_type: page_slot.blockable_type,
+        page_slot_position: page_slot.position,
+        block_as_json: (page_slot.block.as_json.reject { |a| page_slot_cache_blacklist_attributes.include? a }.to_json if page_slot.block)
+      }
+    end
+  end
+
   private
 
     def should_generate_new_friendly_id?
       slug.blank?
-    end
-
-    def set_page_slot_cache
-      self.page_slot_cache = page_slots.collect do |page_slot|
-        {
-          page_slot_id: page_slot.id,
-          blockable_id: page_slot.blockable_id,
-          blockable_type: page_slot.blockable_type,
-          page_slot_position: page_slot.position,
-          block_as_json: (page_slot.block.as_json.reject { |a| page_slot_cache_blacklist_attributes.include? a }.to_json if page_slot.block)
-        }
-      end
     end
 
     def page_slot_cache_blacklist_attributes
