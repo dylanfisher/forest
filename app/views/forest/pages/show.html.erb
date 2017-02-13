@@ -1,3 +1,5 @@
+<p>Find me in app/views/forest/pages/show.html.erb</p>
+
 <% cache @page do %>
   <% content_for :page_description, @page.description if @page.description.present? %>
   <% content_for :page_featured_image, @page.featured_image.attachment.url(:large) if @page.featured_image.present? %>
@@ -14,5 +16,5 @@
     <%= @page.status %>
   </p>
 
-  <%= render partial: 'forest/pages/block', collection: @page.blocks %>
+  <%= render partial: 'blocks/show', collection: @page.blocks, as: 'block' %>
 <% end %>

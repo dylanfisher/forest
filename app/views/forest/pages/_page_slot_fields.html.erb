@@ -11,21 +11,23 @@
     <div class="panel-body">
       <% if f.object.blockable_type %>
         <%= f.simple_fields_for 'block_fields' do |block_f| %>
-          <%= render "#{f.object.blockable_type.underscore}_fields", block_f: block_f, f: f %>
+          <% block_class = f.object.blockable_type.constantize %>
+          <%= render "blocks/#{block_class.model_name.singular}/#{block_class.model_name.singular}_edit_fields", block_f: block_f, f: f %>
         <% end %>
       <% else %>
         <div class="block-type-field-templates">
-          <% BlockType.all.each do |blockable_type| %>
-            <%= content_tag :div, class: "block-type-field-template block-type-field-template__#{blockable_type.name.underscore}", data: { block_type: blockable_type.name, block_type_id: blockable_type.id } do %>
+          <% @block_types.each do |blockable_type| %>
+            <% block_class = blockable_type.name.constantize %>
+            <%= content_tag :div, class: "block-type-field-template block-type-field-template__#{block_class.model_name.singular}", data: { block_type: blockable_type.name, block_type_id: blockable_type.id } do %>
               <%= f.simple_fields_for 'block_fields' do |block_f| %>
-                <%= render "#{blockable_type.name.underscore}_fields", block_f: block_f, f: f %>
+                <%= render "blocks/#{block_class.model_name.singular}/#{block_class.model_name.singular}_edit_fields", block_f: block_f, f: f %>
               <% end %>
             <% end %>
           <% end %>
         </div>
       <% end %>
 
-      <%= f.input :blockable_type, collection: BlockType.all, value_method: :name, include_blank: false %>
+      <%= f.input :blockable_type, collection: @block_types, value_method: :name, include_blank: false %>
       <%= f.input :page_id, as: :hidden %>
       <%= f.input :page_version_id, as: :hidden %>
       <%= f.input :blockable_id, as: :hidden %>

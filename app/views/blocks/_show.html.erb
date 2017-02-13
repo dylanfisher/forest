@@ -1,3 +1,3 @@
 <%= content_tag :div, class: "#{block.model_name.singular.dasherize} block well" do %>
-  <%= render "blocks/#{block.model_name.singular}", block: block %>
+  <%= render "blocks/#{block.model_name.singular}/#{block.model_name.singular}", block: block %>
 <% end %>

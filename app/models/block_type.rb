@@ -3,21 +3,21 @@ class BlockType < ApplicationRecord
     self.all.collect do |block_type|
       {
         block_fields: {
-          block_type.name => block_type.name.constantize.permitted_params
+          block_type.name => block_type.block.permitted_params
         }
       }
     end
   end
 
-  def self.collection_for_picker
-    self.all
+  def block
+    @block ||= self.name.constantize
   end
 
   def display_name
-    self.name.constantize.display_name
+    block.display_name
   end
 
   def display_icon
-    self.name.constantize.display_icon
+    block.display_icon
   end
 end

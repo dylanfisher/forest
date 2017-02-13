@@ -1,0 +1,8 @@
+Description:
+    Generates a migration to create a new block type.
+
+Example:
+    rails generate block TitleBlock
+
+    This will create:
+        TODO

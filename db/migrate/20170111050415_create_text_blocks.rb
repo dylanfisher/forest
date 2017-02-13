@@ -8,7 +8,9 @@ class CreateTextBlocks < ActiveRecord::Migration[5.0]
 
     reversible do |change|
       change.up do
-        BlockType.find_or_create_by(name: 'TextBlock')
+        unless BlockType.find_by_name('TextBlock')
+          BlockType.create(name: 'TextBlock', category: 'Default', description: "A general purpose block for adding text to a page.")
+        end
       end
 
       change.down do

@@ -72,6 +72,7 @@ module Forest
     # GET /pages/1/edit
     def edit
       authorize @page
+      @block_types = BlockType.all
     end
 
     # POST /pages
@@ -167,6 +168,13 @@ module Forest
       # Use callbacks to share common setup or constraints between actions.
       def set_page
         @page = Page.friendly.find(params[:id])
+        if action_name == 'show'
+          # Don't eager load associations when cached in show
+          @page = Page.friendly.find(params[:id])
+        else
+          @page = Page.includes(page_slots: :blockable).friendly.find(params[:id])
+        end
+
         @page_title = @page.title
         # TODO: Published page scope. Maybe add a association on Page so that a page has_one current_published_version.
         # This could be set in a after_save filter when updating page statuses.
