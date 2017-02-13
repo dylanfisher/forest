@@ -7,6 +7,7 @@ module Forest
     layout 'forest/admin', except: [:show]
 
     before_action :set_page, only: [:show, :edit, :update, :destroy, :versions, :version, :restore]
+    before_action :set_block_types, only: [:edit, :new]
     before_action :set_paper_trail_whodunnit
 
     has_scope :by_status
@@ -72,18 +73,23 @@ module Forest
     # GET /pages/1/edit
     def edit
       authorize @page
-      @block_types = BlockType.all
     end
 
     # POST /pages
     # POST /pages.json
     def create
-      @page = Page.new(page_params)
+      @page = Page.new
       authorize @page
 
+      # TODO: Handle block type deletion
+      parse_block_attributes
+
+      @page.assign_attributes page_params
+
       respond_to do |format|
-        if @page.save
-          format.html { redirect_to @page, notice: 'Page was successfully created.' }
+        if @page.valid?
+          save_page
+          format.html { redirect_to edit_page_path(@page), notice: 'Page was successfully created.' }
           format.json { render :show, status: :created, location: @page }
         else
           format.html { render :new }
@@ -97,53 +103,14 @@ module Forest
     def update
       authorize @page
 
-      @blocks = {}
-
-      # TODO: Clean this controller up and move methods to model
       # TODO: Handle block type deletion
+      parse_block_attributes
 
-      blocks_updated = false
-
-      params[:page][:page_slots_attributes] && params[:page][:page_slots_attributes].each_pair do |index, blockable_params|
-        block_type = blockable_params['blockable_type']
-        block_constant = block_type.constantize
-        block_fields = blockable_params['block_fields']
-        position = blockable_params['position']
-        blockable_id = params[:page][:page_slots_attributes][index][:blockable_id]
-
-        next if block_fields.nil?
-
-        if blockable_id.present?
-          block = block_constant.find blockable_id
-          existing_attributes = HashWithIndifferentAccess.new
-          block.permitted_params.each { |a| existing_attributes[a] = block[a] }
-        else
-          block = block_type.constantize.new
-        end
-
-        block_attributes = block_fields.permit block.permitted_params
-
-        # TODO: not sure if a more precise diff between hashes is necessary
-        if block.new_record? || (existing_attributes.to_a - block_attributes.as_json.to_a).present?
-          block.assign_attributes block_fields.permit(block.permitted_params)
-          @blocks[position] = block
-          blocks_updated = true
-        end
-
-        params[:page][:page_slots_attributes][index].delete :block_fields
-      end
-
-      # TODO: There's a bug where you can update a page a second time even if you didn't change any attributes
-      if blocks_updated
-        @page.updated_at = Time.now
-      end
+      @page.assign_attributes page_params
 
       respond_to do |format|
-        @page.assign_attributes page_params
         if @page.valid?
-          @page.save
-          save_blocks # bad pattern?
-          @page.set_page_slot_cache! # bad pattern?
+          save_page
           format.html { redirect_to edit_page_path(@page), notice: 'Page was successfully updated.' }
           format.json { render :show, status: :ok, location: @page }
         else
@@ -165,6 +132,13 @@ module Forest
     end
 
     private
+
+      # Never trust parameters from the scary internet, only allow the white list through.
+      def page_params
+        params.require(:page).permit(:title, :slug, :description, :status, :version_id, :featured_image_id, :media_item_ids, :page_slot_cache,
+          page_slots_attributes: [:id, :_destroy, :page_id, :page_version_id, :blockable_id, :blockable_type, :blockable_previous_version_id, :position, *BlockType.block_type_params])
+      end
+
       # Use callbacks to share common setup or constraints between actions.
       def set_page
         @page = Page.friendly.find(params[:id])
@@ -187,6 +161,12 @@ module Forest
         end
       end
 
+      def save_page
+        @page.save
+        save_blocks # bad pattern?
+        @page.set_page_slot_cache! # bad pattern?
+      end
+
       def save_blocks
         return unless @blocks.present?
         @blocks.each_pair do |position, block|
@@ -200,10 +180,47 @@ module Forest
         end
       end
 
-      # Never trust parameters from the scary internet, only allow the white list through.
-      def page_params
-        params.require(:page).permit(:title, :slug, :description, :status, :version_id, :featured_image_id, :media_item_ids, :page_slot_cache,
-          page_slots_attributes: [:id, :_destroy, :page_id, :page_version_id, :blockable_id, :blockable_type, :blockable_previous_version_id, :position, *BlockType.block_type_params])
+      def set_block_types
+        @block_types = BlockType.all
+      end
+
+      # TODO: Split up this method and move into model?
+      def parse_block_attributes
+        @blocks = {}
+        @blocks_updated = false
+
+        params[:page][:page_slots_attributes] && params[:page][:page_slots_attributes].each_pair do |index, blockable_params|
+          block_type = blockable_params['blockable_type']
+          block_constant = block_type.constantize
+          block_fields = blockable_params['block_fields']
+          position = blockable_params['position']
+          blockable_id = params[:page][:page_slots_attributes][index][:blockable_id]
+
+          next if block_fields.nil?
+
+          if blockable_id.present?
+            block = block_constant.find blockable_id
+            existing_attributes = HashWithIndifferentAccess.new
+            block.permitted_params.each { |a| existing_attributes[a] = block[a] }
+          else
+            block = block_type.constantize.new
+          end
+
+          block_attributes = block_fields.permit block.permitted_params
+
+          # TODO: not sure if a more precise diff between hashes is necessary
+          if block.new_record? || (existing_attributes.to_a - block_attributes.as_json.to_a).present?
+            block.assign_attributes block_fields.permit(block.permitted_params)
+            @blocks[position] = block
+            @blocks_updated = true
+          end
+
+          params[:page][:page_slots_attributes][index].delete :block_fields
+        end
+
+        if @blocks_updated
+          @page.updated_at = Time.now
+        end
       end
   end
 end

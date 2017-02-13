@@ -4,8 +4,6 @@ class Menu < ApplicationRecord
 
   CACHE_KEY = 'forest_menus'
 
-  # has_many :pages, through: :menu_pages
-
   after_save :_expire_cache
   after_destroy :_expire_cache
 
