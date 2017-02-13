@@ -8,7 +8,7 @@ class Forest::MarkdownRenderer < Redcarpet::Render::HTML
       tables: true,
       safe_links_only: true,
       no_intra_emphasis: true,
-      space_after_headers: true,
+      space_after_headers: true
     }
   end
 end
