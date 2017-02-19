@@ -68,6 +68,7 @@ $ bundle
 
 ## TODO
 
+- [ ] tests
 - [ ] page status for scheduled, pending and hidden states
 - [ ] better page versioning, page history navigation, restore content blocks with page version
 - [ ] additional default content blocks, mainly image and/or gallery, maybe video and/or oEmbed
@@ -76,8 +77,12 @@ $ bundle
 - [ ] add ability to remove media item (e.g. remove feature media item from page)
 - [ ] better media item upload in media_item#edit
 - [ ] reset password and/or change password when editing user profile
-- [ ] oauth?
+- [ ] email confirmations for user related actions
+- [ ] oauth/omniauth?
 - [ ] csv import/export
+- [ ] s3 storage for paperclip
+- [ ] remove bootstrap as frontend dependency (admin navbar is only place this is currently shared)
+- [ ] frontend search design
 - [x] better settings UI, ability to set multiple data types, e.g. boolean, or association
 
 ## Contributing
