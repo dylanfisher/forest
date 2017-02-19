@@ -12,7 +12,12 @@
           <div class="form-inputs">
             <div class="row">
               <div class="col-sm-6">
-                <%= f.input :value %>
+                <% if @setting.value_type == 'image' %>
+                  <%= media_item_chooser_to_path @setting, field_name: 'setting_value', column_name: 'value' %>
+                  <%= f.input :value, readonly: true %>
+                <% else %>
+                  <%= f.input :value %>
+                <% end %>
                 <%= f.button :submit, class: 'btn-success' %>
               </div>
             </div>
@@ -23,3 +28,5 @@
     </div>
   </div>
 <% end %>
+
+<%= render 'forest/media_items/modal' %>
