@@ -3,21 +3,11 @@
     <div class="col-sm-12">
 
       <div class="panel panel-default" data-collapse-parent>
-        <div class="panel-heading">
-          <h3 class="panel-title">
-            Metadata
-          </h3>
-        </div>
         <div class="panel-body" data-collapse-body>
           <div class="form-inputs">
             <div class="row">
               <div class="col-sm-6">
-                <% if @setting.value_type == 'image' %>
-                  <%= media_item_chooser_to_path @setting, field_name: 'setting_value', column_name: 'value' %>
-                  <%= f.input :value, readonly: true %>
-                <% else %>
-                  <%= f.input :value %>
-                <% end %>
+                <%= render "forest/settings/types/#{@setting.value_type}", f: f %>
                 <%= f.button :submit, class: 'btn-success' %>
               </div>
             </div>

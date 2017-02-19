@@ -13,7 +13,7 @@ module Forest
 
     # GET /settings
     def index
-      @settings = apply_scopes(Setting.all).by_id.page params[:page]
+      @settings = apply_scopes(Setting.all).by_title.page params[:page]
       authorize @settings
     end
 
@@ -22,6 +22,7 @@ module Forest
       authorize @setting
     end
 
+    # TODO: better pattern for disabling new actions
     # GET /settings/new
     # def new
     #   @setting = Setting.new
