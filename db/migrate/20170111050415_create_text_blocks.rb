@@ -14,7 +14,8 @@ class CreateTextBlocks < ActiveRecord::Migration[5.0]
       end
 
       change.down do
-        BlockType.find_by_name('TextBlock')&.delete
+        BlockType.where(name: 'TextBlock').destroy_all
+        PageSlot.where(blockable_type: 'TextBlock').destroy_all
       end
     end
   end

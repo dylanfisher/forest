@@ -23,7 +23,8 @@ class <%= migration_class_name %> < ActiveRecord::Migration[<%= ActiveRecord::Mi
       end
 
       change.down do
-        BlockType.where(name: '<%= class_name %>').each(&:destroy)
+        BlockType.where(name: '<%= class_name %>').destroy_all
+        PageSlot.where(blockable_type: '<%= class_name %>').destroy_all
       end
     end
   end
