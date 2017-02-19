@@ -70,7 +70,7 @@ module Forest
 
       # Only allow a trusted parameter "white list" through.
       def setting_params
-        params.require(:setting).permit(:value)
+        params.require(:setting).permit(:value, :title, :slug, :value_type)
       end
   end
 end
