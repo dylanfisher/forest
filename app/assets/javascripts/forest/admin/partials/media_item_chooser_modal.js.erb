@@ -12,7 +12,7 @@ App.MediaItemChooser = {
         .on('show.bs.modal', function() {
           var $modalBody = $element.find('.modal-body');
 
-          $.ajax('<%= Forest::Engine.routes.url_helpers.media_items_path %>')
+          $.ajax('<%= Rails.application.routes.url_helpers.media_items_path %>')
             .done(function(data) {
               $modalBody.html( $(data).find('.media-library') );
               App.InfiniteLoader.initialize( $element.find('[data-infinite-load]'), { $scrollListener: $element } );

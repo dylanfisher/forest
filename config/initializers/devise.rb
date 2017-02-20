@@ -267,7 +267,7 @@ Devise.setup do |config|
   #
   # The router that invoked `devise_for`, in the example above, would be:
   config.router_name = :forest
-  config.parent_controller = 'Forest::ApplicationController'
+  config.parent_controller = 'ForestController'
 
   # When using OmniAuth, Devise cannot automatically set OmniAuth path,
   # so you need to do it manually. For the users scope, it would be:

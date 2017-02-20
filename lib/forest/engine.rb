@@ -9,8 +9,6 @@ end
 
 module Forest
   class Engine < ::Rails::Engine
-    isolate_namespace Forest
-
     initializer :assets, :group => :all do
       Rails.application.config.assets.precompile += %w(
         forest/application_admin.css forest/application_public.css
@@ -18,6 +16,5 @@ module Forest
         jquery2.js
       )
     end
-
   end
 end

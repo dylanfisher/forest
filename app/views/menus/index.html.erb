@@ -1,0 +1,29 @@
+<%= render 'admin/index_header', records: @menus, model_name: 'Menu' %>
+
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Slug</th>
+        <th>Structure</th>
+        <th colspan="3"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @menus.each do |menu| %>
+        <tr>
+          <td><%= menu.title %></td>
+          <td><%= menu.slug %></td>
+          <td><%= menu.structure %></td>
+          <td width="1"><%= link_to 'Edit', edit_menu_path(menu), class: 'btn btn-xs btn-primary', role: 'button' %></td>
+          <td width="1"><%= link_to 'Show', menu, class: 'btn btn-xs btn-info', role: 'button' %></td>
+          <td width="1"><%= link_to 'Destroy', menu, method: :delete, class: 'btn btn-xs btn-danger', role: 'button', data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<%= paginate @menus %>

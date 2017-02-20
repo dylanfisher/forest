@@ -1,11 +1,9 @@
-require_dependency "forest/application_controller"
-
 <% module_namespacing do -%>
-class <%= class_name %>sController < ApplicationController
+class <%= class_name %>sController < ForestController
   include BlockableControllerConcerns
   include FilterControllerScopes
 
-  layout 'forest/admin', except: [:show]
+  layout 'admin', except: [:show]
 
   before_action :set_<%= singular_name %>, only: [:show, :edit, :update, :destroy, :versions, :version, :restore]
   before_action :set_blockable_record, only: [:edit, :update, :create]

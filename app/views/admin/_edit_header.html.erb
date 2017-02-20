@@ -1,0 +1,30 @@
+<div class="admin-header">
+  <% if notice %>
+    <div class="alert alert-info alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <%= notice %>
+    </div>
+  <% end %>
+  <div class="well">
+    <div class="row">
+      <div class="col-sm-7">
+        <h1>
+          <%= record.try(:display_name) || record.try(:title) || record.try(:name) %>
+          <small><%= record.class.model_name.singular.titleize %> <%= record.id %></small>
+          <% if record.is_a? Page %>
+            <%= link_to "<span class='badge'>#{record.versions.count} versions</span>".html_safe, page_versions_path(record) %>
+          <% end %>
+        </h1>
+      </div>
+      <div class="col-sm-5 text-right">
+        <%= link_to "New #{record.class.model_name.singular.titleize}", send("new_#{record.class.model_name.singular_route_key}_path"), class: 'btn btn-link' %>
+        <%= link_to "All #{record.class.model_name.plural.titleize}", send("#{record.class.model_name.route_key}_path"), class: 'btn btn-link' %>
+        <% if respond_to? "show_#{record.class.model_name.singular_route_key}_path" %>
+          <%= link_to "View #{record.class.model_name.singular.titleize}", send("show_#{record.class.model_name.singular_route_key}_path", record), class: 'btn btn-primary' %>
+        <% else %>
+          <%= link_to "View #{record.class.model_name.singular.titleize}", send("#{record.class.model_name.singular_route_key}_path", record), class: 'btn btn-primary' %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

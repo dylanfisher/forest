@@ -42,10 +42,10 @@
 
                 <div id='page_slots'>
                   <%%= f.simple_fields_for :page_slots do |page_slot| %>
-                    <%%= render 'forest/blockable_record/page_slot_fields', f: page_slot %>
+                    <%%= render 'blockable_record/page_slot_fields', f: page_slot %>
                   <%% end %>
                   <div class='links'>
-                    <%%= link_to_add_association 'Add Block', f, :page_slots, class: 'hidden', partial: 'forest/blockable_record/page_slot_fields' %>
+                    <%%= link_to_add_association 'Add Block', f, :page_slots, class: 'hidden', partial: 'blockable_record/page_slot_fields' %>
                   </div>
                 </div>
 

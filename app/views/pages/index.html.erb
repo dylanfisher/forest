@@ -1,0 +1,46 @@
+<% content_for :index_header_body do %>
+  <%= dropdown_select_form url: pages_path,
+    id: 'by_status',
+    select_options: Page.statuses.keys.to_a.collect{ |x| [x.titleize, x] },
+    title: 'All Statuses' %>
+<% end %>
+<%= render 'admin/index_header', records: @pages, model_name: 'Page' %>
+
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th></th>
+        <th><%= table_sorter title: 'ID', path: :pages_path, scope: :by_id, default_order: :desc %></th>
+        <th><%= table_sorter title: 'Title', path: :pages_path, scope: :by_title, default_order: :asc %></th>
+        <th><%= table_sorter title: 'Slug', path: :pages_path, scope: :by_slug, default_order: :asc %></th>
+        <th>Description</th>
+        <th>Author</th>
+        <th><%= table_sorter title: 'Created&nbsp;at'.html_safe, path: :pages_path, scope: :by_created_at, default_order: :desc %></th>
+        <th><%= table_sorter title: 'Updated&nbsp;at'.html_safe, path: :pages_path, scope: :by_updated_at, default_order: :desc %></th>
+        <th colspan="4"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @pages.each do |page| %>
+        <tr>
+          <td><%= status_indicator page %></td>
+          <td><%= page.id %></td>
+          <td><%= page.title %></td>
+          <td><%= page.slug %></td>
+          <td><%= page.description %></td>
+          <td><%= User.find(page.versions.last&.version_author)&.display_name if page.versions.last&.version_author %></td>
+          <td><%= page.created_at.to_formatted_s(:short) %></td>
+          <td><%= page.updated_at.to_formatted_s(:short) %></td>
+          <td width="1"><%= link_to 'Edit', edit_page_path(page), class: 'btn btn-xs btn-primary', role: 'button' %></td>
+          <td width="1"><%= link_to 'Show', show_page_path(page), class: 'btn btn-xs btn-info', role: 'button' %></td>
+          <td width="1"><%= link_to 'Versions', page_versions_path(page), class: 'btn btn-xs btn-warning', role: 'button' %></td>
+          <td width="1"><%= link_to 'Destroy', page, method: :delete, class: 'btn btn-xs btn-danger', role: 'button', data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<%= paginate @pages %>

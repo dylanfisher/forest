@@ -1,4 +1,4 @@
-Forest::Engine.routes.draw do
+Rails.application.routes.draw do
   # Concerns
   concern :paginatable do
     get '(page/:page)', action: :index, on: :collection
