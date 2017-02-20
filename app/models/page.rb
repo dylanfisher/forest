@@ -1,7 +1,8 @@
 class Page < ApplicationRecord
-  include Searchable
-  include FilterModelScopes
   include Blockable
+  include FilterModelScopes
+  include Searchable
+  include Statusable
 
   extend FriendlyId
   friendly_id :title, use: :slugged
@@ -19,14 +20,6 @@ class Page < ApplicationRecord
   belongs_to :featured_image, class_name: 'MediaItem'
 
   # accepts_nested_attributes_for :page_slots, allow_destroy: true
-
-  enum status: {
-    published: 1,
-    drafted: 2,
-    scheduled: 3,
-    pending: 4,
-    hidden: 5
-  }
 
   private
 

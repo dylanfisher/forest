@@ -1,0 +1,83 @@
+<%%= simple_form_for(@<%= singular_table_name %>) do |f| %>
+  <%%= f.error_notification %>
+
+  <div class="row">
+    <div class="col-sm-12">
+
+      <div class="panel panel-default" data-collapse-parent>
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            Metadata
+            <button type="button" class="btn btn-default btn-xs pull-right" data-collapse-trigger>
+              <div class="glyphicon glyphicon-minus"></div>
+            </button>
+          </h3>
+        </div>
+        <div class="panel-body" data-collapse-body>
+          <div class="form-inputs">
+            <div class="row">
+              <div class="col-sm-6">
+                <%%= f.input :title %>
+                <%%= f.input :slug %>
+                <%%= f.input :status, as: :select, collection: <%= name %>.statuses.keys.to_a, include_blank: false %>
+                <%%= f.input :description %>
+                <%%= f.button :submit, class: 'btn-success' %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default" data-collapse-parent>
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            Page Layout
+            <button type="button" class="btn btn-default btn-xs pull-right" title="Collapse all blocks" data-block-collapse-all>
+              <div class="glyphicon glyphicon-minus"></div>
+            </button>
+          </h3>
+        </div>
+        <div class="panel-body">
+          <div class="form-inputs">
+            <div class="row">
+              <div class="col-sm-12">
+
+                <div id='page_slots'>
+                  <%%= f.simple_fields_for :page_slots do |page_slot| %>
+                    <%%= render 'forest/blockable_record/page_slot_fields', f: page_slot %>
+                  <%% end %>
+                  <div class='links'>
+                    <%%= link_to_add_association 'Add Block', f, :page_slots, class: 'hidden', partial: 'forest/blockable_record/page_slot_fields' %>
+                  </div>
+                </div>
+
+                <div class="dropup" id="block-dropdown">
+                  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    Add Block
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <%% @block_types.each do |block_type| %>
+                      <li>
+                        <%%= link_to '#', class: 'block-dropdown__item', data: { block_type: block_type.name, block_type_id: block_type.id } do %>
+                          <%%= content_tag :span, '', class: block_type.display_icon, 'aria-hidden': true %>
+                          &nbsp;&nbsp;
+                          <%%= block_type.display_name %>
+                        <%% end %>
+                      </li>
+                    <%% end %>
+                  </ul>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <%%= f.button :submit, class: 'btn-success' %>
+      <br>
+      <br>
+
+    </div>
+  </div>
+<%% end %>

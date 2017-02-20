@@ -1,0 +1,8 @@
+Description:
+    Generates a Forest scaffold for a new object type.
+
+Example:
+    rails generate scaffold Artist first_name:string last_name:string bio:text
+
+    This will create:
+        TODO

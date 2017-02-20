@@ -1,4 +1,6 @@
-class Forest::BlockGenerator < Rails::Generators::NamedBase
+require "rails/generators/rails/resource/resource_generator"
+
+class Forest::ScaffoldGenerator < Rails::Generators::NamedBase
   include Rails::Generators::Migration
 
   source_root File.expand_path('../templates', __FILE__)
@@ -11,12 +13,14 @@ class Forest::BlockGenerator < Rails::Generators::NamedBase
   end
 
   def create_model_file
-    template 'model.rb', File.join('app/models/blocks', "#{file_name}.rb")
+    template 'model.rb', File.join('app/models', "#{file_name}.rb")
   end
 
   def create_view_files
-    template "_block.html.erb", File.join('app/views/blocks', file_name, "_#{file_name}.html.erb")
-    template "_block_edit_fields.html.erb", File.join('app/views/blocks', file_name, "_#{file_name}_edit_fields.html.erb")
+    available_views.each do |view|
+      filename = "#{view}.html.erb"
+      template "views/#{filename}", File.join("app/views", plural_name, filename)
+    end
   end
 
   def create_migration_file
@@ -79,5 +83,9 @@ class Forest::BlockGenerator < Rails::Generators::NamedBase
 
     def normalize_table_name(_table_name)
       pluralize_table_names? ? _table_name.pluralize : _table_name.singularize
+    end
+
+    def available_views
+      %w(_form edit index new show versions)
     end
 end
