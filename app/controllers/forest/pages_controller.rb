@@ -7,6 +7,7 @@ module Forest
     layout 'forest/admin', except: [:show]
 
     before_action :set_page, only: [:show, :edit, :update, :destroy, :versions, :version, :restore]
+    before_action :set_blockable_record, only: [:edit, :update, :create]
     before_action :set_block_types, only: [:edit, :new]
     before_action :set_paper_trail_whodunnit
 
@@ -136,7 +137,7 @@ module Forest
       # Never trust parameters from the scary internet, only allow the white list through.
       def page_params
         params.require(:page).permit(:title, :slug, :description, :status, :version_id, :featured_image_id, :media_item_ids, :page_slot_cache,
-          page_slots_attributes: [:id, :_destroy, :page_id, :page_version_id, :blockable_id, :blockable_type, :blockable_previous_version_id, :position, *BlockType.block_type_params])
+          page_slots_attributes: [:id, :_destroy, :page_id, :page_version_id, :blockable_id, :blockable_type, :blockable_previous_version_id, :position, :blockable_record_type, :blockable_record_id, *BlockType.block_type_params])
       end
 
       # Use callbacks to share common setup or constraints between actions.
@@ -161,10 +162,14 @@ module Forest
         end
       end
 
+      def set_blockable_record
+        @blockable_record = @page.blockable_record || @page.build_blockable_record
+      end
+
       def save_page
         @page.save
         save_blocks # bad pattern?
-        @page.set_page_slot_cache! # bad pattern?
+        @page.set_blockable_record_cache! # bad pattern?
       end
 
       def save_blocks
@@ -172,7 +177,6 @@ module Forest
         @blocks.each_pair do |position, block|
           if block.save
             # TODO: this is feeling a little brittle
-            # @page.page_slots.select { |a| a.position == position.to_i }.first.blockable_id = block.id
             @page.page_slots.select { |a| a.position == position.to_i }.first.update_column :blockable_id, block.id
           else
             format.html { render :edit, notice: "Unable to update #{block.class.name.titleize}." }

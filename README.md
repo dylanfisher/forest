@@ -70,6 +70,7 @@ $ bundle
 
 - [ ] tests
 - [ ] page status for scheduled, pending and hidden states
+- [ ] data associated pages that support blocks
 - [ ] better page versioning, page history navigation, restore content blocks with page version
 - [ ] additional default content blocks, mainly image and/or gallery, maybe video and/or oEmbed
 - [ ] solution for color picker, date picker, map picker, etc. similar to ACF
@@ -83,6 +84,7 @@ $ bundle
 - [ ] s3 storage for paperclip
 - [ ] remove bootstrap as frontend dependency (admin navbar is only place this is currently shared)
 - [ ] frontend search design
+- [ ] remove font-awesome dependency from simplemde markdown editor
 - [x] better settings UI, ability to set multiple data types, e.g. boolean, or association
 
 ## Contributing
