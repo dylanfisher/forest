@@ -4,7 +4,7 @@
     select_options: <%= singular_name.titleize %>.statuses.keys.to_a.collect{ |x| [x.titleize, x] },
     title: 'All Statuses' %>
 <%% end %>
-<%%= render 'forest/admin/index_header', records: @<%= plural_name %>, model_name: '<%= singular_name %>' %>
+<%%= render 'forest/admin/index_header', records: @<%= plural_name %>, model_name: '<%= name %>' %>
 
 <div class="table-responsive">
   <table class="table table-striped">

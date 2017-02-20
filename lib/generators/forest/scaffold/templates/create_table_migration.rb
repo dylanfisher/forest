@@ -6,6 +6,7 @@ class <%= migration_class_name %> < ActiveRecord::Migration[<%= ActiveRecord::Mi
 <% end -%>
 
       t.string :slug
+      t.integer :status, default: 1, null: false
 
       t.timestamps
     end
@@ -15,6 +16,9 @@ class <%= migration_class_name %> < ActiveRecord::Migration[<%= ActiveRecord::Mi
 <% attributes_with_index.each do |attribute| -%>
     add_index :<%= table_name %>, :<%= attribute.index_name %><%= attribute.inject_index_options %>
 <% end -%>
+
     add_index :<%= table_name %>, :slug, unique: true
+    add_index :<%= table_name %>, :status
+
   end
 end

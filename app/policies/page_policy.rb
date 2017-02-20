@@ -1,17 +1,2 @@
-class PagePolicy < ApplicationPolicy
-  def show?
-    record.published? || edit?
-  end
-
-  def versions?
-    index?
-  end
-
-  def version?
-    edit?
-  end
-
-  def restore?
-    edit?
-  end
+class PagePolicy < BlockableRecordPolicy
 end

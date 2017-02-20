@@ -1,10 +1,11 @@
 <% module_namespacing do -%>
 class <%= class_name %> < ApplicationRecord
-  include Searchable
   include FilterModelScopes
   include Blockable
+  include Searchable
+  include Statusable
 
-  # extend FriendlyId
+  extend FriendlyId
   # friendly_id :title, use: :slugged
 
   # has_paper_trail

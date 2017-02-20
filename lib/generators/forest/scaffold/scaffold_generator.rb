@@ -29,6 +29,15 @@ class Forest::ScaffoldGenerator < Rails::Generators::NamedBase
     migration_template 'create_table_migration.rb', "db/migrate/create_#{table_name}.rb"
   end
 
+  def create_controller
+    template 'controller.rb', "app/controllers/#{plural_name}_controller.rb"
+    route "scope :admin do\n    resources :#{plural_name} # TODO\n  end\n"
+  end
+
+  def create_policy
+    template 'policy.rb', "app/policies/#{singular_name}_policy.rb"
+  end
+
   private
 
     attr_reader :migration_action, :join_tables
