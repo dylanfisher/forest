@@ -1,6 +1,6 @@
 <% if attributes.present? -%>
 <% attributes.each do |attribute| -%>
-<%%= block_f.input :<%= attribute.name %>, input_html: { value: f.object.blockable&.<%= attribute.name %> } %>
+<%%= block_f.input :<%= attribute.name %>, input_html: { value: f.object.block&.<%= attribute.name %> } %>
 <% end -%>
 <% else -%>
   <%%#= block_f.input :attribute_name %>

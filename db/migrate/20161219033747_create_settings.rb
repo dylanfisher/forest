@@ -4,6 +4,7 @@ class CreateSettings < ActiveRecord::Migration[5.0]
       t.string :title
       t.string :slug
       t.text :value
+      t.string :value_type, default: 'text'
 
       t.timestamps
     end

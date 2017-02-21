@@ -1,2 +1,2 @@
-class <%= name %>Policy < BlockableRecordPolicy
+class <%= name %>Policy < BlockRecordPolicy
 end

@@ -72,7 +72,8 @@ $ bundle
 Big Picture
 
 - [ ] tests
-- [ ] better naming conventions when it comes to blockable, blockable_record, and page_slots
+- [ ] better naming conventions when it comes to blocks, block_record, and page_slots
+- [ ] squash migrations once final db structure is settled upon
 
 Admin
 
@@ -86,11 +87,13 @@ Admin
 - [ ] remove bootstrap as frontend dependency (admin navbar is only place this is currently shared)
 - [ ] remove font-awesome dependency from simplemde markdown editor
 - [ ] add migrations to host app without running install:migrations command
+- [ ] versioning option for data associated pages, settings, menus, etc.
+- [ ] intuitive select2 association UI
 
 Generators
 
 - [ ] initial app generator, or at least very clear instructions on setting up a new app
-- [ ] add ability to skip blockable_record creation when creating new scaffold that doesn't need to support blocks
+- [ ] add ability to skip block_record creation when creating new scaffold that doesn't need to support blocks
 - [x] scaffold generator
 - [x] block type generator
 
@@ -98,7 +101,6 @@ Pages
 
 - [ ] page status for scheduled, pending and hidden states
 - [ ] better page versioning, page history navigation, restore content blocks with page version
-- [ ] versioning option for data associated pages
 - [x] data associated pages that support blocks
 
 Blocks
@@ -111,9 +113,13 @@ Media Gallery
 
 - [ ] add ability to remove media item (e.g. remove feature media item from page)
 - [ ] better media item upload in media_item#edit
+- [ ] ability to add new media items through modals (e.g. featured in on pages)
+- [ ] ability to upload other file types, not just images (pdf, video, audio)
+- [ ] crop tool and other enhancements
 
 Menus
 
+- [ ] ability to remove menu items
 - [ ] create pattern for linking to other record types in navigation menus
 
 Search

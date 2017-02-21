@@ -19,7 +19,7 @@ App.pageLoad.push(function() {
   });
 
   $('#page_slots').offOn('cocoon:after-insert.blockDropdownSelect', function(e, $addedPageSlot) {
-    var $select = $addedPageSlot.find('.blockable-type-selector select');
+    var $select = $addedPageSlot.find('.block-type-selector select');
     var $option = $select.find('option[value="' + blockType + '"]');
 
     $option.prop('selected', true);
@@ -29,7 +29,7 @@ App.pageLoad.push(function() {
   });
 });
 
-$(document).on('change', '#page_slots .blockable-type-selector select', function() {
+$(document).on('change', '#page_slots .block-type-selector select', function() {
   var $select = $(this);
   var blockType = $select.val();
   var $wrapper = $select.closest('.nested-fields');

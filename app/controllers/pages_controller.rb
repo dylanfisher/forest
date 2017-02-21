@@ -60,14 +60,15 @@ class PagesController < ForestController
 
   def edit
     authorize @page
-    set_blockable_record
+    set_block_record
   end
 
   def create
     @page = Page.new
     authorize @page
-    set_blockable_record
+    set_block_record
 
+    # TODO: if a record is not valid when saving, any new blocks will be lost
     # TODO: Handle block type deletion
     parse_block_attributes @page, record_type: 'page'
 
@@ -118,7 +119,7 @@ class PagesController < ForestController
 
     def page_params
       params.require(:page).permit(:title, :slug, :description, :status, :version_id, :featured_image_id, :media_item_ids, :page_slot_cache,
-        page_slots_attributes: [:id, :_destroy, :page_id, :page_version_id, :blockable_id, :blockable_type, :blockable_previous_version_id, :position, :blockable_record_type, :blockable_record_id, *BlockType.block_type_params])
+        page_slots_attributes: [:id, :_destroy, :page_id, :page_version_id, :block_id, :block_type, :block_previous_version_id, :position, :block_record_type, :block_record_id, *BlockType.block_type_params])
     end
 
     def set_page
@@ -126,7 +127,7 @@ class PagesController < ForestController
         # TODO: Published scope
         @page = Page.friendly.find(params[:id]) # Don't eager load associations when cached in show
       else
-        @page = Page.includes(page_slots: :blockable).friendly.find(params[:id])
+        @page = Page.includes(page_slots: :block).friendly.find(params[:id])
       end
 
       @record = @page
@@ -141,7 +142,7 @@ class PagesController < ForestController
       end
     end
 
-    def set_blockable_record
-      @blockable_record = @page.blockable_record || @page.build_blockable_record
+    def set_block_record
+      @block_record = @page.block_record || @page.build_block_record
     end
 end

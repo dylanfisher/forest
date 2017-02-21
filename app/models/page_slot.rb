@@ -1,13 +1,12 @@
 class PageSlot < ApplicationRecord
-  belongs_to :blockable, polymorphic: true
-  alias_attribute :block, :blockable # TODO: rename blockable to block?
-  belongs_to :blockable_record, polymorphic: true
+  belongs_to :block, polymorphic: true
+  belongs_to :block_record, polymorphic: true
 
-  after_save :update_blockable_record
+  after_save :update_block_record
 
   private
 
-    def update_blockable_record
-      # blockable_record
+    def update_block_record
+      # block_record
     end
 end

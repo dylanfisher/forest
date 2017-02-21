@@ -1,2 +1,2 @@
-class PagePolicy < BlockableRecordPolicy
+class PagePolicy < BlockRecordPolicy
 end

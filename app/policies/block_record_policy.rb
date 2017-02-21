@@ -1,4 +1,4 @@
-class BlockableRecordPolicy < ApplicationPolicy
+class BlockRecordPolicy < ApplicationPolicy
   def show?
     record.published? || edit?
   end

@@ -2,7 +2,7 @@ module BlockableControllerConcerns
   extend ActiveSupport::Concern
 
   included do
-    before_action :set_block_types, only: [:edit, :new]
+    before_action :set_block_types, only: [:edit, :new, :create]
 
     has_scope :by_status
   end
@@ -17,7 +17,7 @@ module BlockableControllerConcerns
       @record ||= record
       @record.save
       save_blocks @record, **options # bad pattern?
-      @record.set_blockable_record_cache! # bad pattern?
+      @record.set_block_record_cache! # bad pattern?
     end
 
     def save_blocks(record, options = {})
@@ -26,7 +26,7 @@ module BlockableControllerConcerns
       @blocks.delete_if { |k, v| v.blank? }.each_pair do |position, block|
         if block.save
           # TODO: this is feeling a little brittle
-          @record.page_slots.select { |a| a.position == position.to_i }.first.update_column :blockable_id, block.id
+          @record.page_slots.select { |a| a.position == position.to_i }.first.update_column :block_id, block.id
         else
           format.html { render :edit, notice: "Unable to update #{block.class.name.titleize}." }
         end
@@ -41,17 +41,17 @@ module BlockableControllerConcerns
 
       record_type = options.fetch :record_type
 
-      params[record_type][:page_slots_attributes] && params[record_type][:page_slots_attributes].each_pair do |index, blockable_params|
-        block_type = blockable_params['blockable_type']
+      params[record_type][:page_slots_attributes] && params[record_type][:page_slots_attributes].each_pair do |index, block_params|
+        block_type = block_params['block_type']
         block_constant = block_type.constantize
-        block_fields = blockable_params['block_fields']
-        position = blockable_params['position']
-        blockable_id = params[record_type][:page_slots_attributes][index][:blockable_id]
+        block_fields = block_params['block_fields']
+        position = block_params['position']
+        block_id = params[record_type][:page_slots_attributes][index][:block_id]
 
         next if block_fields.nil?
 
-        if blockable_id.present?
-          block = block_constant.find blockable_id
+        if block_id.present?
+          block = block_constant.find block_id
           existing_attributes = HashWithIndifferentAccess.new
           block.permitted_params.each { |a| existing_attributes[a] = block[a] }
         else

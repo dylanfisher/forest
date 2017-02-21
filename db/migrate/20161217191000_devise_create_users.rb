@@ -34,6 +34,8 @@ class DeviseCreateUsers < ActiveRecord::Migration[5.0]
       t.string :last_name
       t.string :slug
 
+      t.text :settings, null: false, default: {}.to_json
+
       t.timestamps null: false
     end
 

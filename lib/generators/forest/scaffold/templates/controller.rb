@@ -61,13 +61,13 @@ class <%= class_name %>sController < ForestController
 
   def edit
     authorize @<%= singular_name %>
-    set_blockable_record
+    set_block_record
   end
 
   def create
     @<%= singular_name %> = <%= name %>.new
     authorize @<%= singular_name %>
-    set_blockable_record
+    set_block_record
 
     # TODO: Handle block type deletion
     parse_block_attributes @<%= singular_name %>, record_type: '<%= singular_name %>'
@@ -119,7 +119,7 @@ class <%= class_name %>sController < ForestController
 
     def <%= singular_name %>_params
       params.require(:<%= singular_name %>).permit(:title, :slug, <%= attributes.collect { |a| ":#{a.name}, " }.join %>
-        page_slots_attributes: [:id, :_destroy, :blockable_id, :blockable_type, :blockable_previous_version_id, :position, :blockable_record_type, :blockable_record_id, *BlockType.block_type_params])
+        page_slots_attributes: [:id, :_destroy, :block_id, :block_type, :block_previous_version_id, :position, :block_record_type, :block_record_id, *BlockType.block_type_params])
     end
 
     def set_<%= singular_name %>
@@ -127,7 +127,7 @@ class <%= class_name %>sController < ForestController
         # TODO: Published scope
         @<%= singular_name %> = <%= name %>.friendly.find(params[:id]) # Don't eager load associations when cached in show
       else
-        @<%= singular_name %> = <%= name %>.includes(page_slots: :blockable).friendly.find(params[:id])
+        @<%= singular_name %> = <%= name %>.includes(page_slots: :block).friendly.find(params[:id])
       end
 
       @record = @<%= singular_name %>
@@ -142,8 +142,8 @@ class <%= class_name %>sController < ForestController
       end
     end
 
-    def set_blockable_record
-      @blockable_record = @<%= singular_name %>.blockable_record || @<%= singular_name %>.build_blockable_record
+    def set_block_record
+      @block_record = @<%= singular_name %>.block_record || @<%= singular_name %>.build_block_record
     end
 
 end

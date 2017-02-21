@@ -1,5 +1,5 @@
 class MediaItem < ApplicationRecord
-  include Forest::Engine.routes.url_helpers
+  include Rails.application.routes.url_helpers
   include Searchable
 
   extend FriendlyId
