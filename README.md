@@ -88,9 +88,9 @@ Admin
 Generators
 
 - [ ] initial app generator, or at least very clear instructions on setting up a new app
-- [-] scaffold generator
 - [ ] add ability to skip blockable_record creation when creating new scaffold that doesn't need to support blocks
-- [-] block type generator
+- [x] scaffold generator
+- [x] block type generator
 
 Pages
 
@@ -101,6 +101,7 @@ Pages
 
 Blocks
 
+- [ ] more performant record saving when parsing block attributes
 - [ ] additional default content blocks, mainly image and/or gallery, maybe video and/or oEmbed
 - [ ] solution for color picker, date picker, map picker, etc. similar to ACF
 
