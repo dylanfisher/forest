@@ -2,6 +2,11 @@ App.MarkdownTextEditor = {
   instances: [],
   initialize: function($textAreas) {
     var that = this;
+
+    $(document).one('turbolinks:before-cache.markdownTextEditor', function() {
+      that.teardown();
+    });
+
     $textAreas.each(function() {
       that.instances.push( new SimpleMDE({
         element: this,
@@ -34,10 +39,6 @@ App.MarkdownTextEditor = {
           'toggleUnorderedList': null,
         }
       }) );
-
-      $(document).one('turbolinks:before-cache.markdownTextEditor', function() {
-        that.teardown();
-      });
     });
   },
   teardown: function() {

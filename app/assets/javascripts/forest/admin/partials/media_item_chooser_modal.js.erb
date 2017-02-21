@@ -3,6 +3,10 @@ App.MediaItemChooser = {
   initialize: function($elements) {
     var that = this;
 
+    $(document).one('turbolinks:before-cache.mediaItemChooser', function() {
+      that.teardown();
+    });
+
     $elements.each(function() {
       var $element = $(this);
 
@@ -30,10 +34,6 @@ App.MediaItemChooser = {
 
           $modalBody.empty();
         });
-    });
-
-    $(document).one('turbolinks:before-cache.mediaItemChooser', function() {
-      that.teardown();
     });
   },
   destroyModal: function() {

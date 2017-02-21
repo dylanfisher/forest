@@ -1,34 +1,50 @@
-// App.pageLoad.push(function() {
-//   $('.js-data-example-ajax').select2({
-//     ajax: {
-//       url: 'https://api.github.com/search/repositories',
-//       dataType: 'json',
-//       delay: 250,
-//       data: function (params) {
-//         return {
-//           q: params.term,
-//           page: params.page
-//         };
-//       },
-//       processResults: function (data, params) {
-//         // parse the results into the format expected by Select2
-//         // since we are using custom formatting functions we do not need to
-//         // alter the remote JSON data, except to indicate that infinite
-//         // scrolling can be used
-//         params.page = params.page || 1;
+App.Select2 = {
+  instances: [],
+  initialize: function($elements, options) {
+    var that = this;
+    options = options ? options : {};
 
-//         return {
-//           results: data.items,
-//           pagination: {
-//             more: (params.page * 30) < data.total_count
-//           }
-//         };
-//       },
-//       cache: true
-//     },
-//     escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
-//     minimumInputLength: 1,
-//     templateResult: formatRepo, // omitted for brevity, see the source of this page
-//     templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
-//   });
-// });
+    $(document).one('turbolinks:before-cache.select2', function() {
+      that.teardown();
+    });
+
+    $elements.each(function() {
+      var $select = $(this);
+      var selectOptions = {};
+      var remotePath = $select.attr('data-remote-path');
+
+      that.instances.push( $select );
+
+      // if ( remotePath.length ) {
+      //   selectOptions = {
+      //     ajax: {
+      //       url: remotePath,
+      //       dataType: 'json',
+      //       delay: 250,
+      //       data: function (params) {
+      //         return {
+      //           q: params.term, // search term
+      //           page: params.page
+      //         };
+      //       },
+      //     },
+      //     minimumInputLength: 1,
+      //   };
+      // }
+
+      $select.select2( selectOptions );
+
+      // TODO: ajax select2
+    });
+  },
+  teardown: function() {
+    for ( var i = this.instances.length - 1; i >= 0; i-- ) {
+      $(this.instances[i]).select2('destroy');
+    }
+    this.instances = [];
+  }
+};
+
+App.pageLoad.push(function() {
+  App.Select2.initialize( $('select:visible') );
+});

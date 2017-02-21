@@ -88,6 +88,7 @@ Admin
 - [ ] remove font-awesome dependency from simplemde markdown editor
 - [ ] add migrations to host app without running install:migrations command
 - [ ] versioning option for data associated pages, settings, menus, etc.
+- [ ] version diff UI like wordpress?
 - [ ] intuitive select2 association UI
 
 Generators

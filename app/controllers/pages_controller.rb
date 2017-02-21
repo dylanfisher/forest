@@ -5,12 +5,12 @@ class PagesController < ForestController
   layout 'admin', except: [:show]
 
   before_action :set_page, only: [:show, :edit, :update, :destroy, :versions, :version, :restore]
-  # before_action :set_paper_trail_whodunnit
+  before_action :set_paper_trail_whodunnit
 
   has_scope :by_status
 
   def index
-    @pages = apply_scopes(Page).page params[:page]
+    @pages = apply_scopes(Page).by_id.page params[:page]
     authorize @pages
   end
 

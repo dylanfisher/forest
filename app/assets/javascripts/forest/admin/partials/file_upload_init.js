@@ -2,6 +2,11 @@ App.FileUploader = {
   instances: [],
   initialize: function($fileuploads) {
     var that = this;
+
+    $(document).one('turbolinks:before-cache.FileUploader', function() {
+      that.teardown();
+    });
+
     $fileuploads.each(function() {
       var $fileupload = $(this);
 
@@ -24,10 +29,6 @@ App.FileUploader = {
         $('.template-download').remove();
         $(previewHTML).prependTo( $('.media-library [data-infinite-load]') );
       });
-    });
-
-    $(document).one('turbolinks:before-cache.FileUploader', function() {
-      that.teardown();
     });
   },
   teardown: function() {

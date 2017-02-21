@@ -7,6 +7,10 @@ App.InfiniteLoader = {
     $scrollListener = options.$scrollListener ? options.$scrollListener : $(window);
     this.scrollListeners.push($scrollListener);
 
+    $(document).one('turbolinks:before-cache.infiniteLoader', function() {
+      that.teardown();
+    });
+
     $elements.each(function(index) {
       var $element = $(this);
       var $nextPageLink = $element.find('[rel="next"]');
@@ -63,10 +67,6 @@ App.InfiniteLoader = {
     });
 
     $scrollListener.trigger('scroll.infiniteLoader');
-
-    $(document).one('turbolinks:before-cache.infiniteLoader', function() {
-      that.teardown();
-    });
   },
   unbindScroll: function($element) {
     $element.off('scroll.infiniteLoader');

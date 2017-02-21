@@ -18,7 +18,10 @@
         options_from_collection_for_select(@pages, 'id', 'title', list_item['page'].to_i),
         class: 'dd-input__select form-control',
         id: '',
-        include_blank: true %>
+        include_blank: true,
+        data: {
+          remote_path: pages_path
+        } %>
       <input type="hidden" class="dd-input__input dd-input__input-for-select form-control" name="page" value="<%= list_item['page'] %>">
     </div>
     <div class="dd-input">
