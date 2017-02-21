@@ -2,9 +2,9 @@ module Blockable
   extend ActiveSupport::Concern
 
   included do
-    @@parent_class = self
+    parent_class = self
 
-    has_many :page_slots, -> { where(blockable_record_type: @@parent_class.name).order(:position) }, dependent: :destroy, foreign_key: 'blockable_record_id'
+    has_many :page_slots, -> { where(blockable_record_type: parent_class.name).order(:position) }, dependent: :destroy, foreign_key: 'blockable_record_id'
     has_one :blockable_record, as: :blockable_record, dependent: :destroy
 
     after_save :set_blockable_record
@@ -12,7 +12,9 @@ module Blockable
     accepts_nested_attributes_for :page_slots, allow_destroy: true
   end
 
+  # TODO: rename page_slots to blocks and get rid of this method
   def blocks
+    # TODO: shouldn't need to reject blank? blocks, should fix this in the controller when saving
     @blocks ||= page_slots.includes(:blockable).collect(&:blockable)
   end
 

@@ -18,7 +18,7 @@
 <% end -%>
         <th><%%= table_sorter title: 'Created&nbsp;at'.html_safe, path: :<%= plural_name %>_path, scope: :by_created_at, default_order: :desc %></th>
         <th><%%= table_sorter title: 'Updated&nbsp;at'.html_safe, path: :<%= plural_name %>_path, scope: :by_updated_at, default_order: :desc %></th>
-        <th colspan="4"></th>
+        <th colspan="3"></th>
       </tr>
     </thead>
 
@@ -29,14 +29,14 @@
           <td><%%= <%= singular_name %>.id %></td>
           <td><%%= <%= singular_name %>.slug %></td>
 <%- for attribute in attributes -%>
-          <td><%%= <%= name %>.<%= attribute.name %> %></td>
+          <td><%%= <%= singular_name %>.<%= attribute.name %> %></td>
 <% end -%>
-          <td><%%= User.find(<%= singular_name %>.versions.last&.version_author)&.display_name if <%= singular_name %>.versions.last&.version_author %></td>
+          <!-- <td><%%#= User.find(<%= singular_name %>.versions.last&.version_author)&.display_name if <%= singular_name %>.versions.last&.version_author %></td> -->
           <td><%%= <%= singular_name %>.created_at.to_formatted_s(:short) %></td>
           <td><%%= <%= singular_name %>.updated_at.to_formatted_s(:short) %></td>
           <td width="1"><%%= link_to 'Edit', edit_<%= singular_name %>_path(<%= singular_name %>), class: 'btn btn-xs btn-primary', role: 'button' %></td>
           <td width="1"><%%= link_to 'Show', show_<%= singular_name %>_path(<%= singular_name %>), class: 'btn btn-xs btn-info', role: 'button' %></td>
-          <td width="1"><%%= link_to 'Versions', <%= singular_name %>_versions_path(<%= singular_name %>), class: 'btn btn-xs btn-warning', role: 'button' %></td>
+          <!-- <td width="1"><%%#= link_to 'Versions', <%= singular_name %>_versions_path(<%= singular_name %>), class: 'btn btn-xs btn-warning', role: 'button' %></td> -->
           <td width="1"><%%= link_to 'Destroy', <%= singular_name %>, method: :delete, class: 'btn btn-xs btn-danger', role: 'button', data: { confirm: 'Are you sure?' } %></td>
         </tr>
       <%% end %>

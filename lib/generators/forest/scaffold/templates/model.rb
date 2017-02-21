@@ -5,8 +5,9 @@ class <%= class_name %> < ApplicationRecord
   include Searchable
   include Statusable
 
+  # TODO: configure friendly ID, don't use :id, use something unique to your model, e.g. :name
   extend FriendlyId
-  # friendly_id :title, use: :slugged
+  friendly_id :id, use: :slugged
 
   # has_paper_trail
 
@@ -15,8 +16,8 @@ class <%= class_name %> < ApplicationRecord
 
   private
 
-    # def should_generate_new_friendly_id?
-    #   slug.blank?
-    # end
+    def should_generate_new_friendly_id?
+      slug.blank?
+    end
 end
 <% end -%>

@@ -68,23 +68,56 @@ $ bundle
 
 ## TODO
 
+Big Picture
+
 - [ ] tests
-- [ ] page status for scheduled, pending and hidden states
-- [ ] data associated pages that support blocks
-- [ ] better page versioning, page history navigation, restore content blocks with page version
-- [ ] additional default content blocks, mainly image and/or gallery, maybe video and/or oEmbed
-- [ ] solution for color picker, date picker, map picker, etc. similar to ACF
+- [ ] better naming conventions when it comes to blockable, blockable_record, and page_slots
+
+Admin
+
+- [ ] add select2 with remote ajax selects
 - [ ] purge cache button
-- [ ] add ability to remove media item (e.g. remove feature media item from page)
-- [ ] better media item upload in media_item#edit
 - [ ] reset password and/or change password when editing user profile
 - [ ] email confirmations for user related actions
 - [ ] oauth/omniauth?
 - [ ] csv import/export
-- [ ] s3 storage for paperclip
+- [ ] s3 storage for paperclip, assets, heroku support, etc.
 - [ ] remove bootstrap as frontend dependency (admin navbar is only place this is currently shared)
-- [ ] frontend search design
 - [ ] remove font-awesome dependency from simplemde markdown editor
+
+Generators
+
+- [ ] initial app generator, or at least very clear instructions on setting up a new app
+- [-] scaffold generator
+- [ ] add ability to skip blockable_record creation when creating new scaffold that doesn't need to support blocks
+- [-] block type generator
+
+Pages
+
+- [ ] page status for scheduled, pending and hidden states
+- [ ] better page versioning, page history navigation, restore content blocks with page version
+- [x] data associated pages that support blocks
+
+Blocks
+
+- [ ] additional default content blocks, mainly image and/or gallery, maybe video and/or oEmbed
+- [ ] solution for color picker, date picker, map picker, etc. similar to ACF
+
+Media Gallery
+
+- [ ] add ability to remove media item (e.g. remove feature media item from page)
+- [ ] better media item upload in media_item#edit
+
+Menus
+
+- [ ] create pattern for linking to other record types in navigation menus
+
+Search
+
+- [ ] frontend search design
+
+Settings
+
 - [x] better settings UI, ability to set multiple data types, e.g. boolean, or association
 
 ## Contributing

@@ -23,7 +23,7 @@ App.pageLoad.push(function() {
   function updatePageSlotPosition() {
     $('#page_slots > .nested-fields').each(function(index) {
       var $pageSlot = $(this);
-      var $positionInput = $pageSlot.find('.page_page_slots_position input');
+      var $positionInput = $pageSlot.find('.blockable-position input');
 
       $positionInput.val(index);
     });

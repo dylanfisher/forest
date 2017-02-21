@@ -24,6 +24,7 @@
                 <%= f.button :submit, class: 'btn-success' %>
               </div>
               <div class="col-sm-6">
+                <%# TODO: create a partial for adding images, update scaffold generator to detect images %>
                 <%= f.association :featured_image, as: :hidden %>
                 <% modal_data_attributes = {
                   toggle: 'modal',

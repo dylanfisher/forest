@@ -6,10 +6,10 @@
 
 <%- for attribute in attributes -%>
   <p>
-    <b><%%= <%= attribute.name.titleize %> %></b>
+    <b><%= attribute.name.titleize %></b>
     <%%= @<%= singular_name %>.<%= attribute.name %> %>
   </p>
-<% end -%>
+<%- end -%>
 
   <p>
     <b>Status:</b>

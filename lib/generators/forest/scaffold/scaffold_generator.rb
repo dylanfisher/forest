@@ -31,7 +31,14 @@ class Forest::ScaffoldGenerator < Rails::Generators::NamedBase
 
   def create_controller
     template 'controller.rb', "app/controllers/#{plural_name}_controller.rb"
-    route "scope :admin do\n    resources :#{plural_name} # TODO\n  end\n"
+    route_lines = []
+    route_lines << "# TODO: sort these new routes"
+    route_lines << "  scope :admin do"
+    route_lines << "    resources :#{plural_name}"
+    route_lines << "  end"
+    route_lines << "  get '#{singular_name}/:id', to: '#{plural_name}#show', as: 'show_#{singular_name}'\n"
+
+    route route_lines.join("\n")
   end
 
   def create_policy

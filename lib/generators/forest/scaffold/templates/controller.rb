@@ -6,7 +6,6 @@ class <%= class_name %>sController < ForestController
   layout 'admin', except: [:show]
 
   before_action :set_<%= singular_name %>, only: [:show, :edit, :update, :destroy, :versions, :version, :restore]
-  before_action :set_blockable_record, only: [:edit, :update, :create]
   # before_action :set_paper_trail_whodunnit
 
   has_scope :by_status
@@ -34,7 +33,7 @@ class <%= class_name %>sController < ForestController
 
     respond_to do |format|
       if @<%= singular_name %>.save
-        format.html { redirect_to <%= singular_name %>_versions_path(@<%= singular_name %>), notice: 'Page version was successfully restored.' }
+        format.html { redirect_to <%= singular_name %>_versions_path(@<%= singular_name %>), notice: '<%= name %> version was successfully restored.' }
         format.json { render :show, status: :ok, location: @<%= singular_name %> }
       else
         format.html { render :versions }
@@ -62,21 +61,23 @@ class <%= class_name %>sController < ForestController
 
   def edit
     authorize @<%= singular_name %>
+    set_blockable_record
   end
 
   def create
     @<%= singular_name %> = <%= name %>.new
     authorize @<%= singular_name %>
+    set_blockable_record
 
     # TODO: Handle block type deletion
-    parse_block_attributes
+    parse_block_attributes @<%= singular_name %>, record_type: '<%= singular_name %>'
 
     @<%= singular_name %>.assign_attributes <%= singular_name %>_params
 
     respond_to do |format|
       if @<%= singular_name %>.valid?
-        save_page
-        format.html { redirect_to edit_<%= singular_name %>_path(@<%= singular_name %>), notice: 'Page was successfully created.' }
+        save_page @<%= singular_name %>
+        format.html { redirect_to edit_<%= singular_name %>_path(@<%= singular_name %>), notice: '<%= name %> was successfully created.' }
         format.json { render :show, status: :created, location: @<%= singular_name %> }
       else
         format.html { render :new }
@@ -89,14 +90,14 @@ class <%= class_name %>sController < ForestController
     authorize @<%= singular_name %>
 
     # TODO: Handle block type deletion
-    parse_block_attributes
+    parse_block_attributes @<%= singular_name %>, record_type: '<%= singular_name %>'
 
     @<%= singular_name %>.assign_attributes <%= singular_name %>_params
 
     respond_to do |format|
       if @<%= singular_name %>.valid?
-        save_page
-        format.html { redirect_to edit_<%= singular_name %>_path(@<%= singular_name %>), notice: 'Page was successfully updated.' }
+        save_page @<%= singular_name %>
+        format.html { redirect_to edit_<%= singular_name %>_path(@<%= singular_name %>), notice: '<%= name %> was successfully updated.' }
         format.json { render :show, status: :ok, location: @<%= singular_name %> }
       else
         format.html { render :edit }
@@ -109,7 +110,7 @@ class <%= class_name %>sController < ForestController
     authorize @<%= singular_name %>
     @<%= singular_name %>.destroy
     respond_to do |format|
-      format.html { redirect_to <%= plural_name %>_url, notice: 'Page was successfully destroyed.' }
+      format.html { redirect_to <%= plural_name %>_url, notice: '<%= name %> was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -117,22 +118,22 @@ class <%= class_name %>sController < ForestController
   private
 
     def <%= singular_name %>_params
-      params.require(:<%= singular_name %>).permit(:title, :slug,
+      params.require(:<%= singular_name %>).permit(:title, :slug, <%= attributes.collect { |a| ":#{a.name}, " }.join %>
         page_slots_attributes: [:id, :_destroy, :blockable_id, :blockable_type, :blockable_previous_version_id, :position, :blockable_record_type, :blockable_record_id, *BlockType.block_type_params])
     end
 
     def set_<%= singular_name %>
-      @<%= singular_name %> = <%= name %>.friendly.find(params[:id])
       if action_name == 'show'
-        # Don't eager load associations when cached in show
-        @<%= singular_name %> = <%= name %>.friendly.find(params[:id])
+        # TODO: Published scope
+        @<%= singular_name %> = <%= name %>.friendly.find(params[:id]) # Don't eager load associations when cached in show
       else
         @<%= singular_name %> = <%= name %>.includes(page_slots: :blockable).friendly.find(params[:id])
       end
 
-      @<%= singular_name %>_title = @<%= singular_name %>.title
-      # TODO: Published scope
-      # @<%= singular_name %> = <%= name %>.friendly.find(params[:id]).versions.where_object(status: 1).last.reify
+      @record = @<%= singular_name %>
+
+      # TODO: update page title as necessary
+      @page_title = @<%= singular_name %>.try(:title)
     rescue ActiveRecord::RecordNotFound
       if action_name == 'show' && Rails.env.production?
         redirect_to root_url, flash: { error: 'Record not found.' }

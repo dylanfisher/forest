@@ -13,18 +13,20 @@ module BlockableControllerConcerns
       @block_types = BlockType.all
     end
 
-    def save_page
-      @page.save
-      save_blocks # bad pattern?
-      @page.set_blockable_record_cache! # bad pattern?
+    def save_page(record, options = {})
+      @record ||= record
+      @record.save
+      save_blocks @record, **options # bad pattern?
+      @record.set_blockable_record_cache! # bad pattern?
     end
 
-    def save_blocks
+    def save_blocks(record, options = {})
       return unless @blocks.present?
-      @blocks.each_pair do |position, block|
+      @record ||= record
+      @blocks.delete_if { |k, v| v.blank? }.each_pair do |position, block|
         if block.save
           # TODO: this is feeling a little brittle
-          @page.page_slots.select { |a| a.position == position.to_i }.first.update_column :blockable_id, block.id
+          @record.page_slots.select { |a| a.position == position.to_i }.first.update_column :blockable_id, block.id
         else
           format.html { render :edit, notice: "Unable to update #{block.class.name.titleize}." }
         end
@@ -32,16 +34,19 @@ module BlockableControllerConcerns
     end
 
     # TODO: Split up this method and move into model?
-    def parse_block_attributes
+    def parse_block_attributes(record, options = {})
+      @record ||= record
       @blocks = {}
       @blocks_updated = false
 
-      params[:page][:page_slots_attributes] && params[:page][:page_slots_attributes].each_pair do |index, blockable_params|
+      record_type = options.fetch :record_type
+
+      params[record_type][:page_slots_attributes] && params[record_type][:page_slots_attributes].each_pair do |index, blockable_params|
         block_type = blockable_params['blockable_type']
         block_constant = block_type.constantize
         block_fields = blockable_params['block_fields']
         position = blockable_params['position']
-        blockable_id = params[:page][:page_slots_attributes][index][:blockable_id]
+        blockable_id = params[record_type][:page_slots_attributes][index][:blockable_id]
 
         next if block_fields.nil?
 
@@ -62,11 +67,11 @@ module BlockableControllerConcerns
           @blocks_updated = true
         end
 
-        params[:page][:page_slots_attributes][index].delete :block_fields
+        params[record_type][:page_slots_attributes][index].delete :block_fields
       end
 
       if @blocks_updated
-        @page.updated_at = Time.now
+        @record.updated_at = Time.now
       end
     end
 

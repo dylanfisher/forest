@@ -27,12 +27,12 @@
         </div>
       <% end %>
 
-      <%= f.input :blockable_type, collection: @block_types, value_method: :name, include_blank: false %>
+      <%= f.input :blockable_type, collection: @block_types, value_method: :name, include_blank: false, wrapper_html: { class: 'blockable-type-selector' } %>
       <%= f.input :blockable_id, as: :hidden %>
       <%#= f.input :blockable_previous_version_id, as: :hidden %>
       <%= f.input :blockable_record_type, as: :hidden, input_html: { value: @blockable_record&.blockable_record_type } %>
       <%= f.input :blockable_record_id, as: :hidden, input_html: { value: @blockable_record&.blockable_record_id } %>
-      <%= f.input :position, as: :hidden %>
+      <%= f.input :position, as: :hidden, wrapper_html: { class: 'blockable-position' } %>
       <%#= f.input :page_id, as: :hidden %>
       <%#= f.input :page_version_id, as: :hidden %>
 
