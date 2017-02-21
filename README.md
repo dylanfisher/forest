@@ -33,7 +33,8 @@ mount Forest::Engine, at: '/'
 Install Forest's migrations
 
 ```
-rails forest:install:migrations
+~~rails forest:install:migrations~~
+bin/rails railties:install:migrations
 ```
 
 For an example of a host app running Forest, view [github.com/dylanfisher/forest_blog](https://github.com/dylanfisher/forest_blog).
@@ -84,6 +85,7 @@ Admin
 - [ ] s3 storage for paperclip, assets, heroku support, etc.
 - [ ] remove bootstrap as frontend dependency (admin navbar is only place this is currently shared)
 - [ ] remove font-awesome dependency from simplemde markdown editor
+- [ ] add migrations to host app without running install:migrations command
 
 Generators
 
