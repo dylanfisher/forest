@@ -62,7 +62,7 @@ module BlockableControllerConcerns
 
         # TODO: not sure if a more precise diff between hashes is necessary
         if block.new_record? || (existing_attributes.to_a - block_attributes.as_json.to_a).present?
-          block.assign_attributes block_fields.permit(block.permitted_params)
+          block.assign_attributes block_attributes
           @blocks[position] = block
           @blocks_updated = true
         end

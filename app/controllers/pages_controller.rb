@@ -56,6 +56,7 @@ class PagesController < ForestController
   def new
     @page = Page.new
     authorize @page
+    set_block_record
   end
 
   def edit
