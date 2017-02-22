@@ -10,7 +10,7 @@
   <% else %>
     <% link = '#' %>
   <% end %>
-  <%= link_to item['name'], link %>
+  <%= link_to item['name'], link, class: 'menu__item__link' %>
   <% if item['children'].present? %>
     <%= content_tag :ul, class: "menu__sub-menu" do %>
       <%= render partial: 'shared/menu_item', collection: item['children'], as: 'item' %>
