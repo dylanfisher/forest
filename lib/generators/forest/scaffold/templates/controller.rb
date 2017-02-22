@@ -57,6 +57,7 @@ class <%= class_name %>sController < ForestController
   def new
     @<%= singular_name %> = <%= name %>.new
     authorize @<%= singular_name %>
+    set_block_record
   end
 
   def edit
@@ -67,7 +68,6 @@ class <%= class_name %>sController < ForestController
   def create
     @<%= singular_name %> = <%= name %>.new
     authorize @<%= singular_name %>
-    set_block_record
 
     # TODO: Handle block type deletion
     parse_block_attributes @<%= singular_name %>, record_type: '<%= singular_name %>'

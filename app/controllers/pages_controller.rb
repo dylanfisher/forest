@@ -67,7 +67,6 @@ class PagesController < ForestController
   def create
     @page = Page.new
     authorize @page
-    set_block_record
 
     # TODO: if a record is not valid when saving, any new blocks will be lost
     # TODO: Handle block type deletion
