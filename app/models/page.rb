@@ -21,6 +21,8 @@ class Page < ApplicationRecord
 
   # accepts_nested_attributes_for :page_slots, allow_destroy: true
 
+  scope :title_like, -> string { where('title ILIKE ?', "%#{string}%") }
+
   private
 
     def should_generate_new_friendly_id?

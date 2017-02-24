@@ -12,29 +12,36 @@ App.Select2 = {
       var $select = $(this);
       var selectOptions = {};
       var remotePath = $select.attr('data-remote-path');
+      var remoteScope = $select.attr('data-remote-scope'); // TODO: remote scope default?
 
       that.instances.push( $select );
 
-      // if ( remotePath.length ) {
-      //   selectOptions = {
-      //     ajax: {
-      //       url: remotePath,
-      //       dataType: 'json',
-      //       delay: 250,
-      //       data: function (params) {
-      //         return {
-      //           q: params.term, // search term
-      //           page: params.page
-      //         };
-      //       },
-      //     },
-      //     minimumInputLength: 1,
-      //   };
-      // }
+      if ( remotePath && remotePath.length ) {
+        selectOptions = {
+          ajax: {
+            url: remotePath,
+            dataType: 'json',
+            delay: 150,
+            data: function (params) {
+              return {
+                [remoteScope]: params.term, // search term
+                page: params.page
+              };
+            },
+            processResults: function (response, params) {
+              params.page = params.page || 1;
+              return {
+                results: response.data,
+                pagination: {
+                  more: (params.page * response.per_page) < response.total_count
+                }
+              };
+            },
+          },
+        };
+      }
 
       $select.select2( selectOptions );
-
-      // TODO: ajax select2
     });
   },
   teardown: function() {

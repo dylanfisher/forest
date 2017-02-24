@@ -29,13 +29,13 @@ Rails.application.routes.draw do
 
   # Devise
   devise_for :users, class_name: 'User', module: :devise
-
   devise_scope :user do
     get 'admin', to: 'devise/sessions#new'
     get 'login', to: 'devise/sessions#new'
     get 'logout', to: 'devise/sessions#destroy'
   end
 
+  # Show
   get 'user/:id', to: 'users#show', as: 'show_user'
   get 'media/:id', to: 'media_items#show', as: 'show_media_item'
   get ':id/edit', to: redirect('/admin/pages/%{id}/edit')

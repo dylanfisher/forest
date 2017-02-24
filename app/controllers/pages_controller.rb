@@ -8,10 +8,12 @@ class PagesController < ForestController
   before_action :set_paper_trail_whodunnit
 
   has_scope :by_status
+  has_scope :title_like
 
   def index
     @pages = apply_scopes(Page).by_id.page params[:page]
     authorize @pages
+    respond_to :html, :json
   end
 
   def versions
