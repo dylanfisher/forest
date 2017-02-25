@@ -8,7 +8,7 @@ class PagesController < ForestController
   before_action :set_parent_page_pages, only: [:edit, :update, :new]
   before_action :set_paper_trail_whodunnit
 
-  has_scope :by_status
+  has_scope :by_parent_page
   has_scope :title_like
 
   def index
@@ -126,11 +126,14 @@ class PagesController < ForestController
     end
 
     def set_page
+      # TODO: clean up page slug lookup
+      page_slug = params[:page_path].split('/').reject(&:blank?).last if params[:page_path]
+      page_slug = page_slug.presence || params[:id]
       if action_name == 'show'
         # TODO: Published scope
-        @page = Page.friendly.find(params[:id]) # Don't eager load associations when cached in show
+        @page = Page.friendly.find(page_slug) # Don't eager load associations when cached in show
       else
-        @page = Page.includes(page_slots: :block).friendly.find(params[:id])
+        @page = Page.includes(page_slots: :block).friendly.find(page_slug)
       end
 
       @record = @page

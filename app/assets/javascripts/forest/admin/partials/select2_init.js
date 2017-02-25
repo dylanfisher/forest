@@ -56,7 +56,6 @@ App.Select2 = {
   },
   teardown: function() {
     for ( var i = this.instances.length - 1; i >= 0; i-- ) {
-      console.log($(this.instances[i]));
       $(this.instances[i]).select2('destroy');
     }
     this.instances = [];
@@ -68,6 +67,5 @@ App.pageLoad.push(function() {
 });
 
 $(document).on('app:add-menu-item', function(e, $menuItem) {
-  console.log($menuItem);
   App.Select2.add( $menuItem.find('select:visible') );
 });

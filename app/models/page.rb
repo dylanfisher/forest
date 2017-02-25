@@ -24,7 +24,20 @@ class Page < ApplicationRecord
 
   # accepts_nested_attributes_for :page_slots, allow_destroy: true
 
+  scope :by_parent_page, -> (orderer = :desc) { order("parent_page_id #{orderer} NULLS LAST, title #{orderer}") }
   scope :title_like, -> string { where('title ILIKE ?', "%#{string}%") }
+
+  # def nested_page_path
+  #   page_ancestors = []
+  #   this_page = self
+  #   while this_page.parent_page
+  #     page_ancestors << this_page.parent_page
+  #     this_page = this_page.parent_page
+  #   end
+  #   page_ancestors.reverse!
+  #   page_ancestors << self
+  #   page_ancestors.collect(&:slug).join('/')
+  # end
 
   private
 
