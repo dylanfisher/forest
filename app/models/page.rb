@@ -19,6 +19,9 @@ class Page < ApplicationRecord
   # has_many :page_slots, -> { order(:position) }, dependent: :destroy
   belongs_to :featured_image, class_name: 'MediaItem'
 
+  has_many :pages, class_name: 'Page', foreign_key: 'parent_page_id'
+  belongs_to :parent_page, class_name: 'Page'
+
   # accepts_nested_attributes_for :page_slots, allow_destroy: true
 
   scope :title_like, -> string { where('title ILIKE ?', "%#{string}%") }

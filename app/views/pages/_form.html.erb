@@ -19,6 +19,15 @@
               <div class="col-sm-6">
                 <%= f.input :title %>
                 <%= f.input :slug %>
+                <%= f.association :parent_page,
+                  collection: @parent_page_pages,
+                  include_blank: true,
+                  input_html: {
+                    data: {
+                      remote_path: pages_path,
+                      remote_scope: 'title_like',
+                    }
+                  } %>
                 <%= f.input :status, as: :select, collection: Page.statuses.keys.to_a, include_blank: false %>
                 <%= f.input :description %>
                 <%= f.button :submit, class: 'btn-success' %>

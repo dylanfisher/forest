@@ -33,7 +33,7 @@ mount Forest::Engine, at: '/'
 Install Forest's migrations
 
 ```
-~~rails forest:install:migrations~~
+~rails forest:install:migrations~
 bin/rails railties:install:migrations
 ```
 

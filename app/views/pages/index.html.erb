@@ -23,7 +23,7 @@
     </thead>
 
     <tbody>
-      <% @pages.each do |page| %>
+      <% @pages.includes(:versions).each do |page| %>
         <tr>
           <td><%= status_indicator page %></td>
           <td><%= page.id %></td>
