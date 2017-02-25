@@ -100,6 +100,7 @@ Generators
 
 Pages
 
+- [ ] page groups / page heirarchy
 - [ ] page status for scheduled, pending and hidden states
 - [ ] better page versioning, page history navigation, restore content blocks with page version
 - [x] data associated pages that support blocks

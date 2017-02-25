@@ -59,4 +59,8 @@ $(document).on('click', '#menu__add-item-button', function() {
   $template.find('.dd-handle').html('Item ' + itemId);
 
   $ddList.append( $template.html() );
+
+  var $ddItem = $ddList.find('.dd-item[data-id="' + itemId + '"]');
+
+  $(document).trigger('app:add-menu-item', [$ddItem]);
 });

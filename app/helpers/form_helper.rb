@@ -64,6 +64,7 @@ module FormHelper
         options_for_select(options_for_select, selected),
           id: id,
           class: css_class,
+          style: 'width: 100%',
           data: {
             form_title: title,
             **remote_attributes

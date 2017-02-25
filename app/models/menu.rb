@@ -3,6 +3,7 @@ class Menu < ApplicationRecord
   friendly_id :title, use: :slugged
 
   CACHE_KEY = 'forest_menus'
+  PERMITTED_STRUCTURE_KEYS = %w(name children)
 
   after_save :_expire_cache
   after_destroy :_expire_cache
@@ -18,8 +19,12 @@ class Menu < ApplicationRecord
     Rails.cache.delete CACHE_KEY
   end
 
+  def structure_preview
+    structure_as_json
+  end
+
   def structure_as_json
-    JSON.parse (structure.presence || '[]')
+    JSON.parse(structure.presence || '[]')
   end
 
   def pages

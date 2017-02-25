@@ -11,7 +11,7 @@ class PagesController < ForestController
   has_scope :title_like
 
   def index
-    @pages = apply_scopes(Page).by_id.page params[:page]
+    @pages = apply_scopes(Page.includes(:versions)).by_id.page params[:page]
     authorize @pages
     respond_to :html, :json
   end

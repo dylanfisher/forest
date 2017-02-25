@@ -61,7 +61,7 @@ class MenusController < ForestController
     end
 
     def set_pages
-      @pages = Page.all
+      @pages = Page.page(1)
     end
 
     # Only allow a trusted parameter "white list" through.
