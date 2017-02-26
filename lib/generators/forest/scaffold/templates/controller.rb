@@ -118,7 +118,7 @@ class <%= class_name %>sController < ForestController
   private
 
     def <%= singular_name %>_params
-      params.require(:<%= singular_name %>).permit(:title, :slug, <%= attributes.collect { |a| ":#{a.name}, " }.join %>
+      params.require(:<%= singular_name %>).permit(:title, :slug, :status, <%= attributes.collect { |a| ":#{a.name}, " }.join %>
         page_slots_attributes: [:id, :_destroy, :block_id, :block_type, :block_previous_version_id, :position, :block_record_type, :block_record_id, *BlockType.block_type_params])
     end
 

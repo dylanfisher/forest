@@ -1,11 +1,10 @@
 module AdminMediaHelper
 
-  # TODO: Make this more generic so that `path_only` can be specified as an option, otherwise
-  # can support returning the image ID for associations.
-  def media_item_chooser_to_path(record, options = {})
+  def media_item_chooser(record, options = {})
     button_title = options.fetch :button_title, 'Choose Image'
     field_name = options.fetch :field_name
-    column_name = options.fetch :column_name
+    img_src = options.fetch :img_src
+    path_only = options.fetch :path_only, false
 
     modal_data_attributes = {
       toggle: 'modal',
@@ -14,9 +13,11 @@ module AdminMediaHelper
       media_item_modal_path: media_items_path
     }
 
+    path_class = path_only ? 'media-item-chooser-to-path' : '';
+
     capture do
-      concat image_tag "#{record.try(column_name)}",
-        class: 'img-rounded page__featured-image cursor-pointer media-item-chooser-to-path',
+      concat image_tag img_src,
+        class: "media-item-chooser__image img-rounded cursor-pointer #{path_class}",
         id: "#{field_name}_preview",
         data: {
           **modal_data_attributes
@@ -24,7 +25,7 @@ module AdminMediaHelper
 
       concat content_tag :button, button_title,
         type: 'button',
-        class: 'btn btn-primary media-item-chooser-to-path',
+        class: "media-item-chooser__button btn btn-primary #{path_class}",
         data: {
           **modal_data_attributes
         }

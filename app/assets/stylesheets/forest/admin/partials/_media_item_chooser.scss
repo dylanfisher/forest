@@ -1,4 +1,14 @@
-.media-item-chooser-to-path {
+.media-item-chooser__image,
+.media-item-chooser__button {
   display: block;
   margin-bottom: $gutter;
+}
+
+.media-item-chooser__image {
+  max-width: 300px;
+  max-height: 300px;
+
+  &:hover {
+    filter: brightness(95%);
+  }
 }

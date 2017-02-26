@@ -1,2 +1,2 @@
-<%= media_item_chooser_to_path @setting, field_name: 'setting_value', column_name: 'value' %>
+<%= media_item_chooser @setting, field_name: 'setting_value', img_src: @setting.value, path_only: true %>
 <%= f.input :value, readonly: true %>

@@ -77,7 +77,7 @@ Big Picture
 
 Admin
 
-- [ ] add select2 with remote ajax selects
+- [ ] add select2 with remote ajax selects, automatically infer path to avoid manual setup for each association input
 - [ ] purge cache button
 - [ ] reset password and/or change password when editing user profile
 - [ ] email confirmations for user related actions
@@ -90,6 +90,7 @@ Admin
 - [ ] versioning option for data associated pages, settings, menus, etc.
 - [ ] version diff UI like wordpress?
 - [ ] intuitive select2 association UI
+- [ ] modal to create associated records directly from association page?
 
 Generators
 
