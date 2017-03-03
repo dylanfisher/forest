@@ -16,12 +16,14 @@ module AdminMediaHelper
     path_class = path_only ? 'media-item-chooser-to-path' : '';
 
     capture do
-      concat image_tag img_src,
-        class: "media-item-chooser__image img-rounded cursor-pointer #{path_class}",
-        id: "#{field_name}_preview",
-        data: {
-          **modal_data_attributes
-        }
+      if img_src.present?
+        concat image_tag img_src,
+          class: "media-item-chooser__image img-rounded cursor-pointer #{path_class}",
+          id: "#{field_name}_preview",
+          data: {
+            **modal_data_attributes
+          }
+      end
 
       concat content_tag :button, button_title,
         type: 'button',
