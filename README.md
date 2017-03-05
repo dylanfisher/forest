@@ -33,7 +33,6 @@ mount Forest::Engine, at: '/'
 Install Forest's migrations
 
 ```
-~rails forest:install:migrations~
 bin/rails railties:install:migrations
 ```
 
@@ -72,11 +71,15 @@ $ bundle
 Big Picture
 
 - [ ] tests
+- [ ] is it better to namespace engine?
 - [ ] better naming conventions when it comes to blocks, block_record, and page_slots
 - [ ] squash migrations once final db structure is settled upon
 
 Admin
 
+- [ ] more robust filter pattern for index views, and ability to select by multiple filters + search,
+      and retain these filters when navigating between records
+- [ ] add and/or standardize setting @record and @records instance variables in controller to alias appropriate record
 - [ ] add select2 with remote ajax selects, automatically infer path to avoid manual setup for each association input
 - [ ] purge cache button
 - [ ] reset password and/or change password when editing user profile

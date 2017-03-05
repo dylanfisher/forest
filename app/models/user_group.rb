@@ -6,7 +6,11 @@ class UserGroup < ApplicationRecord
 
   scope :by_name, -> (orderer = :asc) { order(name: orderer) }
 
-  def to_label
+  def display_name
     name.titleize
+  end
+
+  def to_label
+    display_name
   end
 end

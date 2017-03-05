@@ -55,4 +55,8 @@ module AdminHelper
   def request_parts
     request.path.split('/').reject(&:blank?)
   end
+
+  def record_name(record)
+    record.try(:display_name) || record.try(:title) || record.try(:name)
+  end
 end

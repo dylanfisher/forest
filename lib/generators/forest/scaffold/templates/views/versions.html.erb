@@ -1,1 +1,2 @@
-<p>TODO</p>
+<%= render 'admin/version_header', record: @record if @record %>
+<%= render 'admin/version_table', record: @record, versions: @versions if @record && @versions %>
