@@ -19,7 +19,6 @@ App.Select2 = {
       var $select = $(this);
       var selectOptions = {};
       var remotePath = $select.attr('data-remote-path');
-      var remoteScope = $select.attr('data-remote-scope'); // TODO: remote scope default?
       var allowClear = $select.find('option:first:empty').length;
 
       that.instances.push( $select );
@@ -33,10 +32,13 @@ App.Select2 = {
             dataType: 'json',
             delay: 150,
             data: function (params) {
-              return {
-                remoteScope: params.term, // search term
-                page: params.page
-              };
+              var returnObj = {};
+              var remoteScope = $select.attr('data-remote-scope'); // TODO: remote scope default?
+
+              returnObj[remoteScope] = params.term; // search term
+              returnObj['page'] = params.page;
+
+              return returnObj;
             },
             processResults: function (response, params) {
               params.page = params.page || 1;
