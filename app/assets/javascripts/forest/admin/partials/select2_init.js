@@ -34,7 +34,7 @@ App.Select2 = {
             delay: 150,
             data: function (params) {
               return {
-                [remoteScope]: params.term, // search term
+                remoteScope: params.term, // search term
                 page: params.page
               };
             },
