@@ -69,7 +69,7 @@ $(document).on('click', '.media-item-chooser .media-library-link', function(e) {
   if ( App.MediaItemChooser.inputSelector ) {
     $(App.MediaItemChooser.inputSelector).val( value );
     if ( $(App.MediaItemChooser.inputSelector + '_preview').length )  {
-      $(App.MediaItemChooser.inputSelector + '_preview').attr('src', imageUrl);
+      $(App.MediaItemChooser.inputSelector + '_preview').removeClass('hidden').attr('src', imageUrl);
     }
     $(this).closest('.modal').modal('hide');
   }

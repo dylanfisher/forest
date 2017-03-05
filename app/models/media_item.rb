@@ -5,7 +5,7 @@ class MediaItem < ApplicationRecord
   extend FriendlyId
   friendly_id :slug_candidates, use: :slugged
 
-  has_attached_file :attachment, styles: { large: '1200x1200>', medium: '600x600>', thumb: '100x100>' }, default_url: '/images/:style/missing.png'
+  has_attached_file :attachment, styles: { huge: '2000x2000>', large: '1200x1200>', medium: '600x600>', small: '300x300>', thumb: '100x100>' }, default_url: '/images/:style/missing.png'
   validates_attachment_content_type :attachment, content_type: /\Aimage\/.*\z/
   validates_attachment_presence :attachment
 

@@ -13,17 +13,20 @@ module AdminMediaHelper
       media_item_modal_path: media_items_path
     }
 
-    path_class = path_only ? 'media-item-chooser-to-path' : '';
+    path_class = (path_only ? 'media-item-chooser-to-path' : '')
+
+    image_tag_classes = []
+    image_tag_classes << path_class
+    image_tag_classes << (img_src.blank? ? 'hidden' : '')
+    image_tag_classes = image_tag_classes.join(' ')
 
     capture do
-      if img_src.present?
-        concat image_tag img_src,
-          class: "media-item-chooser__image img-rounded cursor-pointer #{path_class}",
-          id: "#{field_name}_preview",
-          data: {
-            **modal_data_attributes
-          }
-      end
+      concat image_tag (img_src || ''),
+        class: "media-item-chooser__image img-rounded cursor-pointer #{image_tag_classes}",
+        id: "#{field_name}_preview",
+        data: {
+          **modal_data_attributes
+        }
 
       concat content_tag :button, button_title,
         type: 'button',
@@ -31,6 +34,8 @@ module AdminMediaHelper
         data: {
           **modal_data_attributes
         }
+
+      concat render 'media_items/modal'
     end
   end
 
