@@ -2,3 +2,11 @@
   display: inline-block;
   vertical-align: middle;
 }
+
+select {
+  width: 100%;
+}
+
+.select .select2-container {
+  width: 100% !important;
+}

@@ -3,6 +3,10 @@ class BlockRecordPolicy < ApplicationPolicy
     record.published? || edit?
   end
 
+  def show_index?
+    true
+  end
+
   def versions?
     index?
   end

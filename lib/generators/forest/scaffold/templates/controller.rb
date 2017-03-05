@@ -12,7 +12,6 @@ class <%= class_name %>sController < ForestController
 
   def index
     @<%= plural_name %> = apply_scopes(<%= name %>).by_id.page params[:page]
-    authorize @<%= @plural_name %>
   end
 
   def versions

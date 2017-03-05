@@ -20,6 +20,7 @@ class Forest::ScaffoldGenerator < Rails::Generators::NamedBase
     available_views.each do |view|
       filename = "#{view}.html.erb"
       template "views/#{filename}", File.join("app/views", plural_name, filename)
+      # TODO: Add jbuilder index
     end
   end
 

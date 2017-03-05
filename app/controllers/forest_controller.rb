@@ -21,7 +21,8 @@ class ForestController < ApplicationController
     end
 
     def authentication_check
-      unless controller_name == 'public' || action_name == 'show'
+      # TODO: cleaner authentication_check ?
+      unless controller_name == 'public' || action_name == 'show' || action_name == 'show_index'
         authenticate_user!
       end
     end
