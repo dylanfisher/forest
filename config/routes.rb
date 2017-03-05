@@ -39,7 +39,8 @@ Rails.application.routes.draw do
   get 'user/:id', to: 'users#show', as: 'show_user'
   get 'media/:id', to: 'media_items#show', as: 'show_media_item'
   get '*page_path/edit', to: redirect('/admin/pages/%{id}/edit')
-  scope format: true, defaults: { format: 'html' }, constraints: { format: /(html|json|js)/ } do
+
+  scope constraints: lambda { |request| request.format.to_s.exclude? 'image/' } do
     get '*page_path', to: 'pages#show', as: 'show_page'
   end
 end
