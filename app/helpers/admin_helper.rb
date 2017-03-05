@@ -18,6 +18,24 @@ module AdminHelper
       class: "#{active_class}#{(is_default_order ? 'order--default' : 'order--reverse')}"
   end
 
+  def remote_association(f, association, options = {})
+    klass = options.fetch(:class).constantize
+    label_name = klass.model_name.plural.titleize
+    label_new_link = link_to 'add new', Rails.application.routes.url_helpers.try("new_#{klass.model_name.singular_route_key}_path"), target: '_blank'
+    label_all_link = link_to 'view all', Rails.application.routes.url_helpers.try("#{klass.model_name.route_key}_path"), target: '_blank'
+    label = label_name + ' ' + [label_new_link, label_all_link].join(', ')
+    f.association association,
+      collection: f.object.try(association),
+      label: label.html_safe,
+      include_blank: options.fetch(:include_blank, true),
+      input_html: {
+        data: {
+          remote_path: Rails.application.routes.url_helpers.try("#{klass.model_name.route_key}_path"),
+          remote_scope: options.fetch(:scope),
+        }
+      }
+  end
+
   def admin_navbar_class
     if @version
       'bg-danger'

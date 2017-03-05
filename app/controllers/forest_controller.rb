@@ -29,7 +29,7 @@ class ForestController < ApplicationController
 
     # def user_not_authorized
     #   if Rails.env.production?
-    #     redirect_to(root_path)
+    #     redirect_to root_path
     #   else
     #     raise Pundit::NotAuthorizedError
     #   end

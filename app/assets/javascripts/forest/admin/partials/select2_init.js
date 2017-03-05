@@ -47,6 +47,7 @@ App.Select2 = {
                 }
               };
             },
+            cache: true,
           },
         };
       }

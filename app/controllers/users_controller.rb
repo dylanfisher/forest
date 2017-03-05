@@ -17,6 +17,7 @@ class UsersController < ForestController
 
   # GET /users/1
   def show
+    authorize @user
   end
 
   # GET /users/new
