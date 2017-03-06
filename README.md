@@ -72,6 +72,7 @@ Big Picture
 
 - [ ] tests
 - [ ] is it better to namespace engine?
+- [ ] make use of yarn and webpacker
 - [ ] better naming conventions when it comes to blocks, block_record, and page_slots
 - [ ] squash migrations once final db structure is settled upon
 
