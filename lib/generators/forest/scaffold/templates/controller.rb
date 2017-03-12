@@ -124,9 +124,9 @@ class <%= class_name %>sController < ForestController
     def set_<%= singular_name %>
       if action_name == 'show'
         # TODO: Published scope
-        @<%= singular_name %> = <%= name %>.friendly.find(params[:id]) # Don't eager load associations when cached in show
+        @<%= singular_name %> = <%= name %>.find_by_slug(params[:id]) # Don't eager load associations when cached in show
       else
-        @<%= singular_name %> = <%= name %>.includes(page_slots: :block).friendly.find(params[:id])
+        @<%= singular_name %> = <%= name %>.includes(page_slots: :block).find_by_slug(params[:id])
       end
 
       @record = @<%= singular_name %>

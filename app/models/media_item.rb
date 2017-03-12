@@ -2,12 +2,13 @@ class MediaItem < ApplicationRecord
   include Rails.application.routes.url_helpers
   include Searchable
 
-  extend FriendlyId
-  friendly_id :slug_candidates, use: :slugged
-
   has_attached_file :attachment, styles: { huge: '2000x2000>', large: '1200x1200>', medium: '600x600>', small: '300x300>', thumb: '100x100>' }, default_url: '/images/:style/missing.png'
   validates_attachment_content_type :attachment, content_type: /\Aimage\/.*\z/
   validates_attachment_presence :attachment
+
+  before_validation :generate_slug
+
+  validates :slug, presence: true, uniqueness: true
 
   before_save :set_default_metadata
 
@@ -43,22 +44,26 @@ class MediaItem < ApplicationRecord
     attachment.url(:large)
   end
 
+  def generate_slug
+    unless attribute_present?('slug')
+      case self
+      when title.present?
+        slug_attribute = title
+      else
+        slug_attribute = id
+      end
+      self.slug = slug_attribute.parameterize
+    end
+  end
+
+  def to_param
+    slug
+  end
+
   private
 
     def self.grouped_by_year_month
       self.select("DISTINCT ON (DATE_TRUNC('month', created_at)) *")
-    end
-
-    def slug_candidates
-      [
-        :title,
-        :id,
-        [:id, :attachment_file_name]
-      ]
-    end
-
-    def should_generate_new_friendly_id?
-      slug.blank?
     end
 
     def set_default_metadata

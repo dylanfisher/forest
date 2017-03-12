@@ -44,7 +44,6 @@ Forest relies heavily on the following gems, software and frameworks:
 - devise
 - pundit
 - postgres
-- friendly_id
 - has_scope
 - kaminari
 - paperclip
@@ -71,8 +70,10 @@ $ bundle
 Big Picture
 
 - [ ] tests
+- [ ] upgrade to bootstrap 4
+- [ ] remove any gem dependencies not totally necessary?
 - [ ] is it better to namespace engine?
-- [ ] make use of yarn and webpacker
+- [ ] make use of yarn and webpacker?
 - [ ] better naming conventions when it comes to blocks, block_record, and page_slots
 - [ ] squash migrations once final db structure is settled upon
 

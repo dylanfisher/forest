@@ -131,9 +131,9 @@ class PagesController < ForestController
       page_slug = page_slug.presence || params[:id]
       if action_name == 'show'
         # TODO: Published scope
-        @page = Page.friendly.find(page_slug) # Don't eager load associations when cached in show
+        @page = Page.find_by_slug(page_slug) # Don't eager load associations when cached in show
       else
-        @page = Page.includes(page_slots: :block).friendly.find(page_slug)
+        @page = Page.includes(page_slots: :block).find_by_slug(page_slug)
       end
 
       @record = @page

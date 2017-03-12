@@ -63,7 +63,7 @@ class SettingsController < ForestController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_setting
-      @setting = Setting.friendly.find(params[:id])
+      @setting = Setting.find_by_slug(params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.

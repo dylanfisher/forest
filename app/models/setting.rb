@@ -1,11 +1,12 @@
 class Setting < ApplicationRecord
-  extend FriendlyId
-  friendly_id :title, use: :slugged
-
   CACHE_KEY = 'forest_settings'
 
-  after_save :_expire_cache
-  after_destroy :_expire_cache
+  before_validation :generate_slug
+
+  after_save :expire_cache
+  after_destroy :expire_cache
+
+  validates :slug, presence: true, uniqueness: true
 
   scope :by_id, -> (orderer = :asc) { order(id: orderer) }
   scope :by_title, -> (orderer = :asc) { order(title: orderer) }
@@ -20,6 +21,14 @@ class Setting < ApplicationRecord
     Rails.cache.delete self::CACHE_KEY
   end
 
+  def generate_slug
+    self.slug = title.parameterize unless attribute_present?('slug')
+  end
+
+  def to_param
+    slug
+  end
+
   private
 
     def self.settings
@@ -28,11 +37,7 @@ class Setting < ApplicationRecord
       end
     end
 
-    def should_generate_new_friendly_id?
-      slug.blank?
-    end
-
-    def _expire_cache
+    def expire_cache
       self.class.expire_cache!
     end
 end

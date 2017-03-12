@@ -57,7 +57,7 @@ class MenusController < ForestController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_menu
-      @menu = Menu.friendly.find(params[:id])
+      @menu = Menu.find_by_slug(params[:id])
     end
 
     def set_pages

@@ -4,14 +4,15 @@ class Page < ApplicationRecord
   include Searchable
   include Statusable
 
-  extend FriendlyId
-  friendly_id :title, use: :slugged
-
   has_paper_trail
 
   # serialize :page_slot_cache
 
+  before_validation :generate_slug
+
   validates_presence_of :title
+  validates_presence_of :slug
+  validates_uniqueness_of :slug
 
   has_one :current_version, -> { reorder(created_at: :desc, id: :desc) }, class_name: 'PaperTrail::Version', foreign_key: 'item_id'
   has_one :current_published_version, -> { reorder(created_at: :desc, id: :desc).where_object(status: 1) }, class_name: 'PaperTrail::Version', foreign_key: 'item_id'
@@ -41,10 +42,11 @@ class Page < ApplicationRecord
   #   page_ancestors.collect(&:slug).join('/')
   # end
 
-  private
+  def generate_slug
+    self.slug = title.parameterize unless attribute_present?('slug')
+  end
 
-    def should_generate_new_friendly_id?
-      slug.blank?
-    end
-
+  def to_param
+    slug
+  end
 end

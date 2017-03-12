@@ -1,15 +1,16 @@
 class Menu < ApplicationRecord
-  extend FriendlyId
-  friendly_id :title, use: :slugged
-
   CACHE_KEY = 'forest_menus'
   # PERMITTED_STRUCTURE_KEYS = %w(name children)
 
-  after_save :_expire_cache
-  after_destroy :_expire_cache
+  before_validation :generate_slug
 
-  # TODO: validation?
+  after_save :expire_cache
+  after_destroy :expire_cache
+
+  # TODO: validation in case a page link is no longer active, or link is wrong?
   # validate :has_valid_link
+  validates :title, presence: true
+  validates :slug, presence: true, uniqueness: true
 
   def self.for(slug)
     self.menus.select { |menu| menu.slug == slug.to_s }.first
@@ -31,6 +32,14 @@ class Menu < ApplicationRecord
     "#{super}/#{Digest::MD5.hexdigest(pages.collect(&:cache_key).join)}"
   end
 
+  def generate_slug
+    self.slug = title.parameterize unless attribute_present?('slug')
+  end
+
+  def to_param
+    slug
+  end
+
   private
 
     def self.menus
@@ -43,7 +52,7 @@ class Menu < ApplicationRecord
       slug.blank?
     end
 
-    def _expire_cache
+    def expire_cache
       self.class.expire_cache!
     end
 end
