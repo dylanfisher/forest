@@ -75,8 +75,6 @@ class Page < ApplicationRecord
     parent = page.parent_page
     index = 0
 
-    # binding.pry
-
     while parent
       page_group = page.page_groups.build(page_id: page.id, parent_page_id: parent.id, title: parent.title, slug: parent.slug, level: index)
       ancestors << page_group
@@ -85,18 +83,13 @@ class Page < ApplicationRecord
       index += 1
     end
 
-    # return if ancestors.none?
-
     # Reverse the ancestry level
     ancestors.each_with_index { |a, i| a.level = (ancestors.length - 1 - i) }
     top_ancestor = ancestors.sort { |a| a.level }.first
-    # binding.pry
     ancestors.each { |a|
       a.ancestor_page_id = top_ancestor.parent_page_id
     }
     self.page_groups << ancestors
-
-    # binding.pry
 
     if assign_ancestor_page_groups
       self.children.each { |a| a.assign_page_groups!(false) }

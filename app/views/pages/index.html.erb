@@ -21,7 +21,7 @@
     </thead>
 
     <tbody>
-      <% @pages.includes(:versions, :child_page_groups).each do |page| %>
+      <% @parent_pages.includes(:versions, :child_page_groups).each do |page| %>
         <%= render 'table_row', page: page, level: 0 %>
         <%# binding.pry if page.uniq_child_page_groups.any? %>
         <% page.uniq_child_page_groups.each do |child_page| %>
@@ -32,4 +32,4 @@
   </table>
 </div>
 
-<%= paginate @pages %>
+<%= paginate @parent_pages %>
