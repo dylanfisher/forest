@@ -9,6 +9,7 @@ class Page < ApplicationRecord
   # serialize :page_slot_cache
 
   before_validation :generate_slug
+  after_save :assign_page_groups!
 
   validates_presence_of :title
   validates_presence_of :slug
@@ -23,6 +24,9 @@ class Page < ApplicationRecord
   belongs_to :featured_image, class_name: 'MediaItem'
 
   has_many :pages, class_name: 'Page', foreign_key: 'parent_page_id'
+  has_many :page_groups, -> { order(level: :asc).distinct }, class_name: 'PageGroup', dependent: :destroy
+  has_many :page_group_pages, through: :page_groups, source: :parent_page
+
   belongs_to :parent_page, class_name: 'Page'
 
   # accepts_nested_attributes_for :page_slots, allow_destroy: true
@@ -48,5 +52,36 @@ class Page < ApplicationRecord
 
   def to_param
     slug
+  end
+
+  def assign_page_groups!
+    # TODO: I think when updating a parent page all page_groups that depend on that page will need to be updated as well
+    self.page_groups.destroy_all # TODO: don't destroy_all before recreating associations
+    ancestors = []
+    page = self
+    parent = page.parent_page
+    index = 0
+    while parent
+      page_group = page.page_groups.build(page_id: page.id, parent_page_id: parent.id, title: parent.title, slug: parent.slug, level: index)
+      ancestors << page_group
+      page = parent
+      parent = page.try :parent_page
+      index += 1
+    end
+    # Reverse the ancestry level
+    ancestors.each_with_index { |a, i| a.level = (ancestors.length - 1 - i) }
+    self.page_groups << ancestors
+  end
+
+  def page_ancestors
+    ancestors = []
+    page = self
+    parent = page.parent_page
+    while parent
+      ancestors << parent
+      page = parent
+      parent = page.try :parent_page
+    end
+    ancestors
   end
 end
