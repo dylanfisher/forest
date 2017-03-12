@@ -7,6 +7,7 @@ class CreatePageGroups < ActiveRecord::Migration[5.0]
 
       t.references :page, index: true
       t.references :parent_page, index: true
+      t.references :ancestor_page, index: true
     end
   end
 end

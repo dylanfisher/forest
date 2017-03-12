@@ -12,7 +12,7 @@ class PagesController < ForestController
   has_scope :title_like
 
   def index
-    @pages = apply_scopes(Page).by_id.page params[:page]
+    @pages = apply_scopes(Page).parent_pages.page params[:page]
     authorize @pages
     respond_to :html, :json
   end
@@ -121,7 +121,7 @@ class PagesController < ForestController
   private
 
     def page_params
-      params.require(:page).permit(:title, :slug, :description, :status, :version_id, :featured_image_id, :media_item_ids, :page_slot_cache, :parent_page_id, page_group_ids: [],
+      params.require(:page).permit(:title, :slug, :description, :status, :version_id, :featured_image_id, :media_item_ids, :page_slot_cache, :parent_page_id, :ancestor_page_id, page_group_ids: [],
         page_slots_attributes: [:id, :_destroy, :page_id, :page_version_id, :block_id, :block_type, :block_previous_version_id, :position, :block_record_type, :block_record_id, *BlockType.block_type_params])
     end
 

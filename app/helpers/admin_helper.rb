@@ -18,6 +18,10 @@ module AdminHelper
       class: "#{active_class}#{(is_default_order ? 'order--default' : 'order--reverse')}"
   end
 
+  def admin_page_level_indicator(level)
+    (level + 1).times.collect{}.join('↳ ')
+  end
+
   def remote_association(f, association, options = {})
     klass = options.fetch(:class).constantize
     label_name = klass.model_name.plural.titleize

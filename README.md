@@ -96,6 +96,7 @@ Admin
 - [ ] version diff UI like wordpress?
 - [ ] intuitive select2 association UI
 - [ ] modal to create associated records directly from association page?
+- [ ] bulk actions to delete pages (and other records)
 
 Generators
 

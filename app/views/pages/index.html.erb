@@ -14,33 +14,19 @@
         <th><%= table_sorter title: 'ID', path: :pages_path, scope: :by_id, default_order: :desc %></th>
         <th><%= table_sorter title: 'Title', path: :pages_path, scope: :by_title %></th>
         <th><%= table_sorter title: 'Parent&nbsp;Page'.html_safe, path: :pages_path, scope: :by_parent_page %></th>
-        <th><%= table_sorter title: 'Slug', path: :pages_path, scope: :by_slug %></th>
-        <th>Description</th>
         <th>Author</th>
-        <th><%= table_sorter title: 'Created&nbsp;at'.html_safe, path: :pages_path, scope: :by_created_at, default_order: :desc %></th>
         <th><%= table_sorter title: 'Updated&nbsp;at'.html_safe, path: :pages_path, scope: :by_updated_at, default_order: :desc %></th>
         <th colspan="4"></th>
       </tr>
     </thead>
 
     <tbody>
-      <% @pages.includes(:versions).each do |page| %>
-        <tr>
-          <td><%= status_indicator page %></td>
-          <td><%= page.id %></td>
-          <td><%= page.title %></td>
-          <td><%= page.parent_page.title if page.parent_page.present? %></td>
-          <td><%= page.slug %></td>
-          <td><%= page.description %></td>
-          <%# TODO: eager load users %>
-          <td><%= User.find(page.versions.last&.version_author)&.display_name if page.versions.last&.version_author %></td>
-          <td><%= page.created_at.to_formatted_s(:short) %></td>
-          <td><%= page.updated_at.to_formatted_s(:short) %></td>
-          <td width="1"><%= link_to 'Edit', edit_page_path(page), class: 'btn btn-xs btn-primary', role: 'button' %></td>
-          <td width="1"><%= link_to 'Show', show_page_path(page), class: 'btn btn-xs btn-info', role: 'button' %></td>
-          <td width="1"><%= link_to 'Versions', page_versions_path(page), class: 'btn btn-xs btn-warning', role: 'button' %></td>
-          <td width="1"><%= link_to 'Destroy', page, method: :delete, class: 'btn btn-xs btn-danger', role: 'button', data: { confirm: 'Are you sure?' } %></td>
-        </tr>
+      <% @pages.includes(:versions, :child_page_groups).each do |page| %>
+        <%= render 'table_row', page: page, level: 0 %>
+        <%# binding.pry if page.uniq_child_page_groups.any? %>
+        <% page.uniq_child_page_groups.each do |child_page| %>
+          <%= render 'table_row', page: child_page.page, level: child_page.level + 1 %>
+        <% end %>
       <% end %>
     </tbody>
   </table>
