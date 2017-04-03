@@ -1,8 +1,8 @@
 <div class="row">
   <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
     <div class="panel panel-default">
-      <%# TODO: make this if User.admin? or something like that %>
-      <% if User.first %>
+      <%# TODO: create admin user in bootstrap process? %>
+      <% if User.for_user_group_name('admin').present? %>
         <%= render 'default_login' %>
       <% else %>
         <%= render 'first_time_login' %>

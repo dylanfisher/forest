@@ -23,7 +23,6 @@
     <tbody>
       <% @parent_pages.includes(:versions, :child_page_groups).each do |page| %>
         <%= render 'table_row', page: page, level: 0 %>
-        <%# binding.pry if page.uniq_child_page_groups.any? %>
         <% page.uniq_child_page_groups.each do |child_page| %>
           <%= render 'table_row', page: child_page.page, level: child_page.level + 1 %>
         <% end %>
