@@ -4,7 +4,7 @@
     select_options: Page.statuses.keys.to_a.collect{ |x| [x.titleize, x] },
     title: 'All Statuses' %>
 <% end %>
-<%= render 'admin/index_header', records: @pages, model_name: 'Page' %>
+<%= render 'admin/index_header', records: @pages, pagination_collection: @parent_pages, model_name: 'Page' %>
 
 <div class="table-responsive">
   <table class="table table-striped">
@@ -21,11 +21,8 @@
     </thead>
 
     <tbody>
-      <% @parent_pages.includes(:versions, :child_page_groups).each do |page| %>
+      <% @parent_pages.includes(:children).each do |page| %>
         <%= render 'table_row', page: page, level: 0 %>
-        <% page.uniq_child_page_groups.each do |child_page| %>
-          <%= render 'table_row', page: child_page.page, level: child_page.level + 1 %>
-        <% end %>
       <% end %>
     </tbody>
   </table>

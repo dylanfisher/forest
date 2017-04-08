@@ -19,7 +19,7 @@ module AdminHelper
   end
 
   def admin_page_level_indicator(level)
-    (level + 1).times.collect{}.join('↳ ')
+    (level + 1).times.collect{}.join('&mdash; ').html_safe
   end
 
   def remote_association(f, association, options = {})

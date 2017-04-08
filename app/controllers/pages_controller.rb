@@ -13,6 +13,7 @@ class PagesController < ForestController
 
   def index
     @parent_pages = apply_scopes(Page).parent_pages.page params[:page]
+    # @pages = apply_scopes(Page).where.not(id: @parent_pages.collect(&:id)).page params[:page]
     @pages = apply_scopes(Page).page params[:page]
     authorize @pages
     respond_to :html, :json

@@ -6,7 +6,10 @@
     <% link = item['url'] %>
   <% elsif item['page'].present? %>
     <%# TODO: more performant page lookup? Or just make sure this menu partial is cached properly? %>
-    <% link = show_page_path Page.find(item['page']) %>
+    <% if Page.find_by_id(item['page']).present? %>
+    <%# TODO: catch pages that no longer exist %>
+      <% link = show_page_path Page.find_by_id(item['page']) %>
+    <% end %>
   <% else %>
     <% link = '#' %>
   <% end %>

@@ -1,6 +1,7 @@
 <% model = model_name.constantize %>
 <% model_names = model.model_name %>
 <% should_paginate = local_assigns.fetch :paginate, true %>
+<% pagination_collection = local_assigns.fetch :pagination_collection, records %>
 
 <div class="admin-header">
   <% if notice %>
@@ -30,7 +31,7 @@
       <% end %>
       <% if should_paginate %>
         <div class="col-sm-6">
-          <%= paginate records %>
+          <%= paginate pagination_collection %>
         </div>
       <% end %>
       <div class="col-sm-6 text-right admin-header__search">

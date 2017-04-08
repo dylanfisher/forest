@@ -35,6 +35,8 @@ App.Select2 = {
               var returnObj = {};
               var remoteScope = $select.attr('data-remote-scope'); // TODO: remote scope default?
 
+              // TODO: support multiple scopes
+
               returnObj[remoteScope] = params.term; // search term
               returnObj['page'] = params.page;
 
