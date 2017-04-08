@@ -12,6 +12,6 @@
   <td width="1"><%= link_to 'Destroy', page, method: :delete, class: 'btn btn-xs btn-danger', role: 'button', data: { confirm: 'Are you sure?' } %></td>
 <% end %>
 
-<% if page.immediate_children.any? %>
-  <%= render 'table_row_loop', pages: page.immediate_children.by_title, level: level + 1 %>
-<% end %>
+<%# if page.immediate_children.any? %>
+  <%#= render 'table_row_loop', pages: page.immediate_children.by_title, level: level + 1 %>
+<%# end %>
