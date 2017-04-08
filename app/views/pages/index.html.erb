@@ -21,14 +21,17 @@
     </thead>
 
     <tbody>
-      <% @parent_pages.includes(:children).each do |page| %>
-        <%= render 'table_row', page: page, level: 0 %>
-        <% children = page.immediate_children %>
-        <% level = 0 %>
-        <% while children.present? %>
-          <%= render partial: 'table_row', collection: children, locals: { level: level + 1 }, as: :page %>
-          <% children = children.collect(&:immediate_children).reject(&:blank?).flatten %>
-          <% level += 1 %>
+      <%# TODO: it would be more efficient to loop through page groups, if the page group code was properly set up %>
+      <% @parent_pages.each do |page| %>
+        <% cache page do %>
+          <%= render 'table_row', page: page, level: 0 %>
+          <% children = page.immediate_children %>
+          <% level = 0 %>
+          <% while children.present? %>
+            <%= render partial: 'table_row', collection: children, locals: { level: level + 1 }, as: :page, cached: true %>
+            <% children = children.collect(&:immediate_children).reject(&:blank?).flatten %>
+            <% level += 1 %>
+          <% end %>
         <% end %>
       <% end %>
     </tbody>

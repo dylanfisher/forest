@@ -129,6 +129,13 @@ class Page < ApplicationRecord
       end
     end
 
+    page_ids_to_touch = []
+    page_ids_to_touch << top_ancestor.id if top_ancestor.present?
+    page_ids_to_touch.concat final_descendents.collect(&:parent_page_id)
+    page_ids_to_touch.uniq!
+
+    Page.where(id: page_ids_to_touch).update_all(updated_at: DateTime.now)
+
     self.page_groups << final_descendents
   end
 
@@ -145,7 +152,7 @@ class Page < ApplicationRecord
   end
 
   def remove_page_group_associations!
-    Page.where(id: find_children_recursively.collect(&:id)).update_all(parent_page_id: nil)
+    Page.where(id: find_children_recursively.collect(&:id)).update_all(parent_page_id: nil, updated_at: DateTime.now)
     assign_page_groups! if self.parent_page.present?
   end
 
@@ -170,6 +177,5 @@ class Page < ApplicationRecord
     def should_assign_page_groups?
       valid_attributes_for_change = %w(parent_page_id title slug)
       (self.changed & valid_attributes_for_change).any? && valid_for_page_group?
-      true # TODO, this is just temporary
     end
 end
