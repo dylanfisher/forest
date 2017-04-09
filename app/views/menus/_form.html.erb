@@ -67,6 +67,7 @@
 
 <% end %>
 
+<%# This HTML should match the HTML in menus/_list_item.html.erb %>
 <div class="dd-item-template" id="dd-item-template">
   <%= content_tag :li, class: 'dd-item' do %>
     <div class="dd-content form-group">
@@ -92,6 +93,7 @@
         <label for="url">Custom URL</label>
         <input type="text" class="dd-input__input form-control" name="url">
       </div>
+      <button type="button" class="dd-content__remove-item btn btn-link">Remove menu item</button>
     </div>
   <% end %>
 </div>

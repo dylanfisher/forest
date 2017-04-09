@@ -1,10 +1,13 @@
 // TODO: Implement teardown method for turbolinks:before-cache
+
+App.NestableMenus = {};
+
 App.pageLoad.push(function() {
   var $nestable = $('.dd');
 
   $nestable.nestable();
 
-  App.getSerializedJSON = function() {
+  App.NestableMenus.getSerializedJSON = function() {
     var $items = $nestable.find('.dd-item');
 
     $items.each(function() {
@@ -23,7 +26,7 @@ App.pageLoad.push(function() {
     return window.JSON.stringify( $nestable.nestable( 'serialize' ) );
   }
 
-  $('#menu_structure').val( App.getSerializedJSON() );
+  $('#menu_structure').val( App.NestableMenus.getSerializedJSON() );
 
   $nestable.on('change', function() {
     if ( $(this).closest('#dd-primary').length ) {
@@ -39,7 +42,7 @@ App.pageLoad.push(function() {
         $hiddenInput.val(value);
       });
 
-      $('#menu_structure').val( App.getSerializedJSON() );
+      $('#menu_structure').val( App.NestableMenus.getSerializedJSON() );
     }
   });
 });
@@ -63,4 +66,12 @@ $(document).on('click', '#menu__add-item-button', function() {
   var $ddItem = $ddList.find('.dd-item[data-id="' + itemId + '"]');
 
   $(document).trigger('app:add-menu-item', [$ddItem]);
+});
+
+$(document).on('click', '.dd-content__remove-item', function() {
+  var $item = $(this).closest('.dd-item');
+
+  $item.remove();
+
+  $('#menu_structure').val( App.NestableMenus.getSerializedJSON() );
 });
