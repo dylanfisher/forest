@@ -34,9 +34,7 @@
                 <%= f.button :submit, class: 'btn-success' %>
               </div>
               <div class="col-sm-6">
-                <label class="control-label">Featured Image</label>
-                <%= media_item_chooser @page, field_name: 'page_featured_image_id', img_src: @page.featured_image&.attachment&.try(:url, :large) %>
-                <%= f.association :featured_image, as: :hidden %>
+                <%= f.association :featured_image, as: :image %>
               </div>
             </div>
           </div>

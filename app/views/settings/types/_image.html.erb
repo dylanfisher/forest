@@ -1,2 +1,2 @@
-<%= media_item_chooser @setting, field_name: 'setting_value', img_src: @setting.value, path_only: true %>
+<%= f.input :value, as: :image, input_html: { field_name: 'setting_value', img_src: @setting.value, path_only: true } %>
 <%= f.input :value, readonly: true %>

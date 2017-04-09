@@ -66,6 +66,9 @@ $(document).on('click', '.media-item-chooser .media-library-link', function(e) {
   var imageUrl = $(this).attr('data-image-url');
   var value = App.MediaItemChooser.toPath ? imageUrl : id;
 
+  console.log(id, imageUrl, value);
+  console.log('$(App.MediaItemChooser.inputSelector', $(App.MediaItemChooser.inputSelector));
+
   if ( App.MediaItemChooser.inputSelector ) {
     $(App.MediaItemChooser.inputSelector).val( value );
     if ( $(App.MediaItemChooser.inputSelector + '_preview').length )  {
