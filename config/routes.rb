@@ -22,6 +22,7 @@ Rails.application.routes.draw do
     get 'pages/:id/versions', to: 'pages#versions', as: 'page_versions'
     get 'pages/:id/versions/:version_id', to: 'pages#version', as: 'page_version'
     get 'pages/:id/versions/:version_id/restore', to: 'pages#restore', as: 'restore_page_version'
+    get 'page_groups', to: 'page_groups#index'
     resources :settings
     resources :users
     resources :user_groups

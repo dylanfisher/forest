@@ -78,6 +78,8 @@ class Page < ApplicationRecord
     parent_or_self = self.parent_page || self
 
     # TODO: more efficient way than destroying all?
+    # TODO: destroying the page_groups won't work at all when other records depend on the association,
+    # such as the menus refering to page groups.
     parent_or_self.ancestor_page_groups.destroy_all
     self.page_groups.destroy_all
 

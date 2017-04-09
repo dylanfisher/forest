@@ -19,6 +19,18 @@
                 <%= f.input :structure, as: :hidden %>
                 <%= f.button :submit, class: 'btn-success' %>
               </div>
+              <div class="col-sm-6">
+                <%= f.association :page_groups,
+                  hint: 'Display this menu on these page groups.',
+                  collection: @menu.page_groups,
+                  include_blank: true,
+                  input_html: {
+                    data: {
+                      remote_path: page_groups_path,
+                      remote_scope: 'title_like',
+                    }
+                  } %>
+              </div>
             </div>
           </div>
         </div>
