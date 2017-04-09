@@ -72,7 +72,6 @@ $ bundle
 Big Picture
 
 - [ ] tests
-- [ ] upgrade to bootstrap 4
 - [ ] remove any gem dependencies not totally necessary?
 - [ ] is it better to namespace engine?
 - [ ] make use of yarn and webpacker?
