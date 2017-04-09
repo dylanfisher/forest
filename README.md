@@ -1,3 +1,5 @@
+### 🚧 Under Construction 🚧
+
 # 🌲 Forest
 Forest is a Rails 5 CMS that provides an opinionated starting point when creating new websites.
 Much inspiration was drawn from Wordpress' dashboard. The Forest dashboard uses Bootstrap and very little
@@ -110,6 +112,7 @@ Pages
 - [ ] page groups / page heirarchy
 - [ ] page status for scheduled, pending and hidden states
 - [ ] better page versioning, page history navigation, restore content blocks with page version
+- [ ] 404 page, error pages
 - [x] data associated pages that support blocks
 
 Blocks
