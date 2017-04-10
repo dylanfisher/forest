@@ -131,13 +131,11 @@ class PagesController < ForestController
 
     def set_page
       # TODO: clean up page slug lookup
-      page_slug = params[:page_path].split('/').reject(&:blank?).last if params[:page_path]
-      page_slug = page_slug.presence || params[:id]
       if action_name == 'show'
         # TODO: Published scope
-        @page = Page.find_by_slug(page_slug) # Don't eager load associations when cached in show
+        @page = Page.find_by_path(params[:page_path]) # Don't eager load associations when cached in show
       else
-        @page = Page.includes(page_slots: :block).find_by_slug(page_slug)
+        @page = Page.includes(page_slots: :block).find_by_path(params[:id] || params[:page_path])
       end
 
       @record = @page

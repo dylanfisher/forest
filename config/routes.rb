@@ -19,9 +19,9 @@ Rails.application.routes.draw do
     end
     resources :menus, concerns: :paginatable
     resources :pages, concerns: :paginatable
-    get 'pages/:id/versions', to: 'pages#versions', as: 'page_versions'
-    get 'pages/:id/versions/:version_id', to: 'pages#version', as: 'page_version'
-    get 'pages/:id/versions/:version_id/restore', to: 'pages#restore', as: 'restore_page_version'
+    get 'pages/:page_path/versions', to: 'pages#versions', as: 'page_versions'
+    get 'pages/:page_path/versions/:version_id', to: 'pages#version', as: 'page_version'
+    get 'pages/:page_path/versions/:version_id/restore', to: 'pages#restore', as: 'restore_page_version'
     get 'page_groups', to: 'page_groups#index'
     resources :settings
     resources :users
@@ -39,7 +39,9 @@ Rails.application.routes.draw do
   # Show
   get 'user/:id', to: 'users#show', as: 'show_user'
   get 'media/:id', to: 'media_items#show', as: 'show_media_item'
-  get '*page_path/edit', to: redirect('/admin/pages/%{id}/edit')
+
+  get '*page_path/edit', to: 'pages#edit'
+  # get '*page_path/edit', to: redirect('/admin/pages/%{page_path}/edit'), constraints: { page_path: /(?!.*admin).*/ }
 
   scope constraints: lambda { |request| request.format.to_s.exclude? 'image/' } do
     get '*page_path', to: 'pages#show', as: 'show_page'

@@ -19,6 +19,7 @@
               <div class="col-sm-6">
                 <%= f.input :title %>
                 <%= f.input :slug %>
+                <%= f.input :path, readonly: true %>
                 <%= f.association :parent_page,
                   collection: @parent_page_pages,
                   include_blank: true,

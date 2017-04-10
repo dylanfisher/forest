@@ -9,12 +9,15 @@ class Page < ApplicationRecord
   # serialize :page_slot_cache
 
   before_validation :generate_slug
-  after_save :assign_page_groups!, if: :should_assign_page_groups?
+  before_validation :assign_page_groups!, if: :should_assign_page_groups?
+  before_validation :generate_path
   after_destroy :remove_page_group_associations!
 
   validates_presence_of :title
   validates_presence_of :slug
-  validates_uniqueness_of :slug
+  validates_presence_of :path
+  validates_uniqueness_of :slug, scope: :parent_page_id
+  validates_uniqueness_of :path
 
   has_one :current_version, -> { reorder(created_at: :desc, id: :desc) }, class_name: 'PaperTrail::Version', foreign_key: 'item_id'
   has_one :current_published_version, -> { reorder(created_at: :desc, id: :desc).where_object(status: 1) }, class_name: 'PaperTrail::Version', foreign_key: 'item_id'
@@ -60,13 +63,27 @@ class Page < ApplicationRecord
   #   page_ancestors.collect(&:slug).join('/')
   # end
 
+  # def self.find_by_slug(slug, parent_page_id)
+  #   self.find_by slug: slug, parent_page_id: parent_page_id
+  # end
+
   def generate_slug
-    # TODO: generate unique slug representing the page group hiearchy
     self.slug = title.parameterize unless attribute_present?('slug')
   end
 
+  def generate_path
+    unless attribute_present?('path')
+      if page_ancestors.any?
+        generated_path = "#{page_ancestors.collect(&:slug).join('/')}/#{self.slug}"
+      else
+        generated_path = self.slug
+      end
+      self.path = generated_path
+    end
+  end
+
   def to_param
-    slug
+    path
   end
 
   # def uniq_child_page_groups
@@ -142,7 +159,7 @@ class Page < ApplicationRecord
   end
 
   def page_ancestors
-    ancestors = []
+    ancestors ||= []
     page = self
     parent = page.parent_page
     while parent
