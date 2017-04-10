@@ -14,6 +14,7 @@ class Menu < ApplicationRecord
 
   has_and_belongs_to_many :page_groups
 
+  # TODO: the cached self.menus method isn't used when accessing through the join table
   scope :by_page_group, -> (page_groups) { joins(:page_groups).where('page_groups.id IN (?)', page_groups.collect(&:id)) }
 
   def self.for(slug)
@@ -33,6 +34,7 @@ class Menu < ApplicationRecord
   end
 
   def cache_key
+    # TODO: is this performant?
     "#{super}/#{Digest::MD5.hexdigest(pages.collect(&:cache_key).join)}"
   end
 
