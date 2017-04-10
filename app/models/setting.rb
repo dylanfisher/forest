@@ -13,8 +13,8 @@ class Setting < ApplicationRecord
   scope :by_slug, -> (orderer = :asc) { order(slug: orderer) }
   scope :by_created_at, -> (orderer = :desc) { order(created_at: orderer) }
 
-  def self.for(title)
-    self.settings.select { |setting| setting.slug.underscore == title.to_s.underscore }.first
+  def self.for(slug)
+    self.settings.select { |setting| setting.slug == slug.parameterize }.first
   end
 
   def self.expire_cache!
@@ -33,7 +33,7 @@ class Setting < ApplicationRecord
 
     def self.settings
       Rails.cache.fetch CACHE_KEY do
-        self.all
+        self.all.to_a
       end
     end
 

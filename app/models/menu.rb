@@ -48,7 +48,7 @@ class Menu < ApplicationRecord
 
     def self.menus
       Rails.cache.fetch CACHE_KEY do
-        self.all
+        self.all.to_a
       end
     end
 
