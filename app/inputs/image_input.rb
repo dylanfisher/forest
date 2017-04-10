@@ -24,6 +24,8 @@ class ImageInput < SimpleForm::Inputs::StringInput
 
     content = ActiveSupport::SafeBuffer.new
 
+    content << template.tag(:br)
+
     content << template.image_tag((img_src || ''),
                   class: "media-item-chooser__image img-rounded cursor-pointer #{image_tag_classes}",
                   id: "#{field_name}_preview",
@@ -37,6 +39,10 @@ class ImageInput < SimpleForm::Inputs::StringInput
                   data: {
                     **modal_data_attributes
                   })
+
+    content << template.content_tag(:button, 'Remove image',
+                  type: 'button',
+                  class: "media-item-chooser__remove-image #{'hidden' unless object.send(reflection_or_attribute_name).present?} btn btn-link")
 
     # TODO: This partial renders an additional form, which is not valid HTML.
     # Either the media item modal should not use a form, or the modal needs to be appended

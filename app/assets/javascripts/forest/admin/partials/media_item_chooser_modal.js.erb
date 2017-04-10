@@ -65,15 +65,28 @@ $(document).on('click', '.media-item-chooser .media-library-link', function(e) {
   var id = $(this).attr('data-media-item-id');
   var imageUrl = $(this).attr('data-image-url');
   var value = App.MediaItemChooser.toPath ? imageUrl : id;
-
-  console.log(id, imageUrl, value);
-  console.log('$(App.MediaItemChooser.inputSelector', $(App.MediaItemChooser.inputSelector));
+  var $removeButton = $(this).closest('.image').find('.media-item-chooser__remove-image');
 
   if ( App.MediaItemChooser.inputSelector ) {
     $(App.MediaItemChooser.inputSelector).val( value );
     if ( $(App.MediaItemChooser.inputSelector + '_preview').length )  {
       $(App.MediaItemChooser.inputSelector + '_preview').removeClass('hidden').attr('src', imageUrl);
+      $removeButton.removeClass('hidden');
     }
     $(this).closest('.modal').modal('hide');
   }
+});
+
+$(document).on('click', '.media-item-chooser__remove-image', function() {
+  var $wrapper = $(this).closest('.image');
+  var $image = $wrapper.find('.media-item-chooser__image');
+  var $button = $wrapper.find('.media-item-chooser__button');
+  var $input = $( $button.attr('data-media-item-input') );
+
+  console.log('$button', $button);
+  console.log('$input', $input);
+
+  $image.attr('src', '').attr('alt', '').addClass('hidden');
+  $input.val('');
+  $(this).addClass('hidden');
 });

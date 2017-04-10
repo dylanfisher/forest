@@ -1,7 +1,11 @@
 .media-item-chooser__image,
-.media-item-chooser__button {
-  display: block;
+.media-item-chooser__button,
+.media-item-chooser__remove-image {
   margin-bottom: $gutter;
+}
+
+.media-item-chooser__image {
+  display: block;
 }
 
 .media-item-chooser__image {

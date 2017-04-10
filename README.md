@@ -122,16 +122,17 @@ Blocks
 
 Media Gallery
 
-- [ ] add ability to remove media item (e.g. remove feature media item from page)
 - [ ] better media item upload in media_item#edit
 - [ ] ability to add new media items through modals (e.g. featured in on pages)
 - [ ] ability to upload other file types, not just images (pdf, video, audio)
+- [ ] ability to associate multiple media items at once, e.g. for a carousel
 - [ ] crop tool and other enhancements
+- [x] add ability to remove media item (e.g. remove feature media item from page)
 
 Menus
 
-- [ ] ability to remove menu items
 - [ ] create pattern for linking to other record types in navigation menus
+- [x] ability to remove menu items
 
 Search
 
