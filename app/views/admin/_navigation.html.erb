@@ -12,7 +12,7 @@
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li><%= link_to Setting.for(:site_title).value, root_path, title: 'Visit Site' %></li>
+        <li><%= link_to Setting.for('site-title').value, root_path, title: 'Visit Site' %></li>
         <li><%= link_to 'Dashboard', admin_path %></li>
         <li><%= link_to 'Pages', pages_path %></li>
         <li><%= link_to 'Media', media_items_path %></li>

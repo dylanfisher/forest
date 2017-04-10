@@ -17,7 +17,7 @@ class Menu < ApplicationRecord
   scope :by_page_group, -> (page_groups) { joins(:page_groups).where('page_groups.id IN (?)', page_groups.collect(&:id)) }
 
   def self.for(slug)
-    self.menus.select { |menu| menu.slug == slug.to_s }.first
+    self.menus.select { |menu| menu.slug == slug.parameterize }.first
   end
 
   def self.expire_cache!
@@ -47,7 +47,7 @@ class Menu < ApplicationRecord
   private
 
     def self.menus
-      Rails.cache.fetch CACHE_KEY do
+      @menus ||= Rails.cache.fetch CACHE_KEY do
         self.all.to_a
       end
     end
