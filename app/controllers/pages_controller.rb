@@ -49,7 +49,7 @@ class PagesController < ForestController
   def show
     authorize @page
     @page_groups = @page.child_page_groups
-    @menus = Menu.by_page_group @page_groups
+    @menus = Menu.by_page_group @page_groups if @page_groups.any?
   end
 
   def version

@@ -42,5 +42,7 @@ $(document).on('change', '#page_slots .block-type-selector select', function() {
   $templateFields.removeClass('active');
   $templateField.addClass('active');
 
+  $wrapper.find('input:first').focus();
+
   $(document).trigger('app:page-slot-after-insert', $wrapper);
 });
