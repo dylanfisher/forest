@@ -1,4 +1,4 @@
-App.pageLoad.push(function() {
+$(document).on('turbolinks:load app:page-slot-after-insert', function() {
   var $pageSlotWrapper = $('#page_slots');
   var $pageSlots = $('#page_slots > .nested-fields');
 

@@ -138,6 +138,9 @@ Search
 
 - [ ] frontend search design
 
+JavaScript
+- [ ] better namespacing of all custom events. e.g. they should be `forest:my-custom-event`
+
 Settings
 
 - [x] better settings UI, ability to set multiple data types, e.g. boolean, or association
