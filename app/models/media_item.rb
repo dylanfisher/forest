@@ -3,7 +3,8 @@ class MediaItem < ApplicationRecord
   include Searchable
 
   has_attached_file :attachment, styles: { huge: '2000x2000>', large: '1200x1200>', medium: '600x600>', small: '300x300>', thumb: '100x100>' }, default_url: '/images/:style/missing.png'
-  validates_attachment_content_type :attachment, content_type: /\Aimage\/.*\z/
+  do_not_validate_attachment_file_type :attachment
+  before_post_process :skip_for_non_images
   validates_attachment_presence :attachment
 
   before_validation :set_default_metadata
@@ -71,5 +72,9 @@ class MediaItem < ApplicationRecord
       if self.title.blank?
         self.title = attachment_file_name.sub(/\.(jpg|jpeg|png|gif)$/i, '')
       end
+    end
+
+    def skip_for_non_images
+      (attachment_content_type =~ /^image\//).present?
     end
 end

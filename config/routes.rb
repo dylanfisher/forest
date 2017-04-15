@@ -43,7 +43,7 @@ Rails.application.routes.draw do
   get '*page_path/edit', to: 'pages#edit'
   # get '*page_path/edit', to: redirect('/admin/pages/%{page_path}/edit'), constraints: { page_path: /(?!.*admin).*/ }
 
-  scope constraints: lambda { |request| request.format.to_s.exclude? 'image/' } do
+  scope constraints: lambda { |request| request.format.to_s.include? 'text/html' } do
     get '*page_path', to: 'pages#show', as: 'show_page'
   end
 end

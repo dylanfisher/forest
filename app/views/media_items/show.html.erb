@@ -1,6 +1,9 @@
 <% cache @media_item do %>
 
-  <%= image_tag @media_item.attachment.url(:large) %>
+  <%= link_to @media_item.attachment.url do %>
+    <%# TODO: handle non-image file types %>
+    <%= image_tag @media_item.attachment.url(:large) %>
+  <% end %>
 
   <p>
     <strong>Title:</strong>
