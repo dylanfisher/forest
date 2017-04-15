@@ -38,7 +38,7 @@ class Page < ApplicationRecord
   has_many :unique_ancestor_page_groups, -> { select('distinct on (page_groups.level, page_groups.page_id, page_groups.parent_page_id) *').by_level }, class_name: 'PageGroup', foreign_key: 'ancestor_page_id'
   has_many :page_group_pages, through: :page_groups, source: :parent_page, dependent: :destroy
   has_many :children, -> { includes(:page_groups) }, through: :ancestor_page_groups, source: :page
-  has_many :immediate_children, class_name: 'Page', foreign_key: 'parent_page_id'
+  has_many :immediate_children, -> { by_title }, class_name: 'Page', foreign_key: 'parent_page_id'
 
   belongs_to :parent_page, class_name: 'Page'
 
@@ -68,18 +68,7 @@ class Page < ApplicationRecord
   # end
 
   def generate_slug
-    self.slug = title.parameterize unless attribute_present?('slug')
-  end
-
-  def generate_path
-    unless attribute_present?('path')
-      if page_ancestors.any?
-        generated_path = "#{page_ancestors.collect(&:slug).join('/')}/#{self.slug}"
-      else
-        generated_path = self.slug
-      end
-      self.path = generated_path
-    end
+    self.slug = title.parameterize unless attribute_present?('slug') || changed.include?('slug')
   end
 
   def to_param
@@ -196,5 +185,16 @@ class Page < ApplicationRecord
     def should_assign_page_groups?
       valid_attributes_for_change = %w(parent_page_id title slug)
       (self.changed & valid_attributes_for_change).any? && valid_for_page_group?
+    end
+
+    def generate_path
+      unless attribute_present?('path') && changed.exclude?('slug')
+        if page_ancestors.any?
+          generated_path = "#{page_ancestors.collect(&:slug).join('/')}/#{self.slug}"
+        else
+          generated_path = self.slug
+        end
+        self.path = generated_path
+      end
     end
 end

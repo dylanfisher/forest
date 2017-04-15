@@ -6,11 +6,10 @@ class MediaItem < ApplicationRecord
   validates_attachment_content_type :attachment, content_type: /\Aimage\/.*\z/
   validates_attachment_presence :attachment
 
+  before_validation :set_default_metadata
   before_validation :generate_slug
 
   validates :slug, presence: true, uniqueness: true
-
-  before_save :set_default_metadata
 
   belongs_to :attachable, polymorphic: true
 
@@ -45,13 +44,15 @@ class MediaItem < ApplicationRecord
   end
 
   def generate_slug
-    unless attribute_present?('slug')
-      case self
-      when title.present?
+    unless attribute_present?('slug') || changed.include?('slug')
+      if title.present?
         slug_attribute = title
+      elsif attachment_file_name.present?
+        slug_attribute = attachment_file_name
       else
-        slug_attribute = id
+        slug_attribute = SecureRandom.uuid
       end
+
       self.slug = slug_attribute.parameterize
     end
   end

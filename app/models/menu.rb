@@ -39,7 +39,7 @@ class Menu < ApplicationRecord
   end
 
   def generate_slug
-    self.slug = title.parameterize unless attribute_present?('slug')
+    self.slug = title.parameterize unless attribute_present?('slug') || changed.include?('slug')
   end
 
   def to_param
