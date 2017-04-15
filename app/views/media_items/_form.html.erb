@@ -23,7 +23,17 @@
                 <%= f.button :submit, class: 'btn-success' %>
               </div>
               <div class="col-sm-6">
-                <%= image_tag @media_item.attachment.url(:medium) if @media_item.attachment.present? && @media_item.attachment.content_type.match(/\Aimage\/.*\z/) %>
+                <% if @media_item.attachment.present? %>
+                  <% if @media_item.image? %>
+                    <%= image_tag @media_item.attachment.url(:medium) %>
+                  <% else %>
+                    <%= link_to media_item.attachment.url, class: 'blank-link', target: '_blank' do %>
+                      <%= content_tag :div, class: 'media-item-file img-rounded' do %>
+                        <%= content_tag :span, '', class: "media-item-file__icon glyphicon #{media_item.glyphicon}" %>
+                      <% end %>
+                    <% end %>
+                  <% end %>
+                <% end %>
               </div>
             </div>
           </div>

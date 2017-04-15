@@ -62,6 +62,24 @@ class MediaItem < ApplicationRecord
     slug
   end
 
+  def image?
+    (attachment_content_type =~ /^image\//).present?
+  end
+
+  def file?
+    !image?
+  end
+
+  def glyphicon
+    if image?
+      'glyphicon-picture'
+    elsif attachment_content_type == 'application/zip'
+      'glyphicon-folder-close'
+    else
+      'glyphicon-file'
+    end
+  end
+
   private
 
     def self.grouped_by_year_month
@@ -75,6 +93,6 @@ class MediaItem < ApplicationRecord
     end
 
     def skip_for_non_images
-      (attachment_content_type =~ /^image\//).present?
+      image?
     end
 end
