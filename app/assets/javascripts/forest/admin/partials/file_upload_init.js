@@ -28,6 +28,8 @@ App.FileUploader = {
 
         $('.template-download').remove();
         $(previewHTML).prependTo( $('.media-library [data-infinite-load]') );
+      }).on('fileuploadstop', function(e, data) {
+        $('#progress').addClass('hidden').removeClass('fade in');
       });
     });
   },

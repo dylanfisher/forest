@@ -1,5 +1,8 @@
 module FormHelper
 
+  # TODO:
+  # - enable multiple selections at the same time, e.g. merge the current_scopes
+
   def dropdown_select_form(options = {})
     url                    = options.fetch :url
     id                     = options.fetch :id
