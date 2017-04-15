@@ -4,6 +4,7 @@ class MediaItemsController < ForestController
   layout 'admin', except: [:show]
 
   has_scope :by_date
+  has_scope :by_content_type
   has_scope :search
 
   # GET /media_items

@@ -23,10 +23,15 @@ class MediaItem < ApplicationRecord
       date = nil
     end
   }
+  scope :by_content_type, -> (content_type) { where(attachment_content_type: content_type) }
   scope :images, -> { where('attachment_content_type LIKE ?', '%image%') }
 
   def self.dates_for_filter
     self.grouped_by_year_month.collect { |x| [x.created_at.strftime('%B %Y'), x.created_at.strftime('%d-%m-%Y')] }
+  end
+
+  def self.content_types_for_filter
+    self.grouped_by_content_type.collect { |x| x.attachment_content_type }
   end
 
   def to_jq_upload
@@ -83,7 +88,11 @@ class MediaItem < ApplicationRecord
   private
 
     def self.grouped_by_year_month
-      self.select("DISTINCT ON (DATE_TRUNC('month', created_at)) *")
+      self.select("DISTINCT ON (DATE_TRUNC('month', media_items.created_at)) *")
+    end
+
+    def self.grouped_by_content_type
+      self.select("DISTINCT ON (media_items.attachment_content_type) *")
     end
 
     def set_default_metadata
