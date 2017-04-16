@@ -2,7 +2,7 @@
   <td><%= status_indicator page %></td>
   <td><%= page.id %></td>
   <td><%= admin_page_level_indicator level %><%= page.title %></td>
-  <td><%= page.parent_page.id if page.parent_page.present? %></td>
+  <td><%= "#{page.parent_page.title} - #{page.parent_page.id}" if page.parent_page.present? %></td>
   <%# TODO: eager load users %>
   <td><%= User.find(page.versions.last&.version_author)&.display_name if page.versions.last&.version_author %></td>
   <td><%= page.updated_at.to_formatted_s(:short) %></td>
