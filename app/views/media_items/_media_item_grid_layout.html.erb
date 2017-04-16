@@ -3,7 +3,7 @@
   <% content = capture do %>
     <% if media_item.file? %>
       <%= content_tag :span, '', class: "media-library-image--grid__icon glyphicon #{media_item.glyphicon}" %>
-      <%= content_tag :div, media_item.attachment_file_name, class: "media-library-image__label well" %>
+      <%= content_tag :div, media_item.attachment_file_name, class: "media-library-image__label small well" %>
     <% end %>
   <% end %>
   <%= link_to edit_media_item_path(media_item), class: "media-library-link #{media_item.file? ? 'media-library-link--file' : 'media-library-link--image'}", data: { media_item_id: media_item.id, image_url: (image_url(attachment_or_placeholder_url) if media_item.image?) } do %>

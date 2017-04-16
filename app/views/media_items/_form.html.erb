@@ -30,7 +30,7 @@
                     <%= link_to media_item.attachment.url, class: 'blank-link', target: '_blank' do %>
                       <%= content_tag :div, class: 'media-item-file img-rounded', title: 'Open file' do %>
                         <%= content_tag :span, '', class: "media-library-image--grid__icon glyphicon #{media_item.glyphicon}" %>
-                        <%= content_tag :div, media_item.attachment_file_name, class: "media-library-image__label well" %>
+                        <%= content_tag :div, media_item.attachment_file_name, class: "media-library-image__label small well" %>
                       <% end %>
                     <% end %>
                   <% end %>

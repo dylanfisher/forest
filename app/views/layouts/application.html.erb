@@ -3,6 +3,9 @@
   <head>
     <%= render 'layouts/shared_head' %>
     <%= stylesheet_link_tag 'forest/application_public', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <% if controller_name == 'sessions' %>
+      <%= stylesheet_link_tag 'forest/application_bootstrap', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <% end %>
   </head>
 
   <body class="<%= @body_classes %> public">
