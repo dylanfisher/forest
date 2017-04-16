@@ -48,6 +48,10 @@ module AdminHelper
     end
   end
 
+  def admin_navbar_active_class(nav_item_path)
+    'active' if nav_item_path == request.path
+  end
+
   def admin_area?
     request_parts.first == 'admin'
   end

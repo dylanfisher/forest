@@ -68,7 +68,7 @@ class Page < ApplicationRecord
   # end
 
   def generate_slug
-    self.slug = title.parameterize unless attribute_present?('slug') || changed.include?('slug')
+    self.slug = title.parameterize if changed.include?('slug')
   end
 
   def to_param
@@ -188,7 +188,8 @@ class Page < ApplicationRecord
     end
 
     def generate_path
-      unless attribute_present?('path') && changed.exclude?('slug')
+      valid_attributes_for_change = %w(parent_page_id slug)
+      if (valid_attributes_for_change & changed).any?
         if page_ancestors.any?
           generated_path = "#{page_ancestors.collect(&:slug).join('/')}/#{self.slug}"
         else

@@ -22,9 +22,26 @@ class ForestController < ApplicationController
 
     def authentication_check
       # TODO: cleaner authentication_check ?
-      unless controller_name == 'public' || action_name == 'show' || action_name == 'show_index'
+      unless public?
         authenticate_user!
       end
+    end
+
+    # def define_global_instance_variables
+    #   if public?
+    #     @public = true
+    #   elsif admin?
+    #     @admin = true
+    #   end
+    # end
+
+    def public?
+      # TODO: Do we need a more specific public/admin check?
+      controller_name == 'public' || action_name == 'show' || action_name == 'show_index'
+    end
+
+    def admin?
+      !public?
     end
 
     # def user_not_authorized

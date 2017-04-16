@@ -9,14 +9,17 @@
   background-size: cover;
   background-position: center;
   background-color: $gray-light;
+  position: relative;
 }
 
 .media-library-image--grid__icon {
   color: #bfbfbf;
-  font-size: 50px;
-  margin-top: 10px;
-  margin-left: 10px;
-  margin-right: 5px;
+  font-size: 60px;
+  position: absolute;
+  top: 33.33%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
 }
 
 .media-library-image--list__icon {
@@ -34,7 +37,13 @@
 }
 
 .media-library-image__label {
-  padding: 4px 13px 13px;
+  padding: 10px;
+  position: absolute;
+  bottom: 0;
+  background: white;
+  margin-bottom: 0;
+  width: 100%;
+  text-align: center;
 }
 
 .media-library-image--list {
