@@ -66,6 +66,6 @@ class MenusController < ForestController
 
     # Only allow a trusted parameter "white list" through.
     def menu_params
-      params.require(:menu).permit(:title, :slug, :structure, page_group_ids: [])
+      params.require(:menu).permit(:title, :slug, :structure)
     end
 end

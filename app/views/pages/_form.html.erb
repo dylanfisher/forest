@@ -21,7 +21,6 @@
                 <%= f.input :slug %>
                 <%= f.input :path, readonly: true %>
                 <%= f.association :parent_page,
-                  collection: @parent_page_pages,
                   include_blank: true,
                   input_html: {
                     data: {
@@ -29,7 +28,6 @@
                       remote_scope: 'title_like',
                     }
                   } %>
-                <%= f.association :page_groups %>
                 <%= f.input :status, as: :select, collection: Page.statuses.keys.to_a, include_blank: false %>
                 <%= f.input :description %>
                 <%= f.button :submit, class: 'btn-success' %>

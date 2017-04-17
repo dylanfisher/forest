@@ -1,2 +1,0 @@
-class PageGroupPolicy < BlockRecordPolicy
-end

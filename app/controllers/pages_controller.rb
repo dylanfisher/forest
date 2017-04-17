@@ -5,16 +5,21 @@ class PagesController < ForestController
   layout 'admin', except: [:show]
 
   before_action :set_page, only: [:show, :edit, :update, :destroy, :versions, :version, :restore]
-  before_action :set_parent_page_pages, only: [:edit, :update, :new]
   before_action :set_paper_trail_whodunnit
 
   has_scope :by_parent_page
   has_scope :title_like
 
   def index
-    parent_pages = apply_scopes(Page.includes(:immediate_children)).parent_pages.page params[:page]
-    children = parent_pages.collect(&:immediate_children).reject(&:blank?).flatten
-    @pages = apply_scopes(Page.where.not(id: children.pluck(:id))).by_title.page params[:page]
+    if request.format.json?
+      @pages = apply_scopes(Page).by_title.page params[:page]
+    else
+      @parent_pages = apply_scopes(Page.includes(:immediate_children)).parent_pages.page params[:page]
+      # children = parent_pages.collect(&:immediate_children).reject(&:blank?).flatten
+      # @pages = apply_scopes(Page.where.not(id: children.pluck(:id))).by_title.page params[:page]
+      @pages = apply_scopes(Page).by_title.page params[:page]
+    end
+
     authorize @pages
     respond_to :html, :json
   end
@@ -48,8 +53,9 @@ class PagesController < ForestController
 
   def show
     authorize @page
-    @page_groups = @page.child_page_groups
-    @menus = Menu.by_page_group @page_groups if @page_groups.any?
+    @menus = nil
+    # TODO
+    # @menus = Menu.by_page_group @page_groups if @page_groups.any?
   end
 
   def version
@@ -125,7 +131,7 @@ class PagesController < ForestController
   private
 
     def page_params
-      params.require(:page).permit(:title, :slug, :description, :status, :version_id, :featured_image_id, :media_item_ids, :page_slot_cache, :parent_page_id, :ancestor_page_id, page_group_ids: [],
+      params.require(:page).permit(:title, :slug, :description, :status, :version_id, :featured_image_id, :media_item_ids, :page_slot_cache, :parent_page_id, :ancestor_page_id,
         page_slots_attributes: [:id, :_destroy, :page_id, :page_version_id, :block_id, :block_type, :block_previous_version_id, :position, :block_record_type, :block_record_id, *BlockType.block_type_params])
     end
 
@@ -147,14 +153,6 @@ class PagesController < ForestController
         redirect_to root_url, flash: { error: 'Record not found.' }
       else
         raise ActiveRecord::RecordNotFound
-      end
-    end
-
-    def set_parent_page_pages
-      if @page&.parent_page_id
-        @parent_page_pages = Page.page(1) + Page.where(id: @page.parent_page_id)
-      else
-        @parent_page_pages = Page.page(1)
       end
     end
 

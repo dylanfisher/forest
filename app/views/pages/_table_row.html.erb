@@ -11,3 +11,6 @@
   <td width="1"><%= link_to 'Versions', page_versions_path(page), class: 'btn btn-xs btn-warning', role: 'button' %></td>
   <td width="1"><%= link_to 'Destroy', page, method: :delete, class: 'btn btn-xs btn-danger', role: 'button', data: { confirm: 'Are you sure?' } %></td>
 <% end %>
+
+<%# TODO: fix page caching %>
+<%= render partial: 'table_row', collection: page.immediate_children, locals: { level: level + 1 }, as: :page %>
