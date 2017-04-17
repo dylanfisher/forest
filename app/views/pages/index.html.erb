@@ -4,7 +4,7 @@
     select_options: Page.statuses.keys.to_a.collect{ |x| [x.titleize, x] },
     title: 'All Statuses' %>
 <% end %>
-<%= render 'admin/index_header', records: @pages, pagination_collection: @parent_pages, model_name: 'Page' %>
+<%= render 'admin/index_header', records: @pages, model_name: 'Page' %>
 
 <div class="table-responsive">
   <table class="table table-striped">
@@ -22,8 +22,8 @@
 
     <tbody>
       <%# TODO: it would be more efficient to loop through page groups, if the page group code was properly set up %>
-      <% cache @parent_pages do %>
-        <% @parent_pages.each do |page| %>
+      <% cache @pages do %>
+        <% @pages.each do |page| %>
           <% cache page do %>
             <%= render 'table_row', page: page, level: 0 %>
             <% children = page.immediate_children %>
@@ -40,4 +40,4 @@
   </table>
 </div>
 
-<%= paginate @parent_pages %>
+<%= paginate @pages %>

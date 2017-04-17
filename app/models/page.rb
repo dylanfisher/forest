@@ -45,9 +45,10 @@ class Page < ApplicationRecord
   # accepts_nested_attributes_for :page_slots, allow_destroy: true
 
   scope :by_parent_page, -> (orderer = :desc) { order("pages.parent_page_id #{orderer} NULLS #{orderer == :desc ? 'LAST' : 'FIRST'}, pages.title #{orderer}, pages.id ASC") }
-  scope :by_title, -> (orderer = :asc) { order(title: orderer) }
+  scope :by_title, -> (orderer = :asc) { order(title: orderer, id: :desc) }
   scope :title_like, -> string { where('pages.title ILIKE ?', "%#{string}%") }
-  scope :parent_pages, -> { where(parent_page_id: nil).order(:title, :id) } # TODO: doesn't play well with search scope
+  scope :parent_pages, -> { where(parent_page_id: nil).order(:title, :id) }
+  scope :non_parent_pages, -> { where('pages.parent_page_id IS NOT NULL').order(:title, :id) }
   # scope :parent_pages, -> { includes(:page_groups).where(page_groups: { page_id: nil }).order('pages.title ASC') } # TODO: doesn't play well with search scope
   # scope :parent_pages, -> { includes(:page_groups).order('page_groups.level ASC, pages.title ASC') }
 
