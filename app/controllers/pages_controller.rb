@@ -14,7 +14,7 @@ class PagesController < ForestController
   def index
     parent_pages = apply_scopes(Page.includes(:immediate_children)).parent_pages.page params[:page]
     children = parent_pages.collect(&:immediate_children).reject(&:blank?).flatten
-    @pages = apply_scopes(Page.where.not(id: children.pluck(:id)).by_title).page params[:page]
+    @pages = apply_scopes(Page.where.not(id: children.pluck(:id))).by_title.page params[:page]
     authorize @pages
     respond_to :html, :json
   end
