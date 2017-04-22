@@ -15,7 +15,7 @@ class <%= class_name %> < ApplicationRecord
   # has_one :current_published_version, -> { reorder(created_at: :desc, id: :desc).where_object(status: 1) }, class_name: "PaperTrail::Version", foreign_key: 'item_id'
 
   # def generate_slug
-  #   self.slug = title.parameterize unless attribute_present?('slug') || changed.include?('slug')
+  #   self.slug = title.parameterize if changed.include?('slug')
   # end
 
   # def to_param

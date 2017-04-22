@@ -22,7 +22,7 @@ class Setting < ApplicationRecord
   end
 
   def generate_slug
-    self.slug = title.parameterize unless attribute_present?('slug') || changed.include?('slug')
+    self.slug = title.parameterize if changed.include?('slug')
   end
 
   def to_param
@@ -32,9 +32,13 @@ class Setting < ApplicationRecord
   private
 
     def self.settings
-      @settings ||= Rails.cache.fetch CACHE_KEY do
+      @memo ||= Rails.cache.fetch CACHE_KEY do
         self.all.to_a
       end
+    end
+
+    def self.reset_method_cache!
+      @memo = nil
     end
 
     def expire_cache

@@ -1,6 +1,5 @@
 class Menu < ApplicationRecord
   CACHE_KEY = 'forest_menus'
-  # PERMITTED_STRUCTURE_KEYS = %w(name children)
 
   before_validation :generate_slug
 
@@ -38,7 +37,7 @@ class Menu < ApplicationRecord
   end
 
   def generate_slug
-    self.slug = title.parameterize unless attribute_present?('slug') || changed.include?('slug')
+    self.slug = title.parameterize if changed.include?('slug')
   end
 
   def to_param
@@ -48,9 +47,13 @@ class Menu < ApplicationRecord
   private
 
     def self.menus
-      @menus ||= Rails.cache.fetch CACHE_KEY do
+      @memo ||= Rails.cache.fetch CACHE_KEY do
         self.all.to_a
       end
+    end
+
+    def self.reset_method_cache!
+      @memo = nil
     end
 
     def should_generate_new_friendly_id?
