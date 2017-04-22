@@ -1,4 +1,6 @@
 class BlockType < ApplicationRecord
+  scope :by_name, -> (orderer = :asc) { order(name: orderer, id: :desc) }
+
   def self.block_type_params
     self.all.collect do |block_type|
       {

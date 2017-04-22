@@ -55,8 +55,8 @@
             <% end %>
           </td>
           <% begin %>
-            <td width="1"><%= link_to 'Show', send("#{record.class.model_name.singular_route_key}_version_path", page, version), class: 'btn btn-xs btn-primary', role: 'button' %></td>
-            <td width="1"><%= link_to 'Restore', send("restore_#{record.class.model_name.singular_route_key}_version_path", page, version), class: 'btn btn-xs btn-success', role: 'button', title: 'Restore this version', data: { confirm: 'Are you sure you want to restore this version to the current version?' } %></td>
+            <td width="1"><%= link_to 'Show', send("#{record.class.model_name.singular_route_key}_version_path", record, version), class: 'btn btn-xs btn-primary', role: 'button' %></td>
+            <td width="1"><%= link_to 'Restore', send("restore_#{record.class.model_name.singular_route_key}_version_path", record, version), class: 'btn btn-xs btn-success', role: 'button', title: 'Restore this version', data: { confirm: 'Are you sure you want to restore this version to the current version?' } %></td>
           <% rescue ActionController::UrlGenerationError => e %>
             <td></td>
             <td></td>

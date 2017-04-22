@@ -8,6 +8,9 @@ class ForestController < ApplicationController
 
   # rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
+  helper_method :public?
+  helper_method :admin?
+
   private
 
     def set_body_classes

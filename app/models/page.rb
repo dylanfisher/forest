@@ -10,7 +10,7 @@ class Page < ApplicationRecord
 
   before_validation :generate_slug
   # before_validation :assign_page_heirarchy! if :hierarchy_changed?
-  before_validation :generate_path
+  before_validation :generate_path if :hierarchy_changed?
 
   after_save :touch_associated_pages if :hierarchy_changed?
 
@@ -100,14 +100,12 @@ class Page < ApplicationRecord
     end
 
     def generate_path
-      if hierarchy_changed?
-        if page_ancestors.any?
-          generated_path = "#{page_ancestors.collect(&:slug).join('/')}/#{self.slug}"
-        else
-          generated_path = self.slug
-        end
-        self.path = generated_path
+      if page_ancestors.any?
+        generated_path = "#{page_ancestors.collect(&:slug).join('/')}/#{self.slug}"
+      else
+        generated_path = self.slug
       end
+      self.path = generated_path
     end
 
     def touch_associated_pages

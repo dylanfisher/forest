@@ -9,6 +9,8 @@ end
 
 module Forest
   class Engine < ::Rails::Engine
+    config.autoload_paths << "#{config.root}/app/models/blocks"
+
     initializer :assets, :group => :all do
       Rails.application.config.assets.precompile += %w(
         forest/application_admin.css

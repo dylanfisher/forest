@@ -10,7 +10,7 @@ module BlockableControllerConcerns
   private
 
     def set_block_types
-      @block_types = BlockType.all
+      @block_types = BlockType.all.by_name
     end
 
     def save_page(record, options = {})

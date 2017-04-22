@@ -1,0 +1,6 @@
+<%# TODO: need to be able to handle associations more easily %>
+<% if f.object.block.present? %>
+  <%= block_f.input :image_id, as: :image, input_html: { object: f.object.block } %>
+<% else %>
+  <%= block_f.input :image_id, input_html: { object: f.object.block } %>
+<% end %>

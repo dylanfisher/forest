@@ -1,10 +1,13 @@
 class ImageInput < SimpleForm::Inputs::StringInput
 
   def input(wrapper_options = nil)
-    input_html_options.merge! id: "#{object.model_name.singular}_#{reflection_or_attribute_name}"
+    obj = input_html_options.fetch :object, object
+    input_html_options.merge! id: "#{obj.model_name.singular}_#{reflection_or_attribute_name}"
 
     button_title = input_html_options.fetch :button_title, 'Choose Image'
-    img_src      = input_html_options.fetch :img_src, object.send(reflection_or_attribute_name).try(:attachment).try(:url, :large)
+    img_src      = input_html_options.fetch :img_src, obj.send(reflection_or_attribute_name).try(:attachment).try(:url, :large)
+    # TODO: clean this craziness up
+    img_src      = (img_src.nil? ? (obj.respond_to?(self.input_type) ? obj.send(self.input_type) : nil) : nil).try(:attachment).try(:url, :large)
     path_only    = input_html_options.fetch :path_only, false
     field_name   = input_html_options.fetch :field_name, "#{input_html_options[:id]}"
 
@@ -42,7 +45,7 @@ class ImageInput < SimpleForm::Inputs::StringInput
 
     content << template.content_tag(:button, 'Remove image',
                   type: 'button',
-                  class: "media-item-chooser__remove-image #{'hidden' unless object.send(reflection_or_attribute_name).present?} btn btn-link")
+                  class: "media-item-chooser__remove-image #{'hidden' unless obj.send(reflection_or_attribute_name).present?} btn btn-link")
 
     # TODO: This partial renders an additional form, which is not valid HTML.
     # Either the media item modal should not use a form, or the modal needs to be appended
