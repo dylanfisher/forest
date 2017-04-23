@@ -4,7 +4,7 @@ class ForestController < ApplicationController
   protect_from_forgery with: :exception
   before_action :set_body_classes, :set_page_title
   before_action :authentication_check
-  before_filter :reset_class_method_cache
+  before_action :reset_class_method_cache
 
   # rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 

@@ -26,7 +26,11 @@ module BlockableControllerConcerns
       @blocks.delete_if { |k, v| v.blank? }.each_pair do |position, block|
         if block.save
           # TODO: this is feeling a little brittle
-          @record.page_slots.select { |a| a.position == position.to_i }.first.update_column :block_id, block.id
+          # TODO: fix a crash when deleting all blocks
+          page_slot = @record.page_slots.select { |a| a.position == position.to_i }.first
+          if page_slot.present?
+            page_slot.update_column :block_id, block.id
+          end
         else
           format.html { render :edit, notice: "Unable to update #{block.class.name.titleize}." }
         end
