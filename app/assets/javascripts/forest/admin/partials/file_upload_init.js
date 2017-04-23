@@ -7,6 +7,14 @@ App.FileUploader = {
       that.teardown();
     });
 
+    $(document).on('dragover.FileUploader dragenter.FileUploader', function() {
+      $('html').addClass('fileupload-dragover');
+    });
+
+    $(document).on('dragleave.FileUploader dragend.FileUploader drop.FileUploader', function() {
+      $('html').removeClass('fileupload-dragover');
+    });
+
     $fileuploads.each(function() {
       var $fileupload = $(this);
 
@@ -14,7 +22,7 @@ App.FileUploader = {
 
       $fileupload.fileupload({
         autoUpload: true,
-        sequentialUploads: true,
+        sequentialUploads: false,
       }).on('fileuploadstart', function (e) {
         $('#progress').removeClass('hidden').addClass('fade in');
       }).on('fileuploadprogressall', function (e, data) {
@@ -38,6 +46,8 @@ App.FileUploader = {
       this.instances[i].fileupload('destroy');
     }
     this.instances = [];
+    $('html').removeClass('fileupload-dragover');
+    $(document).off('dragover.FileUploader dragenter.FileUploader dragleave.FileUploader dragend.FileUploader drop.FileUploader');
   }
 };
 

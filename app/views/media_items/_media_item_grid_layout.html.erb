@@ -1,5 +1,5 @@
 <div class="media-item--grid col-xs-4 col-sm-3 col-md-2">
-  <% attachment_or_placeholder_url = media_item.attachment.exists? ? media_item.attachment.url(:medium) : nil %>
+  <% attachment_or_placeholder_url = media_item.attachment.exists? ? media_item.attachment.url(:medium) : '' %>
   <% content = capture do %>
     <% if media_item.file? %>
       <%= content_tag :span, '', class: "media-library-image--grid__icon glyphicon #{media_item.glyphicon}" %>

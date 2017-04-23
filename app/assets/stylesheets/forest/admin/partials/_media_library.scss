@@ -1,3 +1,19 @@
+.fileupload-dragover {
+  body {
+    &:before {
+      @include glyphicon-upload;
+      color: #fff;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      font-size: 152px;
+      transform: translate(-50%, -50%);
+      text-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+      z-index: 1;
+    }
+  }
+}
+
 .media-library-image-row {
   max-width: 100px;
 }
