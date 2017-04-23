@@ -27,7 +27,7 @@ class MediaItem < ApplicationRecord
   scope :images, -> { where('attachment_content_type LIKE ?', '%image%') }
 
   def self.dates_for_filter
-    self.grouped_by_year_month.collect { |x| [x.created_at.strftime('%B %Y'), x.created_at.strftime('%d-%m-%Y')] }
+    self.grouped_by_year_month.collect { |x| [x.created_at.strftime('%B %Y'), x.created_at.strftime('%d-%m-%Y')] }.reverse
   end
 
   def self.content_types_for_filter

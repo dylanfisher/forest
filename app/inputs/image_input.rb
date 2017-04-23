@@ -7,7 +7,9 @@ class ImageInput < SimpleForm::Inputs::StringInput
     button_title = input_html_options.fetch :button_title, 'Choose Image'
     img_src      = input_html_options.fetch :img_src, obj.send(reflection_or_attribute_name).try(:attachment).try(:url, :large)
     # TODO: clean this craziness up
-    img_src      = (img_src.nil? ? (obj.respond_to?(self.input_type) ? obj.send(self.input_type) : nil) : nil).try(:attachment).try(:url, :large)
+    if img_src.nil? && obj.respond_to?(self.input_type)
+      img_src = obj.send(self.input_type).try(:attachment).try(:url, :large)
+    end
     path_only    = input_html_options.fetch :path_only, false
     field_name   = input_html_options.fetch :field_name, "#{input_html_options[:id]}"
 

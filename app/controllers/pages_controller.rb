@@ -14,9 +14,7 @@ class PagesController < ForestController
     if request.format.json?
       @pages = apply_scopes(Page).by_title.page params[:page]
     else
-      @parent_pages = apply_scopes(Page.includes(:immediate_children)).parent_pages.page params[:page]
-      # children = parent_pages.collect(&:immediate_children).reject(&:blank?).flatten
-      # @pages = apply_scopes(Page.where.not(id: children.pluck(:id))).by_title.page params[:page]
+      @parent_pages = apply_scopes(Page.includes(:versions, immediate_children: :versions)).parent_pages.page params[:page]
       @pages = apply_scopes(Page).by_title.page params[:page]
     end
 

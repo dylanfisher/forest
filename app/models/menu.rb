@@ -31,11 +31,6 @@ class Menu < ApplicationRecord
     Page.find(structure_as_json.collect { |a| a['page'] }.reject(&:blank?))
   end
 
-  def cache_key
-    # TODO: is this performant?
-    "#{super}/#{Digest::MD5.hexdigest(pages.collect(&:cache_key).join)}"
-  end
-
   def generate_slug
     self.slug = title.parameterize if changed.include?('slug')
   end

@@ -13,6 +13,7 @@ class Page < ApplicationRecord
   before_validation :generate_path if :hierarchy_changed?
 
   after_save :touch_associated_pages if :hierarchy_changed?
+  after_save :expire_menu_cache
 
   after_destroy :remove_page_hierarchy!
 
@@ -116,5 +117,9 @@ class Page < ApplicationRecord
       if parent_page == self
         errors.add :page, "a parent page can't be assigned to itself."
       end
+    end
+
+    def expire_menu_cache
+      Menu.expire_cache!
     end
 end
