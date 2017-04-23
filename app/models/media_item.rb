@@ -50,7 +50,7 @@ class MediaItem < ApplicationRecord
   end
 
   def generate_slug
-    unless attribute_present?('slug') || changed.include?('slug')
+    if self.slug.blank? || changed.include?('slug')
       if title.present?
         slug_attribute = title
       elsif attachment_file_name.present?

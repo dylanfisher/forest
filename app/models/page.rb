@@ -40,7 +40,7 @@ class Page < ApplicationRecord
   scope :non_parent_pages, -> { where('pages.parent_page_id IS NOT NULL').order(:title, :id) }
 
   def generate_slug
-    self.slug = title.parameterize if changed.include?('slug')
+    self.slug = title.parameterize if self.slug.blank? || changed.include?('slug')
   end
 
   def to_param
