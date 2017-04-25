@@ -130,6 +130,7 @@ Blocks
 
 Media Gallery
 
+- [ ] fix slug generation to support uploading images/files with the same name
 - [ ] better media item upload in media_item#edit
 - [ ] ability to add new media items through modals (e.g. featured in on pages)
 - [ ] ability to upload other file types, not just images (pdf, video, audio)
