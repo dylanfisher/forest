@@ -136,6 +136,7 @@ Media Gallery
 - [ ] ability to upload other file types, not just images (pdf, video, audio)
 - [ ] ability to associate multiple media items at once, e.g. for a carousel
 - [ ] crop tool and other enhancements
+- [ ] configure paperclip to generate optimized images so that google page speed test doesn't complain about the lack of savings.
 - [x] add ability to remove media item (e.g. remove feature media item from page)
 
 Menus
