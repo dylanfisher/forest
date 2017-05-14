@@ -124,6 +124,7 @@ Pages
 
 Blocks
 
+- [ ] validate block attributes before saving page
 - [ ] more performant record saving when parsing block attributes
 - [ ] additional default content blocks, mainly image and/or gallery, maybe video and/or oEmbed
 - [ ] solution for color picker, date picker, map picker, etc. similar to ACF

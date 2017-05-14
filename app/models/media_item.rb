@@ -2,7 +2,6 @@ class MediaItem < ApplicationRecord
   include Rails.application.routes.url_helpers
   include Searchable
 
-  # TODO: move paperclip_optimizer gems into forest gemspec, or don't break if this processor is missing
   has_attached_file :attachment,
                     styles: {
                       huge: '2000x2000>',
@@ -10,8 +9,7 @@ class MediaItem < ApplicationRecord
                       medium: '600x600>',
                       small: '300x300>',
                       thumb: '100x100>' },
-                    default_url: '/images/:style/missing.png',
-                    processors: [:thumbnail, :paperclip_optimizer]
+                    default_url: '/images/:style/missing.png'
   do_not_validate_attachment_file_type :attachment
   before_post_process :skip_for_non_images
   validates_attachment_presence :attachment
