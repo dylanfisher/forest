@@ -18,7 +18,7 @@
 <div class="media-library">
   <% if @layout == :grid %>
     <div class="row small-gutters" data-infinite-load>
-      <%= render partial: 'media_item_grid_layout', collection: @media_items, as: :media_item %>
+      <%= render partial: 'media_item_grid_layout', collection: @media_items, as: :media_item, cached: true %>
       <%= link_to_next_page @media_items, 'Next page', class: 'infinite-load__next-page-link' %>
     </div>
   <% else %>
@@ -39,7 +39,7 @@
           </tr>
         </thead>
         <tbody>
-            <%= render partial: 'media_item_list_layout', collection: @media_items, as: :media_item %>
+            <%= render partial: 'media_item_list_layout', collection: @media_items, as: :media_item, cached: true %>
         </tbody>
       </table>
     <% end %>
