@@ -35,7 +35,7 @@ class Page < ApplicationRecord
 
   scope :by_parent_page, -> (orderer = :desc) { order("pages.parent_page_id #{orderer} NULLS #{orderer == :desc ? 'LAST' : 'FIRST'}, pages.title #{orderer}, pages.id ASC") }
   scope :by_title, -> (orderer = :asc) { order(title: orderer, id: :desc) }
-  scope :title_like, -> string { where('pages.title ILIKE ?', "%#{string}%") }
+  scope :title_like, -> (string) { where('pages.title ILIKE ?', "%#{string}%") }
   scope :parent_pages, -> { where(parent_page_id: nil).order(:title, :id) }
   scope :non_parent_pages, -> { where('pages.parent_page_id IS NOT NULL').order(:title, :id) }
 
@@ -86,7 +86,7 @@ class Page < ApplicationRecord
     pages_to_touch = Page.where(id: [self.id, *self.page_descendents.collect(&:id)])
     self.immediate_children.update_all(parent_page_id: nil)
     pages_to_touch.update_all(updated_at: DateTime.now)
-    generate_path
+    # generate_path
   end
 
   private
