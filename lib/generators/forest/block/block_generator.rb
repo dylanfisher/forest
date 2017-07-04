@@ -15,8 +15,8 @@ class Forest::BlockGenerator < Rails::Generators::NamedBase
   end
 
   def create_view_files
-    template "_block.html.erb", File.join('app/views/blocks', file_name, "_#{file_name}.html.erb")
-    template "_block_edit_fields.html.erb", File.join('app/views/blocks', file_name, "_#{file_name}_edit_fields.html.erb")
+    template "_block.html.erb", File.join('app/views/blocks', file_name, "_show.html.erb")
+    template "_block_edit_fields.html.erb", File.join('app/views/blocks', file_name, "_edit.html.erb")
   end
 
   def create_migration_file

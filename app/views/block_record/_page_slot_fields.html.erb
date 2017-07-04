@@ -15,7 +15,7 @@
       <% if f.object.block_type %>
         <%= f.simple_fields_for 'block_fields' do |block_f| %>
           <% block_class = f.object.block_type.constantize %>
-          <%= render "blocks/#{block_class.model_name.singular}/#{block_class.model_name.singular}_edit_fields", block_f: block_f, f: f %>
+          <%= render "blocks/#{block_class.model_name.singular}/edit", block_f: block_f, f: f %>
         <% end %>
       <% else %>
         <div class="block-type-field-templates">
@@ -23,7 +23,7 @@
             <% block_class = block_type.name.constantize %>
             <%= content_tag :div, class: "block-type-field-template block-type-field-template__#{block_class.model_name.singular}", data: { block_type: block_type.name, block_type_id: block_type.id } do %>
               <%= f.simple_fields_for 'block_fields' do |block_f| %>
-                <%= render "blocks/#{block_class.model_name.singular}/#{block_class.model_name.singular}_edit_fields", block_f: block_f, f: f %>
+                <%= render "blocks/#{block_class.model_name.singular}/edit", block_f: block_f, f: f %>
               <% end %>
             <% end %>
           <% end %>
