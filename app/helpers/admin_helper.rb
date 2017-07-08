@@ -43,6 +43,8 @@ module AdminHelper
   def admin_navbar_class
     if @version
       'bg-danger'
+    elsif @page && @page.scheduled?
+      'bg-info'
     elsif @page && !@page.published?
       'bg-warning'
     end
@@ -67,4 +69,12 @@ module AdminHelper
   def record_name(record)
     record.try(:display_name) || record.try(:title) || record.try(:name)
   end
+
+  def admin_header_tag(record, &block)
+    content_tag :div, capture(&block), class: "admin-header", data: {
+      record_type: record.class.model_name.singular,
+      record_id: record.try(:id)
+    }
+  end
+
 end
