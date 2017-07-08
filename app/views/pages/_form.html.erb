@@ -28,7 +28,11 @@
                       remote_scope: 'title_like',
                     }
                   } %>
-                <%= f.input :status, as: :select, collection: Page.statuses.keys.to_a, include_blank: false %>
+                <%# TODO: turn this into a reusable partial or helper %>
+                <div class="status-scheduler">
+                  <%= f.input :status, as: :select, collection: Page.statuses.collect { |k, v| [k.titleize, k] }, include_blank: false %>
+                  <%= f.input :scheduled_date, as: :string, wrapper_html: { class: ('active' if @page.scheduled?) } %>
+                </div>
                 <%= f.input :description %>
                 <%= f.button :submit, class: 'btn-success' %>
               </div>

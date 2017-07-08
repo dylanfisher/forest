@@ -129,7 +129,8 @@ class PagesController < ForestController
   private
 
     def page_params
-      params.require(:page).permit(:title, :slug, :description, :status, :version_id, :featured_image_id, :media_item_ids, :page_slot_cache, :parent_page_id, :ancestor_page_id,
+      params.require(:page).permit(:title, :slug, :description, :status, :version_id, :featured_image_id,
+        :media_item_ids, :page_slot_cache, :parent_page_id, :ancestor_page_id, :scheduled_date, :path,
         page_slots_attributes: [:id, :_destroy, :page_id, :page_version_id, :block_id, :block_type, :block_previous_version_id, :position, :block_record_type, :block_record_id, *BlockType.block_type_params])
     end
 

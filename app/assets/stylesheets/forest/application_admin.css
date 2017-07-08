@@ -10,6 +10,7 @@
  *
  *= require_self
  *= require jquery-ui/sortable
+ *= require jquery-ui/datepicker
  *= require jquery.fileupload
  *= require jquery.fileupload-ui
  *= require forest/main_admin
