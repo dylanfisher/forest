@@ -86,7 +86,7 @@ class PagesController < ForestController
     @page.assign_attributes page_params
 
     respond_to do |format|
-      if @page.valid?
+      if blockable_record_is_valid?
         save_page @page
         format.html { redirect_to edit_page_path(@page), notice: 'Page was successfully created.' }
         format.json { render :show, status: :created, location: @page }
@@ -99,6 +99,7 @@ class PagesController < ForestController
 
   def update
     authorize @page
+    set_block_record
 
     # TODO: Handle block type deletion
     parse_block_attributes @page, record_type: 'page'
@@ -106,7 +107,7 @@ class PagesController < ForestController
     @page.assign_attributes page_params
 
     respond_to do |format|
-      if @page.valid?
+      if blockable_record_is_valid?
         save_page @page
         format.html { redirect_to edit_page_path(@page), notice: 'Page was successfully updated.' }
         format.json { render :show, status: :ok, location: @page }
@@ -131,7 +132,11 @@ class PagesController < ForestController
     def page_params
       params.require(:page).permit(:title, :slug, :description, :status, :version_id, :featured_image_id,
         :media_item_ids, :page_slot_cache, :parent_page_id, :ancestor_page_id, :scheduled_date, :path,
-        page_slots_attributes: [:id, :_destroy, :page_id, :page_version_id, :block_id, :block_type, :block_previous_version_id, :position, :block_record_type, :block_record_id, *BlockType.block_type_params])
+        page_slots_attributes: [
+          :id, :_destroy, :page_id, :page_version_id, :block_id, :block_type, :block_previous_version_id,
+          :position, :block_record_type, :block_record_id, :block_fields, *BlockType.block_type_params,
+        ]
+      )
     end
 
     def set_page

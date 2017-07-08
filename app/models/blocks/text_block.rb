@@ -1,4 +1,6 @@
 class TextBlock < BaseBlock
+  validates_presence_of :text
+
   def self.permitted_params
     [:text]
   end

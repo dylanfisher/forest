@@ -7,9 +7,9 @@ module Blockable
     has_many :page_slots, -> { where(block_record_type: parent_class.name).order(:position) }, dependent: :destroy, foreign_key: 'block_record_id'
     has_one :block_record, as: :block_record, dependent: :destroy
 
-    after_save :set_block_record
-
     accepts_nested_attributes_for :page_slots, allow_destroy: true
+
+    after_save :set_block_record
   end
 
   # TODO: rename page_slots to blocks and get rid of this method

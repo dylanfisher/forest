@@ -2,7 +2,7 @@ module BlockableControllerConcerns
   extend ActiveSupport::Concern
 
   included do
-    before_action :set_block_types, only: [:edit, :new, :create]
+    before_action :set_block_types, only: [:edit, :new, :create, :update]
 
     has_scope :by_status
   end
@@ -32,9 +32,15 @@ module BlockableControllerConcerns
             page_slot.update_column :block_id, block.id
           end
         else
-          format.html { render :edit, notice: "Unable to update #{block.class.name.titleize}." }
+          respond_to do |format|
+            format.html { render :edit, notice: "Unable to update #{block.class.name.titleize}." }
+          end
         end
       end
+    end
+
+    def blockable_record_is_valid?
+      @page&.valid? && @blocks&.values&.collect { |b| b.valid? }.all?
     end
 
     # TODO: Split up this method and move into model?

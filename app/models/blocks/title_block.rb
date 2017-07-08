@@ -1,4 +1,6 @@
 class TitleBlock < BaseBlock
+  validates_presence_of :title
+
   def self.permitted_params
     [:title]
   end
