@@ -100,6 +100,12 @@ $item-space: 10px;
   border-bottom: 5px solid #000;
 }
 
+.dd-input__select {
+  @include breakpoint(sm) {
+    max-width: 200px;
+  }
+}
+
 // .dd-expanded {
 //   & > .dd-content {
 //     & > .dd-expander-row {

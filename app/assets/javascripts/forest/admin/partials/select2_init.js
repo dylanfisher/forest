@@ -20,12 +20,13 @@ App.Select2 = {
       var selectOptions = {};
       var remotePath = $select.attr('data-remote-path');
       var allowClear = $select.find('option:first:empty').length;
+      var placeholder = $select.attr('placeholder') || '';
 
       that.instances.push( $select );
 
       if ( remotePath && remotePath.length ) {
         selectOptions = {
-          placeholder: '',
+          placeholder: placeholder,
           allowClear: allowClear,
           ajax: {
             url: remotePath,

@@ -7,10 +7,10 @@
     <% end %>
   <div class="well">
     <div class="row">
-      <div class="col-sm-8">
+      <div class="col-sm-6">
         <h1 class="admin-header__item"><%= record.class.model_name.human %> versions <span class="badge"><%= number_with_delimiter @versions.total_count %></span> <small><%= record_name record %></small></h1>
       </div>
-      <div class="col-sm-4 text-right">
+      <div class="col-sm-6 text-right">
         <%= link_to "Edit #{record.class.model_name.singular}", send("edit_#{record.class.model_name.singular_route_key}_path", record), class: 'btn btn-info' %>
       </div>
       <div class="admin-header__body col-sm-12">

@@ -7,10 +7,10 @@
   <% end %>
   <div class="well">
     <div class="row">
-      <div class="col-sm-4">
+      <div class="col-sm-6">
         <h1>New <%= record.class.model_name.singular.titleize %></h1>
       </div>
-      <div class="col-sm-8 text-right">
+      <div class="col-sm-6 text-right">
         <%= link_to 'Back', send("#{record.class.model_name.route_key}_path"), class: 'btn btn-default' %>
       </div>
     </div>

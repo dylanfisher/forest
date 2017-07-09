@@ -12,7 +12,7 @@
   <% end %>
   <div class="well">
     <div class="row">
-      <div class="col-sm-8">
+      <div class="col-sm-6">
         <h1 class="admin-header__item"><%= model_names.plural.titleize %> <span class="badge"><%= number_with_delimiter records.total_count %></span></h1>
         <%= form_tag send("#{model_names.route_key}_path"), class: 'form-inline admin-header__item', method: :get, enforce_utf8: false, data: { turboform: true } do %>
           <div class="form-group">
@@ -21,7 +21,7 @@
           </div>
         <% end %>
       </div>
-      <div class="col-sm-4 text-right">
+      <div class="col-sm-6 text-right">
         <%= link_to "New #{model_names.singular.titleize}", send("new_#{model_names.singular_route_key}_path"), class: 'btn btn-success' %>
       </div>
       <% if content_for? :index_header_body %>

@@ -7,7 +7,7 @@
   <% end %>
   <div class="well">
     <div class="row">
-      <div class="col-sm-7">
+      <div class="col-sm-6">
         <h1>
           <%= record.try(:display_name) || record.try(:title) || record.try(:name) %>
           <small><%= record.class.model_name.singular.titleize %> <%= record.id %></small>
@@ -16,7 +16,7 @@
           <% end %>
         </h1>
       </div>
-      <div class="col-sm-5 text-right">
+      <div class="col-sm-6 text-right">
         <%= link_to "New #{record.class.model_name.singular.titleize}", send("new_#{record.class.model_name.singular_route_key}_path"), class: 'btn btn-link' %>
         <%= link_to "All #{record.class.model_name.plural.titleize}", send("#{record.class.model_name.route_key}_path"), class: 'btn btn-link' %>
         <%= link_to "Edit #{record.class.model_name.singular.titleize}", send("edit_#{record.class.model_name.singular_route_key}_path", record), class: 'btn btn-primary' %>
