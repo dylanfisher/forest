@@ -1,6 +1,8 @@
 App.FileUploader = {
   instances: [],
   initialize: function($fileuploads) {
+    if ( !$fileuploads.length ) return;
+
     var that = this;
 
     $(document).one('turbolinks:before-cache.FileUploader', function() {

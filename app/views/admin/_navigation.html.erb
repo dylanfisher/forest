@@ -22,20 +22,18 @@
         <li class="<%= admin_navbar_active_class(menus_path) %>"><%= link_to 'Menus', menus_path %></li>
         <%# TODO: Add ability to easily add to the admin navigation via the host app %>
         <%# TODO: add resources list to dropdown %>
-        <% if false %>
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Appearance <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <li><%= link_to 'Menus', menus_path %></li>
-              <li><a href="#">Another action</a></li>
-              <li><a href="#">Something else here</a></li>
-              <li role="separator" class="divider"></li>
-              <li><a href="#">Separated link</a></li>
-              <li role="separator" class="divider"></li>
-              <li><a href="#">One more separated link</a></li>
-            </ul>
-          </li>
-        <% end %>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            Resources <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <% @admin_resources.each do |resource| %>
+              <li>
+                <%= link_to resource.model_name.human.titleize.pluralize, polymorphic_path(resource) %>
+              </li>
+            <% end %>
+          </ul>
+        </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <% if @version && @record %>

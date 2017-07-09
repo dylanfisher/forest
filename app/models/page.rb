@@ -6,8 +6,6 @@ class Page < ApplicationRecord
 
   has_paper_trail
 
-  # serialize :page_slot_cache
-
   before_validation :generate_slug
   # before_validation :assign_page_heirarchy! if :hierarchy_changed?
   before_validation :generate_path if :hierarchy_changed?

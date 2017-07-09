@@ -4,7 +4,7 @@
     select_options: Page.statuses.keys.to_a.collect{ |x| [x.titleize, x] },
     title: 'All Statuses' %>
 <% end %>
-<%= render 'admin/index_header', records: @pages, model_name: 'Page', pagination_collection: @parent_pages %>
+<%= render 'admin/headers/index', records: @pages, model_name: 'Page', pagination_collection: @parent_pages %>
 
 <div class="table-responsive">
   <table class="table table-striped">

@@ -6,7 +6,7 @@
     </div>
   <% end %>
   <div class="well">
-    <h1>Dashboard <span class="badge"><%= number_with_delimiter @resources.count %></span></h1>
+    <h1>Dashboard <span class="badge"><%= number_with_delimiter @admin_resources.count %></span></h1>
   </div>
 </div>
 
@@ -21,7 +21,7 @@
     </thead>
 
     <tbody>
-      <% @resources.each_with_index do |resource, index| %>
+      <% @admin_resources.each_with_index do |resource, index| %>
         <tr>
           <td><%= index + 1 %></td>
           <td><%= link_to resource.model_name.human.titleize.pluralize, polymorphic_path(resource) %></td>

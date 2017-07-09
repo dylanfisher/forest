@@ -11,7 +11,7 @@
   <%= dropdown_select_form url: media_items_path, id: 'by_content_type', select_options: MediaItem.content_types_for_filter, title: 'All Content Types' %>
 <% end %>
 
-<%= render 'admin/index_header', records: @media_items, model_name: 'MediaItem', paginate: false %>
+<%= render 'admin/headers/index', records: @media_items, model_name: 'MediaItem', paginate: false %>
 
 <%= render 'admin/file_upload' %>
 

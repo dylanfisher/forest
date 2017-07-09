@@ -5,6 +5,7 @@ class ForestController < ApplicationController
   before_action :set_body_classes, :set_page_title
   before_action :authentication_check
   before_action :reset_class_method_cache
+  before_action :set_admin_resources, if: :admin?
 
   # rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
@@ -60,4 +61,18 @@ class ForestController < ApplicationController
     #     raise Pundit::NotAuthorizedError
     #   end
     # end
+
+    def set_admin_resources
+      @admin_resources ||= admin_resource_names.collect do |resource_name|
+        resource_name.classify.safe_constantize
+      end.reject(&:blank?)
+    end
+
+    def admin_resource_names
+      Rails.application.routes.routes.collect do |route|
+        if route.path.spec.to_s.starts_with?('/admin') && route.requirements[:action] == 'index'
+          route.name
+        end
+      end.reject(&:blank?).uniq
+    end
 end

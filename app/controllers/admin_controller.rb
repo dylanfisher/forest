@@ -6,6 +6,6 @@ class AdminController < DashboardController
   # def index
   #   super
   #   additional_resources = [Artist]
-  #   @resources = (@resources + additional_resources).sort_by(&:name)
+  #   @admin_resources = (@admin_resources + additional_resources).sort_by(&:name)
   # end
 end
