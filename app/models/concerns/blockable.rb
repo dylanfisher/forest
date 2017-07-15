@@ -12,10 +12,14 @@ module Blockable
     after_save :set_block_record
   end
 
-  # TODO: rename block_slots to blocks and get rid of this method
-  def blocks
-    # TODO: shouldn't need to reject blank? blocks, should fix this in the controller when saving
-    @blocks ||= block_slots.includes(:block).collect(&:block)
+  # TODO: rename block_slots to blocks and get rid of this method?
+  def blocks(layout_name = nil)
+    @_blocks ||= block_slots.includes(:block)
+    if layout_name.present?
+      @_blocks.select { |bs| bs.layout == layout_name.to_s }.collect(&:block)
+    else
+      @_blocks.collect(&:block)
+    end
   end
 
   # TODO: make this searchable

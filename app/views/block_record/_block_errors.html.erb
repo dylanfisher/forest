@@ -3,16 +3,13 @@
 <%# block_errors = @blocks && @blocks.values.select { |block| block.errors.present? } %>
 
 <% if block_errors.present? %>
-  <ul class="block-errors">
+  <div class="alert alert-danger" role="alert">
     <% block_errors.messages.each do |error| %>
-        <% error[1].each do |error_message| %>
-          <li class="block-error">
-            <strong>
-              <%= error[0].to_s.titleize %>
-              <%= error_message %>
-            </strong>
-          </li>
-        <% end %>
+      <% error[1].each do |error_message| %>
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <%= error[0].to_s.titleize %>
+        <%= error_message %>
+      <% end %>
     <% end %>
-  </ul>
+  </div>
 <% end %>

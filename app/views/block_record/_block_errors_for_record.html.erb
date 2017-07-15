@@ -8,9 +8,8 @@
     <ul>
       <% block_errors.each do |error| %>
         <li>
-          <span class="sr-only">Error:</span>
-            <%= error.keys.first.to_s.titleize %>
-            <%= error.values.first.join(', ') %>
+          <%= error.keys.first.to_s.titleize %>
+          <%= error.values.first.join(', ') %>
         </li>
       <% end %>
     </ul>
