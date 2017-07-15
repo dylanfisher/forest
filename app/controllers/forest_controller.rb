@@ -5,7 +5,7 @@ class ForestController < ApplicationController
   before_action :set_body_classes, :set_page_title
   before_action :authentication_check
   before_action :reset_class_method_cache
-  before_action :set_admin_resources, if: :admin?
+  before_action :set_admin_resources, if: :current_user
 
   # rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 

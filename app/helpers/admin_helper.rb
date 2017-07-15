@@ -1,7 +1,7 @@
 module AdminHelper
   def show_admin_navigation?
     # TODO: current_user policy check and potentially some settings check
-    current_user
+    @admin_resources && current_user && policy(:dashboard).index?
   end
 
   def table_sorter(options = {})
