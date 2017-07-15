@@ -82,7 +82,7 @@ Big Picture
 - [ ] remove any gem dependencies not totally necessary?
 - [ ] is it better to namespace engine?
 - [ ] make use of yarn and webpacker?
-- [ ] better naming conventions when it comes to blocks, block_record, and page_slots
+- [ ] better naming conventions when it comes to blocks, block_record, and block_slots
 - [ ] squash migrations once final db structure is settled upon
 
 Admin

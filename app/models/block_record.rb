@@ -4,7 +4,7 @@ class BlockRecord < ApplicationRecord
 
   belongs_to :block_record, polymorphic: true
 
-  def page_slots
-    block_record.page_slots
+  def block_slots
+    block_record.block_slots
   end
 end

@@ -28,7 +28,7 @@ class <%= class_name %>sController < ForestController
     authorize @<%= singular_name %>
     @version = @<%= singular_name %>.versions.find(params['version_id'])
     @<%= singular_name %> = @version.reify
-    @<%= singular_name %>.reify_page_slots!
+    @<%= singular_name %>.reify_block_slots!
 
     respond_to do |format|
       if @<%= singular_name %>.save
@@ -118,7 +118,7 @@ class <%= class_name %>sController < ForestController
 
     def <%= singular_name %>_params
       params.require(:<%= singular_name %>).permit(:title, :slug, :status, <%= attributes.collect { |a| ":#{a.name}, " }.join %>
-        page_slots_attributes: [:id, :_destroy, :block_id, :block_type, :block_previous_version_id, :position, :block_record_type, :block_record_id, *BlockType.block_type_params])
+        block_slots_attributes: [:id, :_destroy, :block_id, :block_type, :block_previous_version_id, :position, :block_record_type, :block_record_id, *BlockType.block_type_params])
     end
 
     def set_<%= singular_name %>
@@ -126,7 +126,7 @@ class <%= class_name %>sController < ForestController
         # TODO: Published scope
         @<%= singular_name %> = <%= name %>.find_by_slug(params[:id]) # Don't eager load associations when cached in show
       else
-        @<%= singular_name %> = <%= name %>.includes(page_slots: :block).find_by_slug(params[:id])
+        @<%= singular_name %> = <%= name %>.includes(block_slots: :block).find_by_slug(params[:id])
       end
 
       @record = @<%= singular_name %>

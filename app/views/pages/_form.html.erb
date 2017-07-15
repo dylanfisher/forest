@@ -18,8 +18,8 @@
             <div class="row">
               <div class="col-sm-6">
                 <%= f.input :title %>
-                <%= f.input :slug %>
-                <%= f.input :path, readonly: true %>
+                <%= f.input :slug, placeholder: 'The slug will be generated automatically from the title.', required: false %>
+                <%= f.input :path, readonly: true, required: false %>
                 <%= f.association :parent_page,
                   include_blank: true,
                   input_html: {
@@ -58,12 +58,12 @@
             <div class="row">
               <div class="col-sm-12">
 
-                <div id='page_slots'>
-                  <%= f.simple_fields_for :page_slots do |page_slot| %>
-                    <%= render 'block_record/page_slot_fields', f: page_slot %>
+                <div id='block_slots'>
+                  <%= f.simple_fields_for :block_slots do |block_slot| %>
+                    <%= render 'block_record/block_slot_fields', f: block_slot %>
                   <% end %>
                   <div class='links'>
-                    <%= link_to_add_association 'Add Block', f, :page_slots, class: 'hidden', partial: 'block_record/page_slot_fields' %>
+                    <%= link_to_add_association 'Add Block', f, :block_slots, class: 'hidden', partial: 'block_record/block_slot_fields' %>
                   </div>
                 </div>
 

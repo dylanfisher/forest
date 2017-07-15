@@ -36,7 +36,7 @@ class PagesController < ForestController
     authorize @page
     @version = @page.versions.find(params['version_id'])
     @page = @version.reify
-    @page.reify_page_slots!
+    @page.reify_block_slots!
 
     respond_to do |format|
       if @page.save
@@ -131,8 +131,8 @@ class PagesController < ForestController
 
     def page_params
       params.require(:page).permit(:title, :slug, :description, :status, :version_id, :featured_image_id,
-        :media_item_ids, :page_slot_cache, :parent_page_id, :ancestor_page_id, :scheduled_date, :path,
-        page_slots_attributes: [
+        :media_item_ids, :block_slot_cache, :parent_page_id, :ancestor_page_id, :scheduled_date, :path,
+        block_slots_attributes: [
           :id, :_destroy, :page_id, :page_version_id, :block_id, :block_type, :block_previous_version_id,
           :position, :block_record_type, :block_record_id, :block_fields, *BlockType.block_type_params,
         ]
@@ -145,7 +145,7 @@ class PagesController < ForestController
         # TODO: Published scope
         @page = Page.find_by_path(params[:page_path]) # Don't eager load associations when cached in show
       else
-        @page = Page.includes(page_slots: :block).find_by_path(params[:id] || params[:page_path])
+        @page = Page.includes(block_slots: :block).find_by_path(params[:id] || params[:page_path])
       end
 
       @record = @page

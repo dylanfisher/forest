@@ -18,7 +18,7 @@ class CreateImageBlocks < ActiveRecord::Migration[5.0]
 
       change.down do
         BlockType.where(name: 'ImageBlock').destroy_all
-        PageSlot.where(block_type: 'ImageBlock').destroy_all
+        BlockSlot.where(block_type: 'ImageBlock').destroy_all
       end
     end
   end

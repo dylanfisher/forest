@@ -50,9 +50,9 @@ App.MarkdownTextEditor = {
 };
 
 App.pageLoad.push(function() {
-  App.MarkdownTextEditor.initialize( $('#page_slots .form-group.text textarea') );
+  App.MarkdownTextEditor.initialize( $('#block_slots .form-group.text textarea') );
 });
 
-$(document).on('app:page-slot-after-insert', function(event, nestedFields) {
+$(document).on('app:block-slot-after-insert', function(event, nestedFields) {
   App.MarkdownTextEditor.initialize( $(nestedFields).find('.form-group.text textarea') );
 });

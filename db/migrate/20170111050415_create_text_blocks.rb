@@ -15,7 +15,7 @@ class CreateTextBlocks < ActiveRecord::Migration[5.0]
 
       change.down do
         BlockType.where(name: 'TextBlock').destroy_all
-        PageSlot.where(block_type: 'TextBlock').destroy_all
+        BlockSlot.where(block_type: 'TextBlock').destroy_all
       end
     end
   end

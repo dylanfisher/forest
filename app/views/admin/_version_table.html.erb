@@ -44,10 +44,10 @@
           <td>
             <%# TODO: better diff? or remove it? %>
             <% begin %>
-              <%= ( record.attributes.reject { |a| %w(page_slot_cache created_at updated_at).include? a }.to_a - page.attributes.reject { |a| %w(page_slot_cache created_at updated_at).include? a }.to_a ).flatten %>
+              <%= ( record.attributes.reject { |a| %w(block_slot_cache created_at updated_at).include? a }.to_a - page.attributes.reject { |a| %w(block_slot_cache created_at updated_at).include? a }.to_a ).flatten %>
               <br>
-              <% current_page_json = record.attributes.select { |a| %w(page_slot_cache).include? a }['page_slot_cache'].collect{ |a| a[:block_as_json] } %>
-              <% versioned_page_json = page.attributes.select { |a| %w(page_slot_cache).include? a }['page_slot_cache'].collect{ |a| a[:block_as_json] } %>
+              <% current_page_json = record.attributes.select { |a| %w(block_slot_cache).include? a }['block_slot_cache'].collect{ |a| a[:block_as_json] } %>
+              <% versioned_page_json = page.attributes.select { |a| %w(block_slot_cache).include? a }['block_slot_cache'].collect{ |a| a[:block_as_json] } %>
               <%= ( versioned_page_json - current_page_json ).flatten %>
               <br>
               <%= ( current_page_json - versioned_page_json ).flatten %>

@@ -4,18 +4,18 @@ module Blockable
   included do
     parent_class = self
 
-    has_many :page_slots, -> { where(block_record_type: parent_class.name).order(:position) }, dependent: :destroy, foreign_key: 'block_record_id'
+    has_many :block_slots, -> { where(block_record_type: parent_class.name).order(:position) }, dependent: :destroy, foreign_key: 'block_record_id'
     has_one :block_record, as: :block_record, dependent: :destroy
 
-    accepts_nested_attributes_for :page_slots, allow_destroy: true
+    accepts_nested_attributes_for :block_slots, allow_destroy: true
 
     after_save :set_block_record
   end
 
-  # TODO: rename page_slots to blocks and get rid of this method
+  # TODO: rename block_slots to blocks and get rid of this method
   def blocks
     # TODO: shouldn't need to reject blank? blocks, should fix this in the controller when saving
-    @blocks ||= page_slots.includes(:block).collect(&:block)
+    @blocks ||= block_slots.includes(:block).collect(&:block)
   end
 
   # TODO: make this searchable
@@ -24,12 +24,12 @@ module Blockable
   end
 
   # TODO: make this more performant and/or not as weird
-  def reify_page_slots!
-    self.page_slots = self.block_record.slot_cache.collect do |data|
+  def reify_block_slots!
+    self.block_slots = self.block_record.slot_cache.collect do |data|
       if data[:block_id]
         block = data[:block_type].constantize.find(data[:block_id])
         block.update_attributes JSON.parse(data[:block_as_json])
-        PageSlot.create page_id: self.id, block_id: data[:block_id], block_type: data[:block_type], position: data[:page_slot_position].to_i
+        BlockSlot.create page_id: self.id, block_id: data[:block_id], block_type: data[:block_type], position: data[:block_slot_position].to_i
       end
     end.reject(&:blank?)
   end
@@ -40,13 +40,13 @@ module Blockable
   end
 
   def set_slot_cache!
-    self.block_record.update_column :slot_cache, page_slots.includes(:block).collect { |page_slot|
+    self.block_record.update_column :slot_cache, block_slots.includes(:block).collect { |block_slot|
       {
-        page_slot_id: page_slot.id,
-        block_id: page_slot.block_id,
-        block_type: page_slot.block_type,
-        page_slot_position: page_slot.position,
-        block_as_json: (page_slot.block.as_json.reject { |a| page_slot_cache_blacklist_attributes.include? a }.to_json if page_slot.block)
+        block_slot_id: block_slot.id,
+        block_id: block_slot.block_id,
+        block_type: block_slot.block_type,
+        block_slot_position: block_slot.position,
+        block_as_json: (block_slot.block.as_json.reject { |a| block_slot_cache_blacklist_attributes.include? a }.to_json if block_slot.block)
       }
     }
   end
@@ -62,7 +62,7 @@ module Blockable
       record.save
     end
 
-    def page_slot_cache_blacklist_attributes
+    def block_slot_cache_blacklist_attributes
       %w(id created_at updated_at)
     end
 

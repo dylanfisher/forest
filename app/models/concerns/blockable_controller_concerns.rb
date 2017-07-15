@@ -27,9 +27,9 @@ module BlockableControllerConcerns
         if block.save
           # TODO: this is feeling a little brittle
           # TODO: fix a crash when deleting all blocks
-          page_slot = @record.page_slots.select { |a| a.position == position.to_i }.first
-          if page_slot.present?
-            page_slot.update_column :block_id, block.id
+          block_slot = @record.block_slots.select { |a| a.position == position.to_i }.first
+          if block_slot.present?
+            block_slot.update_column :block_id, block.id
           end
         else
           respond_to do |format|
@@ -51,12 +51,12 @@ module BlockableControllerConcerns
 
       record_type = options.fetch :record_type
 
-      params[record_type][:page_slots_attributes] && params[record_type][:page_slots_attributes].each_pair do |index, block_params|
+      params[record_type][:block_slots_attributes] && params[record_type][:block_slots_attributes].each_pair do |index, block_params|
         block_type = block_params['block_type']
         block_constant = block_type.constantize
         block_fields = block_params['block_fields']
         position = block_params['position']
-        block_id = params[record_type][:page_slots_attributes][index][:block_id]
+        block_id = params[record_type][:block_slots_attributes][index][:block_id]
 
         next if block_fields.nil?
 
@@ -77,7 +77,7 @@ module BlockableControllerConcerns
           @blocks_updated = true
         end
 
-        params[record_type][:page_slots_attributes][index].delete :block_fields
+        params[record_type][:block_slots_attributes][index].delete :block_fields
       end
 
       if @blocks_updated

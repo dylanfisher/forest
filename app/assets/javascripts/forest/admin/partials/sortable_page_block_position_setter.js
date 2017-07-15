@@ -1,29 +1,29 @@
-$(document).on('turbolinks:load app:page-slot-after-insert', function() {
-  var $pageSlotWrapper = $('#page_slots');
-  var $pageSlots = $('#page_slots > .nested-fields');
+$(document).on('turbolinks:load app:block-slot-after-insert', function() {
+  var $blockSlotWrapper = $('#block_slots');
+  var $blockSlots = $('#block_slots > .nested-fields');
 
-  updatePageSlotPosition();
+  updateBlockSlotPosition();
 
-  $pageSlots.sortable({
-    items: $pageSlots,
+  $blockSlots.sortable({
+    items: $blockSlots,
     handle: '.sortable-handle:not(button), .sortable-handle:not(a)',
     placeholder: 'ui-state-highlight',
     forcePlaceholderSize: true,
     tolerance: 'pointer',
   });
 
-  $pageSlots.offOn('sortupdate.pageSlotSort', function(e, ui) {
-    updatePageSlotPosition();
+  $blockSlots.offOn('sortupdate.blockSlotSort', function(e, ui) {
+    updateBlockSlotPosition();
   });
 
-  $pageSlotWrapper.offOn('updatePageSlotPosition.forest', function() {
-    updatePageSlotPosition();
+  $blockSlotWrapper.offOn('updateBlockSlotPosition.forest', function() {
+    updateBlockSlotPosition();
   });
 
-  function updatePageSlotPosition() {
-    $('#page_slots > .nested-fields').each(function(index) {
-      var $pageSlot = $(this);
-      var $positionInput = $pageSlot.find('.block-position input');
+  function updateBlockSlotPosition() {
+    $('#block_slots > .nested-fields').each(function(index) {
+      var $blockSlot = $(this);
+      var $positionInput = $blockSlot.find('.block-position input');
 
       $positionInput.val(index);
     });
