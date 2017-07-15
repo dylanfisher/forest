@@ -1,6 +1,6 @@
 $(document).on('turbolinks:load app:block-slot-after-insert', function() {
-  var $blockSlotWrapper = $('#block_slots');
-  var $blockSlots = $('#block_slots > .nested-fields');
+  var $blockSlotWrapper = $('.block_slots');
+  var $blockSlots = $('.block_slots > .nested-fields');
 
   updateBlockSlotPosition();
 
@@ -10,6 +10,7 @@ $(document).on('turbolinks:load app:block-slot-after-insert', function() {
     placeholder: 'ui-state-highlight',
     forcePlaceholderSize: true,
     tolerance: 'pointer',
+    containment: 'parent'
   });
 
   $blockSlots.offOn('sortupdate.blockSlotSort', function(e, ui) {
@@ -21,7 +22,7 @@ $(document).on('turbolinks:load app:block-slot-after-insert', function() {
   });
 
   function updateBlockSlotPosition() {
-    $('#block_slots > .nested-fields').each(function(index) {
+    $('.block_slots > .nested-fields').each(function(index) {
       var $blockSlot = $(this);
       var $positionInput = $blockSlot.find('.block-position input');
 

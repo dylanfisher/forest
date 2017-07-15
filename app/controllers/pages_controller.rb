@@ -130,11 +130,12 @@ class PagesController < ForestController
   private
 
     def page_params
+      # TODO: Move these block_slots_attributes into a concern
       params.require(:page).permit(:title, :slug, :description, :status, :version_id, :featured_image_id,
         :media_item_ids, :block_slot_cache, :parent_page_id, :ancestor_page_id, :scheduled_date, :path,
         block_slots_attributes: [
           :id, :_destroy, :page_id, :page_version_id, :block_id, :block_type, :block_previous_version_id,
-          :position, :block_record_type, :block_record_id, :block_fields, *BlockType.block_type_params,
+          :layout, :position, :block_record_type, :block_record_id, :block_fields, *BlockType.block_type_params,
         ]
       )
     end

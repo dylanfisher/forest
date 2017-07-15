@@ -22,7 +22,7 @@
         <% end %>
       <% else %>
         <div class="block-type-field-templates">
-          <% @block_types.each do |block_type| %>
+          <% block_types.each do |block_type| %>
             <% block_class = block_type.name.constantize %>
             <%= content_tag :div, class: "block-type-field-template block-type-field-template__#{block_class.model_name.singular}", data: { block_type: block_type.name, block_type_id: block_type.id } do %>
               <%= f.simple_fields_for :block_fields do |block_f| %>
@@ -33,7 +33,8 @@
         </div>
       <% end %>
 
-      <%= f.input :block_type, collection: @block_types, value_method: :name, include_blank: false, wrapper_html: { class: 'block-type-selector' } %>
+      <%= f.input :layout, as: :hidden, input_html: { value: layout_name } %>
+      <%= f.input :block_type, collection: block_types, value_method: :name, include_blank: false, wrapper_html: { class: 'block-type-selector' } %>
       <%= f.input :block_id, as: :hidden %>
       <%#= f.input :block_previous_version_id, as: :hidden %>
       <%= f.input :block_record_type, as: :hidden, input_html: { value: @block_record&.block_record_type } %>

@@ -1,5 +1,6 @@
 <%= simple_form_for(@page) do |f| %>
   <%= f.error_notification %>
+  <%= render 'block_record/block_errors_for_record', blocks: @blocks %>
 
   <div class="row">
     <div class="col-sm-12">
@@ -28,7 +29,7 @@
                       remote_scope: 'title_like',
                     }
                   } %>
-                <%# TODO: turn this into a reusable partial or helper %>
+                <%# TODO: turn the status scheduler into a reusable partial or helper %>
                 <div class="status-scheduler">
                   <%= f.input :status, as: :select, collection: Page.statuses.collect { |k, v| [k.titleize, k] }, include_blank: false %>
                   <%= f.input :scheduled_date, as: :string, wrapper_html: { class: ('active' if @page.scheduled?) } %>
@@ -44,56 +45,10 @@
         </div>
       </div>
 
-      <div class="panel panel-default" data-collapse-parent>
-        <div class="panel-heading">
-          <h3 class="panel-title">
-            Page Layout
-            <button type="button" class="btn btn-default btn-xs pull-right" title="Collapse all blocks" data-block-collapse-all>
-              <div class="glyphicon glyphicon-minus"></div>
-            </button>
-          </h3>
-        </div>
-        <div class="panel-body">
-          <div class="form-inputs">
-            <div class="row">
-              <div class="col-sm-12">
-
-                <div id='block_slots'>
-                  <%= f.simple_fields_for :block_slots do |block_slot| %>
-                    <%= render 'block_record/block_slot_fields', f: block_slot %>
-                  <% end %>
-                  <div class='links'>
-                    <%= link_to_add_association 'Add Block', f, :block_slots, class: 'hidden', partial: 'block_record/block_slot_fields' %>
-                  </div>
-                </div>
-
-                <div class="dropup" id="block-dropdown">
-                  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    Add Block
-                  </button>
-                  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                    <% @block_types.each do |block_type| %>
-                      <li>
-                        <%= link_to '#', class: 'block-dropdown__item', data: { block_type: block_type.name, block_type_id: block_type.id } do %>
-                          <%= content_tag :span, '', class: block_type.display_icon, 'aria-hidden': true %>
-                          &nbsp;&nbsp;
-                          <%= block_type.display_name %>
-                        <% end %>
-                      </li>
-                    <% end %>
-                  </ul>
-                </div>
-
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <%= render 'admin/blocks/block_layout', f: f, block_types: @block_types, layout_name: 'heading' %>
+      <%= render 'admin/blocks/block_layout', f: f, block_types: @block_types, layout_name: 'sidebar' %>
 
       <%= f.button :submit, class: 'btn-success' %>
-      <br>
-      <br>
-
     </div>
   </div>
 <% end %>

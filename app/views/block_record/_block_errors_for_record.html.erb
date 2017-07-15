@@ -1,0 +1,18 @@
+<% block_errors = @blocks && @blocks.values.collect { |b| b.try(:errors).try(:messages) } %>
+
+<% if block_errors.present? %>
+  <div class="alert alert-danger" role="alert">
+    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+    Warning, <%= block_errors.length %> error(s) found in the following block fields:
+    <br>
+    <ul>
+      <% block_errors.each do |error| %>
+        <li>
+          <span class="sr-only">Error:</span>
+            <%= error.keys.first.to_s.titleize %>
+            <%= error.values.first.join(', ') %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

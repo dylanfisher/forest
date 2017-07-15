@@ -1,35 +1,42 @@
 App.pageLoad.push(function() {
-  var $dropdown = $('#block-dropdown');
+  var $blockLayouts = $('.block-layout');
 
-  if ( !$dropdown.length ) return;
+  $blockLayouts.each(function() {
+    var $blockLayout = $('.block-layout');
+    var $dropdown = $blockLayout.find('.block-dropdown');
 
-  var $dropdownItems = $dropdown.find('.block-dropdown__item');
-  var $linkToAddAssociation = $('[data-association="block_slot"]');
-  var blockType;
-  var blockTypeId;
+    if ( !$dropdown.length ) return;
 
-  $dropdownItems.offOn('click.blockDropdown', function(e) {
-    var $dropdownItem = $(this);
-    blockType = $dropdownItem.attr('data-block-type');
-    blockTypeId = $dropdownItem.attr('data-block-type-id');
+    var $dropdownItems = $dropdown.find('.block-dropdown__item');
+    var blockType;
+    var blockTypeId;
 
-    e.preventDefault();
+    $dropdownItems.offOn('click.blockDropdown', function(e) {
+      var $dropdownItem = $(this);
+      var $thisBlockLayout = $dropdownItem.closest($blockLayout);
+      var $linkToAddAssociation = $thisBlockLayout.find('[data-association="block_slot"]');
 
-    $linkToAddAssociation.trigger('click');
-  });
+      blockType = $dropdownItem.attr('data-block-type');
+      blockTypeId = $dropdownItem.attr('data-block-type-id');
 
-  $('#block_slots').offOn('cocoon:after-insert.blockDropdownSelect', function(e, $addedBlockSlot) {
-    var $select = $addedBlockSlot.find('.block-type-selector select');
-    var $option = $select.find('option[value="' + blockType + '"]');
+      e.preventDefault();
 
-    $option.prop('selected', true);
-    $select.trigger('change');
+      $linkToAddAssociation.trigger('click');
+    });
 
-    $('#block_slots').trigger('updateBlockSlotPosition.forest');
+    $('.block_slots').offOn('cocoon:after-insert.blockDropdownSelect', function(e, $addedBlockSlot) {
+      var $select = $addedBlockSlot.find('.block-type-selector select');
+      var $option = $select.find('option[value="' + blockType + '"]');
+
+      $option.prop('selected', true);
+      $select.trigger('change');
+
+      $(this).trigger('updateBlockSlotPosition.forest');
+    });
   });
 });
 
-$(document).on('change', '#block_slots .block-type-selector select', function() {
+$(document).on('change', '.block_slots .block-type-selector select', function() {
   var $select = $(this);
   var blockType = $select.val();
   var $wrapper = $select.closest('.nested-fields');

@@ -1,0 +1,53 @@
+<div class="block-layout panel panel-default" data-collapse-parent>
+  <div class="panel-heading">
+    <h3 class="panel-title">
+      <%= layout_name.titleize %>
+      <button type="button" class="btn btn-default btn-xs pull-right" title="Collapse all blocks" data-block-collapse-all>
+        <div class="glyphicon glyphicon-minus"></div>
+      </button>
+    </h3>
+  </div>
+  <div class="panel-body">
+    <div class="form-inputs">
+      <div class="row">
+        <div class="col-sm-12">
+
+          <div class="block_slots">
+            <%# binding.pry %>
+            <%# f.object.block_slots.where(layout: layout_name) %>
+            <%= f.simple_fields_for :block_slots, f.object.block_slots.where(layout: layout_name) do |block_slot| %>
+              <%= render 'block_record/block_slot_fields', f: block_slot, block_types: block_types, layout_name: layout_name %>
+            <% end %>
+            <div class='links'>
+              <%= link_to_add_association 'Add Block', f, :block_slots,
+                                          class: 'hidden',
+                                          partial: 'block_record/block_slot_fields',
+                                          render_options: {
+                                            locals: {
+                                              block_types: block_types,
+                                              layout_name: layout_name } } %>
+            </div>
+          </div>
+
+          <div class="block-dropdown dropup">
+            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+              Add Block
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+              <% block_types.each do |block_type| %>
+                <li>
+                  <%= link_to '#', class: 'block-dropdown__item', data: { block_type: block_type.name, block_type_id: block_type.id } do %>
+                    <%= content_tag :span, '', class: block_type.display_icon, 'aria-hidden': true %>
+                    &nbsp;&nbsp;
+                    <%= block_type.display_name %>
+                  <% end %>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

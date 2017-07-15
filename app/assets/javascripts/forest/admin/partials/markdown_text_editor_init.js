@@ -50,7 +50,7 @@ App.MarkdownTextEditor = {
 };
 
 App.pageLoad.push(function() {
-  App.MarkdownTextEditor.initialize( $('#block_slots .form-group.text textarea') );
+  App.MarkdownTextEditor.initialize( $('.block_slots .form-group.text textarea') );
 });
 
 $(document).on('app:block-slot-after-insert', function(event, nestedFields) {
