@@ -69,9 +69,14 @@ Add this line to your application's Gemfile:
 gem 'forest', git: 'https://github.com/dylanfisher/forest.git'
 ```
 
-And then execute:
+Install gems
 ```bash
 $ bundle
+```
+
+Run Forest install generator
+```bash
+$ rails g forest:install
 ```
 
 ## TODO
