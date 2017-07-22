@@ -6,17 +6,17 @@
         <th>Index</th>
         <th>Title</th>
         <th>Slug</th>
-        <th>Description</th>
         <th>Author</th>
         <th>Created&nbsp;at</th>
         <th>Updated&nbsp;at</th>
-        <th>Diff</th>
+        <th>Changes</th>
         <th colspan="2"></th>
       </tr>
     </thead>
 
     <tbody>
       <% if ( params[:page].blank? || params[:page] == 1 ) && ( params[:by_status].blank? || record.status == params[:by_status] ) %>
+        <%# Current record's diff from the last version %>
         <tr>
           <td><%= status_indicator record %></td>
           <td>Current Version</td>
@@ -25,12 +25,27 @@
           <td><%= User.find(record.versions.last&.version_author)&.display_name if record.versions.last&.version_author %></td>
           <td><%= record.created_at.to_formatted_s(:short) %></td>
           <td><%= record.updated_at.to_formatted_s(:short) %></td>
-          <td></td>
+          <td>
+            <% if versions.first.present? %>
+              <% diff = ( record.attributes.reject { |a|
+                    %w(block_slot_cache created_at updated_at).include? a
+                  }.to_a - versions.first.reify.attributes.reject { |a|
+                    %w(block_slot_cache created_at updated_at).include? a
+                  }.to_a ).collect { |a|
+                    "<strong>#{a[0].titleize}</strong>: #{md a[1]}"
+                  } %>
+              <% if diff.present? %>
+                <div class="diff-container form-control">
+                  <%= diff.join('<br>').html_safe %>
+                </div>
+              <% end %>
+            <% end %>
+          </td>
           <td width="1"><%= link_to 'Show', record, class: 'btn btn-xs btn-primary', role: 'button' %></td>
           <td width="1"><%= link_to 'Edit', send("edit_#{record.class.model_name.singular_route_key}_path", record), class: 'btn btn-xs btn-info', role: 'button' %></td>
         </tr>
       <% end %>
-      <% versions.each do |version| %>
+      <% versions.each_with_index do |version, index| %>
         <% page = version.reify %>
         <% next if page.nil? %>
         <tr>
@@ -43,15 +58,22 @@
           <td><%= page.updated_at.to_formatted_s(:short) %></td>
           <td>
             <%# TODO: better diff? or remove it? %>
-            <% begin %>
-              <%= ( record.attributes.reject { |a| %w(block_slot_cache created_at updated_at).include? a }.to_a - page.attributes.reject { |a| %w(block_slot_cache created_at updated_at).include? a }.to_a ).flatten %>
-              <br>
-              <% current_page_json = record.attributes.select { |a| %w(block_slot_cache).include? a }['block_slot_cache'].collect{ |a| a[:block_as_json] } %>
-              <% versioned_page_json = page.attributes.select { |a| %w(block_slot_cache).include? a }['block_slot_cache'].collect{ |a| a[:block_as_json] } %>
-              <%= ( versioned_page_json - current_page_json ).flatten %>
-              <br>
-              <%= ( current_page_json - versioned_page_json ).flatten %>
-            <% rescue => e %>
+            <% version_to_compare = versions[index-1] if index > 0 %>
+            <% page_to_compare = version_to_compare.presence&.reify || record %>
+            <% diff = ( page.attributes.reject { |a|
+                    %w(block_slot_cache created_at updated_at).include? a
+                  }.to_a - page_to_compare.attributes.reject { |a|
+                    %w(block_slot_cache created_at updated_at).include? a
+                  }.to_a ).collect { |a|
+                    "<strong>#{a[0].titleize}</strong>: #{md a[1].to_s}"
+                  }
+
+                # TODO: use the new BlockVersion table to figure out the changes to blocks
+            %>
+            <% if diff.present? %>
+              <div class="diff-container form-control">
+                <%= diff.join('<br>').html_safe %>
+              </div>
             <% end %>
           </td>
           <% begin %>

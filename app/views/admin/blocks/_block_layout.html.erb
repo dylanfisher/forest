@@ -1,7 +1,10 @@
+<% layout_display_name = local_assigns.fetch(:layout_name, 'Page layout') %>
+<% layout_name_for_query = local_assigns.fetch(:layout_name, nil) %>
+
 <div class="block-layout panel panel-default" data-collapse-parent>
   <div class="panel-heading">
     <h3 class="panel-title">
-      <%= layout_name.titleize %>
+      <%= layout_display_name.titleize %>
       <button type="button" class="btn btn-default btn-xs pull-right" title="Collapse all blocks" data-block-collapse-all>
         <div class="glyphicon glyphicon-minus"></div>
       </button>
@@ -14,9 +17,9 @@
 
           <div class="block_slots">
             <%# binding.pry %>
-            <%# f.object.block_slots.where(layout: layout_name) %>
-            <%= f.simple_fields_for :block_slots, f.object.block_slots.where(layout: layout_name) do |block_slot| %>
-              <%= render 'block_record/block_slot_fields', f: block_slot, block_types: block_types, layout_name: layout_name %>
+            <%# f.object.block_slots.where(layout: layout_name_for_query) %>
+            <%= f.simple_fields_for :block_slots, f.object.block_slots.where(layout: layout_name_for_query) do |block_slot| %>
+              <%= render 'block_record/block_slot_fields', f: block_slot, block_types: block_types, layout_name: layout_display_name %>
             <% end %>
             <div class='links'>
               <%= link_to_add_association 'Add Block', f, :block_slots,
@@ -25,7 +28,7 @@
                                           render_options: {
                                             locals: {
                                               block_types: block_types,
-                                              layout_name: layout_name } } %>
+                                              layout_name: layout_display_name } } %>
             </div>
           </div>
 
