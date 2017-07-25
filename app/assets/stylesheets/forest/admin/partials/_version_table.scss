@@ -1,8 +1,8 @@
 // Version table
 
 .diff-container {
-  height: auto;
-  max-height: 100px;
+  height: 150px;
+  resize: vertical;
   overflow: auto;
   padding: $gutter 12px;
 }

@@ -28,9 +28,9 @@
           <td>
             <% if versions.first.present? %>
               <% diff = ( record.attributes.reject { |a|
-                    %w(block_slot_cache created_at updated_at).include? a
+                    %w(block_slot_cache created_at updated_at).include?(a)
                   }.to_a - versions.first.reify.attributes.reject { |a|
-                    %w(block_slot_cache created_at updated_at).include? a
+                    %w(block_slot_cache created_at updated_at).include?(a)
                   }.to_a ).collect { |a|
                     "<strong>#{a[0].titleize}</strong>: #{md a[1]}"
                   } %>
@@ -57,22 +57,50 @@
           <td><%= page.created_at.to_formatted_s(:short) %></td>
           <td><%= page.updated_at.to_formatted_s(:short) %></td>
           <td>
-            <%# TODO: better diff? or remove it? %>
+            <%# TODO: Refactor all the diff code %>
             <% version_to_compare = versions[index-1] if index > 0 %>
             <% page_to_compare = version_to_compare.presence&.reify || record %>
             <% diff = ( page.attributes.reject { |a|
-                    %w(block_slot_cache created_at updated_at).include? a
-                  }.to_a - page_to_compare.attributes.reject { |a|
-                    %w(block_slot_cache created_at updated_at).include? a
-                  }.to_a ).collect { |a|
-                    "<strong>#{a[0].titleize}</strong>: #{md a[1].to_s}"
-                  }
+                          %w(id created_at updated_at block_slot_cache).include?(a)
+                        }.to_a - page_to_compare.attributes.reject { |a|
+                          %w(id created_at updated_at block_slot_cache).include?(a)
+                        }.to_a ).collect { |a|
+                          "<strong>#{a[0].titleize}</strong>: #{md a[1].to_s}"
+                        }
 
-                # TODO: use the new BlockVersion table to figure out the changes to blocks
+
+               blocks_to_compare = BlockVersion.where(block_record_type: version.item_type, block_record_version_id: version.id)
+                                               .collect { |a| a.reify.attributes.to_a.prepend(a.reify.class.display_name) }
+               if version_to_compare
+                 prev_version_blocks_to_compare = BlockVersion.where(block_record_type: version_to_compare.item_type, block_record_version_id: version_to_compare.id)
+                                                              .collect { |a| a.reify.attributes.to_a.prepend(a.reify.class.display_name) }
+               else
+                 prev_version_blocks_to_compare = record.blocks.collect { |a| a.attributes.to_a.prepend(a.class.display_name) }
+               end
+
+               block_diff = ( blocks_to_compare.reject { |a|
+                                %w(id created_at updated_at).include?(a[0])
+                              }.to_a - prev_version_blocks_to_compare.reject { |a|
+                                %w(id created_at updated_at).include?(a[0])
+                              }.to_a ).collect { |a|
+                                a.reject { |b| %w(id created_at updated_at).include?(b[0]) }.to_a
+                              }
             %>
-            <% if diff.present? %>
-              <div class="diff-container form-control">
-                <%= diff.join('<br>').html_safe %>
+            <% if diff.present? || block_diff.present? %>
+              <div class="diff-container form-control" resizable>
+                <% if diff.present? %>
+                  <%= diff.join('<br>').html_safe %>
+                  <br>
+                <% end %>
+                <% if block_diff.present? %>
+                  <% block_diff.each do |bdiff| %>
+                    <strong><%= bdiff[0] %></strong>
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><%= bdiff[1][0] %>:</strong>
+                    <%= bdiff[1][1] %>
+                    <br>
+                  <% end %>
+                <% end %>
               </div>
             <% end %>
           </td>

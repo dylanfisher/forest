@@ -27,7 +27,13 @@ class BaseBlock < ApplicationRecord
     self.class.permitted_params
   end
 
+  # TODO: association to represent this?
+  def block_record
+    @block_record ||= block_slot.block_record
+  end
+
+  # TODO: association to represent this?
   def block_record_id
-    block_slot.block_record_id
+    block_record.block_record.id
   end
 end
