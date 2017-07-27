@@ -3,6 +3,7 @@ class PagesController < ForestController
   include FilterControllerScopes
 
   layout 'admin', except: [:show]
+  # layout Proc.new { |controller| 'admin' if admin? }
 
   before_action :set_page, only: [:show, :edit, :update, :destroy, :versions, :version, :restore]
   before_action :set_paper_trail_whodunnit
@@ -52,6 +53,7 @@ class PagesController < ForestController
   def show
     authorize @page
     @menus = nil
+    redirect_to edit_page_path(@page) if admin?
     # TODO
     # @menus = Menu.by_page_group @page_groups if @page_groups.any?
   end
@@ -142,7 +144,7 @@ class PagesController < ForestController
 
     def set_page
       # TODO: clean up page slug lookup
-      if action_name == 'show'
+      if action_name == 'show' && public?
         # TODO: Published scope
         @page = Page.find_by_path(params[:page_path]) # Don't eager load associations when cached in show
       else

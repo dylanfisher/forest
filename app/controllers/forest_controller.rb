@@ -40,11 +40,16 @@ class ForestController < ApplicationController
     #   end
     # end
 
+    # TODO: rename this public_area?
     def public?
       # TODO: Do we need a more specific public/admin check?
-      controller_name == 'public' || action_name == 'show' || action_name == 'show_index'
+      (controller_name == 'public' ||
+        action_name == 'show' ||
+        action_name == 'show_index') &&
+        request.path.match(/^\/admin\//).nil?
     end
 
+    # TODO: rename this admin_area?
     def admin?
       !public?
     end

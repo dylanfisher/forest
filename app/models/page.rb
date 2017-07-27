@@ -113,7 +113,7 @@ class Page < ApplicationRecord
 
     def parent_page_is_not_self
       if parent_page == self
-        errors.add :page, "a parent page can't be assigned to itself."
+        errors.add :parent_page, "a parent page can't be assigned to itself."
       end
     end
 
