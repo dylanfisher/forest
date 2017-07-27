@@ -59,12 +59,12 @@ $item-space: 10px;
   border: 1px solid #ccc;
   background: #fafafa;
   border-radius: 3px;
-  // padding: 0 10px 10px;
+  padding: 0 10px 0;
 }
 
 .dd-handle {
   margin: 5px 0;
-  padding: 5px 10px;
+  padding: 5px 0 5px 4px;
   color: #333;
   text-decoration: none;
   font-weight: bold;
@@ -75,9 +75,9 @@ $item-space: 10px;
   color: $brand-primary;
 }
 
-.dd-input {
-  padding: 0 10px 10px;
-}
+// .dd-input {
+//   padding: 0 10px 10px;
+// }
 
 .dd-input-expand,
 .dd-input-collapse {
@@ -100,11 +100,11 @@ $item-space: 10px;
   border-bottom: 5px solid #000;
 }
 
-.dd-input__select {
-  @include breakpoint(sm) {
-    max-width: 200px;
-  }
-}
+// .dd-input__select {
+//   @include breakpoint(sm) {
+//     max-width: 200px;
+//   }
+// }
 
 // .dd-expanded {
 //   & > .dd-content {

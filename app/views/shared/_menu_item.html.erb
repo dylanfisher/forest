@@ -1,19 +1,41 @@
+<%# TODO: refactor this logic to exist in a MenuItem class %>
+
+<% page = Page.where(id: item['page'].to_i).first %>
+
+<% if item['name'].present? %>
+  <% item_name = item['name'] %>
+<% else %>
+  <% item_name = page.try(:title) %>
+<% end %>
+
+<% if item['url'].present? %>
+  <% item_url = item['url'] %>
+<% elsif page %>
+  <% item_url = show_page_path(page) %>
+<% else %>
+  <% item_url = '' %>
+<% end %>
+
 <% classes = ['menu__item'] %>
 <% classes.push 'menu__item--with-children' if item['children'].present? %>
-<% classes.push "menu__item--#{item['name'].parameterize}" %>
+<% classes.push "menu__item--#{item_name.parameterize}" %>
+<% classes.push 'menu__item--active' if item_url.sub(/^\//, '') == request.path.split('/').reject(&:blank?).last %>
+<% classes.push 'menu__item--active' if item_url == '/' && request.path == '' %>
+<% classes.push 'menu__item--active-child' if item_url.sub(/^\//, '') == request.path.split('/').reject(&:blank?).first %>
+
 <%= content_tag :li, class: classes.join(' ') do %>
-  <% if item['url'].present? %>
-    <% link = item['url'] %>
-  <% elsif item['page'].present? %>
+  <% if item_url.present? %>
+    <% link = item_url %>
+  <% elsif page.present? %>
     <%# TODO: more performant page lookup? Or just make sure this menu partial is cached properly? %>
-    <% if Page.find_by_id(item['page']).present? %>
+    <% if page.present? %>
     <%# TODO: catch pages that no longer exist %>
-      <% link = show_page_path Page.find_by_id(item['page']) %>
+      <% link = show_page_path(page) %>
     <% end %>
   <% else %>
     <% link = '#' %>
   <% end %>
-  <%= link_to item['name'], link, class: 'menu__item__link' %>
+  <%= link_to item_name, link, class: 'menu__item__link' %>
   <% if item['children'].present? %>
     <%= content_tag :ul, class: "menu__sub-menu" do %>
       <%= render partial: 'shared/menu_item', collection: item['children'], as: 'item' %>

@@ -1,5 +1,5 @@
 <% if menu.present? %>
-  <% cache menu do %>
+  <% cache menu.cache_key(@page, request.fullpath) do %>
     <%= content_tag :ul, class: "menu menu--#{menu.slug}" do %>
       <%= render partial: 'shared/menu_item', collection: menu.structure_as_json, as: 'item' %>
     <% end %>

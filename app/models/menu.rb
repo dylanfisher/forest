@@ -1,3 +1,4 @@
+# TODO: MenuItem class to represent each individual menu item. Could these be associated with cocoon?
 class Menu < ApplicationRecord
   CACHE_KEY = 'forest_menus'
 
@@ -39,6 +40,24 @@ class Menu < ApplicationRecord
     slug
   end
 
+  def cache_key(page, path)
+    # TODO: better way to break cache when viewing a page in the menu.
+    # This also needs to recursively look through the menu.
+    dependent_on_path = structure_as_json.collect do |item|
+      [
+        (strip_slashes(item['url']) == strip_slashes(page.path.split('/').reject(&:blank?).last)),
+        (item['page'].to_i == page.id)
+      ].any?
+    end
+
+    if dependent_on_path.any?
+      puts "! cache key is #{super}/#{path}"
+      "#{super}/#{path}"
+    else
+      super
+    end
+  end
+
   private
 
     def self.menus
@@ -57,5 +76,9 @@ class Menu < ApplicationRecord
 
     def expire_cache
       self.class.expire_cache!
+    end
+
+    def strip_slashes(string)
+      string.gsub(/(^\/|\/$)/, '')
     end
 end
