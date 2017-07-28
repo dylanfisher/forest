@@ -1,2 +1,8 @@
-<%= f.input :value, as: :image, input_html: { field_name: 'setting_value', img_src: @setting.value, path_only: true } %>
-<%= f.input :value, readonly: true %>
+<div class="row">
+  <div class="col-sm-6">
+    <%= f.input :value, as: :image, label: false, input_html: { field_name: 'setting_value', img_src: @setting.value, path_only: true } %>
+  </div>
+  <div class="col-sm-6">
+    <%= f.input :value, label: 'Image URL', readonly: true %>
+  </div>
+</div>

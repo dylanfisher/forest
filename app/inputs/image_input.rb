@@ -29,8 +29,6 @@ class ImageInput < SimpleForm::Inputs::StringInput
 
     content = ActiveSupport::SafeBuffer.new
 
-    content << template.tag(:br)
-
     content << template.image_tag((img_src || ''),
                   class: "media-item-chooser__image img-rounded cursor-pointer #{image_tag_classes}",
                   id: "#{field_name}_preview",
@@ -44,10 +42,11 @@ class ImageInput < SimpleForm::Inputs::StringInput
                   data: {
                     **modal_data_attributes
                   })
+    content << ' '
 
     content << template.content_tag(:button, 'Remove image',
                   type: 'button',
-                  class: "media-item-chooser__remove-image #{'hidden' unless obj.send(reflection_or_attribute_name).present?} btn btn-link")
+                  class: "media-item-chooser__remove-image btn btn-warning #{'hidden' unless obj.send(reflection_or_attribute_name).present?}")
 
     content << @builder.hidden_field(attribute_name, input_html_options) unless path_only
 
