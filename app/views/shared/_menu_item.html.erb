@@ -19,6 +19,7 @@
 <% classes = ['menu__item'] %>
 <% classes.push 'menu__item--with-children' if item['children'].present? %>
 <% classes.push "menu__item--#{item_name.parameterize}" %>
+<% classes.push 'menu__item--active' if item['page'].to_i == @page.try(:id) %>
 <% classes.push 'menu__item--active' if item_url.sub(/^\//, '') == request.path.split('/').reject(&:blank?).last %>
 <% classes.push 'menu__item--active' if item_url == '/' && request.path == '' %>
 <% classes.push 'menu__item--active-child' if item_url.sub(/^\//, '') == request.path.split('/').reject(&:blank?).first %>
@@ -28,10 +29,8 @@
     <% link = item_url %>
   <% elsif page.present? %>
     <%# TODO: more performant page lookup? Or just make sure this menu partial is cached properly? %>
-    <% if page.present? %>
     <%# TODO: catch pages that no longer exist %>
-      <% link = show_page_path(page) %>
-    <% end %>
+    <% link = show_page_path(page) %>
   <% else %>
     <% link = '#' %>
   <% end %>

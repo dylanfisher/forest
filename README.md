@@ -110,6 +110,7 @@ Admin
 - [ ] intuitive select2 association UI
 - [ ] modal to create associated records directly from association page?
 - [ ] bulk actions to delete pages (and other records)
+- [ ] duplicate records
 
 Generators
 

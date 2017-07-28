@@ -32,14 +32,6 @@ class ForestController < ApplicationController
       end
     end
 
-    # def define_global_instance_variables
-    #   if public?
-    #     @public = true
-    #   elsif admin?
-    #     @admin = true
-    #   end
-    # end
-
     # TODO: rename this public_area?
     def public?
       # TODO: Do we need a more specific public/admin check?

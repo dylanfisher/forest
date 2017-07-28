@@ -43,15 +43,17 @@ class Menu < ApplicationRecord
   def cache_key(page, path)
     # TODO: better way to break cache when viewing a page in the menu.
     # This also needs to recursively look through the menu.
-    dependent_on_path = structure_as_json.collect do |item|
-      [
-        (strip_slashes(item['url']) == strip_slashes(page.path.split('/').reject(&:blank?).last)),
-        (item['page'].to_i == page.id)
-      ].any?
+    # This is currently broken until the recursive lookup is added. And it needs a refactor.
+    dependent_on_path = []
+
+    if page
+      structure_as_json.each do |item|
+        dependent_on_path << [ (strip_slashes(item['url']) == strip_slashes(page.path.split('/').reject(&:blank?).last)),
+          (item['page'].to_i == page.id) ].any?
+      end
     end
 
     if dependent_on_path.any?
-      puts "! cache key is #{super}/#{path}"
       "#{super}/#{path}"
     else
       super
@@ -68,10 +70,6 @@ class Menu < ApplicationRecord
 
     def self.reset_method_cache!
       @memo = nil
-    end
-
-    def should_generate_new_friendly_id?
-      slug.blank?
     end
 
     def expire_cache
