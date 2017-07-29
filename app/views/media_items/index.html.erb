@@ -13,7 +13,13 @@
 
 <%= render 'admin/headers/index', records: @media_items, model_name: 'MediaItem', paginate: false %>
 
-<%= render 'admin/file_upload' %>
+<%# TODO: Move this text into a content_for area in edit header %>
+<div class="well">
+  <div class="text-muted">
+    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+    Drag and drop images or files to upload multiple items at once.
+  </div>
+</div>
 
 <div class="media-library">
   <% if @layout == :grid %>
@@ -47,3 +53,5 @@
 </div>
 
 <%= paginate @media_items if @layout == :list %>
+
+<%= render 'admin/file_upload' %>

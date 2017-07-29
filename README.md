@@ -139,6 +139,7 @@ Media Gallery
 
 - [ ] fix slug generation to support uploading images/files with the same name
 - [ ] better media item upload in media_item#edit
+- [ ] store image dimensions and metadata in attachment https://github.com/thoughtbot/paperclip/wiki/Extracting-image-dimensions
 - [ ] ability to add new media items through modals (e.g. featured in on pages)
 - [ ] ability to upload other file types, not just images (pdf, video, audio)
 - [ ] ability to associate multiple media items at once, e.g. for a carousel
