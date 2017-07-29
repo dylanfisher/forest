@@ -96,11 +96,9 @@ Admin
       and retain these filters when navigating between records
 - [ ] add and/or standardize setting @record and @records instance variables in controller to alias appropriate record
 - [ ] add select2 with remote ajax selects, automatically infer path to avoid manual setup for each association input
-- [ ] purge cache button
 - [ ] reset password and/or change password when editing user profile
 - [ ] email confirmations for user related actions
 - [ ] oauth/omniauth?
-- [ ] s3 storage for paperclip, assets, heroku support, etc.
 - [ ] remove bootstrap as frontend dependency (admin navbar is only place this is currently shared)
 - [ ] remove font-awesome dependency from simplemde markdown editor
 - [ ] add migrations to host app without running install:migrations command
@@ -110,6 +108,8 @@ Admin
 - [ ] modal to create associated records directly from association page?
 - [ ] bulk actions to delete pages (and other records)
 - [ ] duplicate records
+- [x] purge cache button
+- [x] s3 storage for paperclip, assets, heroku support, etc.
 - [x] bulk csv import
 
 Generators

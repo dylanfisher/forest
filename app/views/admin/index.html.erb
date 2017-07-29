@@ -1,11 +1,14 @@
 <div class="admin-header">
   <div class="well">
-    <h1>Dashboard <span class="badge"><%= number_with_delimiter @admin_resources.count %></span></h1>
+    <h1>
+      Dashboard
+      <span class="badge" title="<%= number_with_delimiter(@admin_resources.count) %> total resources"><%= number_with_delimiter @admin_resources.count %></span>
+    </h1>
   </div>
 </div>
 
 <div class="table-responsive">
-  <table class="forest-table table table-striped">
+  <table class="table table-striped">
     <thead>
       <tr>
         <th width="10%">Index</th>

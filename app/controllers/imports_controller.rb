@@ -4,6 +4,8 @@ class ImportsController < ForestController
   before_action :set_import, only: [:edit]
 
   def edit
+    authorize @import
+
     respond_to do |format|
       format.html
       format.csv {
@@ -16,9 +18,11 @@ class ImportsController < ForestController
     klass = params[:import][:model_name].constantize
     file = params[:import][:file]
 
+    authorize klass
+
     Import.new(klass, file)
 
-    redirect_to edit_import_path(klass.model_name.singular), notice: 'Import has been started'
+    redirect_to edit_import_path(klass.model_name.singular), notice: "Import has been started and is being processed in the background."
   end
 
   private
