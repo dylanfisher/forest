@@ -1,7 +1,7 @@
 <%= render 'admin/headers/index', records: @user_groups, model_name: 'UserGroup' %>
 
 <div class="table-responsive">
-  <table class="table table-striped">
+  <table class="forest-table table table-striped">
     <thead>
       <tr>
         <th><%= table_sorter title: 'Name', path: :user_groups_path, scope: :by_name, default_order: :asc %></th>

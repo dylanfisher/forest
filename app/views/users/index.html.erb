@@ -1,7 +1,7 @@
 <%= render 'admin/headers/index', records: @users, model_name: 'User' %>
 
 <div class="table-responsive">
-  <table class="table table-striped">
+  <table class="forest-table table table-striped">
     <thead>
       <tr>
         <th><%= table_sorter title: 'ID', path: :users_path, scope: :by_id, default_order: :desc %></th>

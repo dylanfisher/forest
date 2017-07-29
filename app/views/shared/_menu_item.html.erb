@@ -18,7 +18,7 @@
 
 <% classes = ['menu__item'] %>
 <% classes.push 'menu__item--with-children' if item['children'].present? %>
-<% classes.push "menu__item--#{item_name.parameterize}" %>
+<% classes.push "menu__item--#{item_name.parameterize}" if item_name %>
 <% classes.push 'menu__item--active' if item['page'].to_i == @page.try(:id) %>
 <% classes.push 'menu__item--active' if item_url.sub(/^\//, '') == request.path.split('/').reject(&:blank?).last %>
 <% classes.push 'menu__item--active' if item_url == '/' && request.path == '' %>
