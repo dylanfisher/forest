@@ -1,4 +1,4 @@
-class BaseBlock < ApplicationRecord
+class BaseBlock < Forest::ApplicationRecord
   self.abstract_class = true
 
   has_paper_trail class_name: 'BlockVersion',

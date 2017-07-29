@@ -1,5 +1,5 @@
 # TODO: MenuItem class to represent each individual menu item. Could these be associated with cocoon?
-class Menu < ApplicationRecord
+class Menu < Forest::ApplicationRecord
   CACHE_KEY = 'forest_menus'
 
   before_validation :generate_slug

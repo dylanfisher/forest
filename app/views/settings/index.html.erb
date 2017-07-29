@@ -1,15 +1,4 @@
 <div class="admin-header">
-  <% if notice %>
-    <div id="notice" class="alert alert-warning" role="alert">
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-      <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-      <span class="sr-only">Error:</span>
-      <%= notice %>
-    </div>
-  <% end %>
-
   <div class="well">
     <h1>Settings <span class="badge"><%= number_with_delimiter Setting.count %></span></h1>
     <%= paginate @settings %>

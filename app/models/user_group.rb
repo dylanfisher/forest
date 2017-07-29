@@ -1,4 +1,4 @@
-class UserGroup < ApplicationRecord
+class UserGroup < Forest::ApplicationRecord
   include Searchable
   include FilterModelScopes
 

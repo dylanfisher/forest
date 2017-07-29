@@ -1,4 +1,4 @@
-class Page < ApplicationRecord
+class Page < Forest::ApplicationRecord
   include Blockable
   include FilterModelScopes
   include Searchable

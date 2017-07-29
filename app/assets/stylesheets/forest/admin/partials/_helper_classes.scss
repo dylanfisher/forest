@@ -14,3 +14,13 @@
 }
 
 .cursor-pointer { cursor: pointer; }
+
+@include breakpoint(sm) {
+  .text-right-sm { text-align: right; }
+  .text-center-sm { text-align: center; }
+}
+
+@include breakpoint(md) {
+  .text-right-md { text-align: right; }
+  .text-center-md { text-align: center; }
+}

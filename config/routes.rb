@@ -12,6 +12,7 @@ Rails.application.routes.draw do
 
   # Admin Resources
   scope :admin do
+    resources :imports, only: [:edit, :create]
     resources :media_items do
       collection do
         post 'update_multiple'

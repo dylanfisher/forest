@@ -1,4 +1,4 @@
-class User < ApplicationRecord
+class User < Forest::ApplicationRecord
   include Searchable
 
   # Include default devise modules. Others available are:

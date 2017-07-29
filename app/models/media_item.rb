@@ -1,4 +1,4 @@
-class MediaItem < ApplicationRecord
+class MediaItem < Forest::ApplicationRecord
   include Rails.application.routes.url_helpers
   include Searchable
 

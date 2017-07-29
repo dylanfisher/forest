@@ -1,4 +1,4 @@
-class BlockType < ApplicationRecord
+class BlockType < Forest::ApplicationRecord
   scope :by_name, -> (orderer = :asc) { order(name: orderer, id: :desc) }
 
   def self.block_type_params

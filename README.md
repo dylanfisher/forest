@@ -100,7 +100,6 @@ Admin
 - [ ] reset password and/or change password when editing user profile
 - [ ] email confirmations for user related actions
 - [ ] oauth/omniauth?
-- [ ] csv import/export
 - [ ] s3 storage for paperclip, assets, heroku support, etc.
 - [ ] remove bootstrap as frontend dependency (admin navbar is only place this is currently shared)
 - [ ] remove font-awesome dependency from simplemde markdown editor
@@ -111,6 +110,7 @@ Admin
 - [ ] modal to create associated records directly from association page?
 - [ ] bulk actions to delete pages (and other records)
 - [ ] duplicate records
+- [x] bulk csv import
 
 Generators
 

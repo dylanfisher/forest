@@ -1,5 +1,5 @@
 <% module_namespacing do -%>
-class <%= class_name %> < ApplicationRecord
+class <%= class_name %> < Forest::ApplicationRecord
   include Blockable
   include FilterModelScopes
   include Searchable

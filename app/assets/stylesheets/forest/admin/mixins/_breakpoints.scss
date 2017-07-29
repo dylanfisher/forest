@@ -5,19 +5,19 @@
 
 @mixin breakpoint($class) {
   @if $class == xs {
-    @media (max-width: $breakpoint-small - 1) { @content; }
+    @media (max-width: $screen-xs - 1) { @content; }
   }
 
   @else if $class == sm {
-    @media (min-width: $breakpoint-small) { @content; }
+    @media (min-width: $screen-sm) { @content; }
   }
 
   @else if $class == md {
-    @media (min-width: $breakpoint-medium) { @content; }
+    @media (min-width: $screen-md) { @content; }
   }
 
   @else if $class == lg {
-    @media (min-width: $breakpoint-large) { @content; }
+    @media (min-width: $screen-lg) { @content; }
   }
 
   @else {

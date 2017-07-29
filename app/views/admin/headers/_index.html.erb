@@ -4,12 +4,6 @@
 <% pagination_collection = local_assigns.fetch :pagination_collection, records %>
 
 <%= admin_header_tag(records) do %>
-  <% if notice %>
-    <div class="alert alert-info alert-dismissible" role="alert">
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-      <%= notice %>
-    </div>
-  <% end %>
   <div class="well">
     <div class="row">
       <div class="col-sm-6">
@@ -22,7 +16,21 @@
         <% end %>
       </div>
       <div class="col-sm-6 text-right">
-        <%= link_to "New #{model_names.singular.titleize}", send("new_#{model_names.singular_route_key}_path"), class: 'btn btn-success' %>
+        <div class="btn-group text-left">
+          <%= link_to "New #{model_names.singular.titleize}", send("new_#{model_names.singular_route_key}_path"), class: 'btn btn-success' %>
+          <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="caret"></span>
+            <span class="sr-only">Toggle Dropdown</span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu--right">
+            <li>
+              <%= link_to edit_import_path(model_names.singular) do %>
+                <span class="glyphicon glyphicon-import"></span>
+                Bulk import
+              <% end %>
+            </li>
+          </ul>
+        </div>
       </div>
       <% if content_for? :index_header_body %>
         <div class="admin-header__body col-sm-12">
@@ -30,12 +38,10 @@
         </div>
       <% end %>
       <% if should_paginate %>
-        <div class="col-sm-6">
+        <div class="col-sm-12">
           <%= paginate pagination_collection %>
         </div>
       <% end %>
-      <div class="col-sm-6 text-right admin-header__search">
-      </div>
     </div>
   </div>
 <% end %>

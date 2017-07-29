@@ -1,4 +1,4 @@
-class Setting < ApplicationRecord
+class Setting < Forest::ApplicationRecord
   CACHE_KEY = 'forest_settings'
 
   before_validation :generate_slug

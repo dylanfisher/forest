@@ -1,4 +1,4 @@
-class BlockRecord < ApplicationRecord
+class BlockRecord < Forest::ApplicationRecord
   serialize :slot_cache
   serialize :block_cache
 
