@@ -51,8 +51,13 @@ class PagesController < ForestController
   end
 
   def show
+    unless @page
+      raise ActionController::RoutingError.new('Not Found')
+    end
+
     authorize @page
     @menus = nil
+
     redirect_to edit_page_path(@page) if admin?
     # TODO
     # @menus = Menu.by_page_group @page_groups if @page_groups.any?
