@@ -27,7 +27,7 @@ class ForestController < ApplicationController
 
     def authentication_check
       # TODO: cleaner authentication_check ?
-      unless public?
+      unless public? || controller_name == 'errors'
         authenticate_user!
       end
     end
