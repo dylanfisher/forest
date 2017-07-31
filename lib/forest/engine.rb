@@ -18,6 +18,7 @@ module Forest
         forest/application_bootstrap.css
         forest/application_admin.js
         forest/application_public.js
+        forest/lib/jquery-3.2.1.min.js
         jquery2.js
         forest/favicons/apple-touch-icon.png
         forest/favicons/favicon-32x32.png

@@ -1,12 +1,12 @@
 Rails.application.routes.draw do
-  # Errors
-  match '404', to: 'errors#not_found', via: :all
-  match '500', to: 'errors#internal_server_error', via: :all
-
   # Concerns
   concern :paginatable do
     get '(page/:page)', action: :index, on: :collection
   end
+
+  # Errors
+  match '404', to: 'errors#not_found', via: :all
+  match '500', to: 'errors#internal_server_error', via: :all
 
   # Root
   root to: 'public#index'

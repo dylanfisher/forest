@@ -12,7 +12,7 @@
       <%= yield %>
     </div>
     <%= render 'media_items/modal' %>
-    <%= jquery_include_tag :google, data: { turbolinks_eval: false } %>
+    <%= jquery_include_tag %>
     <%= javascript_include_tag 'forest/application_admin', data: { turbolinks_eval: false } %>
   </body>
 </html>

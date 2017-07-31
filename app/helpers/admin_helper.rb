@@ -78,4 +78,12 @@ module AdminHelper
     }
   end
 
+  def jquery_include_tag
+    if Rails.env.production?
+      jquery_url = 'https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'
+    else
+      jquery_url = 'forest/lib/jquery-3.2.1.min'
+    end
+    javascript_include_tag jquery_url, data: { turbolinks_eval: false }
+  end
 end
