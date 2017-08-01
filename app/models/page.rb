@@ -87,6 +87,10 @@ class Page < Forest::ApplicationRecord
     # generate_path
   end
 
+  def select2_format
+    ((page_ancestors.length + 1).times.collect{}.join('&mdash; ') + title).as_json
+  end
+
   private
 
     def valid_for_page_group?

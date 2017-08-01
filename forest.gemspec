@@ -34,6 +34,4 @@ Gem::Specification.new do |s|
   s.add_dependency 'sass-rails'
   s.add_dependency 'simple_form'
   s.add_dependency 'turbolinks'
-
-  s.add_dependency 'faker' # Remove this eventually
 end

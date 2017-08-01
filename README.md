@@ -99,15 +99,16 @@ Admin
 - [ ] reset password and/or change password when editing user profile
 - [ ] email confirmations for user related actions
 - [ ] oauth/omniauth?
-- [ ] remove bootstrap as frontend dependency (admin navbar is only place this is currently shared)
 - [ ] remove font-awesome dependency from simplemde markdown editor
 - [ ] add migrations to host app without running install:migrations command
 - [ ] versioning option for data associated pages, settings, menus, etc.
 - [ ] version diff UI like wordpress?
 - [ ] intuitive select2 association UI
+- [ ] sortable select2 items
 - [ ] modal to create associated records directly from association page?
 - [ ] bulk actions to delete pages (and other records)
 - [ ] duplicate records
+- [x] remove bootstrap as frontend dependency (admin navbar is only place this is currently shared)
 - [x] purge cache button
 - [x] s3 storage for paperclip, assets, heroku support, etc.
 - [x] bulk csv import
