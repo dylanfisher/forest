@@ -5,6 +5,23 @@ Forest is a Rails 5 CMS that provides an opinionated starting point when creatin
 Much inspiration was drawn from Wordpress' dashboard. The Forest dashboard uses Bootstrap and very little
 additional CSS to create an easily customizable interface.
 
+## Installation
+Add this line to your application's Gemfile:
+
+```ruby
+gem 'forest', git: 'https://github.com/dylanfisher/forest.git'
+```
+
+Install gems
+```bash
+$ bundle
+```
+
+Run Forest install generator
+```bash
+$ rails g forest:install
+```
+
 ## Features
 Forest aims to include the following features out of the box.
 
@@ -50,45 +67,27 @@ rails generate forest:block TitleAndTextBlock title:string content:text
 ## Primary Dependencies
 Forest relies heavily on the following gems, software and frameworks:
 
+- bootstrap
+- cocoon
 - devise
-- pundit
-- postgres
 - has_scope
+- jquery
 - kaminari
 - paperclip
-- cocoon
+- postgres
+- pundit
 - redcarpet
 - simpleform
-- bootstrap
-- jquery
-
-## Installation
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'forest', git: 'https://github.com/dylanfisher/forest.git'
-```
-
-Install gems
-```bash
-$ bundle
-```
-
-Run Forest install generator
-```bash
-$ rails g forest:install
-```
 
 ## TODO
 
 Big Picture
 
 - [ ] tests
-- [ ] remove any gem dependencies not totally necessary?
 - [ ] is it better to namespace engine?
-- [ ] make use of yarn and webpacker?
 - [ ] better naming conventions when it comes to blocks, block_record, and block_slots
 - [ ] squash migrations once final db structure is settled upon
+- [x] remove any gem dependencies not totally necessary?
 
 Admin
 
@@ -98,7 +97,6 @@ Admin
 - [ ] add select2 with remote ajax selects, automatically infer path to avoid manual setup for each association input
 - [ ] reset password and/or change password when editing user profile
 - [ ] email confirmations for user related actions
-- [ ] oauth/omniauth?
 - [ ] remove font-awesome dependency from simplemde markdown editor
 - [ ] add migrations to host app without running install:migrations command
 - [ ] versioning option for data associated pages, settings, menus, etc.

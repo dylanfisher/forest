@@ -1,2 +1,6 @@
 <%# TODO: need to be able to handle associations more easily %>
-<%= block_f.input :image_id, as: :image, input_html: { object: (f.object.block.presence || ImageBlock.new), value: f.object.block&.image_id } %>
+<%= block_f.input :image_id,
+                  as: :image,
+                  input_html: {
+                    object: (f.object.block.presence || ImageBlock.new),
+                    value: f.object.block&.image_id } %>
