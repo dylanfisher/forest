@@ -120,6 +120,7 @@ Generators
 
 Pages
 
+- [ ] proper drafting/publishing permissions for drafted/published pages
 - [ ] page groups / page heirarchy
 - [ ] show page hierarchy in select2 selection?
 - [ ] page status for scheduled, pending and hidden states

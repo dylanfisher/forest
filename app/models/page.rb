@@ -3,8 +3,7 @@ class Page < Forest::ApplicationRecord
   include FilterModelScopes
   include Searchable
   include Statusable
-
-  has_paper_trail
+  include Versionable
 
   before_validation :generate_slug
   # before_validation :assign_page_heirarchy! if :hierarchy_changed?
@@ -20,10 +19,7 @@ class Page < Forest::ApplicationRecord
   validates_presence_of :path
   validates_uniqueness_of :slug, scope: :parent_page_id
   validates_uniqueness_of :path
-  validate :parent_page_is_not_self # TODO: this isn't working yet
-
-  has_one :current_version, -> { reorder(created_at: :desc, id: :desc) }, class_name: 'PaperTrail::Version', foreign_key: 'item_id'
-  has_one :current_published_version, -> { reorder(created_at: :desc, id: :desc).where_object(status: 1) }, class_name: 'PaperTrail::Version', foreign_key: 'item_id'
+  validate :parent_page_is_not_self
 
   has_many :media_items, as: :attachable
   has_many :immediate_children, -> { by_title }, class_name: 'Page', foreign_key: 'parent_page_id'

@@ -151,7 +151,9 @@ class PagesController < ForestController
       # TODO: clean up page slug lookup
       if action_name == 'show' && public?
         # TODO: Published scope
-        @page = Page.find_by_path(params[:page_path]) # Don't eager load associations when cached in show
+        # TODO: now that this will be using published scope all the time, need a way on frontend
+        # to show that the page is in draft, and to link admins to the draft preview.
+        @page = Page.find_by_path(params[:page_path]).current_published_version
       else
         @page = Page.includes(block_slots: :block).find_by_path(params[:id] || params[:page_path])
       end
