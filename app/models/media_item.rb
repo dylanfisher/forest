@@ -4,20 +4,25 @@ class MediaItem < Forest::ApplicationRecord
 
   has_attached_file :attachment,
                     styles: {
-                      huge: '2000x2000>',
-                      large: '1200x1200>',
-                      medium: '600x600>',
-                      small: '300x300>',
-                      thumb: '100x100>' },
+                      large: '2000x2000>',
+                      medium: '1200x1200>',
+                      small: '600x600>' },
                     default_url: '/images/:style/missing.png'
+
   do_not_validate_attachment_file_type :attachment
+
   before_post_process :skip_for_non_images
+  after_post_process :extract_dimensions
+
   validates_attachment_presence :attachment
 
   before_validation :set_default_metadata
   before_validation :generate_slug
 
+
   validates :slug, presence: true, uniqueness: true
+
+  serialize :dimensions
 
   belongs_to :attachable, polymorphic: true
 
@@ -75,7 +80,7 @@ class MediaItem < Forest::ApplicationRecord
   end
 
   def image?
-    (attachment_content_type =~ /^image\//).present?
+    attachment_content_type =~ %r{^(image|(x-)?application)/(bmp|gif|jpeg|jpg|pjpeg|png|x-png)$}
   end
 
   def file?
@@ -110,5 +115,20 @@ class MediaItem < Forest::ApplicationRecord
 
     def skip_for_non_images
       image?
+    end
+
+    # Retrieves dimensions for image assets
+    # @note Do this after resize operations to account for auto-orientation.
+    # https://github.com/thoughtbot/paperclip/wiki/Extracting-image-dimensions
+    def extract_dimensions
+      return unless image?
+      tempfile = attachment.queued_for_write[:original]
+      unless tempfile.nil?
+        geometry = Paperclip::Geometry.from_file(tempfile)
+        self.dimensions = {
+          width: geometry.width.to_i,
+          height: geometry.height.to_i
+        }
+      end
     end
 end

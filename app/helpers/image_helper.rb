@@ -1,16 +1,19 @@
 module ImageHelper
 
   def responsive_image(media_item, options = {})
-    return if media_item.blank?
+    # TODO: DF 08/04/17 - return a missing image if media item is blank?
+    # TODO: DF 08/04/17 - does it make sense to include the original dimensions as width and height attribtues?
+    # return if media_item.blank?
     classes = options.fetch :classes, nil
     image_set_tag media_item.attachment.url(:small), {
-        media_item.attachment.url(:medium) => '600w',
-        media_item.attachment.url(:large) => '1200w',
-        media_item.attachment.url(:huge) => '2000w'
+        media_item.attachment.url(:medium) => '1200w',
+        media_item.attachment.url(:large) => '2000w'
       },
       options.merge(
         sizes: options.fetch(:sizes, '100vw'),
-        class: "responsive-image #{classes}"
+        class: "responsive-image #{classes}",
+        width: media_item.try(:dimensions).try(:[], :width),
+        height: media_item.try(:dimensions).try(:[], :height)
       )
   end
 
