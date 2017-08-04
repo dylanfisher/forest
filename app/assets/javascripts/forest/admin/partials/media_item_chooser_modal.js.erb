@@ -17,7 +17,7 @@ App.MediaItemChooser = {
       that.instances.push( $element );
 
       $element
-        .on('show.bs.modal', function() {
+        .on('show.bs.modal', function(e) {
           var $modalBody = $element.find('.modal-body');
 
           $.ajax('<%= Rails.application.routes.url_helpers.media_items_path %>')
@@ -44,6 +44,7 @@ App.MediaItemChooser = {
     for ( var i = this.instances.length - 1; i >= 0; i-- ) {
       App.InfiniteLoader.unbindScroll( this.instances[i] );
     }
+    $('.media-item-chooser__button--active').removeClass('media-item-chooser__button--active');
   },
   teardown: function() {
     this.destroyModal();
@@ -51,6 +52,7 @@ App.MediaItemChooser = {
       this.instances[i].removeClass('fade').modal('hide');
     }
     this.instances = [];
+    $('.media-item-chooser__button--active').removeClass('media-item-chooser__button--active');
   }
 };
 
@@ -66,19 +68,28 @@ $(document).on('click', '[data-media-item-input]', function() {
 $(document).on('click', '.media-item-chooser .media-library-link', function(e) {
   e.preventDefault();
 
+  var $wrapper = $('.media-item-chooser__button--active').closest('.image');
   var id = $(this).attr('data-media-item-id');
   var imageUrl = $(this).attr('data-image-url');
   var value = App.MediaItemChooser.toPath ? imageUrl : id;
   var $removeButton = $(this).closest('.image').find('.media-item-chooser__remove-image');
 
   if ( App.MediaItemChooser.inputSelector ) {
-    $(App.MediaItemChooser.inputSelector).val( value );
-    if ( $(App.MediaItemChooser.inputSelector + '_preview').length )  {
-      $(App.MediaItemChooser.inputSelector + '_preview').removeClass('hidden').attr('src', imageUrl);
+    var $input = $wrapper.find( App.MediaItemChooser.inputSelector );
+    var $preview = $wrapper.find(App.MediaItemChooser.inputSelector + '_preview');
+
+    $input.val( value );
+
+    if ( $preview.length )  {
+      $preview.removeClass('hidden').attr('src', imageUrl);
       $removeButton.removeClass('hidden');
     }
     $(this).closest('.modal').modal('hide');
   }
+});
+
+$(document).on('click.mediaItemChooser', '.media-item-chooser__button, [data-media-item-input]', function() {
+  $(this).addClass('media-item-chooser__button--active');
 });
 
 $(document).on('click', '.media-item-chooser__remove-image', function() {
@@ -86,9 +97,6 @@ $(document).on('click', '.media-item-chooser__remove-image', function() {
   var $image = $wrapper.find('.media-item-chooser__image');
   var $button = $wrapper.find('.media-item-chooser__button');
   var $input = $( $button.attr('data-media-item-input') );
-
-  console.log('$button', $button);
-  console.log('$input', $input);
 
   $image.attr('src', '').attr('alt', '').addClass('hidden');
   $input.val('');

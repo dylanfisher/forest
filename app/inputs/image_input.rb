@@ -20,6 +20,7 @@ class ImageInput < SimpleForm::Inputs::StringInput
       media_item_modal_path: template.media_items_path
     }
 
+    # TODO: DF 08/04/17 - clarify what this is intened to do... and refactor ImageInput
     path_class = (path_only ? 'media-item-chooser-to-path' : '')
 
     image_tag_classes = []
