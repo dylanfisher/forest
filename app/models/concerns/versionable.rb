@@ -13,6 +13,10 @@ module Versionable
       end
     end
 
+    def versionable?
+      true
+    end
+
     private
 
       def status_id

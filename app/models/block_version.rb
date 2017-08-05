@@ -12,7 +12,7 @@ class BlockVersion < PaperTrail::Version
   private
 
     def set_block_record_data
-      self.block_record_version_id = self.reify.block_record.current_version.id
-      self.block_record_type = self.reify.block_record.current_version.item_type
+      self.block_record_version_id = self.reify.block_record.try(:versions).try(:last).try(:id)
+      self.block_record_type = self.reify.block_record.try(:versions).try(:last).try(:item_type)
     end
 end

@@ -153,7 +153,11 @@ class PagesController < ForestController
         # TODO: Published scope
         # TODO: now that this will be using published scope all the time, need a way on frontend
         # to show that the page is in draft, and to link admins to the draft preview.
-        @page = Page.find_by_path(params[:page_path]).current_published_version
+        if params[:preview]
+          @page = Page.find_by_path(params[:page_path])
+        else
+          @page = Page.find_by_path(params[:page_path]).current_published_version
+        end
       else
         @page = Page.includes(block_slots: :block).find_by_path(params[:id] || params[:page_path])
       end

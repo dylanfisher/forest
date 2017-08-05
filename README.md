@@ -83,6 +83,9 @@ Forest relies heavily on the following gems, software and frameworks:
 
 Big Picture
 
+- [ ] rip out paper_trail gem in favor of our own solution for versioning
+- [ ] add additional og tags http://ogp.me/
+- [ ] add schema.org microdata where appopriate, e.g. for navigation menus, headers, footers
 - [ ] tests
 - [ ] is it better to namespace engine?
 - [ ] better naming conventions when it comes to blocks, block_record, and block_slots

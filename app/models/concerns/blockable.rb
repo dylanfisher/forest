@@ -9,14 +9,16 @@ module Blockable
 
     accepts_nested_attributes_for :block_slots, allow_destroy: true
 
+    # TODO: DF 08/04/17 - under some condition if a block is saved without a block_id, the record will crash
     after_save :set_block_record
   end
 
   # TODO: rename block_slots to blocks and get rid of this method?
-  def blocks(layout_name = nil)
+  def blocks(options = {})
+    layout = options.fetch(:layout, nil)
     @_blocks ||= block_slots.includes(:block)
-    if layout_name.present?
-      @_blocks.select { |bs| bs.layout == layout_name.to_s }.collect(&:block)
+    if layout.present?
+      @_blocks.select { |bs| bs.layout == layout.to_s }.collect(&:block)
     else
       @_blocks.collect(&:block)
     end
