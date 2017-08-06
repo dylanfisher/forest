@@ -9,7 +9,7 @@
   <td width="1"><%= link_to 'Edit', edit_page_path(page), class: 'btn btn-xs btn-primary', role: 'button' %></td>
   <td width="1"><%= link_to 'Show', show_page_path(page), class: 'btn btn-xs btn-info', role: 'button' %></td>
   <td width="1"><%= link_to 'Versions', page_versions_path(page), class: 'btn btn-xs btn-warning', role: 'button' %></td>
-  <td width="1"><%= link_to 'Destroy', page, method: :delete, class: 'btn btn-xs btn-danger', role: 'button', data: { confirm: 'Are you sure?' } %></td>
+  <td width="1"><%= link_to 'Destroy', page, method: :delete, class: 'btn btn-xs btn-danger', role: 'button', data: { confirm: 'Are you sure you want to destroy this record? This action is irreversible.' } %></td>
 <% end %>
 
 <%# TODO: fix page caching %>

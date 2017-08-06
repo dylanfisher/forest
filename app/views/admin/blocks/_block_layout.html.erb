@@ -16,7 +16,6 @@
         <div class="col-sm-12">
 
           <div class="block_slots">
-            <%# f.object.block_slots.where(layout: layout_name_for_query) %>
             <%= f.simple_fields_for :block_slots, f.object.block_slots.where(layout: layout_name_for_query) do |block_slot| %>
               <%= render 'block_record/block_slot_fields', f: block_slot, block_types: block_types, layout_name: layout_display_name %>
             <% end %>

@@ -38,12 +38,7 @@
       <%= f.input :layout, as: :hidden, input_html: { value: layout_name } %>
       <%= f.input :block_type, collection: block_types, value_method: :name, include_blank: false, wrapper_html: { class: 'block-type-selector' } %>
       <%= f.input :block_id, as: :hidden %>
-      <%#= f.input :block_previous_version_id, as: :hidden %>
-      <%= f.input :block_record_type, as: :hidden, input_html: { value: @block_record&.block_record_type } %>
-      <%= f.input :block_record_id, as: :hidden, input_html: { value: @block_record&.block_record_id } %>
       <%= f.input :position, as: :hidden, wrapper_html: { class: 'block-position' } %>
-      <%#= f.input :page_id, as: :hidden %>
-      <%#= f.input :page_version_id, as: :hidden %>
 
       <%= link_to_remove_association 'Remove Block', f, class: 'btn btn-warning' %>
     </div>

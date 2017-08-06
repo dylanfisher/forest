@@ -2,14 +2,16 @@ module Versionable
   extend ActiveSupport::Concern
 
   included do
-    has_paper_trail meta: { status: :status_id }
+    has_paper_trail meta: {
+      block_slots: :set_versionable_block_slots
+    }
 
     def current_published_version
       if self.published?
         self
       elsif self.respond_to?(:versions)
         # self.versions.reorder(created_at: :desc, id: :desc).where(status: Page.statuses[:published]).first.try(:reify)
-        self.versions.reorder(created_at: :desc, id: :desc).where_object(status: Page.statuses[:published]).first.try(:reify)
+        self.versions.reorder(created_at: :desc, id: :desc).where_object(status: Statusable::PUBLISHED).first.try(:reify)
       end
     end
 
@@ -19,9 +21,8 @@ module Versionable
 
     private
 
-      def status_id
-        # TODO: this is saving the previous version ID, not the current id....
-        self.class.statuses[status]
+      def set_versionable_block_slots
+        self.block_slots.as_json
       end
   end
 end

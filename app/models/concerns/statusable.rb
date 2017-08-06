@@ -1,6 +1,8 @@
 module Statusable
   extend ActiveSupport::Concern
 
+  PUBLISHED = 'published'
+
   included do
     enum status: {
         published: 1,

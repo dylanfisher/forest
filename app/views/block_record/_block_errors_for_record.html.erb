@@ -1,4 +1,4 @@
-<% block_errors = @blocks && @blocks.values.collect { |b| b.try(:errors).try(:messages) } %>
+<% block_errors = @blocks && @blocks.values.collect { |b| b.try(:errors).try(:messages) }.reject(&:blank?) %>
 
 <% if block_errors.present? %>
   <div class="alert alert-danger" role="alert">

@@ -56,12 +56,10 @@ class <%= class_name %>sController < ForestController
   def new
     @<%= singular_name %> = <%= name %>.new
     authorize @<%= singular_name %>
-    set_block_record
   end
 
   def edit
     authorize @<%= singular_name %>
-    set_block_record
   end
 
   def create
@@ -75,7 +73,7 @@ class <%= class_name %>sController < ForestController
 
     respond_to do |format|
       if @<%= singular_name %>.valid?
-        save_page @<%= singular_name %>
+        save_record @<%= singular_name %>
         format.html { redirect_to edit_<%= singular_name %>_path(@<%= singular_name %>), notice: '<%= name %> was successfully created.' }
         format.json { render :show, status: :created, location: @<%= singular_name %> }
       else
@@ -95,7 +93,7 @@ class <%= class_name %>sController < ForestController
 
     respond_to do |format|
       if @<%= singular_name %>.valid?
-        save_page @<%= singular_name %>
+        save_record @<%= singular_name %>
         format.html { redirect_to edit_<%= singular_name %>_path(@<%= singular_name %>), notice: '<%= name %> was successfully updated.' }
         format.json { render :show, status: :ok, location: @<%= singular_name %> }
       else
@@ -139,10 +137,6 @@ class <%= class_name %>sController < ForestController
       else
         raise ActiveRecord::RecordNotFound
       end
-    end
-
-    def set_block_record
-      @block_record = @<%= singular_name %>.block_record || @<%= singular_name %>.build_block_record
     end
 
 end

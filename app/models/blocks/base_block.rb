@@ -1,10 +1,6 @@
 class BaseBlock < Forest::ApplicationRecord
   self.abstract_class = true
 
-  has_paper_trail class_name: 'BlockVersion',
-                  if: Proc.new { |b| b.block_slot.present? },
-                  meta: { block_record_id: :block_record_id }
-
   has_one :block_slot, class_name: 'BlockSlot', foreign_key: 'block_id'
 
   def self.display_name

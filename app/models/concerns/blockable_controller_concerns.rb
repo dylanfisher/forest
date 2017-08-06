@@ -13,14 +13,13 @@ module BlockableControllerConcerns
       @block_types = BlockType.all.by_name
     end
 
-    def save_page(record, options = {})
+    def save_record(record, options = {})
       @record ||= record
       @record.save
-      save_blocks @record, **options # bad pattern?
-      @record.set_block_record_cache! # bad pattern?
+      set_blocks @record, **options # bad pattern?
     end
 
-    def save_blocks(record, options = {})
+    def set_blocks(record, options = {})
       return unless @blocks.present?
       @record ||= record
       @blocks.delete_if { |k, v| v.blank? }.each_pair do |position, block|
@@ -40,7 +39,7 @@ module BlockableControllerConcerns
     end
 
     def blockable_record_is_valid?
-      @page&.valid? && @blocks&.values&.collect { |b| b.valid? }.all?
+      @record&.valid? && @blocks&.values&.collect { |b| b.valid? }.all?
     end
 
     # TODO: Split up this method and move into model?
@@ -67,6 +66,8 @@ module BlockableControllerConcerns
         else
           block = block_type.constantize.new
         end
+
+        # binding.pry
 
         block_attributes = block_fields.permit block.permitted_params
 

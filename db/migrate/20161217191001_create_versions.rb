@@ -21,7 +21,8 @@ class CreateVersions < ActiveRecord::Migration[4.2]
       t.integer  :item_id,   null: false
       t.string   :event,     null: false
       t.string   :whodunnit
-      t.text     :object, limit: TEXT_BYTES
+      t.jsonb    :object
+      t.jsonb    :block_slots
 
       # Known issue in MySQL: fractional second precision
       # -------------------------------------------------
@@ -39,6 +40,7 @@ class CreateVersions < ActiveRecord::Migration[4.2]
       t.datetime :created_at
     end
     add_index :versions, [:item_type, :item_id]
+    add_index :versions, :block_slots, using: :gin
   end
 
   private

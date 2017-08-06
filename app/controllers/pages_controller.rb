@@ -74,12 +74,10 @@ class PagesController < ForestController
   def new
     @page = Page.new
     authorize @page
-    set_block_record
   end
 
   def edit
     authorize @page
-    set_block_record
   end
 
   def create
@@ -94,7 +92,7 @@ class PagesController < ForestController
 
     respond_to do |format|
       if blockable_record_is_valid?
-        save_page @page
+        save_record @page
         format.html { redirect_to edit_page_path(@page), notice: 'Page was successfully created.' }
         format.json { render :show, status: :created, location: @page }
       else
@@ -106,7 +104,6 @@ class PagesController < ForestController
 
   def update
     authorize @page
-    set_block_record
 
     # TODO: Handle block type deletion
     parse_block_attributes @page, record_type: 'page'
@@ -115,7 +112,7 @@ class PagesController < ForestController
 
     respond_to do |format|
       if blockable_record_is_valid?
-        save_page @page
+        save_record @page
         format.html { redirect_to edit_page_path(@page), notice: 'Page was successfully updated.' }
         format.json { render :show, status: :ok, location: @page }
       else
@@ -139,9 +136,9 @@ class PagesController < ForestController
     def page_params
       # TODO: Move these block_slots_attributes into a concern
       params.require(:page).permit(:title, :slug, :description, :status, :version_id, :featured_image_id,
-        :media_item_ids, :block_slot_cache, :parent_page_id, :ancestor_page_id, :scheduled_date, :path,
+        :media_item_ids, :parent_page_id, :ancestor_page_id, :scheduled_date, :path,
         block_slots_attributes: [
-          :id, :_destroy, :page_id, :page_version_id, :block_id, :block_type, :block_previous_version_id,
+          :id, :_destroy, :block_id, :block_type, :block_previous_version_id,
           :layout, :position, :block_record_type, :block_record_id, :block_fields, *BlockType.block_type_params,
         ]
       )
@@ -172,9 +169,5 @@ class PagesController < ForestController
       else
         raise ActiveRecord::RecordNotFound
       end
-    end
-
-    def set_block_record
-      @block_record = @page.block_record || @page.build_block_record
     end
 end

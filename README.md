@@ -116,7 +116,7 @@ Admin
 
 Generators
 
-- [ ] initial app generator, or at least very clear instructions on setting up a new app
+- [ ] initial app generator `rails g forest:install` and move migrations that seed initial data into the generator
 - [ ] add ability to skip block_record creation when creating new scaffold that doesn't need to support blocks
 - [x] scaffold generator
 - [x] block type generator
