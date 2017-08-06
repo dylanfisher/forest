@@ -23,12 +23,15 @@ module BlockableControllerConcerns
       return unless @blocks.present?
       @record ||= record
       @blocks.delete_if { |k, v| v.blank? }.each_pair do |position, block|
+        block_slot = @record.block_slots.select { |a| a.position == position.to_i }.first
+        # block.block_record_version = record.latest_version_number
         if block.save
           # TODO: this is feeling a little brittle
           # TODO: fix a crash when deleting all blocks
-          block_slot = @record.block_slots.select { |a| a.position == position.to_i }.first
           if block_slot.present?
-            block_slot.update_column :block_id, block.id
+            block_slot.update_attributes(block_id: block.id, updated_at: Time.now)
+            block_slot.update_block_record_version!
+            block.update_block_record_version!
           end
         else
           respond_to do |format|
@@ -42,6 +45,8 @@ module BlockableControllerConcerns
       @record&.valid? && @blocks&.values&.collect { |b| b.valid? }.all?
     end
 
+    # TODO: DF 08/06/17 - this should be handled in a before_action so that this method doesn't need to be
+    #                     included all over in the generated blockable controller templates.
     # TODO: Split up this method and move into model?
     def parse_block_attributes(record, options = {})
       @record ||= record

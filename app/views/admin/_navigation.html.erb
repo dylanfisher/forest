@@ -62,7 +62,7 @@
               <%= link_to 'General', settings_path %>
             </li>
             <li role="separator" class="divider"></li>
-            <li class="<%= admin_navbar_active_class(settings_path) %>">
+            <li>
               <%= link_to 'Clear Cache', cache_purge_index_path, data: { confirm: "Are you sure you wan't to clear the website cache? Performance may decrease while cache rebuilds." } %>
             </li>
           </ul>
