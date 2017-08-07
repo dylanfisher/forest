@@ -72,6 +72,10 @@ App.pageLoad.push(function() {
   App.Select2.initialize( $('select:visible') );
 });
 
+$(document).on('app:show-media-item-chooser', function() {
+  App.Select2.initialize( $('select:visible') );
+});
+
 $(document).on('app:add-menu-item', function(e, $menuItem) {
   App.Select2.add( $menuItem.find('select:visible') );
 });

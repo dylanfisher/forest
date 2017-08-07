@@ -48,7 +48,8 @@ class MediaItem < Forest::ApplicationRecord
 
   def to_jq_upload
     {
-      'name': read_attribute(:attachment_name),
+      'id': self.id,
+      'name': read_attribute(:title),
       'size': attachment.size,
       'url': edit_media_item_path(self),
       'thumbnail_url': attachment.url(:medium),
