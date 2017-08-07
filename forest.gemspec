@@ -27,7 +27,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'jquery-fileupload-rails'
   s.add_dependency 'jquery-ui-rails'
   s.add_dependency 'kaminari'
-  s.add_dependency 'paper_trail'
   s.add_dependency 'paperclip'
   s.add_dependency 'pundit'
   s.add_dependency 'redcarpet'

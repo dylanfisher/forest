@@ -1,8 +1,6 @@
 class BaseBlock < Forest::ApplicationRecord
   self.abstract_class = true
 
-  has_paper_trail class_name: 'BlockVersion'
-
   has_one :block_slot, class_name: 'BlockSlot', foreign_key: 'block_id'
 
   def self.display_name
@@ -33,9 +31,5 @@ class BaseBlock < Forest::ApplicationRecord
   # TODO: association to represent this?
   def block_record_id
     block_record.block_record.id
-  end
-
-  def update_block_record_version!
-    self.versions.last.update_columns(block_record_version: self.block_record.latest_version_number)
   end
 end

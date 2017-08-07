@@ -2,7 +2,7 @@ class Page < Forest::ApplicationRecord
   include Blockable
   include FilterModelScopes
   include Searchable
-  include Statusable
+  # include Statusable
   # include Versionable
 
   before_validation :generate_slug

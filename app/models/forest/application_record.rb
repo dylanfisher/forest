@@ -15,6 +15,24 @@ module Forest
       end
     end
 
+    # Statusable default
+    def self.statusable?
+      false
+    end
+
+    def statusable?
+      false
+    end
+
+    # Versionable default
+    def self.versionable
+      false
+    end
+
+    def versionable
+      false
+    end
+
     private
 
       def self.valid_csv_column_types

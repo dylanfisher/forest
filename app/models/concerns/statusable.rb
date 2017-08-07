@@ -11,5 +11,13 @@ module Statusable
         pending: 4,
         hidden: 5
       }
+
+    def self.statusable?
+      true
+    end
+
+    def statusable?
+      true
+    end
   end
 end

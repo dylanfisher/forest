@@ -5,8 +5,7 @@ class <%= class_name %>sController < ForestController
 
   layout 'admin', except: [:show]
 
-  before_action :set_<%= singular_name %>, only: [:show, :edit, :update, :destroy, :versions, :version, :restore]
-  # before_action :set_paper_trail_whodunnit
+  before_action :set_<%= singular_name %>, only: [:show, :edit, :update, :destroy]
 
   has_scope :by_status
 
@@ -14,43 +13,8 @@ class <%= class_name %>sController < ForestController
     @<%= plural_name %> = apply_scopes(<%= name %>).by_id.page params[:page]
   end
 
-  def versions
-    authorize @<%= singular_name %>
-    @versions = @<%= singular_name %>.versions
-    status = params[:by_status] && <%= name %>.statuses[params[:by_status]]
-    if status
-      @versions = @versions.where_object(status: status)
-    end
-    @versions = @versions.reorder(created_at: :desc, id: :desc).page params[:page]
-  end
-
-  def restore
-    authorize @<%= singular_name %>
-    @version = @<%= singular_name %>.versions.find(params['version_id'])
-    @<%= singular_name %> = @version.reify
-    @<%= singular_name %>.reify_block_slots!
-
-    respond_to do |format|
-      if @<%= singular_name %>.save
-        format.html { redirect_to <%= singular_name %>_versions_path(@<%= singular_name %>), notice: '<%= name %> version was successfully restored.' }
-        format.json { render :show, status: :ok, location: @<%= singular_name %> }
-      else
-        format.html { render :versions }
-        format.json { render json: @<%= singular_name %>.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
   def show
     authorize @<%= singular_name %>
-  end
-
-  def version
-    authorize @<%= singular_name %>
-    @version = @<%= singular_name %>.versions.find(params['version_id'])
-    @<%= singular_name %> = @version.reify
-    # TODO: some way to reify blocks for other versions
-    render :show
   end
 
   def new
@@ -116,7 +80,7 @@ class <%= class_name %>sController < ForestController
 
     def <%= singular_name %>_params
       params.require(:<%= singular_name %>).permit(:title, :slug, :status, <%= attributes.collect { |a| ":#{a.name}, " }.join %>
-        block_slots_attributes: [:id, :_destroy, :block_id, :block_type, :block_previous_version_id, :position, :block_record_type, :block_record_id, *BlockType.block_type_params])
+        block_slots_attributes: [:id, :_destroy, :block_id, :block_type, :position, :block_record_type, :block_record_id, *BlockType.block_type_params])
     end
 
     def set_<%= singular_name %>

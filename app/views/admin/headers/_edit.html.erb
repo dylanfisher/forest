@@ -10,44 +10,16 @@
         <div class="col-sm-6">
           <h1>
             <%= record_name record %>
-            <% if record.is_a?(Page) && record.try(:versionable?) %>
-              <%= link_to "<span class='badge'>#{record.versions.count} versions</span>".html_safe, page_versions_path(record) %>
-            <% end %>
           </h1>
         </div>
         <div class="col-sm-6 text-right">
           <div class="btn-group">
             <%= link_to "All #{record.class.model_name.plural.titleize}", send("#{record.class.model_name.route_key}_path"), class: 'btn btn-default' %>
             <%= link_to "New #{record.class.model_name.singular.titleize}", send("new_#{record.class.model_name.singular_route_key}_path"), class: 'btn btn-default' %>
-            <% if record.try(:draft?) %>
-              <div class="btn-group" role="group">
-                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                   View <%= record.class.model_name.singular.titleize %>
-                   <span class="caret"></span>
-                 </button>
-                 <ul class="dropdown-menu">
-                   <li>
-                     <% if respond_to? "show_#{record.class.model_name.singular_route_key}_path" %>
-                       <%= link_to 'Preview draft', send("show_#{record.class.model_name.singular_route_key}_path", record, preview: true) %>
-                     <% else %>
-                       <%= link_to 'Preview draft', send("#{record.class.model_name.singular_route_key}_path", record, preview: true) %>
-                     <% end %>
-                   </li>
-                   <li>
-                     <% if respond_to? "show_#{record.class.model_name.singular_route_key}_path" %>
-                       <%= link_to 'Current published version', send("show_#{record.class.model_name.singular_route_key}_path", record) %>
-                     <% else %>
-                       <%= link_to 'Current published version', send("#{record.class.model_name.singular_route_key}_path", record) %>
-                     <% end %>
-                   </li>
-                 </ul>
-               </div>
+            <% if respond_to? "show_#{record.class.model_name.singular_route_key}_path" %>
+              <%= link_to "View #{record.class.model_name.singular.titleize}", send("show_#{record.class.model_name.singular_route_key}_path", record), class: 'btn btn-default' %>
             <% else %>
-              <% if respond_to? "show_#{record.class.model_name.singular_route_key}_path" %>
-                <%= link_to "View #{record.class.model_name.singular.titleize}", send("show_#{record.class.model_name.singular_route_key}_path", record), class: 'btn btn-default' %>
-              <% else %>
-                <%= link_to "View #{record.class.model_name.singular.titleize}", send("#{record.class.model_name.singular_route_key}_path", record), class: 'btn btn-default' %>
-              <% end %>
+              <%= link_to "View #{record.class.model_name.singular.titleize}", send("#{record.class.model_name.singular_route_key}_path", record), class: 'btn btn-default' %>
             <% end %>
           </div>
           <div class="btn btn-success update-record-button">Update <%= record.class.model_name.singular.titleize %></div>

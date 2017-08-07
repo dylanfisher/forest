@@ -5,9 +5,6 @@
         <h1>
           <%= record.try(:display_name) || record.try(:title) || record.try(:name) %>
           <small><%= record.class.model_name.singular.titleize %> <%= record.id %></small>
-          <% if record.is_a? Page %>
-            <%= link_to "<span class='badge'>#{record.versions.count} versions</span>".html_safe, page_versions_path(record) %>
-          <% end %>
         </h1>
       </div>
       <div class="col-sm-6 text-right">

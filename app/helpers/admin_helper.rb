@@ -41,11 +41,11 @@ module AdminHelper
   end
 
   def admin_navbar_class
-    if @version
-      'bg-danger'
-    elsif @page && @page.scheduled?
+    return unless (@page && @page.statusable?)
+
+    if @page.scheduled?
       'bg-info'
-    elsif @page && !@page.published?
+    elsif !@page.published?
       'bg-warning'
     end
   end

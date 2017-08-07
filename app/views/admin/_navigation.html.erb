@@ -34,18 +34,13 @@
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <% if @version && @record %>
-          <li>
-            <p class="navbar-text">
-              <%= content_tag :span, "Version #{@version.id}", class: 'badge', title: '#{@record.class.model_name.human} Version' %>
-            </p>
-          </li>
-        <% end %>
         <% if @record %>
           <li>
-            <p class="navbar-text">
-              <%= content_tag :span, t(@record.status, scope: [@record.class.model_name.i18n_key, :status]), class: 'badge', title: "#{@record.class.model_name.human} Status" %>
-            </p>
+            <% if @record.statusable? %>
+              <p class="navbar-text">
+                <%= content_tag :span, t(@record.status, scope: [@record.class.model_name.i18n_key, :status]), class: 'badge', title: "#{@record.class.model_name.human} Status" %>
+              </p>
+            <% end %>
             <% if public_area? %>
               <p class="navbar-text">
                 <%= link_to "Edit #{@record.class.model_name.singular}", send("edit_#{@record.class.model_name.singular_route_key}_path", @record) %>
@@ -82,19 +77,3 @@
     </div>
   </div>
 </nav>
-
-<% if @version && @record %>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-sm-12 text-right">
-        <%= link_to 'Restore this version',
-                    send("restore_#{@record.class.model_name.singular_route_key}_version_path", @record, @version),
-                    class: 'btn btn-success',
-                    title: 'Restore this version',
-                    role: 'button',
-                    data: {
-                      confirm: 'Are you sure you want to restore this version to the current version?' } %>
-      </div>
-    </div>
-  </div>
-<% end %>

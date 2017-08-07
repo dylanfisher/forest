@@ -1,9 +1,4 @@
 Rails.application.routes.draw do
-  # Concerns
-  concern :paginatable do
-    get '(page/:page)', action: :index, on: :collection
-  end
-
   # Errors
   match '404', to: 'errors#not_found', via: :all
   match '500', to: 'errors#internal_server_error', via: :all
@@ -23,11 +18,8 @@ Rails.application.routes.draw do
         post 'update_multiple'
       end
     end
-    resources :menus, concerns: :paginatable
-    resources :pages, concerns: :paginatable
-    get 'pages/:page_path/versions', to: 'pages#versions', as: 'page_versions'
-    get 'pages/:page_path/versions/:version_id', to: 'pages#version', as: 'page_version'
-    get 'pages/:page_path/versions/:version_id/restore', to: 'pages#restore', as: 'restore_page_version'
+    resources :menus
+    resources :pages
     resources :settings
     resources :users
     resources :user_groups

@@ -24,14 +24,11 @@ module BlockableControllerConcerns
       @record ||= record
       @blocks.delete_if { |k, v| v.blank? }.each_pair do |position, block|
         block_slot = @record.block_slots.select { |a| a.position == position.to_i }.first
-        # block.block_record_version = record.latest_version_number
         if block.save
           # TODO: this is feeling a little brittle
           # TODO: fix a crash when deleting all blocks
           if block_slot.present?
             block_slot.update_attributes(block_id: block.id, updated_at: Time.now)
-            block_slot.update_block_record_version!
-            block.update_block_record_version!
           end
         else
           respond_to do |format|

@@ -103,6 +103,6 @@ class Forest::ScaffoldGenerator < Rails::Generators::NamedBase
     end
 
     def available_views
-      %w(_form edit index new show versions)
+      %w(_form edit index new show)
     end
 end
