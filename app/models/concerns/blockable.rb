@@ -18,16 +18,16 @@ module Blockable
     def blocks(options = {})
       layout = options.fetch(:layout, nil)
 
-      @_blocks ||= begin
+      instance_variable_get("@#{layout}_blocks") || instance_variable_set("@#{layout}_blocks", begin
         if self.version.present?
           # TODO: DF 08/06/17 - refactor this!
-          # binding.pry
           version_number = self.version.index
           block_slot_versions = BlockSlotVersion.where(block_record_type: self.class.name, block_record_id: self.id, block_record_version: version_number)
                                                 .reject(&:blank?)
                                                 .collect { |bs|
                                                   bs.reify
                                                 }
+          # binding.pry
           if layout.present?
             block_slot_versions.select { |bs| bs.layout == layout.to_s }
                                .collect { |bs| bs.block.versions.where(block_record_version: version_number).first.reify }
@@ -41,7 +41,7 @@ module Blockable
             block_slots.collect(&:block)
           end
         end
-      end
+      end)
     end
 
     # TODO: make this more performant and/or not as weird

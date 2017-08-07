@@ -1,12 +1,7 @@
 class BaseBlock < Forest::ApplicationRecord
   self.abstract_class = true
 
-  has_paper_trail class_name: 'BlockVersion',
-                  meta: {
-                    # block_record_version: :set_block_record_version
-                  }
-
-  before_save :set_block_record_version
+  has_paper_trail class_name: 'BlockVersion'
 
   has_one :block_slot, class_name: 'BlockSlot', foreign_key: 'block_id'
 
@@ -43,11 +38,4 @@ class BaseBlock < Forest::ApplicationRecord
   def update_block_record_version!
     self.versions.last.update_columns(block_record_version: self.block_record.latest_version_number)
   end
-
-  private
-
-    def set_block_record_version
-      # binding.pry
-      # self.block_record.latest_version_number
-    end
 end
