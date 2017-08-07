@@ -6,6 +6,14 @@ module Versionable
       block_slots: :set_versionable_block_slots
     }
 
+    def self.versionable?
+      true
+    end
+
+    def versionable?
+      true
+    end
+
     def current_published_version
       if self.published?
         self
@@ -13,10 +21,6 @@ module Versionable
         # self.versions.reorder(created_at: :desc, id: :desc).where(status: Page.statuses[:published]).first.try(:reify)
         self.versions.reorder(created_at: :desc, id: :desc).where_object(status: Statusable::PUBLISHED).first.try(:reify)
       end
-    end
-
-    def versionable?
-      true
     end
 
     private

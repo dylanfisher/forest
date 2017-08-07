@@ -15,7 +15,8 @@ class PagesController < ForestController
     if request.format.json?
       @pages = apply_scopes(Page).by_title.page params[:page]
     else
-      @parent_pages = apply_scopes(Page.includes(:versions, immediate_children: :versions)).parent_pages.page params[:page]
+      # @parent_pages = apply_scopes(Page.includes(:versions, immediate_children: :versions)).parent_pages.page params[:page]
+      @parent_pages = apply_scopes(Page).parent_pages.page params[:page]
       @pages = apply_scopes(Page).by_title.page params[:page]
     end
 
@@ -152,8 +153,10 @@ class PagesController < ForestController
         # to show that the page is in draft, and to link admins to the draft preview.
         if params[:preview]
           @page = Page.find_by_path(params[:page_path])
-        else
+        elsif Page.try(:versionable?)
           @page = Page.find_by_path(params[:page_path]).current_published_version
+        else
+          @page = Page.find_by_path(params[:page_path])
         end
       else
         @page = Page.includes(block_slots: :block).find_by_path(params[:id] || params[:page_path])

@@ -19,7 +19,7 @@ module Blockable
       layout = options.fetch(:layout, nil)
 
       instance_variable_get("@#{layout}_blocks") || instance_variable_set("@#{layout}_blocks", begin
-        if self.version.present?
+        if self.try(:versionable?) && self.version.present?
           # TODO: DF 08/06/17 - refactor this!
           version_number = self.version.index
           block_slot_versions = BlockSlotVersion.where(block_record_type: self.class.name, block_record_id: self.id, block_record_version: version_number)
@@ -62,7 +62,9 @@ module Blockable
     end
 
     def latest_version_number
-      self.versions.last.try(:index).to_i
+      if self.try(:versionable?)
+        self.versions.last.try(:index).to_i
+      end
     end
 
     private

@@ -10,7 +10,7 @@
         <div class="col-sm-6">
           <h1>
             <%= record_name record %>
-            <% if record.is_a? Page %>
+            <% if record.is_a?(Page) && record.try(:versionable?) %>
               <%= link_to "<span class='badge'>#{record.versions.count} versions</span>".html_safe, page_versions_path(record) %>
             <% end %>
           </h1>

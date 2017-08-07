@@ -16,7 +16,11 @@
         <th><%= table_sorter title: 'Parent&nbsp;Page'.html_safe, path: :pages_path, scope: :by_parent_page %></th>
         <th>Author</th>
         <th><%= table_sorter title: 'Updated&nbsp;at'.html_safe, path: :pages_path, scope: :by_updated_at, default_order: :desc %></th>
-        <th colspan="4"></th>
+        <% if Page.try(:versionable?) %>
+          <th colspan="4"></th>
+        <% else %>
+          <th colspan="2"></th>
+        <% end %>
       </tr>
     </thead>
 
