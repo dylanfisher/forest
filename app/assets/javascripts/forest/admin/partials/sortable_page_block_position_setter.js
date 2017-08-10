@@ -9,7 +9,7 @@ $(document).on('turbolinks:load app:block-slot-after-insert', function() {
     handle: '.sortable-handle:not(button), .sortable-handle:not(a)',
     placeholder: 'ui-state-highlight',
     forcePlaceholderSize: true,
-    // tolerance: 'pointer',
+    tolerance: 'pointer',
     containment: 'parent'
   });
 

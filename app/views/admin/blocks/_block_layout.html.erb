@@ -1,9 +1,12 @@
-<% layout_display_name = local_assigns.fetch(:layout_name, 'Page layout') %>
+<% layout_title = local_assigns.fetch(:layout_title, nil) %>
+<% layout_display_name = layout_title.presence || local_assigns.fetch(:layout_name, 'Page layout') %>
+<% layout_description = local_assigns.fetch(:layout_description, nil) %>
 <% layout_name_for_query = local_assigns.fetch(:layout_name, nil) %>
 
 <div class="block-layout panel panel-default" data-collapse-parent>
   <div class="panel-heading">
     <h3 class="panel-title">
+      Block Layout:
       <%= layout_display_name.titleize %>
       <button type="button" class="btn btn-default btn-xs pull-right" title="Collapse all blocks" data-block-collapse-all>
         <div class="glyphicon glyphicon-minus"></div>
@@ -13,6 +16,13 @@
   <div class="panel-body">
     <div class="form-inputs">
       <div class="row">
+        <% if layout_description.present? %>
+          <div class="col-sm-6">
+            <div class="block-layout__description text-muted">
+              <%= layout_description %>
+            </div>
+          </div>
+        <% end %>
         <div class="col-sm-12">
 
           <div class="block_slots">

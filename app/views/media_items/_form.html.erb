@@ -16,7 +16,7 @@
               <div class="col-sm-6">
                 <%= f.input :attachment %>
                 <%= f.input :title %>
-                <%= f.input :slug %>
+                <%= render 'admin/form_inputs/slug', f: f %>
                 <%= f.input :caption %>
                 <%= f.input :alternative_text %>
                 <%= f.input :description %>

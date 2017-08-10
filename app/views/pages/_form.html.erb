@@ -19,7 +19,7 @@
             <div class="row">
               <div class="col-sm-6">
                 <%= f.input :title %>
-                <%= f.input :slug, placeholder: 'The slug will be generated automatically from the title.', required: false %>
+                <%= render 'admin/form_inputs/slug', f: f %>
                 <%= f.input :path, readonly: true, required: false %>
                 <%= f.association :parent_page,
                   include_blank: true,
@@ -48,8 +48,18 @@
         </div>
       </div>
 
-      <%= render 'admin/blocks/block_layout', f: f, block_types: @block_types, layout_name: 'heading' %>
-      <%= render 'admin/blocks/block_layout', f: f, block_types: @block_types, layout_name: 'sidebar' %>
+      <%= render 'admin/blocks/block_layout',
+                 f: f,
+                 block_types: @block_types,
+                 layout_name: 'heading',
+                 layout_title: 'Heading',
+                 layout_description: "The heading block layout is rendered at the top of the page, before other blocks." %>
+      <%= render 'admin/blocks/block_layout',
+                 f: f,
+                 block_types: @block_types,
+                 layout_name: 'sidebar',
+                 layout_title: 'Sidebar',
+                 layout_description: "The sidebar block layout is rendered in the page's sidebar." %>
 
       <%= f.button :submit, class: 'btn-success' %>
     </div>

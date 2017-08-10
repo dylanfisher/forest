@@ -16,3 +16,9 @@
     filter: brightness(95%);
   }
 }
+
+.media-item-chooser {
+  .fileupload {
+    margin-top: $gutter * 2;
+  }
+}

@@ -16,7 +16,7 @@
               <div class="col-sm-6">
                 <p class="text-muted">The menu name and slug determines where this menu is displayed.</p>
                 <%= f.input :title %>
-                <%= f.input :slug %>
+                <%= render 'admin/form_inputs/slug', f: f %>
                 <%= f.input :structure, as: :hidden %>
                 <%= f.button :submit, class: 'btn-success' %>
               </div>
