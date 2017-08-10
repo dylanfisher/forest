@@ -20,7 +20,12 @@ $(document).on('click', '.forest-table tbody tr', function(e) {
   var $row = $(this);
 
   if ( !$(e.target).closest('a').length ) {
-    var $button = $row.find('a.btn-primary:first');
+    var $button = $row.find('a.forest-table__link:first');
+
+    if ( !$button.length ) {
+      $button = $row.find('a.btn-primary:first');
+    }
+
     var url = $button.attr('href');
 
     if ( url ) {

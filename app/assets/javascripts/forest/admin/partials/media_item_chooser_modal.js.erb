@@ -69,7 +69,12 @@ $(document).on('click', '[data-media-item-input]', function() {
 $(document).on('click', '.media-item-chooser .media-library-link', function(e) {
   e.preventDefault();
 
-  var $wrapper = $('.media-item-chooser__button--active').closest('.image');
+  var $wrapper = $('.media-item-chooser__button--active').closest('.image-to-path-wrapper');
+
+  if ( !$wrapper.length ) {
+    $wrapper = $('.media-item-chooser__button--active').closest('.image');
+  }
+
   var id = $(this).attr('data-media-item-id');
   var imageUrl = $(this).attr('data-image-url');
   var value = App.MediaItemChooser.toPath ? imageUrl : id;

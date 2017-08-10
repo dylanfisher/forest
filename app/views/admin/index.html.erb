@@ -8,12 +8,13 @@
 </div>
 
 <div class="table-responsive">
-  <table class="table table-striped">
+  <table class="forest-table table table-striped">
     <thead>
       <tr>
         <th width="10%">Index</th>
         <th width="80%">Resource type</th>
         <th width="10%">Count</th>
+        <th colspan="1"></th>
       </tr>
     </thead>
 
@@ -21,8 +22,9 @@
       <% @admin_resources.each_with_index do |resource, index| %>
         <tr>
           <td><%= index + 1 %></td>
-          <td><%= link_to resource.model_name.human.titleize.pluralize, polymorphic_path(resource) %></td>
+          <td><%= resource.model_name.human.titleize.pluralize %></td>
           <td><%= number_with_delimiter resource.count %></td>
+          <td width="1"><%= link_to 'Edit', polymorphic_path(resource), class: 'btn btn-xs btn-info forest-table__link', role: 'button' %></td>
         </tr>
       <% end %>
     </tbody>
