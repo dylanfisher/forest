@@ -27,7 +27,7 @@
 
           <div class="block_slots">
             <%= f.simple_fields_for :block_slots, f.object.block_slots.where(layout: layout_name_for_query) do |block_slot| %>
-              <%= render 'block_record/block_slot_fields', f: block_slot, block_types: block_types, layout_name: layout_display_name %>
+              <%= render 'block_record/block_slot_fields', f: block_slot, block_types: block_types, layout_name: layout_name_for_query %>
             <% end %>
             <div class='links'>
               <%= link_to_add_association 'Add Block', f, :block_slots,
@@ -36,7 +36,7 @@
                                           render_options: {
                                             locals: {
                                               block_types: block_types,
-                                              layout_name: layout_display_name } } %>
+                                              layout_name: layout_name_for_query } } %>
             </div>
           </div>
 

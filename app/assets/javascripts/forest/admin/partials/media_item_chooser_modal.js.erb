@@ -37,7 +37,7 @@ App.MediaItemChooser = {
           that.destroyModal();
         })
         .on('hidden.bs.modal', function() {
-          // var $modalBody = $element.find('.modal-body');
+          $('.media-item-chooser .media-library-link--selected').removeClass('media-library-link--selected');
         });
     });
   },
@@ -46,6 +46,11 @@ App.MediaItemChooser = {
       App.InfiniteLoader.unbindScroll( this.instances[i] );
     }
     $('.media-item-chooser__button--active').removeClass('media-item-chooser__button--active');
+  },
+  createThumbnail: function(id, url) {
+    return '<div class="media-item--grid col-xs-4 col-sm-3 col-md-2">' +
+      '<div class="media-library-image img-rounded " style="background-image: url(' + url + ')" data-media-item-id="' + id + '" data-media-item-url="' + url + '"></div>' +
+    '</div>';
   },
   teardown: function() {
     this.destroyModal();
@@ -63,7 +68,10 @@ App.pageLoad.push(function() {
 
 $(document).on('click', '[data-media-item-input]', function() {
   App.MediaItemChooser.inputSelector = $(this).attr('data-media-item-input');
+  App.MediaItemChooser.input = false;
+  App.MediaItemChooser.preview = false;
   App.MediaItemChooser.toPath = $(this).hasClass('media-item-chooser-to-path');
+  App.MediaItemChooser.multiple = $(this).attr('data-multiple') == 'true';
 });
 
 $(document).on('click', '.media-item-chooser .media-library-link', function(e) {
@@ -81,16 +89,58 @@ $(document).on('click', '.media-item-chooser .media-library-link', function(e) {
   var $removeButton = $(this).closest('.image').find('.media-item-chooser__remove-image');
 
   if ( App.MediaItemChooser.inputSelector ) {
-    var $input = $wrapper.find( App.MediaItemChooser.inputSelector );
-    var $preview = $wrapper.find(App.MediaItemChooser.inputSelector + '_preview');
+    App.MediaItemChooser.input = $( App.MediaItemChooser.inputSelector );
+    App.MediaItemChooser.preview = $( App.MediaItemChooser.inputSelector + '_preview' );
 
-    $input.val( value );
+    if ( App.MediaItemChooser.multiple ) {
+      // Multiple upload
+      $(this).addClass('media-library-link--selected');
 
-    if ( $preview.length )  {
-      $preview.removeClass('hidden').attr('src', imageUrl);
-      $removeButton.removeClass('hidden');
+    } else {
+      // Single item
+
+      App.MediaItemChooser.input.val( value );
+
+      if ( App.MediaItemChooser.preview.length )  {
+        App.MediaItemChooser.preview.removeClass('hidden').attr('src', imageUrl);
+        $removeButton.removeClass('hidden');
+      }
+
+      $(this).closest('.modal').modal('hide');
     }
-    $(this).closest('.modal').modal('hide');
+  }
+});
+
+$(document).on('click.mediaItemChooser', '.media-library-link--selected', function() {
+  $(this).removeClass('media-library-link--selected');
+});
+
+$(document).on('click.mediaItemChooser', '.media-item-chooser__select-button', function() {
+  var $selected = $('.media-item-chooser .media-library-link--selected');
+  var thumbnails = [];
+  var thumbnailIds = [];
+
+  $selected.each(function() {
+    var id = $(this).attr('data-media-item-id');
+    var url = $(this).attr('data-image-url');
+    var $thumbnail = $( App.MediaItemChooser.createThumbnail(id, url) );
+
+    thumbnailIds.push(id);
+    thumbnails.push($thumbnail);
+  });
+
+  $('.modal.media-item-chooser').modal('hide');
+
+  if ( App.MediaItemChooser.input.length ) {
+    thumbnailIds.each(function() {
+      // TODO: Not working yet
+      App.MediaItemChooser.input.find('option').removeAttr('selected');
+      App.MediaItemChooser.input.find('option[value="' + id + '"]').attr('selected', 'selected');
+    });
+  }
+
+  if ( App.MediaItemChooser.preview.length ) {
+    App.MediaItemChooser.preview.append( thumbnails );
   }
 });
 

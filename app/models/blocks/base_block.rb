@@ -1,7 +1,7 @@
 class BaseBlock < Forest::ApplicationRecord
   self.abstract_class = true
 
-  has_one :block_slot, class_name: 'BlockSlot', foreign_key: 'block_id'
+  has_one :block_slot, class_name: 'BlockSlot', foreign_key: 'block_id', dependent: :destroy
 
   def self.display_name
     'Base Block'

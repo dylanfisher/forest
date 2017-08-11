@@ -28,7 +28,7 @@ module BlockableControllerConcerns
           # TODO: this is feeling a little brittle
           # TODO: fix a crash when deleting all blocks
           if block_slot.present?
-            block_slot.update_attributes(block_id: block.id, updated_at: Time.now)
+            block_slot.update(block_id: block.id, updated_at: Time.now)
           end
         else
           respond_to do |format|
@@ -68,8 +68,6 @@ module BlockableControllerConcerns
         else
           block = block_type.constantize.new
         end
-
-        # binding.pry
 
         block_attributes = block_fields.permit block.permitted_params
 

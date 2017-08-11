@@ -22,3 +22,33 @@
     margin-top: $gutter * 2;
   }
 }
+
+.media-library-link {
+  display: block;
+}
+
+.media-library-link--selected {
+  &:before {
+    @include glyphicon-ok;
+    position: absolute;
+    width: 1em;
+    height: 1em;
+    top: -0.5em;
+    right: 0;
+    z-index: 1;
+    font-size: 14px;
+    padding: 4px;
+    box-sizing: content-box;
+    border-radius: 3px;
+    color: white;
+    background: #337ab7;
+    border: 1px solid white;
+    outline: 1px solid #337ab7;
+  }
+
+  &:hover {
+    &:before {
+      content: "\e014";
+    }
+  }
+}

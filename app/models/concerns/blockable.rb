@@ -6,7 +6,9 @@ module Blockable
 
     after_destroy :destroy_associated_blocks
 
-    has_many :block_slots, -> { where(block_record_type: parent_class.name).order(:position) }, foreign_key: 'block_record_id'
+    has_many :block_slots, -> { where(block_record_type: parent_class.name).order(:position) },
+             foreign_key: 'block_record_id',
+             dependent: :destroy
     # has_one :block_record, as: :block_record, dependent: :destroy
 
     accepts_nested_attributes_for :block_slots, allow_destroy: true
