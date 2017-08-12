@@ -52,6 +52,23 @@ App.MediaItemChooser = {
       '<div class="media-library-image img-rounded " style="background-image: url(' + url + ')" data-media-item-id="' + id + '" data-media-item-url="' + url + '"></div>' +
     '</div>';
   },
+  recalculateSelectedGalleryItems: function($gallery) {
+    var thumbnailIds = [];
+    var $preview = $gallery.find('.media-gallery-preview');
+    var $input = $gallery.find('.gallery__input');
+
+    $preview.find('[data-media-item-id]').each(function() {
+      var id = $(this).attr('data-media-item-id');
+
+      thumbnailIds.push(id);
+    });
+
+    $input.find('option').removeAttr('selected');
+
+    for ( var i = 0; i < thumbnailIds.length; i++ ) {
+      $input.find('option[value="' + thumbnailIds[i] + '"]').attr('selected', 'selected');
+    }
+  },
   teardown: function() {
     this.destroyModal();
     for ( var i = this.instances.length - 1; i >= 0; i-- ) {
@@ -67,6 +84,8 @@ App.pageLoad.push(function() {
 });
 
 $(document).on('click', '[data-media-item-input]', function() {
+  // TODO: refactor this
+  App.MediaItemChooser.scope = $(this);
   App.MediaItemChooser.inputSelector = $(this).attr('data-media-item-input');
   App.MediaItemChooser.input = false;
   App.MediaItemChooser.preview = false;
@@ -89,8 +108,8 @@ $(document).on('click', '.media-item-chooser .media-library-link', function(e) {
   var $removeButton = $(this).closest('.image').find('.media-item-chooser__remove-image');
 
   if ( App.MediaItemChooser.inputSelector ) {
-    App.MediaItemChooser.input = $( App.MediaItemChooser.inputSelector );
-    App.MediaItemChooser.preview = $( App.MediaItemChooser.inputSelector + '_preview' );
+    App.MediaItemChooser.input = App.MediaItemChooser.scope.closest('.gallery').find( App.MediaItemChooser.inputSelector );
+    App.MediaItemChooser.preview = App.MediaItemChooser.scope.closest('.gallery').find( App.MediaItemChooser.inputSelector + '_preview' );
 
     if ( App.MediaItemChooser.multiple ) {
       // Multiple upload
@@ -98,7 +117,6 @@ $(document).on('click', '.media-item-chooser .media-library-link', function(e) {
 
     } else {
       // Single item
-
       App.MediaItemChooser.input.val( value );
 
       if ( App.MediaItemChooser.preview.length )  {
@@ -116,32 +134,30 @@ $(document).on('click.mediaItemChooser', '.media-library-link--selected', functi
 });
 
 $(document).on('click.mediaItemChooser', '.media-item-chooser__select-button', function() {
+  var $gallery = App.MediaItemChooser.preview.closest('.gallery');
   var $selected = $('.media-item-chooser .media-library-link--selected');
   var thumbnails = [];
-  var thumbnailIds = [];
 
   $selected.each(function() {
     var id = $(this).attr('data-media-item-id');
     var url = $(this).attr('data-image-url');
     var $thumbnail = $( App.MediaItemChooser.createThumbnail(id, url) );
 
-    thumbnailIds.push(id);
     thumbnails.push($thumbnail);
   });
 
   $('.modal.media-item-chooser').modal('hide');
 
-  if ( App.MediaItemChooser.input.length ) {
-    thumbnailIds.each(function() {
-      // TODO: Not working yet
-      App.MediaItemChooser.input.find('option').removeAttr('selected');
-      App.MediaItemChooser.input.find('option[value="' + id + '"]').attr('selected', 'selected');
-    });
-  }
-
   if ( App.MediaItemChooser.preview.length ) {
+    if ( App.MediaItemChooser.preview.closest('.media-gallery-preview-wrapper').hasClass('media-gallery-preview-wrapper--no-images') ) {
+      App.MediaItemChooser.preview.closest('.media-gallery-preview-wrapper').removeClass('media-gallery-preview-wrapper--no-images').addClass('media-gallery-preview-wrapper--has-images');
+      App.MediaItemChooser.preview.empty();
+    }
+
     App.MediaItemChooser.preview.append( thumbnails );
   }
+
+  App.MediaItemChooser.recalculateSelectedGalleryItems( $gallery );
 });
 
 $(document).on('click.mediaItemChooser', '.media-item-chooser__button, [data-media-item-input]', function() {
@@ -157,4 +173,12 @@ $(document).on('click', '.media-item-chooser__remove-image', function() {
   $image.attr('src', '').attr('alt', '').addClass('hidden');
   $input.val('');
   $(this).addClass('hidden');
+});
+
+$(document).on('click', '.media-gallery-preview .media-library-image', function() {
+  var $gallery = $(this).closest('.gallery');
+
+  $(this).closest('.media-item--grid').remove();
+
+  App.MediaItemChooser.recalculateSelectedGalleryItems( $gallery );
 });

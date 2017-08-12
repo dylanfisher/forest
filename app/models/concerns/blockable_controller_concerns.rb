@@ -69,7 +69,7 @@ module BlockableControllerConcerns
           block = block_type.constantize.new
         end
 
-        block_attributes = block_fields.permit block.permitted_params
+        block_attributes = block_fields.permit(block.permitted_params)
 
         # TODO: not sure if a more precise diff between hashes is necessary
         if block.new_record? || (existing_attributes.to_a - block_attributes.as_json.to_a).present?

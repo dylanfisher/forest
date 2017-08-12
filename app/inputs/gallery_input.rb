@@ -4,16 +4,19 @@ class GalleryInput < SimpleForm::Inputs::CollectionSelectInput
     obj = input_html_options.fetch :object, object
     input_html_options.merge! id: object_name.parameterize
 
-    button_title = input_html_options.fetch :button_title, 'Choose Image'
-    # img_src      = input_html_options.fetch :img_src, obj.send(reflection_or_attribute_name).try(:attachment).try(:url, :large)
+    button_title = input_html_options.fetch :button_title, 'Choose Images'
 
-    # TODO: clean this craziness up
-    # if img_src.nil? && obj.respond_to?(self.input_type)
-    #   img_src = obj.send(self.input_type).try(:attachment).try(:url, :large)
-    # end
+    field_name = input_html_options.fetch :field_name, "#{input_html_options[:id]}"
 
-    # path_only    = input_html_options.fetch :path_only, false
-    field_name   = input_html_options.fetch :field_name, "#{input_html_options[:id]}"
+    selected_images = obj.images.collect do |media_item|
+      template.content_tag :div, class: 'media-item--grid col-xs-4 col-sm-3 col-md-2' do
+        template.content_tag(:div, '', class: 'media-library-image img-rounded',
+                              style: "background-image: url(#{media_item.attachment.url(:small)});",
+                              data: {
+                                media_item_id: media_item.id
+                              })
+      end
+    end
 
     modal_data_attributes = {
       toggle: 'modal',
@@ -23,12 +26,23 @@ class GalleryInput < SimpleForm::Inputs::CollectionSelectInput
       media_item_modal_path: template.media_items_path
     }
 
+    modal_data_attributes_for_preview = selected_images.present? ? {} : modal_data_attributes
+
+    if selected_images.present?
+      images_or_placeholder = selected_images.join.html_safe
+    else
+      images_or_placeholder = template.content_tag(:div, 'Click here to add images to this gallery.', class: 'text-center')
+    end
+
+    preview_html = template.content_tag(:div, images_or_placeholder, class: "media-gallery-preview row small-gutters", id: "#{field_name}_preview")
+
     content = ActiveSupport::SafeBuffer.new
 
-    content << tag(:br)
-    content << content_tag(:p, 'test')
-
-    content << template.content_tag(:div, template.content_tag(:div, '', class: "media-gallery-preview row small-gutters", id: "#{field_name}_preview", data: {**modal_data_attributes }), class: 'well')
+    content << template.content_tag(:div,
+                                    preview_html,
+                                    class: "media-gallery-preview-wrapper #{selected_images.present? ? 'media-gallery-preview-wrapper--has-images' : 'media-gallery-preview-wrapper--no-images'} well",
+                                    data: {
+                                      **modal_data_attributes_for_preview})
 
     content << template.content_tag(:button, button_title,
                   type: 'button',
@@ -37,14 +51,14 @@ class GalleryInput < SimpleForm::Inputs::CollectionSelectInput
                     **modal_data_attributes
                   })
 
-    content << template.content_tag(:button, 'Remove image',
-                  type: 'button',
-                  class: "media-item-chooser__remove-image btn btn-xs btn-warning #{'hidden' unless obj.send(reflection_or_attribute_name).present?}")
-
     # TODO: not working yet
-    content << @builder.collection_select(
-              attribute_name, collection, :id, :title,
-              input_options
+    content << @builder.collection_select(attribute_name,
+              collection, :id, :title,
+              { selected: obj.send(reflection_or_attribute_name)&.collect(&:id) },
+              multiple: true,
+              id: field_name,
+              class: 'gallery__input',
+              hidden: true
             )
 
     content

@@ -1,10 +1,10 @@
 class ImageGalleryBlock < BaseBlock
-  has_many :image_gallery_block_images
+  has_many :image_gallery_block_images, dependent: :destroy
   has_many :images, through: :image_gallery_block_images
 
   def self.permitted_params
     [
-      :image_ids
+      image_ids: []
     ]
   end
 
