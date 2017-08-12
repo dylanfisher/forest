@@ -1,9 +1,4 @@
 <%# TODO: need to be able to handle associations more easily %>
 
-<%= block_f.association :images,
-                        as: :gallery,
-                        collection: MediaItem.all,
-                        input_html: {
-                          object: (f.object.block.presence || ImageGalleryBlock.new),
-                          value: f.object.block&.images&.collect(&:id) } %>
+<%= block_f.association :images, as: :gallery %>
 

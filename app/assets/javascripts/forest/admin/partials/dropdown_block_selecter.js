@@ -41,10 +41,11 @@ $(document).on('change', '.block_slots .block-type-selector select', function() 
   var blockType = $select.val();
   var $wrapper = $select.closest('.nested-fields');
   var $blockHeader = $wrapper.find('[data-block-type-header]');
+  var $blockHeaderTitle = $blockHeader.find('.block-type-header-title');
   var $templateFields = $wrapper.find('.block-type-field-template');
   var $templateField = $wrapper.find('.block-type-field-template[data-block-type="' + blockType + '"]');
 
-  $blockHeader.html(blockType);
+  $blockHeaderTitle.html(blockType);
 
   $templateFields.removeClass('active');
   $templateField.addClass('active');

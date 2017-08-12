@@ -1,14 +1,26 @@
 <%= content_tag :div, class: 'nested-fields', data: { block_type: f.object.block_type, block_type_id: f.object.block_id } do %>
   <div class="panel panel-default">
     <div class="panel-heading sortable-handle" data-block-type-header>
-      <% if f.object.block_type %>
-        <%= content_tag :div, '', class: "nested-fields__panel-display-icon #{f.object.block_type.constantize.display_icon}" %>
-        <%= f.object.block_type %>
-        <%= f.object.block_id %>
-        <button type="button" class="btn btn-default btn-xs pull-right" data-block-collapser>
+      <div class="block-type-header-title">
+        <% if f.object.block_type %>
+          <%= content_tag :div, '', class: "nested-fields__panel-display-icon #{f.object.block_type.constantize.display_icon}" %>
+          <%= f.object.block_type %>
+          <%= f.object.block_id %>
+        <% end %>
+      </div>
+
+      <div class="btn-group pull-right" role="group">
+        <button type="button" class="btn btn-xs btn-default" data-block-collapser title="Collapse block">
           <div class="glyphicon glyphicon-minus"></div>
         </button>
-      <% end %>
+        <%= link_to_remove_association f,
+              class: 'btn btn-xs btn-default',
+              title: 'Remove block',
+              data: {
+                confirm: "Are you sure you want to remove this block?" } do %>
+          <div class="glyphicon glyphicon-remove"></div>
+        <% end %>
+      </div>
     </div>
 
     <div class="panel-body">
@@ -39,8 +51,6 @@
       <%= f.input :block_type, collection: block_types, value_method: :name, include_blank: false, wrapper_html: { class: 'block-type-selector' } %>
       <%= f.input :block_id, as: :hidden %>
       <%= f.input :position, as: :hidden, wrapper_html: { class: 'block-position' } %>
-
-      <%= link_to_remove_association 'Remove Block', f, class: 'btn btn-xs btn-warning' %>
     </div>
 
   </div>

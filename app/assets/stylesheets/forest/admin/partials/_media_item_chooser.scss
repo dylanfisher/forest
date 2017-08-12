@@ -87,3 +87,26 @@
 .media-gallery-preview-wrapper--has-images {
   padding-bottom: 5px;
 }
+
+.gallery {
+  margin-bottom: 0;
+
+  .media-item-chooser__button {
+    margin-bottom: 0;
+  }
+
+  .sortable-placeholder {
+    float: left;
+    background-color: darken($well-bg, 10%);
+    margin: 0 0 $gutter;
+    padding: 0 ($gutter / 2);
+    border-radius: 3px;
+
+    &:before {
+      content: '';
+      display: block;
+      height: 0;
+      padding-bottom: 100%;
+    }
+  }
+}

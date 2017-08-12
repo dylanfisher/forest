@@ -63,10 +63,10 @@ App.MediaItemChooser = {
       thumbnailIds.push(id);
     });
 
-    $input.find('option').removeAttr('selected');
+    $input.empty();
 
     for ( var i = 0; i < thumbnailIds.length; i++ ) {
-      $input.find('option[value="' + thumbnailIds[i] + '"]').attr('selected', 'selected');
+      $input.append('<option value="' + thumbnailIds[i] + '" selected="selected">');
     }
   },
   teardown: function() {
@@ -137,13 +137,19 @@ $(document).on('click.mediaItemChooser', '.media-item-chooser__select-button', f
   var $gallery = App.MediaItemChooser.preview.closest('.gallery');
   var $selected = $('.media-item-chooser .media-library-link--selected');
   var thumbnails = [];
+  var $existingThumbnails = $gallery.find('.media-library-image');
+  var existingThumbnailIds = $existingThumbnails.map(function() {
+    return parseInt( $(this).attr('data-media-item-id') );
+  });
 
   $selected.each(function() {
-    var id = $(this).attr('data-media-item-id');
+    var id = parseInt( $(this).attr('data-media-item-id') );
     var url = $(this).attr('data-image-url');
     var $thumbnail = $( App.MediaItemChooser.createThumbnail(id, url) );
 
-    thumbnails.push($thumbnail);
+    if ( $.inArray(id, existingThumbnailIds) == -1 ) {
+      thumbnails.push($thumbnail);
+    }
   });
 
   $('.modal.media-item-chooser').modal('hide');

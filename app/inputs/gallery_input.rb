@@ -1,10 +1,12 @@
 class GalleryInput < SimpleForm::Inputs::CollectionSelectInput
 
+  def label(wrapper_options)
+    false
+  end
+
   def input(wrapper_options = nil)
     obj = input_html_options.fetch :object, object
     input_html_options.merge! id: object_name.parameterize
-
-    button_title = input_html_options.fetch :button_title, 'Choose Images'
 
     field_name = input_html_options.fetch :field_name, "#{input_html_options[:id]}"
 
@@ -44,17 +46,19 @@ class GalleryInput < SimpleForm::Inputs::CollectionSelectInput
                                     data: {
                                       **modal_data_attributes_for_preview})
 
-    content << template.content_tag(:button, button_title,
+    content << template.content_tag(:button, 'Choose Images',
                   type: 'button',
-                  class: "media-item-chooser__button btn btn-xs btn-primary",
+                  class: "media-item-chooser__button btn btn-default",
                   data: {
                     **modal_data_attributes
                   })
 
     # TODO: not working yet
     content << @builder.collection_select(attribute_name,
-              collection, :id, :title,
-              { selected: obj.send(reflection_or_attribute_name)&.collect(&:id) },
+              obj.images, :id, :title,
+              {
+                selected: obj.send(reflection_or_attribute_name)&.collect(&:id)
+              },
               multiple: true,
               id: field_name,
               class: 'gallery__input',
