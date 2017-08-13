@@ -8,11 +8,11 @@ class CreateTitleBlocks < ActiveRecord::Migration[5.0]
 
     reversible do |change|
       change.up do
-        BlockType.find_or_create_by(name: 'TitleBlock')
+        BlockKind.find_or_create_by(name: 'TitleBlock')
       end
 
       change.down do
-        BlockType.find_by_name('TitleBlock')&.delete
+        BlockKind.find_by_name('TitleBlock')&.delete
       end
     end
   end

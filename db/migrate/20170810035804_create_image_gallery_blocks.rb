@@ -6,16 +6,16 @@ class CreateImageGalleryBlocks < ActiveRecord::Migration[5.1]
 
     reversible do |change|
       change.up do
-        unless BlockType.find_by_name('ImageGalleryBlock')
-          BlockType.create name: 'ImageGalleryBlock',
+        unless BlockKind.find_by_name('ImageGalleryBlock')
+          BlockKind.create name: 'ImageGalleryBlock',
                            category: 'default',
                            description: ''
         end
       end
 
       change.down do
-        BlockType.where(name: 'ImageGalleryBlock').destroy_all
-        BlockSlot.where(block_type: 'ImageGalleryBlock').destroy_all
+        BlockKind.where(name: 'ImageGalleryBlock').destroy_all
+        BlockSlot.where(block_kind: 'ImageGalleryBlock').destroy_all
       end
     end
   end

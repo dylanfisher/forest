@@ -3,7 +3,6 @@ class PagesController < ForestController
   include FilterControllerScopes
 
   layout 'admin', except: [:show]
-  # layout Proc.new { |controller| 'admin' if admin? }
 
   before_action :set_page, only: [:show, :edit, :update, :destroy]
 
@@ -48,15 +47,8 @@ class PagesController < ForestController
     @page = Page.new
     authorize @page
 
-    # TODO: if a record is not valid when saving, any new blocks will be lost
-    # TODO: Handle block type deletion
-    parse_block_attributes @page, record_type: 'page'
-
-    @page.assign_attributes page_params
-
     respond_to do |format|
-      if blockable_record_is_valid?
-        save_record @page
+      if @page.update(page_params)
         format.html { redirect_to edit_page_path(@page), notice: 'Page was successfully created.' }
         format.json { render :show, status: :created, location: @page }
       else
@@ -69,14 +61,10 @@ class PagesController < ForestController
   def update
     authorize @page
 
-    # TODO: Handle block type deletion
-    parse_block_attributes @page, record_type: 'page'
-
-    @page.assign_attributes page_params
+    # @page.block_slots.each { |bs| bs.send(:build_block) }
 
     respond_to do |format|
-      if blockable_record_is_valid?
-        save_record @page
+      if @page.update(page_params)
         format.html { redirect_to edit_page_path(@page), notice: 'Page was successfully updated.' }
         format.json { render :show, status: :ok, location: @page }
       else
@@ -102,8 +90,8 @@ class PagesController < ForestController
       params.require(:page).permit(:title, :slug, :description, :status, :featured_image_id,
         :media_item_ids, :parent_page_id, :ancestor_page_id, :scheduled_date, :path,
         block_slots_attributes: [
-          :id, :_destroy, :block_id, :block_type,
-          :layout, :position, :block_record_type, :block_record_id, :block_fields, *BlockType.block_type_params,
+          :id, :_destroy, :block_id, :block_kind, :block_kind_id,
+          :layout, :position, :block, :block_record_type, :block_record_id, :block_fields, block_attributes: [*BlockKind.block_kind_params]
         ]
       )
     end
@@ -116,7 +104,7 @@ class PagesController < ForestController
         # to show that the page is in draft, and to link admins to the draft preview.
         @page = Page.find_by_path(params[:page_path])
       else
-        @page = Page.includes(block_slots: :block).find_by_path(params[:id] || params[:page_path])
+        @page = Page.find_by_path(params[:id] || params[:page_path])
       end
 
       @record = @page

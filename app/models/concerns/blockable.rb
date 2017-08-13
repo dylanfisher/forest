@@ -9,9 +9,12 @@ module Blockable
     has_many :block_slots, -> { where(block_record_type: parent_class.name).order(:position) },
              foreign_key: 'block_record_id',
              dependent: :destroy
+
+    # has_one :block_kind, through: :block_slots
     # has_one :block_record, as: :block_record, dependent: :destroy
 
     accepts_nested_attributes_for :block_slots, allow_destroy: true
+    # accepts_nested_attributes_for :block_kind
 
     # TODO: DF 08/04/17 - under some condition if a block is saved without a block_id, the record will crash
 

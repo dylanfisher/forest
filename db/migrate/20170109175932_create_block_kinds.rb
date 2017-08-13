@@ -1,6 +1,6 @@
-class CreateBlockTypes < ActiveRecord::Migration[5.0]
+class CreateBlockKinds < ActiveRecord::Migration[5.0]
   def change
-    create_table :block_types do |t|
+    create_table :block_kinds do |t|
       t.string :name
       t.text :description
       t.string :category
@@ -8,6 +8,6 @@ class CreateBlockTypes < ActiveRecord::Migration[5.0]
 
       t.timestamps
     end
-    add_index :block_types, :name, unique: true
+    add_index :block_kinds, :name, unique: true
   end
 end

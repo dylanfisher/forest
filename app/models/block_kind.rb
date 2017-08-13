@@ -1,13 +1,9 @@
-class BlockType < Forest::ApplicationRecord
+class BlockKind < Forest::ApplicationRecord
   scope :by_name, -> (orderer = :asc) { order(name: orderer, id: :desc) }
 
-  def self.block_type_params
-    self.all.collect do |block_type|
-      {
-        block_fields: {
-          block_type.name => block_type.block.permitted_params
-        }
-      }
+  def self.block_kind_params
+    self.all.collect do |block_kind|
+      block_kind.block.permitted_params + [:id, :_destroy]
     end
   end
 

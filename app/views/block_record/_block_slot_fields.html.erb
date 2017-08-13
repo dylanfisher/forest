@@ -1,10 +1,10 @@
-<%= content_tag :div, class: 'nested-fields', data: { block_type: f.object.block_type, block_type_id: f.object.block_id } do %>
+<%= content_tag :div, class: 'nested-fields', data: { block_kind: f.object.block_kind, block_kind_id: f.object.block_id } do %>
   <div class="panel panel-default">
     <div class="panel-heading sortable-handle" data-block-type-header>
       <div class="block-type-header-title">
-        <% if f.object.block_type %>
-          <%= content_tag :div, '', class: "nested-fields__panel-display-icon #{f.object.block_type.constantize.display_icon}" %>
-          <%= f.object.block_type %>
+        <% if f.object.block_kind %>
+          <%= content_tag :div, '', class: "nested-fields__panel-display-icon #{f.object.block_kind.constantize.display_icon}" %>
+          <%= f.object.block_kind %>
           <%= f.object.block_id %>
         <% end %>
       </div>
@@ -24,8 +24,8 @@
     </div>
 
     <div class="panel-body">
-      <% if f.object.block_type %>
-        <% block_class = f.object.block_type.constantize %>
+      <% if f.object.block_kind %>
+        <% block_class = f.object.block_kind.constantize %>
         <%= f.simple_fields_for :block_fields do |block_f| %>
           <%# TODO: DF 08/04/17 - Does it make sense to instantiate and set the nested form object here? %>
           <% block_f.object ||= f.object.block %>
@@ -34,12 +34,12 @@
         <% end %>
       <% else %>
         <div class="block-type-field-templates">
-          <% block_types.each do |block_type| %>
-            <% block_class = block_type.name.constantize %>
-            <%= content_tag :div, class: "block-type-field-template block-type-field-template__#{block_class.model_name.singular}", data: { block_type: block_type.name, block_type_id: block_type.id } do %>
+          <% block_kinds.each do |block_kind| %>
+            <% block_class = block_kind.name.constantize %>
+            <%= content_tag :div, class: "block-type-field-template block-type-field-template__#{block_class.model_name.singular}", data: { block_kind: block_kind.name, block_kind_id: block_kind.id } do %>
               <%= f.simple_fields_for :block_fields do |block_f| %>
                 <%# TODO: DF 08/04/17 - Does it make sense to instantiate and set the nested form object here? %>
-                <% block_f.object ||= block_type.block.new %>
+                <% block_f.object ||= block_kind.block.new %>
                 <%= render "blocks/#{block_class.model_name.singular}/edit", block_f: block_f, f: f %>
               <% end %>
             <% end %>
@@ -48,7 +48,7 @@
       <% end %>
 
       <%= f.input :layout, as: :hidden, input_html: { value: layout_name } %>
-      <%= f.input :block_type, collection: block_types, value_method: :name, include_blank: false, wrapper_html: { class: 'block-type-selector' } %>
+      <%= f.input :block_kind, collection: block_kinds, value_method: :name, include_blank: false, wrapper_html: { class: 'block-type-selector' } %>
       <%= f.input :block_id, as: :hidden %>
       <%= f.input :position, as: :hidden, wrapper_html: { class: 'block-position' } %>
     </div>

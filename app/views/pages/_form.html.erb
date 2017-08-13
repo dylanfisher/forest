@@ -48,18 +48,19 @@
         </div>
       </div>
 
-      <%= render 'admin/blocks/block_layout',
-                 f: f,
-                 block_types: @block_types,
-                 layout_name: 'heading',
-                 layout_title: 'Heading',
-                 layout_description: "The heading block layout is rendered at the top of the page, before other blocks." %>
-      <%= render 'admin/blocks/block_layout',
-                 f: f,
-                 block_types: @block_types,
-                 layout_name: 'sidebar',
-                 layout_title: 'Sidebar',
-                 layout_description: "The sidebar block layout is rendered in the page's sidebar." %>
+      <div id="block_slots">
+        <%= f.simple_fields_for :block_slots do |f| %>
+          <%= render 'block_record_test/block_slot_fields', f: f %>
+        <% end %>
+
+        <%= link_to_add_association 'add block slot',
+                                    f,
+                                    :block_slots,
+                                    partial: 'block_record_test/block_slot_fields',
+                                    class: 'btn btn-primary'  %>
+      </div>
+
+      <br>
 
       <%= f.button :submit, class: 'btn-success' %>
     </div>

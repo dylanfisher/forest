@@ -15,16 +15,16 @@ class <%= migration_class_name %> < ActiveRecord::Migration[<%= ActiveRecord::Mi
 
     reversible do |change|
       change.up do
-        unless BlockType.find_by_name('<%= class_name %>')
-          BlockType.create name: '<%= class_name %>',
+        unless BlockKind.find_by_name('<%= class_name %>')
+          BlockKind.create name: '<%= class_name %>',
                            category: 'default',
                            description: ''
         end
       end
 
       change.down do
-        BlockType.where(name: '<%= class_name %>').destroy_all
-        BlockSlot.where(block_type: '<%= class_name %>').destroy_all
+        BlockKind.where(name: '<%= class_name %>').destroy_all
+        BlockSlot.where(block_kind: '<%= class_name %>').destroy_all
       end
     end
   end

@@ -2,15 +2,15 @@ module BlockableControllerConcerns
   extend ActiveSupport::Concern
 
   included do
-    before_action :set_block_types, only: [:edit, :new, :create, :update]
+    before_action :set_block_kinds, only: [:edit, :new, :create, :update]
 
     has_scope :by_status
   end
 
   private
 
-    def set_block_types
-      @block_types = BlockType.all.by_name
+    def set_block_kinds
+      @block_kinds = BlockKind.all.by_name
     end
 
     def save_record(record, options = {})
@@ -53,8 +53,8 @@ module BlockableControllerConcerns
       record_type = options.fetch :record_type
 
       params[record_type][:block_slots_attributes] && params[record_type][:block_slots_attributes].each_pair do |index, block_params|
-        block_type = block_params['block_type']
-        block_constant = block_type.constantize
+        block_kind = block_params['block_kind']
+        block_constant = block_kind.constantize
         block_fields = block_params['block_fields']
         position = block_params['position']
         block_id = params[record_type][:block_slots_attributes][index][:block_id]
@@ -66,7 +66,7 @@ module BlockableControllerConcerns
           existing_attributes = HashWithIndifferentAccess.new
           block.permitted_params.each { |a| existing_attributes[a] = block[a] }
         else
-          block = block_type.constantize.new
+          block = block_kind.constantize.new
         end
 
         block_attributes = block_fields.permit(block.permitted_params)

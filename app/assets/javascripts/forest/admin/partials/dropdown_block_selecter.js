@@ -8,16 +8,16 @@ App.pageLoad.push(function() {
     if ( !$dropdown.length ) return;
 
     var $dropdownItems = $dropdown.find('.block-dropdown__item');
-    var blockType;
-    var blockTypeId;
+    var blockKind;
+    var blockKindId;
 
     $dropdownItems.offOn('click.blockDropdown', function(e) {
       var $dropdownItem = $(this);
       var $thisBlockLayout = $dropdownItem.closest($blockLayout);
       var $linkToAddAssociation = $thisBlockLayout.find('[data-association="block_slot"]');
 
-      blockType = $dropdownItem.attr('data-block-type');
-      blockTypeId = $dropdownItem.attr('data-block-type-id');
+      blockKind = $dropdownItem.attr('data-block-type');
+      blockKindId = $dropdownItem.attr('data-block-type-id');
 
       e.preventDefault();
 
@@ -26,7 +26,7 @@ App.pageLoad.push(function() {
 
     $('.block_slots').offOn('cocoon:after-insert.blockDropdownSelect', function(e, $addedBlockSlot) {
       var $select = $addedBlockSlot.find('.block-type-selector select');
-      var $option = $select.find('option[value="' + blockType + '"]');
+      var $option = $select.find('option[value="' + blockKind + '"]');
 
       $option.prop('selected', true);
       $select.trigger('change');
@@ -38,14 +38,14 @@ App.pageLoad.push(function() {
 
 $(document).on('change', '.block_slots .block-type-selector select', function() {
   var $select = $(this);
-  var blockType = $select.val();
+  var blockKind = $select.val();
   var $wrapper = $select.closest('.nested-fields');
   var $blockHeader = $wrapper.find('[data-block-type-header]');
   var $blockHeaderTitle = $blockHeader.find('.block-type-header-title');
   var $templateFields = $wrapper.find('.block-type-field-template');
-  var $templateField = $wrapper.find('.block-type-field-template[data-block-type="' + blockType + '"]');
+  var $templateField = $wrapper.find('.block-type-field-template[data-block-type="' + blockKind + '"]');
 
-  $blockHeaderTitle.html(blockType);
+  $blockHeaderTitle.html(blockKind);
 
   $templateFields.removeClass('active');
   $templateField.addClass('active');

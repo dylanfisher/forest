@@ -8,14 +8,14 @@ class CreateTextBlocks < ActiveRecord::Migration[5.0]
 
     reversible do |change|
       change.up do
-        unless BlockType.find_by_name('TextBlock')
-          BlockType.create(name: 'TextBlock', category: 'Default', description: "A general purpose block for adding text to a page.")
+        unless BlockKind.find_by_name('TextBlock')
+          BlockKind.create(name: 'TextBlock', category: 'Default', description: "A general purpose block for adding text to a page.")
         end
       end
 
       change.down do
-        BlockType.where(name: 'TextBlock').destroy_all
-        BlockSlot.where(block_type: 'TextBlock').destroy_all
+        BlockKind.where(name: 'TextBlock').destroy_all
+        BlockSlot.where(block_kind: 'TextBlock').destroy_all
       end
     end
   end

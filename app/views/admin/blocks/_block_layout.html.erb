@@ -27,7 +27,7 @@
 
           <div class="block_slots">
             <%= f.simple_fields_for :block_slots, f.object.block_slots.where(layout: layout_name_for_query) do |block_slot| %>
-              <%= render 'block_record/block_slot_fields', f: block_slot, block_types: block_types, layout_name: layout_name_for_query %>
+              <%= render 'block_record/block_slot_fields', f: block_slot, block_kinds: block_kinds, layout_name: layout_name_for_query %>
             <% end %>
             <div class='links'>
               <%= link_to_add_association 'Add Block', f, :block_slots,
@@ -35,7 +35,7 @@
                                           partial: 'block_record/block_slot_fields',
                                           render_options: {
                                             locals: {
-                                              block_types: block_types,
+                                              block_kinds: block_kinds,
                                               layout_name: layout_name_for_query } } %>
             </div>
           </div>
@@ -45,12 +45,12 @@
               Add Block
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-              <% block_types.each do |block_type| %>
+              <% block_kinds.each do |block_kind| %>
                 <li>
-                  <%= link_to '#', class: 'block-dropdown__item', data: { block_type: block_type.name, block_type_id: block_type.id } do %>
-                    <%= content_tag :span, '', class: block_type.display_icon, 'aria-hidden': true %>
+                  <%= link_to '#', class: 'block-dropdown__item', data: { block_kind: block_kind.name, block_kind_id: block_kind.id } do %>
+                    <%= content_tag :span, '', class: block_kind.display_icon, 'aria-hidden': true %>
                     &nbsp;&nbsp;
-                    <%= block_type.display_name %>
+                    <%= block_kind.display_name %>
                   <% end %>
                 </li>
               <% end %>

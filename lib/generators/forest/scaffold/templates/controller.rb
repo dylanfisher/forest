@@ -80,7 +80,7 @@ class <%= class_name %>sController < ForestController
 
     def <%= singular_name %>_params
       params.require(:<%= singular_name %>).permit(:title, :slug, :status, <%= attributes.collect { |a| ":#{a.name}, " }.join %>
-        block_slots_attributes: [:id, :_destroy, :block_id, :block_type, :position, :block_record_type, :block_record_id, *BlockType.block_type_params])
+        block_slots_attributes: [:id, :_destroy, :block_id, :block_kind, :position, :block_record_type, :block_record_id, *BlockKind.block_kind_params])
     end
 
     def set_<%= singular_name %>
