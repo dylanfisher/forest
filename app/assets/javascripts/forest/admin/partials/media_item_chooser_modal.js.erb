@@ -52,7 +52,7 @@ App.MediaItemChooser = {
       '<div class="media-library-image img-rounded " style="background-image: url(' + url + ')" data-media-item-id="' + id + '" data-media-item-url="' + url + '"></div>' +
     '</div>';
   },
-  recalculateSelectedGalleryItems: function($gallery) {
+  updateSelectedGalleryItems: function($gallery) {
     var thumbnailIds = [];
     var $preview = $gallery.find('.media-gallery-preview');
     var $input = $gallery.find('.gallery__input');
@@ -163,7 +163,7 @@ $(document).on('click.mediaItemChooser', '.media-item-chooser__select-button', f
     App.MediaItemChooser.preview.append( thumbnails );
   }
 
-  App.MediaItemChooser.recalculateSelectedGalleryItems( $gallery );
+  App.MediaItemChooser.updateSelectedGalleryItems( $gallery );
 });
 
 $(document).on('click.mediaItemChooser', '.media-item-chooser__button, [data-media-item-input]', function() {
@@ -186,5 +186,5 @@ $(document).on('click', '.media-gallery-preview .media-library-image', function(
 
   $(this).closest('.media-item--grid').remove();
 
-  App.MediaItemChooser.recalculateSelectedGalleryItems( $gallery );
+  App.MediaItemChooser.updateSelectedGalleryItems( $gallery );
 });

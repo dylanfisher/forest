@@ -10,13 +10,15 @@ class GalleryInput < SimpleForm::Inputs::CollectionSelectInput
 
     field_name = input_html_options.fetch :field_name, "#{input_html_options[:id]}"
 
-    selected_images = obj.images.collect do |media_item|
+    selected_images = obj.images.collect.with_index do |media_item, index|
       template.content_tag :div, class: 'media-item--grid col-xs-4 col-sm-3 col-md-2' do
-        template.content_tag(:div, '', class: 'media-library-image img-rounded',
-                              style: "background-image: url(#{media_item.attachment.url(:small)});",
-                              data: {
-                                media_item_id: media_item.id
-                              })
+        media_item_content = ActiveSupport::SafeBuffer.new
+        media_item_content << template.content_tag(:div, '', class: 'media-library-image img-rounded',
+                                style: "background-image: url(#{media_item.attachment.url(:small)});",
+                                data: {
+                                  media_item_id: media_item.id
+                                })
+        media_item_content
       end
     end
 
@@ -53,7 +55,6 @@ class GalleryInput < SimpleForm::Inputs::CollectionSelectInput
                     **modal_data_attributes
                   })
 
-    # TODO: not working yet
     content << @builder.collection_select(attribute_name,
               obj.images, :id, :title,
               {
