@@ -1,0 +1,28 @@
+<div class="nested-fields">
+  <%= f.association :block_kind,
+                    collection: BlockKind.all,
+                    include_blank: false,
+                    input_html: {
+                      class: 'block-kind-select' } %>
+
+  <div class="block-slot-field-templates">
+    <% block_kinds.each do |block_kind| %>
+      <% klass = block_kind.name.constantize %>
+      <%= content_tag :div,
+                      class: "block-slot-field-template block-slot-field-template--#{klass.model_name.singular}",
+                      data: {
+                        block_kind_id: block_kind.id } do %>
+        <%= f.simple_fields_for :block, f.object.send(:build_block, klass) do |f| %>
+          <%= render "blocks/#{klass.model_name.singular}/edit", f: f %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <%# TODO: fill these values in %>
+  <%= f.input :layout, as: :hidden %>
+  <%= f.input :position, as: :hidden %>
+  <%= f.input :block_record_type, as: :hidden %>
+
+  <%= link_to_remove_association 'Remove block', f, class: 'btn btn-default' %>
+</div>

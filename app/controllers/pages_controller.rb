@@ -61,8 +61,6 @@ class PagesController < ForestController
   def update
     authorize @page
 
-    # @page.block_slots.each { |bs| bs.send(:build_block) }
-
     respond_to do |format|
       if @page.update(page_params)
         format.html { redirect_to edit_page_path(@page), notice: 'Page was successfully updated.' }

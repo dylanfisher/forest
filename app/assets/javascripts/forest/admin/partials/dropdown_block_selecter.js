@@ -2,55 +2,56 @@ App.pageLoad.push(function() {
   var $blockLayouts = $('.block-layout');
 
   $blockLayouts.each(function() {
-    var $blockLayout = $('.block-layout');
-    var $dropdown = $blockLayout.find('.block-dropdown');
+    var $blockLayout = $(this);
+    var $blockSlots = $blockLayout.find('.block_slots');
 
-    if ( !$dropdown.length ) return;
+    $blockSlots.offOn('cocoon:after-insert.blockDropdownSelect', function(e, $blockSlot) {
+      var $blockKindSelect = $blockSlot.find('.block-kind-select');
+      var $blockTemplates = $blockSlot.find('.block-slot-field-template');
+      var previousBlockKindId;
 
-    var $dropdownItems = $dropdown.find('.block-dropdown__item');
-    var blockKind;
-    var blockKindId;
+      App.Select2.initialize( $blockKindSelect );
 
-    $dropdownItems.offOn('click.blockDropdown', function(e) {
-      var $dropdownItem = $(this);
-      var $thisBlockLayout = $dropdownItem.closest($blockLayout);
-      var $linkToAddAssociation = $thisBlockLayout.find('[data-association="block_slot"]');
+      $blockKindSelect.trigger('change');
 
-      blockKind = $dropdownItem.attr('data-block-type');
-      blockKindId = $dropdownItem.attr('data-block-type-id');
+      $blockKindSelect.select2('open');
 
-      e.preventDefault();
+      $blockKindSelect.offOn('select2:select.blockDropdownSelect select2:close.blockDropdownSelect', function(e) {
+        var blockKindId = $blockKindSelect.val();
+        var $activeBlockTemplate = $blockSlot.find('.block-slot-field-template[data-block-kind-id="' + blockKindId + '"]');
 
-      $linkToAddAssociation.trigger('click');
-    });
+        if ( previousBlockKindId != blockKindId ) {
+          disableBlockFieldTemplate( $blockTemplates.not( $activeBlockTemplate ) );
+          enableBlockFieldTemplate( $activeBlockTemplate );
+        }
 
-    $('.block_slots').offOn('cocoon:after-insert.blockDropdownSelect', function(e, $addedBlockSlot) {
-      var $select = $addedBlockSlot.find('.block-type-selector select');
-      var $option = $select.find('option[value="' + blockKind + '"]');
+        previousBlockKindId = blockKindId;
+      });
 
-      $option.prop('selected', true);
-      $select.trigger('change');
-
-      $(this).trigger('updateBlockSlotPosition.forest');
+      // $(this).trigger('updateBlockSlotPosition.forest');
+      // $(document).trigger('app:block-slot-after-insert', $blockLayout);
     });
   });
-});
 
-$(document).on('change', '.block_slots .block-type-selector select', function() {
-  var $select = $(this);
-  var blockKind = $select.val();
-  var $wrapper = $select.closest('.nested-fields');
-  var $blockHeader = $wrapper.find('[data-block-type-header]');
-  var $blockHeaderTitle = $blockHeader.find('.block-type-header-title');
-  var $templateFields = $wrapper.find('.block-type-field-template');
-  var $templateField = $wrapper.find('.block-type-field-template[data-block-type="' + blockKind + '"]');
+  function disableBlockFieldTemplate($templates) {
+    $templates.each(function() {
+      var $template = $(this);
+      var $inputs = $template.find(':input');
 
-  $blockHeaderTitle.html(blockKind);
+      $inputs.attr('disabled', 'disabled');
 
-  $templateFields.removeClass('active');
-  $templateField.addClass('active');
+      $template.hide();
+    });
+  }
 
-  $wrapper.find('input:first').focus();
+  function enableBlockFieldTemplate($templates) {
+    $templates.each(function() {
+      var $template = $(this);
+      var $inputs = $template.find(':input');
 
-  $(document).trigger('app:block-slot-after-insert', $wrapper);
+      $template.show();
+
+      $inputs.removeAttr('disabled');
+    });
+  }
 });

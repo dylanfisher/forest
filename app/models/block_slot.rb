@@ -1,6 +1,8 @@
 class BlockSlot < Forest::ApplicationRecord
   parent_class = self
 
+  validates_presence_of :block_kind
+
   belongs_to :block, polymorphic: true, dependent: :destroy
   belongs_to :block_record, polymorphic: true
   belongs_to :block_kind
@@ -16,7 +18,8 @@ class BlockSlot < Forest::ApplicationRecord
 
   protected
 
-    def build_block
-      self.block = self.block_kind.name.constantize.new
+    def build_block(kind = nil)
+      kind ||= self.block_kind.name.constantize
+      self.block = kind.new
     end
 end

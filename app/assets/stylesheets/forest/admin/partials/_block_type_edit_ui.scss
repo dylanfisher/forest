@@ -1,11 +1,3 @@
-.block-type-field-template {
-  display: none;
-
-  &.active {
-    display: block;
-  }
-}
-
 .nested-fields {
   &.collapsed {
     .panel-body {
@@ -16,4 +8,8 @@
 
 .nested-fields__panel-display-icon {
   margin-right: 10px;
+}
+
+.block-slot-field-template {
+  display: none;
 }
