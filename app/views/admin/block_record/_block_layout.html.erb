@@ -1,0 +1,48 @@
+<% block_kinds = local_assigns.fetch(:block_kinds, BlockKind.all.by_name) %>
+<% block_layout = local_assigns.fetch(:block_layout, BlockLayout.default_layout) %>
+
+<% locals = { block_kinds: block_kinds,
+              block_layout: block_layout } %>
+
+<div class="block-layout panel panel-default" data-collapse-parent>
+  <div class="panel-heading">
+    <h3 class="panel-title">
+      Block Layout: <%= block_layout.display_name %>
+      <button type="button" class="btn btn-default btn-xs pull-right" title="Collapse all blocks" data-block-collapse-all>
+        <div class="glyphicon glyphicon-minus"></div>
+      </button>
+    </h3>
+  </div>
+  <div class="panel-body">
+    <div class="form-inputs">
+      <div class="row">
+
+        <% if block_layout.description.present? %>
+          <div class="col-sm-6">
+            <div class="block-layout__description text-muted">
+              <%= md block_layout.description %>
+            </div>
+          </div>
+        <% end %>
+        <div class="col-sm-12">
+          <div id="block_slots" class="block_slots">
+            <%= f.simple_fields_for :block_slots do |f| %>
+              <%= render 'block_record_test/block_slot_fields', f: f, **locals %>
+            <% end %>
+
+            <div class="links">
+              <%= link_to_add_association 'Add block',
+                                          f,
+                                          :block_slots,
+                                          partial: 'block_record_test/block_slot_fields_template',
+                                          class: 'btn btn-primary',
+                                          render_options: {
+                                            locals: locals } %>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

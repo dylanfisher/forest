@@ -1,14 +1,17 @@
 // Set the default theme for all select2 widgets
 $.fn.select2.defaults.set('theme', 'bootstrap');
 
+App.teardown.push(function() {
+  $('select').each(function() {
+    if ( $(this).data('select2') ) {
+      $(this).select2('destroy');
+    }
+  });
+});
+
 App.Select2 = {
-  instances: [],
   initialize: function($elements) {
     var that = this;
-
-    $(document).one('turbolinks:before-cache.select2', function() {
-      that.teardown();
-    });
 
     this.add($elements);
   },
@@ -21,8 +24,6 @@ App.Select2 = {
       var remotePath = $select.attr('data-remote-path');
       var allowClear = $select.find('option:first:empty').length;
       var placeholder = $select.attr('placeholder') || '';
-
-      that.instances.push( $select );
 
       if ( remotePath && remotePath.length ) {
         selectOptions = {
@@ -59,12 +60,6 @@ App.Select2 = {
 
       $select.select2( selectOptions );
     });
-  },
-  teardown: function() {
-    for ( var i = this.instances.length - 1; i >= 0; i-- ) {
-      $(this.instances[i]).select2('destroy');
-    }
-    this.instances = [];
   }
 };
 

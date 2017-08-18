@@ -17,16 +17,18 @@ $(document).on('turbolinks:load app:block-slot-after-insert', function() {
     updateBlockSlotPosition();
   });
 
-  $blockSlotWrapper.offOn('updateBlockSlotPosition.forest', function() {
-    updateBlockSlotPosition();
-  });
-
   function updateBlockSlotPosition() {
-    $('.block_slots > .nested-fields').each(function(index) {
-      var $blockSlot = $(this);
-      var $positionInput = $blockSlot.find('.block-position input');
+    var $blockLayouts = $('.block-layout');
 
-      $positionInput.val(index);
+    $blockLayouts.each(function() {
+      var $layout = $(this);
+
+      $layout.find('.block_slots > .nested-fields').each(function(index) {
+        var $blockSlot = $(this);
+        var $positionInput = $blockSlot.find('.block-position');
+
+        $positionInput.val(index);
+      });
     });
   }
 });

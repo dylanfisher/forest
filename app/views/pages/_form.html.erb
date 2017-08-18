@@ -1,6 +1,6 @@
 <%= simple_form_for(@page) do |f| %>
   <%= f.error_notification %>
-  <%= render 'block_record/block_errors_for_record', blocks: @blocks %>
+  <%= render 'admin/block_record/block_errors_for_record', blocks: @blocks %>
 
   <div class="row">
     <div class="col-sm-12">
@@ -48,23 +48,7 @@
         </div>
       </div>
 
-      <div class="block-layout">
-        <div id="block_slots" class="block_slots">
-          <%= f.simple_fields_for :block_slots do |f| %>
-            <%= render 'block_record_test/block_slot_fields', f: f, block_kinds: @block_kinds %>
-            <%#= render 'block_record_test/block_slot_fields_template', f: f, block_kinds: @block_kinds %>
-          <% end %>
-
-          <%= link_to_add_association 'Add block',
-                                      f,
-                                      :block_slots,
-                                      partial: 'block_record_test/block_slot_fields_template',
-                                      class: 'btn btn-primary',
-                                      render_options: {
-                                        locals: {
-                                          block_kinds: @block_kinds } } %>
-        </div>
-      </div>
+      <%= render 'admin/block_record/block_layout', f: f %>
 
       <br>
 

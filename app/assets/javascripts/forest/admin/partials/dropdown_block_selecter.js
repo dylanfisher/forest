@@ -1,3 +1,13 @@
+App.blockKindSelector = {};
+
+App.blockKindSelector.select2 = function($select) {
+  var selectOptions = {
+    placeholder: 'Select a block'
+  }
+
+  $select.select2( selectOptions );
+};
+
 App.pageLoad.push(function() {
   var $blockLayouts = $('.block-layout');
 
@@ -10,15 +20,26 @@ App.pageLoad.push(function() {
       var $blockTemplates = $blockSlot.find('.block-slot-field-template');
       var previousBlockKindId;
 
-      App.Select2.initialize( $blockKindSelect );
-
-      $blockKindSelect.trigger('change');
+      App.blockKindSelector.select2( $blockKindSelect );
 
       $blockKindSelect.select2('open');
 
-      $blockKindSelect.offOn('select2:select.blockDropdownSelect select2:close.blockDropdownSelect', function(e) {
+      // If a block kind hasn't been chosen, remove the block slot
+      $blockKindSelect.offOn('select2:close.blockDropdownSelect', function(e) {
+        if ( $blockKindSelect.val() ) {
+          $blockKindSelect.select2('destroy')
+                          .closest('.form-group')
+                          .hide();
+        } else {
+          $blockSlot.remove();
+        }
+      });
+
+      $blockKindSelect.offOn('select2:select.blockDropdownSelect', function(e) {
         var blockKindId = $blockKindSelect.val();
         var $activeBlockTemplate = $blockSlot.find('.block-slot-field-template[data-block-kind-id="' + blockKindId + '"]');
+
+        $blockSlot.data('hasSelectedSlot', true);
 
         if ( previousBlockKindId != blockKindId ) {
           disableBlockFieldTemplate( $blockTemplates.not( $activeBlockTemplate ) );
@@ -26,10 +47,9 @@ App.pageLoad.push(function() {
         }
 
         previousBlockKindId = blockKindId;
-      });
 
-      // $(this).trigger('updateBlockSlotPosition.forest');
-      // $(document).trigger('app:block-slot-after-insert', $blockLayout);
+        $(document).trigger('app:block-slot-after-insert', $blockLayout);
+      });
     });
   });
 

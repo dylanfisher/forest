@@ -20,13 +20,8 @@
     <%= @page.status %>
   </p>
 
-  <div class="header">
-    <h2>These are header blocks</h2>
-    <%= render_blocks @page, layout: :heading %>
+  <div class="default">
+    <h2>These are default layout blocks</h2>
+    <%= render_blocks @page %>
   </div>
-
-  <div class="sidebar">
-    <h2>These are sidebar blocks</h2>
-    <%= render_blocks @page, layout: :sidebar %>
-  </div
 <% end %>

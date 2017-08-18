@@ -29,7 +29,7 @@
         <%= f.simple_fields_for :block_fields do |block_f| %>
           <%# TODO: DF 08/04/17 - Does it make sense to instantiate and set the nested form object here? %>
           <% block_f.object ||= f.object.block %>
-          <%= render 'block_record/block_errors', f: f %>
+          <%= render 'admin/block_record/block_errors', f: f %>
           <%= render "blocks/#{block_class.model_name.singular}/edit", block_f: block_f, f: f %>
         <% end %>
       <% else %>

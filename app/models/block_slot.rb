@@ -6,8 +6,21 @@ class BlockSlot < Forest::ApplicationRecord
   belongs_to :block, polymorphic: true, dependent: :destroy
   belongs_to :block_record, polymorphic: true
   belongs_to :block_kind
+  belongs_to :block_layout
 
   accepts_nested_attributes_for :block, reject_if: :all_blank, allow_destroy: true
+
+  # Merge these blockable params into the blockable record's strong params
+  def self.blockable_params
+    {
+      block_slots_attributes: [
+        :id, :_destroy, :position,
+        :block_type, :block_record_type,
+        :block_id, :block_kind_id, :block_layout_id, :block_record_id,
+        block_attributes: [*BlockKind.block_kind_params]
+      ]
+    }
+  end
 
   def block_attributes=(attributes)
     if BlockKind.all.collect(&:name).include?(self.block_kind.name)

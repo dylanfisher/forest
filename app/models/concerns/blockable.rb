@@ -10,31 +10,20 @@ module Blockable
              foreign_key: 'block_record_id',
              dependent: :destroy
 
-    # has_one :block_kind, through: :block_slots
-    # has_one :block_record, as: :block_record, dependent: :destroy
-
     accepts_nested_attributes_for :block_slots, allow_destroy: true
-    # accepts_nested_attributes_for :block_kind
-
-    # TODO: DF 08/04/17 - under some condition if a block is saved without a block_id, the record will crash
 
     # TODO: rename block_slots to blocks and get rid of this method?
     def blocks(options = {})
-      layout = options.fetch(:layout, nil)
+      block_layout = options.fetch(:block_layout, BlockLayout.default_layout)
 
-      instance_variable_get("@#{layout}_blocks") || instance_variable_set("@#{layout}_blocks", begin
-        if layout.present?
-          block_slots.select { |bs| bs.layout == layout.to_s }.collect(&:block)
-        else
-          block_slots.collect(&:block)
-        end
+      instance_variable_get("@#{block_layout.slug}_blocks") || instance_variable_set("@#{block_layout.slug}_blocks", begin
+        block_slots.includes(:block).select { |bs| bs.block_layout == block_layout }.collect(&:block)
       end)
     end
 
     private
 
       def destroy_associated_blocks
-        block_slots.includes(:block).each { |block_slot| block_slot.block&.destroy }
         block_slots.destroy_all
       end
   end
