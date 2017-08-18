@@ -26,12 +26,13 @@
         <% end %>
         <div class="col-sm-12">
           <div id="block_slots" class="block_slots">
-            <%= f.simple_fields_for :block_slots do |f| %>
+            <%# TODO: errors for block inputs stop working when passing block layout scope to fields_for partial %>
+            <%= f.simple_fields_for :block_slots, f.object.block_slots.by_layout(block_layout)  do |f| %>
               <%= render 'block_record_test/block_slot_fields', f: f, **locals %>
             <% end %>
 
             <div class="links">
-              <%= link_to_add_association 'Add block',
+              <%= link_to_add_association "Add #{block_layout.display_name.downcase} block",
                                           f,
                                           :block_slots,
                                           partial: 'block_record_test/block_slot_fields_template',
@@ -46,3 +47,5 @@
     </div>
   </div>
 </div>
+
+<hr>

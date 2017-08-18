@@ -10,6 +10,8 @@ class BlockSlot < Forest::ApplicationRecord
 
   accepts_nested_attributes_for :block, reject_if: :all_blank, allow_destroy: true
 
+  scope :by_layout, -> (block_layout) { where(block_layout_id: block_layout.id) }
+
   # Merge these blockable params into the blockable record's strong params
   def self.blockable_params
     {
