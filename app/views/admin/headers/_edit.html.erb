@@ -21,6 +21,13 @@
             <% else %>
               <%= link_to "View #{record.class.model_name.singular.titleize}", send("#{record.class.model_name.singular_route_key}_path", record), class: 'btn btn-default' %>
             <% end %>
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class="caret"></span>
+              <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu--right">
+              <li><%= link_to "Destroy #{record.class.model_name.singular.titleize}", record, method: :delete, data: { confirm: 'Are you sure?' } %></li>
+            </ul>
           </div>
           <div class="btn btn-success update-record-button">Update <%= record.class.model_name.singular.titleize %></div>
         </div>

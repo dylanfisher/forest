@@ -19,7 +19,7 @@
               <div class="col-sm-6">
                 <%= f.input :title %>
                 <%= render 'admin/form_inputs/slug', f: f %>
-                <%= f.input :path, readonly: true, required: false %>
+                <%#= f.input :path, readonly: true, required: false %>
                 <%= f.association :parent_page,
                   include_blank: true,
                   input_html: {
@@ -49,8 +49,6 @@
 
       <%#= render 'admin/block_record/block_layout', f: f, block_layout: BlockLayout.find_by_slug(:header) %>
       <%= render 'admin/block_record/block_layout', f: f %>
-
-      <br>
 
       <%= f.button :submit, class: 'btn-success' %>
     </div>

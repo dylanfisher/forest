@@ -41,7 +41,7 @@ class ImageInput < SimpleForm::Inputs::StringInput
 
     content << template.content_tag(:button, button_title,
                   type: 'button',
-                  class: "media-item-chooser__button btn btn-xs btn-default #{path_class}",
+                  class: "media-item-chooser__button btn btn-default #{path_class}",
                   data: {
                     **modal_data_attributes
                   })
@@ -50,7 +50,7 @@ class ImageInput < SimpleForm::Inputs::StringInput
 
     content << template.content_tag(:button, 'Remove image',
                   type: 'button',
-                  class: "media-item-chooser__remove-image btn btn-xs btn-default #{'hidden' unless obj.send(reflection_or_attribute_name).present?}")
+                  class: "media-item-chooser__remove-image btn btn-default #{'hidden' unless obj.send(reflection_or_attribute_name).present?}")
 
     content << @builder.hidden_field(attribute_name, input_html_options) unless path_only
 
