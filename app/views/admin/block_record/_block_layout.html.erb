@@ -11,7 +11,7 @@
     <h3 class="panel-title">
       Block Layout: <%= block_layout.display_name %>
       <button type="button" class="btn btn-default btn-xs pull-right" title="Collapse all blocks" data-block-collapse-all>
-        <div class="glyphicon glyphicon-minus"></div>
+        <div class="collapsable-icon glyphicon glyphicon-chevron-up"></div>
       </button>
     </h3>
   </div>
@@ -22,7 +22,8 @@
         <% if block_layout.description.present? %>
           <div class="col-sm-6">
             <div class="block-layout__description text-muted">
-              <%= md block_layout.description %>
+              <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+              <%= block_layout.description %>
             </div>
           </div>
         <% end %>

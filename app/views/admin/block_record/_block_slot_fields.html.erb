@@ -22,5 +22,6 @@
 
   <%= f.association :block_layout, as: :hidden, input_html: { value: block_layout.id } %>
   <%= f.input :block_record_type, as: :hidden %>
+  <%= f.input :block_kind_id, as: :hidden %>
   <%= f.input :position, as: :hidden, input_html: { class: 'block-position' } %>
 </div>

@@ -25,7 +25,8 @@ class BlockSlot < Forest::ApplicationRecord
   end
 
   def block_attributes=(attributes)
-    if BlockKind.all.collect(&:name).include?(self.block_kind.name)
+    # binding.pry if self.block_kind.blank?
+    if BlockKind.where(name: self.block_kind.name).exists?
       self.block ||= self.block_kind.name.constantize.new
       self.block.assign_attributes(attributes)
     end
