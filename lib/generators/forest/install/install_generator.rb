@@ -36,7 +36,7 @@ module Forest
       # Block layouts
       puts "[Forest] ---- Creating default block layouts"
       if BlockLayout.find_by_slug('default').blank?
-        BlockLayout.create(slug: 'default', display_name: 'Default')
+        BlockLayout.create(slug: 'default', display_name: 'Default', description: "")
       end
     end
 

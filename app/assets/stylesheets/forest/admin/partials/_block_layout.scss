@@ -5,3 +5,16 @@
 .block-layout__description {
   margin-bottom: $gutter;
 }
+
+.block-slot-field__button--low-priority {
+  opacity: 0;
+  transition: opacity 0.1s;
+}
+
+.block-slot {
+  &:hover {
+    .block-slot-field__button--low-priority {
+      opacity: 1;
+    }
+  }
+}

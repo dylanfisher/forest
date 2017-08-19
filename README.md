@@ -83,6 +83,7 @@ Forest relies heavily on the following gems, software and frameworks:
 
 Big Picture
 
+- [ ] add a documentation page directly within the forest cms with FAQ and basic overview of how to use the cms.
 - [ ] rip out paper_trail gem in favor of our own solution for versioning
 - [ ] add additional og tags http://ogp.me/
 - [ ] add schema.org microdata where appopriate, e.g. for navigation menus, headers, footers
@@ -123,6 +124,8 @@ Generators
 
 Pages
 
+- [ ] if you modify form data and navigate away from the page, prompt user for confirmation
+      https://github.com/turbolinks/turbolinks-classic/issues/249#issuecomment-302279482
 - [ ] proper drafting/publishing permissions for drafted/published pages
 - [ ] page groups / page heirarchy
 - [ ] show page hierarchy in select2 selection?
@@ -133,10 +136,11 @@ Pages
 
 Blocks
 
-- [ ] validate block attributes before saving page
-- [ ] more performant record saving when parsing block attributes
+- [ ] minimum and maximum blocks per layout
 - [ ] additional default content blocks, mainly image and/or gallery, maybe video and/or oEmbed
 - [ ] solution for color picker, date picker, map picker, etc. similar to ACF
+- [x] more performant record saving when parsing block attributes
+- [x] validate block attributes before saving page
 
 Media Gallery
 
