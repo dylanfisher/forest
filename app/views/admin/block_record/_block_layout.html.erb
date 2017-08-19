@@ -27,15 +27,16 @@
         <div class="col-sm-12">
           <div id="block_slots" class="block_slots">
             <%# TODO: errors for block inputs stop working when passing block layout scope to fields_for partial %>
+            <%# maybe this requires adding a has_many :block_layouts to the blockable record concern. %>
             <%= f.simple_fields_for :block_slots, f.object.block_slots.by_layout(block_layout)  do |f| %>
-              <%= render 'block_record_test/block_slot_fields', f: f, **locals %>
+              <%= render 'admin/block_record/block_slot_fields', f: f, **locals %>
             <% end %>
 
             <div class="links">
               <%= link_to_add_association "Add #{block_layout.display_name.downcase} block",
                                           f,
                                           :block_slots,
-                                          partial: 'block_record_test/block_slot_fields_template',
+                                          partial: 'admin/block_record/block_slot_fields_template',
                                           class: 'btn btn-primary',
                                           render_options: {
                                             locals: locals } %>

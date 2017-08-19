@@ -48,7 +48,7 @@ App.pageLoad.push(function() {
 
         previousBlockKindId = blockKindId;
 
-        $(document).trigger('app:block-slot-after-insert', $blockLayout);
+        $(document).trigger('app:block-slot-after-insert', $blockSlot);
       });
     });
   });

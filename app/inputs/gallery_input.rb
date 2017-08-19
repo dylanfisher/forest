@@ -10,6 +10,8 @@ class GalleryInput < SimpleForm::Inputs::CollectionSelectInput
 
     field_name = input_html_options.fetch :field_name, "#{input_html_options[:id]}"
 
+    # TODO: update to allow this to work with other associations, not just images
+    # e.g. obj.send(attribute_name)
     selected_images = obj.images.collect.with_index do |media_item, index|
       template.content_tag :div, class: 'media-item--grid col-xs-4 col-sm-3 col-md-2' do
         media_item_content = ActiveSupport::SafeBuffer.new

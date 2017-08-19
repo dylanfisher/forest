@@ -19,12 +19,13 @@ class MediaItem < Forest::ApplicationRecord
   before_validation :set_default_metadata
   before_validation :generate_slug
 
-
   validates :slug, presence: true, uniqueness: true
 
   serialize :dimensions
 
   belongs_to :attachable, polymorphic: true
+
+  has_many :image_gallery_block_images, foreign_key: :image_id, dependent: :destroy
 
   scope :by_id, -> (orderer = :desc) { order(id: orderer) }
   scope :by_date, -> (date) {
