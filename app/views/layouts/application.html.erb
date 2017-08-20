@@ -5,15 +5,13 @@
     <%= stylesheet_link_tag 'forest/application_public', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= stylesheet_link_tag 'forest/application_bootstrap', media: 'all', 'data-turbolinks-track': 'reload' if controller_name == 'sessions' %>
   </head>
-
   <body class="<%= @body_classes %> public">
-    <%#= render 'admin/navigation' if show_admin_navigation? %>
+    <%#= TODO: if a admin user is logged in, show admin bar %>
     <div class="container-fluid">
       <%= render 'shared/header' unless controller_name == 'sessions' %>
       <%= yield %>
       <%= render 'shared/footer' unless controller_name == 'sessions' %>
     </div>
-
     <%= jquery_include_tag %>
     <%= javascript_include_tag 'forest/application_public', data: { turbolinks_eval: false }  %>
   </body>

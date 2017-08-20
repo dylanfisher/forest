@@ -19,7 +19,7 @@ App.MediaItemChooser = {
           if ( $modalBody.find('.media-library').length ) {
             App.InfiniteLoader.initialize( $element.find('[data-infinite-load]'), { $scrollListener: $element } );
           } else {
-            $.ajax('<%= Rails.application.routes.url_helpers.media_items_path %>')
+            $.ajax('<%= Rails.application.routes.url_helpers.admin_media_items_path %>')
               .done(function(data) {
                 $modalBody.html( $(data).find('.media-library') );
                 App.InfiniteLoader.initialize( $element.find('[data-infinite-load]'), { $scrollListener: $element } );

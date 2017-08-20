@@ -1,0 +1,46 @@
+<%= simple_form_for([:admin, @media_item]) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="row">
+    <div class="col-sm-12">
+
+      <div class="panel panel-default" data-collapse-parent>
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            Metadata
+          </h3>
+        </div>
+        <div class="panel-body" data-collapse-body>
+          <div class="form-inputs">
+            <div class="row">
+              <div class="col-sm-6">
+                <%= f.input :attachment, hint: 'Replace the file by uploading a new attachment.' %>
+                <%= f.input :title, placeholder: 'The title will be generated automatically from the file name if left blank.' %>
+                <%= render 'admin/form_inputs/slug', f: f %>
+                <%= f.input :caption %>
+                <%= f.input :alternative_text, hint: 'The alt attribute provides alternative information for an image if a user for some reason cannot view it (because of slow connection, an error in the src attribute, or if the user uses a screen reader).' %>
+                <%= f.input :description %>
+                <%= f.button :submit, class: 'btn-success' %>
+              </div>
+              <div class="col-sm-6">
+                <% if @media_item.attachment.present? %>
+                  <% if @media_item.image? %>
+                    <%= image_tag @media_item.attachment.url(:medium) %>
+                  <% else %>
+                    <%= link_to media_item.attachment.url, class: 'blank-link', target: '_blank' do %>
+                      <%= content_tag :div, class: 'media-item-file img-rounded', title: 'Open file' do %>
+                        <%= content_tag :span, '', class: "media-library-image--grid__icon glyphicon #{media_item.glyphicon}" %>
+                        <%= content_tag :div, media_item.attachment_file_name, class: "media-library-image__label small well" %>
+                      <% end %>
+                    <% end %>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+<% end %>

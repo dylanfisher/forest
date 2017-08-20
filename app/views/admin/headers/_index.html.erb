@@ -8,7 +8,7 @@
     <div class="row">
       <div class="col-sm-6">
         <h1 class="admin-header__item"><%= model_names.plural.titleize %> <span class="badge"><%= number_with_delimiter records.total_count %></span></h1>
-        <%= form_tag send("#{model_names.route_key}_path"), class: 'form-inline admin-header__item', method: :get, enforce_utf8: false, data: { turboform: true } do %>
+        <%= form_tag send("admin_#{model_names.route_key}_path"), class: 'form-inline admin-header__item', method: :get, enforce_utf8: false, data: { turboform: true } do %>
           <div class="form-group">
             <%= text_field_tag :search, params[:search], class: 'form-control', placeholder: 'Search', autofocus: (true if params[:search].present?), data: { turboform: true } %>
             <%= submit_tag 'Submit', name: nil, class: 'btn btn-default' %>
@@ -17,14 +17,14 @@
       </div>
       <div class="col-sm-6 text-right">
         <div class="btn-group text-left">
-          <%= link_to "New #{model_names.singular.titleize}", send("new_#{model_names.singular_route_key}_path"), class: 'btn btn-success' %>
+          <%= link_to "New #{model_names.singular.titleize}", send("new_admin_#{model_names.singular_route_key}_path"), class: 'btn btn-success' %>
           <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span class="caret"></span>
             <span class="sr-only">Toggle Dropdown</span>
           </button>
           <ul class="dropdown-menu dropdown-menu--right">
             <li>
-              <%= link_to edit_import_path(model_names.singular) do %>
+              <%= link_to edit_admin_import_path(model_names.singular) do %>
                 <span class="glyphicon glyphicon-import"></span>
                 Bulk import
               <% end %>

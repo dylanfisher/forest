@@ -6,14 +6,12 @@ Rails.application.routes.draw do
   # Root
   root to: 'public#index'
 
-  # Admin
-  get 'admin', to: 'admin#index'
-
   # Admin Resources
-  scope :admin do
-    resources :cache_purge, only: [:index]
+  namespace 'admin' do
+    get '/', to: 'dashboard#index'
+    resources :cache_purge, path: 'cache-purge', only: [:index]
     resources :imports, only: [:edit, :create]
-    resources :media_items do
+    resources :media_items, path: 'media-items' do
       collection do
         post 'update_multiple'
       end
@@ -22,7 +20,7 @@ Rails.application.routes.draw do
     resources :pages
     resources :settings
     resources :users
-    resources :user_groups
+    resources :user_groups, path: 'user-groups'
 
     get 'documentation', to: 'documentation#index'
   end

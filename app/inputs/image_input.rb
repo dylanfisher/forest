@@ -17,7 +17,7 @@ class ImageInput < SimpleForm::Inputs::StringInput
       toggle: 'modal',
       target: '.media-item-chooser',
       media_item_input: "##{field_name}",
-      media_item_modal_path: template.media_items_path
+      media_item_modal_path: template.admin_media_items_path
     }
 
     # TODO: DF 08/04/17 - clarify what this is intened to do... and refactor ImageInput

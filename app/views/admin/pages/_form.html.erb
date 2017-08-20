@@ -1,0 +1,56 @@
+<%= simple_form_for([:admin, @page]) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="row">
+    <div class="col-sm-12">
+
+      <div class="panel panel-default" data-collapse-parent>
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            Metadata
+            <button type="button" class="btn btn-default btn-xs pull-right" data-collapse-trigger>
+              <div class="collapsable-icon glyphicon glyphicon-chevron-up"></div>
+            </button>
+          </h3>
+        </div>
+        <div class="panel-body" data-collapse-body>
+          <div class="form-inputs">
+            <div class="row">
+              <div class="col-sm-6">
+                <%= f.input :title %>
+                <%= render 'admin/form_inputs/slug', f: f %>
+                <%#= f.input :path, readonly: true, required: false %>
+                <%= f.association :parent_page,
+                  include_blank: true,
+                  input_html: {
+                    data: {
+                      remote_path: admin_pages_path,
+                      remote_scope: 'title_like',
+                    }
+                  } %>
+                <%= f.input :description %>
+                <%= f.button :submit, class: 'btn-success' %>
+              </div>
+              <div class="col-sm-6">
+                <% if @page.statusable? %>
+                  <%# TODO: turn the status scheduler into a reusable partial or helper %>
+                  <div class="status-scheduler">
+                    <%= f.input :status, as: :select, collection: Page.statuses.collect { |k, v| [k.titleize, k] }, include_blank: false %>
+                    <%= f.input :scheduled_date, as: :string, wrapper_html: { class: ('active' if @page.scheduled?) } %>
+                  </div>
+                  <br>
+                <% end %>
+                <%= f.association :featured_image, as: :image %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <%= render 'admin/block_record/block_layout', f: f, block_layout: BlockLayout.find_by_slug(:header) %>
+      <%= render 'admin/block_record/block_layout', f: f %>
+
+      <%= f.button :submit, class: 'btn-success' %>
+    </div>
+  </div>
+<% end %>

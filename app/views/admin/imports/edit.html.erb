@@ -1,0 +1,51 @@
+<div class="admin-header">
+  <div class="well">
+    <h1>
+      <%= @import.model_name.singular.titleize %> Import
+      <small>Upload a CSV file matching the template below to bulk import records</small>
+    </h1>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">CSV template</h3>
+  </div>
+  <div class="panel-body">
+    <p class="text-muted">Download the CSV template and format your import to match the following template. Save the file as a CSV and and upload in the form.
+    Leave columns blank if you do not have data for it available or it doesn't make sense to import.</p>
+    <p class="text-muted">Not all resources are able to be imported by default. If you need a more custom import please request this.</p>
+    <table class="table table-condensed table-bordered">
+      <thead>
+        <tr>
+          <% @import.csv_columns.each do |column| %>
+            <th><%= column.titleize %></th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <% @import.csv_columns.each_with_index do |column, index| %>
+          <td><%= @import.columns_hash[column].type %></td>
+        <% end %>
+      </tbody>
+    </table>
+
+    <%= link_to 'Download CSV template', edit_import_path(@import, format: :csv), class: 'btn btn-default', download: '' %>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Bulk import</h3>
+  </div>
+  <div class="panel-body">
+    <%= simple_form_for 'import', url: admin_imports_path, html: { multipart: true } do |f| %>
+      <div class="form-group">
+        <%= f.input :file, as: :file, label: 'CSV File input', input_html: { accept: '.csv' } %>
+        <p class="help-block">Upload your CSV file matching the template here.</p>
+      </div>
+      <%= f.input :model_name, value: @import.model_name.name, as: :hidden %>
+      <%= f.button :submit, 'Submit', class: 'btn btn-primary' %>
+    <% end %>
+  </div>
+</div>

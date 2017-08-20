@@ -1,4 +1,4 @@
-<%= simple_form_for MediaItem.new, html: { multipart: true, id: 'fileupload', class: 'fileupload' } do |f| %>
+<%= simple_form_for [:admin, MediaItem.new], html: { multipart: true, id: 'fileupload', class: 'fileupload' } do |f| %>
   <div class="hidden">
     <%= f.input :attachment %>
   </div>

@@ -1,13 +1,6 @@
 <% module_namespacing do -%>
-class <%= class_name %>sController < ForestController
-  include BlockableControllerConcerns
-  include FilterControllerScopes
-
-  layout 'admin', except: [:show]
-
+class <%= class_name %>sController < Admin::ForestController
   before_action :set_<%= singular_name %>, only: [:show, :edit, :update, :destroy]
-
-  has_scope :by_status
 
   def index
     @<%= plural_name %> = apply_scopes(<%= name %>).by_id.page params[:page]
@@ -38,7 +31,7 @@ class <%= class_name %>sController < ForestController
     respond_to do |format|
       if @<%= singular_name %>.valid?
         save_record @<%= singular_name %>
-        format.html { redirect_to edit_<%= singular_name %>_path(@<%= singular_name %>), notice: '<%= name %> was successfully created.' }
+        format.html { redirect_to edit_admin_<%= singular_name %>_path(@<%= singular_name %>), notice: '<%= name %> was successfully created.' }
         format.json { render :show, status: :created, location: @<%= singular_name %> }
       else
         format.html { render :new }
@@ -58,7 +51,7 @@ class <%= class_name %>sController < ForestController
     respond_to do |format|
       if @<%= singular_name %>.valid?
         save_record @<%= singular_name %>
-        format.html { redirect_to edit_<%= singular_name %>_path(@<%= singular_name %>), notice: '<%= name %> was successfully updated.' }
+        format.html { redirect_to edit_admin_<%= singular_name %>_path(@<%= singular_name %>), notice: '<%= name %> was successfully updated.' }
         format.json { render :show, status: :ok, location: @<%= singular_name %> }
       else
         format.html { render :edit }
@@ -71,7 +64,7 @@ class <%= class_name %>sController < ForestController
     authorize @<%= singular_name %>
     @<%= singular_name %>.destroy
     respond_to do |format|
-      format.html { redirect_to <%= plural_name %>_url, notice: '<%= name %> was successfully destroyed.' }
+      format.html { redirect_to admin_<%= plural_name %>_url, notice: '<%= name %> was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

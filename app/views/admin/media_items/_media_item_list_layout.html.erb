@@ -1,0 +1,32 @@
+<tr class="media-library__list-table-row">
+  <td><%= check_box_tag "selected[]", media_item.id %></td>
+  <td>
+    <div class="row">
+      <div class="media-library-image-row col-xs-4 col-sm-2">
+        <% attachment_or_placeholder_url = media_item.attachment.exists? ? media_item.attachment.url(:medium) : '' %>
+        <% content = capture do %>
+          <% if media_item.file? %>
+            <%= content_tag :span, '', class: "media-library-image--list__icon glyphicon #{media_item.glyphicon}" %>
+          <% end %>
+        <% end %>
+        <%= link_to edit_admin_media_item_path(media_item), class: "media-library-link media-library-link--list #{media_item.file? ? 'media-library-link--file' : 'media-library-link--image'}", data: { media_item_id: media_item.id, image_url: (image_url(attachment_or_placeholder_url) if media_item.image?) } do %>
+          <%= content_tag :div, content, class: "media-library-image media-library-image--list img-rounded #{'media-library-image--file' if media_item.file?}", style: "background-image: url(#{image_url(attachment_or_placeholder_url) if media_item.image?})" %>
+        <% end %>
+      </div>
+      <div class="col-sm-8">
+        <%= link_to media_item.title.presence || media_item.slug, edit_admin_media_item_path(media_item) %>
+        <br>
+        <%= media_item.attachment_file_name %>
+        <br>
+        <div class="media-library__list-actions">
+          <%= link_to 'Edit', edit_admin_media_item_path(media_item) %>
+          <span class="text-light">|</span>
+          <%= link_to 'Delete Permanently', [:admin, media_item], method: :delete, class: 'text-danger', data: { confirm: 'Are you sure?' } %>
+          <span class="text-light">|</span>
+          <%= link_to 'View', admin_media_item_path(media_item) %>
+        </div>
+      </div>
+    </div>
+  </td>
+  <td><%= media_item.created_at.to_formatted_s(:short) %></td>
+</tr>

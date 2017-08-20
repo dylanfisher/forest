@@ -52,9 +52,9 @@ class MediaItem < Forest::ApplicationRecord
       'id': self.id,
       'name': read_attribute(:title),
       'size': attachment.size,
-      'url': edit_media_item_path(self),
+      'url': edit_admin_media_item_path(self),
       'thumbnail_url': attachment.url(:medium),
-      'delete_url': media_item_path(id: id),
+      'delete_url': admin_media_item_path(id: id),
       'delete_type': 'DELETE'
     }
   end

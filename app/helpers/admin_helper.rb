@@ -1,9 +1,4 @@
 module AdminHelper
-  def show_admin_navigation?
-    # TODO: current_user policy check and potentially some settings check
-    @admin_resources && current_user && policy(:dashboard).index?
-  end
-
   def table_sorter(options = {})
     title = options.fetch :title
     path = options.fetch :path
@@ -34,7 +29,7 @@ module AdminHelper
       include_blank: options.fetch(:include_blank, true),
       input_html: {
         data: {
-          remote_path: Rails.application.routes.url_helpers.try("#{klass.model_name.route_key}_path"),
+          remote_path: Rails.application.routes.url_helpers.try("admin_#{klass.model_name.route_key}_path"),
           remote_scope: options.fetch(:scope),
         }
       }

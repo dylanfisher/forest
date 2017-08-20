@@ -11,7 +11,7 @@
     <div class="container-fluid">
       <%= yield %>
     </div>
-    <%= render 'media_items/modal' unless controller_name == 'media_items' %>
+    <%= render 'admin/media_items/modal' unless controller_name == 'media_items' %>
     <%= jquery_include_tag %>
     <%= javascript_include_tag 'forest/application_admin', data: { turbolinks_eval: false } %>
   </body>
