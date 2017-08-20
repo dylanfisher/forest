@@ -69,6 +69,7 @@
           <ul class="dropdown-menu">
             <li><%= link_to('Edit My Profile', edit_user_path(current_user)) %></li>
             <li><%= link_to 'View Home Page', root_path %></li>
+            <li><%= link_to 'Forest Docs', documentation_path, title: 'Learn more about this CMS and how to use it.' %></li>
             <li role="separator" class="divider"></li>
             <li><%= link_to('Log out', destroy_user_session_path, :method => :delete) %></li>
           </ul>

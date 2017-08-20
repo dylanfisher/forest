@@ -23,6 +23,8 @@ Rails.application.routes.draw do
     resources :settings
     resources :users
     resources :user_groups
+
+    get 'documentation', to: 'documentation#index'
   end
 
   # Devise
