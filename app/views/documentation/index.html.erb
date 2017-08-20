@@ -3,13 +3,12 @@
     <div class="row">
       <div class="col-sm-6">
         <h1>
-          Forest CMS
+          Forest Documentation
         </h1>
-        <p class="text-muted"><%= Gem.loaded_specs['forest'].description %></p>
       </div>
       <div class="col-sm-4 col-sm-offset-2">
-        Version <%= Gem.loaded_specs['forest'].version %><br>
-        Last updated <%= Gem.loaded_specs['forest'].date.to_formatted_s(:long_ordinal).sub(/ 00:00/, '') %><br>
+        <%= Gem.loaded_specs['forest'].name.titleize %> <%= Gem.loaded_specs['forest'].version %><br>
+        <%= Gem.loaded_specs['forest'].date.to_formatted_s(:long_ordinal).sub(/ 00:00/, '') %><br>
         <% if Gem.loaded_specs['forest'].homepage.present? %>
           </strong> <%= link_to Gem.loaded_specs['forest'].homepage, Gem.loaded_specs['forest'].homepage %><br>
         <% end %>
@@ -19,26 +18,26 @@
 </div>
 
 <% content_for :body do %>
-  <h2>General</h2>
+  <h2 id="general">General</h2>
   <p>Welcome to the <strong>Forest Documentation</strong>, the built-in manual for Forest CMS.</p>
-  <h2>Navigation</h2>
+  <h2 id="navigation">Navigation</h2>
   <p>Forest's primary navigation is comprised of the following sections:</p>
   <%= render 'admin/navigation' %>
-  <h2>Dashboard</h2>
+  <h2 id="dashboard">Dashboard</h2>
   <p>The <a href="#">Dashboard</a> is the CMS' home page, where your primary <a href="#">Resources</a> are organized.</p>
-  <h2>Pages</h2>
+  <h2 id="pages">Pages</h2>
   <p><a href="#">Pages</a> are typically composed of various interchangeable <a href="#">Blocks</a>.</p>
-  <h2>Media Library</h2>
+  <h2 id="media-library">Media Library</h2>
   <p>The <a href="#">Media Library</a> is where you manage image and file uploads.</p>
-  <h2>Users</h2>
+  <h2 id="users">Users</h2>
   <p><a href="#">Users</a> are the website administrators who have access to the CMS. Users are organized by <a href="#">User Groups</a> that define what a user has permission to edit, publish and view.</p>
-  <h2>Menus</h2>
+  <h2 id="menus">Menus</h2>
   <p><a href="#">Menus</a> are where you edit the navigation structure of your website.</p>
-  <h2>Resources</h2>
+  <h2 id="resources">Resources</h2>
   <p><a href="#">Resources</a> represent all of the data in the Forest CMS.</p>
-  <h2>Settings</h2>
+  <h2 id="settings">Settings</h2>
   <p><a href="#">Settings</a> are where you maintain mostly static values that are used throughout the site. For example the title of your website, the description, and other values. You can also purge the <a href="#">Cache</a> of the website from the settings dropdown nav.</p>
-  <h2>User Tab</h2>
+  <h2 id="user-tab">User Tab</h2>
   <p>The <a href="#">User Tab</a> gives you access to edit your profile, view the website's public home page, read this documentation, and log out of the CMS.</p>
 <% end %>
 
