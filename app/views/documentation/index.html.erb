@@ -1,24 +1,45 @@
 <div class="admin-header">
   <div class="well">
-    <h1>
-      Forest Documentation
-      <small>A guide to using this CMS</small>
-    </h1>
+    <div class="row">
+      <div class="col-sm-6">
+        <h1>
+          Forest CMS
+        </h1>
+        <p class="text-muted"><%= Gem.loaded_specs['forest'].description %></p>
+      </div>
+      <div class="col-sm-4 col-sm-offset-2">
+        Version <%= Gem.loaded_specs['forest'].version %><br>
+        Last updated <%= Gem.loaded_specs['forest'].date.to_formatted_s(:long_ordinal).sub(/ 00:00/, '') %><br>
+        <% if Gem.loaded_specs['forest'].homepage.present? %>
+          </strong> <%= link_to Gem.loaded_specs['forest'].homepage, Gem.loaded_specs['forest'].homepage %><br>
+        <% end %>
+      </div>
+    </div>
   </div>
 </div>
 
 <% content_for :body do %>
-  <h3>Topics to cover</h3>
-
-  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus mauris est, faucibus eget euismod et, interdum eget magna. Sed aliquet mi in elit maximus laoreet. Pellentesque molestie sem faucibus, ornare massa non, venenatis metus. Phasellus sagittis, justo quis pellentesque posuere, dui nulla pulvinar nisl, vel fermentum dui turpis at lorem. Cras molestie, lectus id eleifend vehicula, ipsum turpis bibendum velit, id lacinia mi orci id metus. Nam aliquet nisl at dictum sodales. Nullam vitae risus nec turpis imperdiet fringilla. Vivamus quis ornare neque. Morbi lacus arcu, lobortis id tincidunt non, pellentesque non enim. Cras semper urna sem. Sed nisi lorem, aliquet vel auctor euismod, venenatis vel libero. Phasellus odio eros, lacinia in dictum iaculis, malesuada at ligula. Cras eu tristique orci, quis imperdiet ligula.</p>
-  <p>Aliquam auctor enim vitae risus suscipit finibus. Nam sed erat nec nisl imperdiet consequat.</p>
-  <p>
-    <blockquote> Integer vulputate sit amet nulla at mattis. Mauris bibendum orci ut justo pellentesque, auctor elementum dolor tincidunt.</blockquote>
-  </p>
-  <p>Sed dignissim imperdiet nibh, eget sagittis ante. Nam metus diam, blandit vel sollicitudin non, cursus eu sem. Mauris a libero convallis, eleifend leo eu, convallis magna. Sed ornare suscipit quam sed mattis. Nunc justo elit, facilisis in velit non, ullamcorper elementum ante. Pellentesque arcu eros, iaculis sagittis elementum tincidunt, accumsan ac sem. Aliquam erat volutpat. Vivamus eros est, facilisis ut tortor at, commodo viverra sapien. Sed sodales dui pharetra maximus ultricies. Mauris aliquam metus lacus, quis malesuada nunc posuere ac. Aliquam elementum aliquet nunc ut eleifend. Morbi placerat risus sed sapien aliquet, imperdiet placerat magna vehicula.</p>
-  <p>Aliquam ante augue, maximus a enim in, blandit gravida tortor. Maecenas eget volutpat sapien. Aliquam turpis ex, interdum ac purus faucibus, ornare aliquam ante. Ut quis efficitur augue. Vestibulum lobortis aliquet nulla eu aliquam. Maecenas non ante quis elit ullamcorper posuere vitae eget magna. Nulla dignissim lacus eget nulla interdum semper. Etiam quis interdum mauris. Ut fringilla eget metus sed volutpat. Nullam vestibulum enim sit amet tortor laoreet, ut lacinia mauris iaculis. Fusce eleifend scelerisque lectus in blandit. Donec sollicitudin lectus dui, vitae fringilla est facilisis eget. Sed posuere ipsum id tellus tristique iaculis.</p>
-  <p>Aliquam in nunc non tortor pellentesque blandit. Nunc ac diam fermentum, posuere risus et, bibendum massa. Phasellus sed interdum tortor. Curabitur ultrices congue nibh at condimentum. Donec cursus justo enim, sit amet eleifend dui efficitur in. In sed elit in justo pulvinar tempor in vel dolor. Morbi varius nulla eget euismod fermentum.</p>
-  <p>Fusce convallis facilisis sem eget accumsan. Nulla elementum commodo nulla a condimentum. Vivamus lacinia elit eget diam semper, at lacinia ex egestas. Suspendisse potenti. Nulla eget volutpat tellus. Aliquam tempor sodales orci, et porta nunc. Curabitur ut nisi tempus, luctus velit a, lobortis lacus. Donec ut lectus ac enim vulputate aliquam. In euismod viverra eros luctus laoreet.</p>
+  <h2>General</h2>
+  <p>Welcome to the <strong>Forest Documentation</strong>, the built-in manual for Forest CMS.</p>
+  <h2>Navigation</h2>
+  <p>Forest's primary navigation is comprised of the following sections:</p>
+  <%= render 'admin/navigation' %>
+  <h2>Dashboard</h2>
+  <p>The <a href="#">Dashboard</a> is the CMS' home page, where your primary <a href="#">Resources</a> are organized.</p>
+  <h2>Pages</h2>
+  <p><a href="#">Pages</a> are typically composed of various interchangeable <a href="#">Blocks</a>.</p>
+  <h2>Media Library</h2>
+  <p>The <a href="#">Media Library</a> is where you manage image and file uploads.</p>
+  <h2>Users</h2>
+  <p><a href="#">Users</a> are the website administrators who have access to the CMS. Users are organized by <a href="#">User Groups</a> that define what a user has permission to edit, publish and view.</p>
+  <h2>Menus</h2>
+  <p><a href="#">Menus</a> are where you edit the navigation structure of your website.</p>
+  <h2>Resources</h2>
+  <p><a href="#">Resources</a> represent all of the data in the Forest CMS.</p>
+  <h2>Settings</h2>
+  <p><a href="#">Settings</a> are where you maintain mostly static values that are used throughout the site. For example the title of your website, the description, and other values. You can also purge the <a href="#">Cache</a> of the website from the settings dropdown nav.</p>
+  <h2>User Tab</h2>
+  <p>The <a href="#">User Tab</a> gives you access to edit your profile, view the website's public home page, read this documentation, and log out of the CMS.</p>
 <% end %>
 
 <%= render 'body' %>

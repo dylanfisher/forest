@@ -1,5 +1,6 @@
 .fileupload-dragover {
-  body {
+  .modal-open,
+  .controller--media_items.action--index {
     &:before {
       @include glyphicon-upload;
       color: #fff;

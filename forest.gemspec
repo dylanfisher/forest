@@ -10,8 +10,8 @@ Gem::Specification.new do |s|
   s.authors     = ['dylanfisher']
   s.email       = ['hi@dylanfisher.com']
   s.homepage    = 'https://github.com/dylanfisher/forest'
-  s.summary     = 'Forest CMS'
-  s.description = 'A simple and flexible CMS that grows.'
+  s.summary     = 'A CMS that grows.'
+  s.description = 'Forest is a flexible Ruby on Rails CMS that makes maintaining an application easy, and developing new applications efficient and fun.'
   s.license     = 'MIT'
 
   s.files = Dir['{app,config,db,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.md']
