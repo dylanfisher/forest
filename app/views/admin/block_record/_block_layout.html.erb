@@ -1,7 +1,7 @@
 <% block_kinds = local_assigns.fetch(:block_kinds, BlockKind.all.by_name) %>
 <% block_layout = local_assigns.fetch(:block_layout, BlockLayout.default_layout) %>
 
-<% raise Forest::Error.new('Block Layout is empty.', block_layout) if block_layout.blank? %>
+<% raise Forest::Error.new('Block Layout does not exist.', block_layout) if block_layout.blank? %>
 
 <% locals = { block_kinds: block_kinds,
               block_layout: block_layout } %>
@@ -31,6 +31,7 @@
           <div id="block_slots" class="block_slots">
             <%# TODO: errors for block inputs stop working when passing block layout scope to fields_for partial %>
             <%# maybe this requires adding a has_many :block_layouts to the blockable record concern. %>
+            <%#= f.simple_fields_for :block_slots, f.object.block_slots.by_layout(block_layout)  do |f| %>
             <%#= f.simple_fields_for :block_slots, f.object.block_slots.by_layout(block_layout)  do |f| %>
             <%= f.simple_fields_for :block_slots, f.object.block_slots  do |f| %>
               <%= render 'admin/block_record/block_slot_fields', f: f, **locals %>

@@ -11,6 +11,10 @@ class BaseBlock < Forest::ApplicationRecord
     'glyphicon glyphicon-tree-conifer'
   end
 
+  def self.kind
+    BlockKind.find_by_name(name)
+  end
+
   def display_name
     self.class.display_name
   end
