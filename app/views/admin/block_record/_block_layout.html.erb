@@ -29,11 +29,7 @@
         <% end %>
         <div class="col-sm-12">
           <div id="block_slots" class="block_slots">
-            <%# TODO: errors for block inputs stop working when passing block layout scope to fields_for partial %>
-            <%# maybe this requires adding a has_many :block_layouts to the blockable record concern. %>
-            <%#= f.simple_fields_for :block_slots, f.object.block_slots.by_layout(block_layout)  do |f| %>
-            <%#= f.simple_fields_for :block_slots, f.object.block_slots.by_layout(block_layout)  do |f| %>
-            <%= f.simple_fields_for :block_slots, f.object.block_slots  do |f| %>
+            <%= f.simple_fields_for :block_slots, f.object.block_slots.select { |bs| bs.block_layout_id == block_layout.id }  do |f| %>
               <%= render 'admin/block_record/block_slot_fields', f: f, **locals %>
             <% end %>
 
