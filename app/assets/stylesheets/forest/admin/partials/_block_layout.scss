@@ -1,3 +1,19 @@
+.block-layout__panel-heading {
+  padding-right: $gutter + 40px;
+  position: relative;
+}
+
+.block-layout__title {
+  line-height: 1;
+  padding: 5px 0;
+}
+
+.block-collapse-button {
+  position: absolute;
+  top: $gutter;
+  right: $gutter;
+}
+
 .block-type-header-title {
   display: inline-block;
 }

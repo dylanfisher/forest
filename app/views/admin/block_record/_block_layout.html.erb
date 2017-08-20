@@ -7,26 +7,22 @@
               block_layout: block_layout } %>
 
 <div class="block-layout panel panel-default" data-collapse-parent>
-  <div class="panel-heading">
-    <h3 class="panel-title">
-      Block Layout: <%= block_layout.display_name %>
-      <button type="button" class="btn btn-default btn-xs pull-right" title="Collapse all blocks" data-block-collapse-all>
+  <div class="block-layout__panel-heading panel-heading">
+    <h2 class="block-layout__title">
+      <%= block_layout.display_name %>
+      <% if block_layout.description.present? %>
+        <small>
+          <%= block_layout.description %>
+        </small>
+      <% end %>
+      <button type="button" class="block-collapse-button btn btn-default btn-xs pull-right" title="Collapse all blocks" data-block-collapse-all>
         <div class="collapsable-icon glyphicon glyphicon-chevron-up"></div>
       </button>
-    </h3>
+    </h2>
   </div>
   <div class="panel-body">
     <div class="form-inputs">
       <div class="row">
-
-        <% if block_layout.description.present? %>
-          <div class="col-sm-6">
-            <div class="block-layout__description text-muted">
-              <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-              <%= block_layout.description %>
-            </div>
-          </div>
-        <% end %>
         <div class="col-sm-12">
           <div id="block_slots" class="block_slots">
             <%= f.simple_fields_for :block_slots, f.object.block_slots.select { |bs| bs.block_layout_id == block_layout.id }  do |f| %>
