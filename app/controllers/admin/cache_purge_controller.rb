@@ -2,7 +2,7 @@ class Admin::CachePurgeController < Admin::ForestController
   def index
     authorize :dashboard, :index?
 
-    logger.info "Performing user-issued cache clear"
+    logger.info "[Forest] Performing user-issued cache clear"
 
     Rails.cache.clear
 

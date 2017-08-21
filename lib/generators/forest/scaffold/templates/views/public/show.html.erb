@@ -1,6 +1,5 @@
 <p>Find me in app/views/forest/<%= plural_name %>/show.html.erb</p>
 
-<%% cache @<%= singular_name %> do %>
 <%%# content_for :page_description, @<%= singular_name %>.description if @<%= singular_name %>.try(:description).present? %>
 <%%# content_for :page_featured_image, @<%= singular_name %>.featured_image.attachment.url(:large) if @<%= singular_name %>.try(:featured_image).present? %>
 
@@ -17,4 +16,3 @@
 </p>
 
 <%%= render_blocks @<%= singular_name %>.blocks if @<%= singular_name %>.try(:blocks).present? %>
-<%% end %>

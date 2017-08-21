@@ -10,6 +10,7 @@ class Page < Forest::ApplicationRecord
 
   after_save :touch_associated_pages if :hierarchy_changed?
   after_save :expire_menu_cache
+  after_save :touch_self
 
   after_destroy :remove_page_hierarchy!
 
@@ -118,5 +119,9 @@ class Page < Forest::ApplicationRecord
 
     def expire_menu_cache
       Menu.expire_cache!
+    end
+
+    def touch_self
+      self.touch
     end
 end
