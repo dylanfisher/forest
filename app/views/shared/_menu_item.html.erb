@@ -11,7 +11,7 @@
 <% if item['url'].present? %>
   <% item_url = item['url'] %>
 <% elsif page %>
-  <% item_url = page_path(page) %>
+  <% item_url = page_path(page.to_friendly_param) %>
 <% else %>
   <% item_url = '' %>
 <% end %>
