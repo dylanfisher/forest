@@ -55,7 +55,7 @@ class Admin::MenusController < Admin::ForestController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_menu
-      @menu = Menu.find_by_slug(params[:id])
+      @menu = Menu.find(params[:id])
     end
 
     def set_pages

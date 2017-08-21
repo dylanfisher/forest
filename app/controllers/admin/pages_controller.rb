@@ -81,15 +81,6 @@ class Admin::PagesController < Admin::ForestController
     end
 
     def set_page
-      # TODO: clean up page slug lookup
-      if action_name == 'show' && public?
-        # TODO: Published scope
-        # TODO: now that this will be using published scope all the time, need a way on frontend
-        # to show that the page is in draft, and to link admins to the draft preview.
-        @page = Page.find_by_path(params[:page_path])
-      else
-        @page = Page.find_by_path(params[:id] || params[:page_path])
-      end
-      # @record = @page
+      @page = Page.find(params[:id])
     end
 end

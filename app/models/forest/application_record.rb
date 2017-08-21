@@ -33,6 +33,11 @@ module Forest
       false
     end
 
+    # Override this to define a friendly param attribute, like `slug` or `path`
+    def to_friendly_param
+      to_param
+    end
+
     private
 
       def self.valid_csv_column_types

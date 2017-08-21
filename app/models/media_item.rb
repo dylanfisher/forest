@@ -1,6 +1,7 @@
 class MediaItem < Forest::ApplicationRecord
   include Rails.application.routes.url_helpers
   include Searchable
+  include Sluggable
 
   has_attached_file :attachment,
                     styles: {
@@ -17,9 +18,6 @@ class MediaItem < Forest::ApplicationRecord
   validates_attachment_presence :attachment
 
   before_validation :set_default_metadata
-  before_validation :generate_slug
-
-  validates :slug, presence: true, uniqueness: true
 
   serialize :dimensions
 
@@ -75,10 +73,6 @@ class MediaItem < Forest::ApplicationRecord
 
       self.slug = slug_attribute.parameterize
     end
-  end
-
-  def to_param
-    slug
   end
 
   def image?

@@ -47,7 +47,8 @@
         </div>
       </div>
 
-      <%= render 'admin/block_record/block_layout', f: f, block_layout: BlockLayout.find_by_slug(:header) %>
+      <%# TODO: add crud table for creating and managing block layout %>
+      <%#= render 'admin/block_record/block_layout', f: f, block_layout: BlockLayout.find_by_slug(:header) %>
       <%= render 'admin/block_record/block_layout', f: f %>
 
       <%= f.button :submit, class: 'btn-success' %>

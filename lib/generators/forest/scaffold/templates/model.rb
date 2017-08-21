@@ -3,7 +3,8 @@ class <%= class_name %> < Forest::ApplicationRecord
   include Blockable
   include FilterModelScopes
   include Searchable
-  include Statusable
+  include Sluggable
+  # include Statusable
 
   # before_validation :generate_slug
 

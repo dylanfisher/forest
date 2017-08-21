@@ -85,7 +85,7 @@ class Admin::MediaItemsController < Admin::ForestController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_media_item
-      @media_item = MediaItem.find_by_slug(params[:id])
+      @media_item = MediaItem.find(params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.

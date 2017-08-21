@@ -1,5 +1,5 @@
 class PagesController < ForestController
-  before_action :set_page
+  before_action :set_page, only: [:show]
 
   def show
     unless @page

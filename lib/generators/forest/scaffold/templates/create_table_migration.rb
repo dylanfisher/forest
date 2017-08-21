@@ -19,6 +19,5 @@ class <%= migration_class_name %> < ActiveRecord::Migration[<%= ActiveRecord::Mi
 
     add_index :<%= table_name %>, :slug, unique: true
     add_index :<%= table_name %>, :status
-
   end
 end

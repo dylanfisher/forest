@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   root to: 'public#index'
 
   # Admin Resources
-  namespace 'admin' do
+  namespace :admin do
     get '/', to: 'dashboard#index'
     resources :cache_purge, path: 'cache-purge', only: [:index]
     resources :imports, only: [:edit, :create]
@@ -34,13 +34,13 @@ Rails.application.routes.draw do
   end
 
   # Show
-  get 'user/:id', to: 'users#show', as: 'show_user'
-  get 'media/:id', to: 'media_items#show', as: 'show_media_item'
+  get 'user/:id', to: 'users#show', as: 'user'
+  get 'media/:id', to: 'media_items#show', as: 'media_item'
 
   get '*page_path/edit', to: 'pages#edit'
   # get '*page_path/edit', to: redirect('/admin/pages/%{page_path}/edit'), constraints: { page_path: /(?!.*admin).*/ }
 
   scope constraints: lambda { |request| request.format.to_s.include? 'text/html' } do
-    get '*page_path', to: 'pages#show', as: 'show_page'
+    get '*page_path', to: 'pages#show', as: 'page'
   end
 end

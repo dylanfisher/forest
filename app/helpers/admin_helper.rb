@@ -73,6 +73,14 @@ module AdminHelper
     }
   end
 
+  def back_button(default_url)
+    if request.referer.present?
+      request.referer
+    else
+      default_url
+    end
+  end
+
   def jquery_include_tag
     if Rails.env.production?
       jquery_url = 'https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'

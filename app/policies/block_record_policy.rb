@@ -3,7 +3,7 @@ class BlockRecordPolicy < ApplicationPolicy
     true
   end
 
-  def show_index?
+  def index?
     true
   end
 end

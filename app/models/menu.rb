@@ -1,8 +1,8 @@
 # TODO: MenuItem class to represent each individual menu item. Could these be associated with cocoon?
 class Menu < Forest::ApplicationRecord
-  CACHE_KEY = 'forest_menus'
+  include Sluggable
 
-  before_validation :generate_slug
+  CACHE_KEY = 'forest_menus'
 
   after_save :expire_cache
   after_destroy :expire_cache
@@ -10,7 +10,6 @@ class Menu < Forest::ApplicationRecord
   # TODO: validation in case a page link is no longer active, or link is wrong?
   # validate :has_valid_link
   validates :title, presence: true
-  validates :slug, presence: true, uniqueness: true
 
   # TODO: the cached self.menus method isn't used when accessing through the join table
   # TODO: fix after page group removal
@@ -30,14 +29,6 @@ class Menu < Forest::ApplicationRecord
 
   def pages
     Page.find(structure_as_json.collect { |a| a['page'] }.reject(&:blank?))
-  end
-
-  def generate_slug
-    self.slug = title.parameterize if self.slug.blank? || changed.include?('slug')
-  end
-
-  def to_param
-    slug
   end
 
   def cache_key(page, path)

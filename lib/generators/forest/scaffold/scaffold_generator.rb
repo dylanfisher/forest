@@ -17,10 +17,15 @@ class Forest::ScaffoldGenerator < Rails::Generators::NamedBase
   end
 
   def create_view_files
-    available_views.each do |view|
+    admin_views.each do |view|
       filename = "#{view}.html.erb"
-      template "views/#{filename}", File.join("app/views", plural_name, filename)
+      template "views/admin/#{filename}", File.join("app/views/admin", plural_name, filename)
       # TODO: Add jbuilder index
+    end
+
+    public_views.each do |view|
+      filename = "#{view}.html.erb"
+      template "views/public/#{filename}", File.join("app/views", plural_name, filename)
     end
   end
 
@@ -32,13 +37,14 @@ class Forest::ScaffoldGenerator < Rails::Generators::NamedBase
 
   def create_controller
     template 'controller.rb', "app/controllers/#{plural_name}_controller.rb"
+    template 'admin_controller.rb', "app/controllers/admin/#{plural_name}_controller.rb"
     route_lines = []
-    route_lines << "# TODO: sort these new routes"
-    route_lines << "  scope :admin do"
+    route_lines << "# TODO: sort these new admin routes"
+    route_lines << "  namespace :admin do"
     route_lines << "    resources :#{plural_name}"
     route_lines << "  end"
-    route_lines << "  get '#{singular_name}/:id', to: '#{plural_name}#show', as: 'show_#{singular_name}'\n"
-
+    route_lines << "  # TODO: sort these new public routes"
+    route_lines << "  resources :#{plural_name}, only: [:index, :show]\n"
     route route_lines.join("\n")
   end
 
@@ -102,7 +108,11 @@ class Forest::ScaffoldGenerator < Rails::Generators::NamedBase
       pluralize_table_names? ? _table_name.pluralize : _table_name.singularize
     end
 
-    def available_views
+    def admin_views
       %w(_form edit index new show)
+    end
+
+    def public_views
+      %w(index show)
     end
 end

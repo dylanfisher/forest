@@ -1,7 +1,7 @@
 <ul class="subnav">
   <% items.each do |item| %>
     <%= content_tag :li, class: "subnav__item subnav__item--#{item.slug}" do %>
-      <%= link_to md(item.title), show_page_path(item), class: "subnav__item__link subnav__item__link--#{item.slug}" %>
+      <%= link_to md(item.title), page_path(item.to_friendly_param), class: "subnav__item__link subnav__item__link--#{item.slug}" %>
     <% end %>
   <% end %>
 </ul>

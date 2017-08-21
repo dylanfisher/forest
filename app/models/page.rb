@@ -37,7 +37,7 @@ class Page < Forest::ApplicationRecord
     self.slug = title.parameterize if self.slug.blank? || changed.include?('slug')
   end
 
-  def to_param
+  def to_friendly_param
     path
   end
 

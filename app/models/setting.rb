@@ -1,16 +1,13 @@
 class Setting < Forest::ApplicationRecord
-  CACHE_KEY = 'forest_settings'
+  include Sluggable
 
-  before_validation :generate_slug
+  CACHE_KEY = 'forest_settings'
 
   after_save :expire_cache
   after_destroy :expire_cache
 
-  validates :slug, presence: true, uniqueness: true
-
   scope :by_id, -> (orderer = :asc) { order(id: orderer) }
   scope :by_title, -> (orderer = :asc) { order(title: orderer) }
-  scope :by_slug, -> (orderer = :asc) { order(slug: orderer) }
   scope :by_created_at, -> (orderer = :desc) { order(created_at: orderer) }
 
   def self.for(slug)
@@ -19,14 +16,6 @@ class Setting < Forest::ApplicationRecord
 
   def self.expire_cache!
     Rails.cache.delete self::CACHE_KEY
-  end
-
-  def generate_slug
-    self.slug = title.parameterize if self.slug.blank? || changed.include?('slug')
-  end
-
-  def to_param
-    slug
   end
 
   private

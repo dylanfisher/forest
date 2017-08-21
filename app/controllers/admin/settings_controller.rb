@@ -1,11 +1,6 @@
 class Admin::SettingsController < Admin::ForestController
   before_action :set_setting, only: [:show, :edit, :update, :destroy]
 
-  has_scope :by_id
-  has_scope :by_title
-  has_scope :by_slug
-  has_scope :by_created_at
-
   # GET /settings
   def index
     @settings = apply_scopes(Setting.all).by_title.page params[:page]
@@ -61,7 +56,7 @@ class Admin::SettingsController < Admin::ForestController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_setting
-      @setting = Setting.find_by_slug(params[:id])
+      @setting = Setting.find(params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.
