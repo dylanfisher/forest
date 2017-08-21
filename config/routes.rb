@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   # Admin Resources
   namespace :admin do
     get '/', to: 'dashboard#index'
+    resources :block_layouts
     resources :cache_purge, path: 'cache-purge', only: [:index]
     resources :imports, only: [:edit, :create]
     resources :media_items, path: 'media-items' do

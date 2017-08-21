@@ -2,6 +2,7 @@ module ForestErrorsHelper
   # Display errors that are only visible to admin users
   def forest_admin_error(error, options = {})
     if Rails.env.production?
+      # TODO: this is visible to non logged-in users
       if current_user&.admin?
         logger.error("[Forest] forest_admin_error")
         logger.error(error.message)

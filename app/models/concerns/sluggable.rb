@@ -10,7 +10,11 @@ module Sluggable
 
     # Override this method to define which attribute the slug is created from
     def slug_attribute
-      title
+      if respond_to?(:title)
+        title
+      else
+        raise Forest::Error.new("Slug attribute :title does not exist on #{self.class.name}. Define a `slug_attribute` method with a valid attribue.")
+      end
     end
 
     def generate_slug

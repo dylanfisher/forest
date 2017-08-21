@@ -6,7 +6,7 @@
 <%= admin_header_tag(records) do %>
   <div class="well">
     <div class="row">
-      <div class="col-sm-6">
+      <div class="admin-header__item-group col-sm-6">
         <h1 class="admin-header__item"><%= model_names.plural.titleize %> <span class="badge"><%= number_with_delimiter records.total_count %></span></h1>
         <%= form_tag send("admin_#{model_names.route_key}_path"), class: 'form-inline admin-header__item', method: :get, enforce_utf8: false, data: { turboform: true } do %>
           <div class="form-group">
@@ -32,6 +32,13 @@
           </ul>
         </div>
       </div>
+      <% if I18n.exists?("forest.admin.index.#{model_names.singular}.description", locale) %>
+        <div class="col-sm-12">
+          <p class="text-muted">
+            <%= t(:description, scope: [:forest, :admin, :index, model_names.singular]) %>
+          </p>
+        </div>
+      <% end %>
       <% if content_for? :index_header_body %>
         <div class="admin-header__body col-sm-12">
           <%= content_for :index_header_body %>

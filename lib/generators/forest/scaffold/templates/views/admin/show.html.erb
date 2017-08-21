@@ -10,9 +10,4 @@
 </p>
 <%- end -%>
 
-<p>
-  <b>Status:</b>
-  <%%= @<%= singular_name %>.try(:status) %>
-</p>
-
 <%%= render_blocks @<%= singular_name %>.blocks if @<%= singular_name %>.try(:blocks).present? %>

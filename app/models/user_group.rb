@@ -1,6 +1,5 @@
 class UserGroup < Forest::ApplicationRecord
   include Searchable
-  include FilterModelScopes
 
   has_and_belongs_to_many :users
 

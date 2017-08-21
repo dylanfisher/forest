@@ -27,3 +27,12 @@ en:
       scheduled: 'Scheduled'
       pending: 'Pending'
       hidden: 'Hidden'
+  forest:
+    admin:
+      index:
+        block_layout:
+          description: |
+            Block layouts determine where a particular set of blocks appear on the page. Some block layouts
+            only support certain types of blocks. Creating a new block layout will have no effect until this
+            application's code is updated to support the new layout. Destroying a block layout will prevent
+            blocks from displaying. The default layout should never be destroyed.

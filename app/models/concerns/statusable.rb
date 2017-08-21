@@ -12,6 +12,8 @@ module Statusable
         hidden: 5
       }
 
+    scope :by_status, -> (status) { where(status: status) }
+
     def self.statusable?
       true
     end

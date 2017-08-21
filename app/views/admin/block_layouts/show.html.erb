@@ -1,0 +1,24 @@
+<p>Find me in app/views/forest/block_layouts/show.html.erb</p>
+
+<%# content_for :page_description, @block_layout.description if @block_layout.try(:description).present? %>
+<%# content_for :page_featured_image, @block_layout.featured_image.attachment.url(:large) if @block_layout.try(:featured_image).present? %>
+
+<p>
+  <b>Display Name</b>
+  <%= @block_layout.display_name %>
+</p>
+<p>
+  <b>Slug</b>
+  <%= @block_layout.slug %>
+</p>
+<p>
+  <b>Description</b>
+  <%= @block_layout.description %>
+</p>
+
+<p>
+  <b>Status:</b>
+  <%= @block_layout.try(:status) %>
+</p>
+
+<%= render_blocks @block_layout.blocks if @block_layout.try(:blocks).present? %>

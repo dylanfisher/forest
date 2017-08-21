@@ -1,5 +1,8 @@
 require "rails/generators/rails/resource/resource_generator"
 
+# TODO:
+# - add option to skip public views
+
 class Forest::ScaffoldGenerator < Rails::Generators::NamedBase
   include Rails::Generators::Migration
 

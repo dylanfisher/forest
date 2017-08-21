@@ -4,6 +4,11 @@ module Forest
   class ApplicationRecord < ActiveRecord::Base
     self.abstract_class = true
 
+    scope :by_id, -> (orderer = :desc) { order(id: orderer) }
+    scope :by_title, -> (orderer = :asc) { order(title: orderer, id: :desc) }
+    scope :by_created_at, -> (orderer = :desc) { order(created_at: orderer, id: orderer) }
+    scope :by_updated_at, -> (orderer = :desc) { order(updated_at: orderer, id: orderer) }
+
     def self.csv_columns
       valid_columns = self.columns.select { |a| valid_csv_column_types.include?(a.type) }
       valid_columns.collect(&:name) - invalid_csv_column_names
