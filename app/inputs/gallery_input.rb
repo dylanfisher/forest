@@ -12,17 +12,7 @@ class GalleryInput < SimpleForm::Inputs::CollectionSelectInput
 
     # TODO: update to allow this to work with other associations, not just images
     # e.g. obj.send(attribute_name)
-    selected_images = obj.images.collect.with_index do |media_item, index|
-      template.content_tag :div, class: 'media-item--grid col-xs-4 col-sm-3 col-md-2' do
-        media_item_content = ActiveSupport::SafeBuffer.new
-        media_item_content << template.content_tag(:div, '', class: 'media-library-image img-rounded',
-                                style: "background-image: url(#{media_item.attachment.url(:small)});",
-                                data: {
-                                  media_item_id: media_item.id
-                                })
-        media_item_content
-      end
-    end
+    selected_images = template.render(partial: 'admin/media_items/media_item_grid_layout', collection: obj.images, as: :media_item, cached: true)
 
     modal_data_attributes = {
       toggle: 'modal',
@@ -34,10 +24,10 @@ class GalleryInput < SimpleForm::Inputs::CollectionSelectInput
 
     modal_data_attributes_for_preview = selected_images.present? ? {} : modal_data_attributes
 
-    if selected_images.present?
-      images_or_placeholder = selected_images.join.html_safe
-    else
+    if selected_images.blank?
       images_or_placeholder = template.content_tag(:div, 'Click here to add images to this gallery.', class: 'text-center')
+    else
+      images_or_placeholder = selected_images
     end
 
     preview_html = template.content_tag(:div, images_or_placeholder, class: "media-gallery-preview row small-gutters", id: "#{field_name}_preview")

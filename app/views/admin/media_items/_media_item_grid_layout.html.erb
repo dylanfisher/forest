@@ -13,4 +13,7 @@
                 image_url: (image_url(attachment_or_placeholder_url) if media_item.image?) } do %>
     <%= content_tag :div, content, class: "media-library-image img-rounded #{'media-library-image--file' if media_item.file?}", style: "background-image: url(#{image_url(attachment_or_placeholder_url) if media_item.image?})" %>
   <% end %>
+  <div class="media-item__buttons">
+    <div class="media-item__button media-item__buttons__remove glyphicon glyphicon-remove"></div>
+  </div>
 </div>

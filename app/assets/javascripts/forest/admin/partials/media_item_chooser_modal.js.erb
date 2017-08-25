@@ -19,6 +19,7 @@ App.MediaItemChooser = {
           if ( $modalBody.find('.media-library').length ) {
             App.InfiniteLoader.initialize( $element.find('[data-infinite-load]'), { $scrollListener: $element } );
           } else {
+            // TODO: add a js.erb file to handle ajax routes?
             $.ajax('<%= Rails.application.routes.url_helpers.admin_media_items_path %>')
               .done(function(data) {
                 $modalBody.html( $(data).find('.media-library') );
@@ -50,9 +51,14 @@ App.MediaItemChooser = {
   createThumbnail: function(id, url) {
     return '<div class="media-item--grid col-xs-4 col-sm-3 col-md-2">' +
             '<div class="media-library-image img-rounded " style="background-image: url(' + url + ')" data-media-item-id="' + id + '" data-media-item-url="' + url + '"></div>' +
+            '<div class="media-item__buttons">' +
+              '<div class="media-item__button media-item__buttons__remove glyphicon glyphicon-remove"></div>' +
+            '</div>' +
           '</div>';
   },
   updateSelectedGalleryItems: function($gallery) {
+    if ( !$gallery ) return;
+
     var thumbnailIds = [];
     var $preview = $gallery.find('.media-gallery-preview');
     var $input = $gallery.find('.gallery__input');
@@ -181,10 +187,15 @@ $(document).on('click', '.media-item-chooser__remove-image', function() {
   $(this).addClass('hidden');
 });
 
-$(document).on('click', '.media-gallery-preview .media-library-image', function() {
+$(document).on('click', '#admin-container .media-item__buttons__remove', function() {
   var $gallery = $(this).closest('.gallery');
+  var $mediaItem = $(this).closest('.media-item--grid');
 
-  $(this).closest('.media-item--grid').remove();
+  $mediaItem.remove();
 
   App.MediaItemChooser.updateSelectedGalleryItems( $gallery );
+});
+
+$(document).on('click', '.media-gallery-preview', function(e) {
+  e.preventDefault();
 });

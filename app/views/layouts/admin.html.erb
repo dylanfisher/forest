@@ -8,7 +8,7 @@
   <body class="<%= @body_classes %> admin">
     <%= render 'admin/navigation' %>
     <%= render 'admin/flash_notifications' %>
-    <div class="container-fluid">
+    <div id="admin-container" class="container-fluid">
       <%= yield %>
     </div>
     <%= render 'admin/media_items/modal' unless controller_name == 'media_items' %>
