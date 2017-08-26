@@ -26,6 +26,11 @@ module Forest
         Setting.create(title: 'Featured Image', value: nil, value_type: 'image', description: "The featured image may be used when sharing the site on social media.")
       end
 
+      # TODO
+      # if Setting.find_by_title('Locales').blank?
+      #   Setting.create(title: 'Locales', value: [:en], value_type: 'array')
+      # end
+
       # User groups
       puts "[Forest] ---- Creating user groups"
 

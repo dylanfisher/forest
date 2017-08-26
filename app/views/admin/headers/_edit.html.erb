@@ -7,26 +7,32 @@
     </div>
     <div class="panel-body">
       <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-8">
           <h1>
             <%= record_name record %>
           </h1>
         </div>
-        <div class="col-sm-6 text-right">
+        <div class="col-sm-4 text-right">
           <div class="btn-group">
             <%= link_to "All #{record.class.model_name.plural.titleize}", send("admin_#{record.class.model_name.route_key}_path"), class: 'btn btn-default' %>
-            <%= link_to "New #{record.class.model_name.singular.titleize}", send("new_admin_#{record.class.model_name.singular_route_key}_path"), class: 'btn btn-default' %>
-            <% if respond_to? "#{record.class.model_name.singular_route_key}_path" %>
-              <%= link_to "View #{record.class.model_name.singular.titleize}", send("#{record.class.model_name.singular_route_key}_path", record.to_friendly_param), class: 'btn btn-default' %>
-            <% else %>
-              <%= link_to "View #{record.class.model_name.singular.titleize}", send("admin_#{record.class.model_name.singular_route_key}_path", record), class: 'btn btn-default' %>
-            <% end %>
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <span class="caret"></span>
               <span class="sr-only">Toggle Dropdown</span>
             </button>
             <ul class="dropdown-menu dropdown-menu--right">
-              <li><%= link_to "Destroy #{record.class.model_name.singular.titleize}", [:admin, record], method: :delete, data: { confirm: 'Are you sure?' } %></li>
+              <li>
+                <%= link_to "New #{record.class.model_name.singular.titleize}", send("new_admin_#{record.class.model_name.singular_route_key}_path") %>
+              </li>
+              <% if respond_to? "#{record.class.model_name.singular_route_key}_path" %>
+                <li>
+                  <%= link_to "View #{record.class.model_name.singular.titleize}", send("#{record.class.model_name.singular_route_key}_path", record.to_friendly_param) %>
+                </li>
+              <% else %>
+                <li>
+                  <%= link_to "View #{record.class.model_name.singular.titleize}", send("admin_#{record.class.model_name.singular_route_key}_path", record) %>
+                </li>
+              <% end %>
+              <li><%= link_to "Destroy #{record.class.model_name.singular.titleize}", [:admin, record], method: :delete, data: { confirm: "Are you sure you want to destroy this #{record.class.model_name.singular}?" } %></li>
             </ul>
           </div>
           <div class="btn btn-success update-record-button">Update <%= record.class.model_name.singular.titleize %></div>

@@ -1,5 +1,5 @@
-<%%= simple_form_for([:admin, @<%= singular_table_name %>]) do |f| %>
-  <%%= f.error_notification %>
+<%= simple_form_for([:admin, @translation]) do |f| %>
+  <%= f.error_notification %>
 
   <div class="row">
     <div class="col-sm-12">
@@ -17,21 +17,15 @@
           <div class="form-inputs">
             <div class="row">
               <div class="col-sm-6">
-                <%- for attribute in attributes -%>
-                <%%= f.input :<%= attribute.name %> %>
-                <%- end -%>
-                <%%= render 'admin/form_inputs/slug', f: f %>
-                <%%= f.button :submit, class: 'btn-success' %>
+                <%= f.input :key %>
+                <%= f.input :value %>
+                <%= f.input :description %>
+                <%= f.button :submit, class: 'btn-success' %>
               </div>
             </div>
           </div>
         </div>
       </div>
-
-      <%%# Uncomment this if the record is blockable %>
-      <%%#= render 'admin/blocks/block_layout', f: f, block_kinds: @block_kinds %>
-
-      <%%#= f.button :submit, class: 'btn-success' %>
     </div>
   </div>
-<%% end %>
+<% end %>

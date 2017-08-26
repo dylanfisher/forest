@@ -27,5 +27,6 @@ class ForestController < ApplicationController
     def reset_class_method_cache
       Menu.reset_method_cache!
       Setting.reset_method_cache!
+      Translation.reset_method_cache!
     end
 end

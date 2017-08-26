@@ -9,6 +9,7 @@ class Forest::ScaffoldGenerator < Rails::Generators::NamedBase
   source_root File.expand_path('../templates', __FILE__)
 
   argument :attributes, type: :array, default: [], banner: "field[:type][:index] field[:type][:index]"
+  class_option :skip_public, type: :boolean, default: false, description: 'Include public controller and views'
 
   def self.next_migration_number(dirname)
     next_migration_number = current_migration_number(dirname) + 1
@@ -26,9 +27,11 @@ class Forest::ScaffoldGenerator < Rails::Generators::NamedBase
       # TODO: Add jbuilder index
     end
 
-    public_views.each do |view|
-      filename = "#{view}.html.erb"
-      template "views/public/#{filename}", File.join("app/views", plural_name, filename)
+    unless options.skip_public?
+      public_views.each do |view|
+        filename = "#{view}.html.erb"
+        template "views/public/#{filename}", File.join("app/views", plural_name, filename)
+      end
     end
   end
 
@@ -39,15 +42,23 @@ class Forest::ScaffoldGenerator < Rails::Generators::NamedBase
   end
 
   def create_controller
-    template 'controller.rb', "app/controllers/#{plural_name}_controller.rb"
     template 'admin_controller.rb', "app/controllers/admin/#{plural_name}_controller.rb"
+
+    unless options.skip_public?
+      template 'controller.rb', "app/controllers/#{plural_name}_controller.rb"
+    end
+
     route_lines = []
     route_lines << "# TODO: sort these new admin routes"
     route_lines << "  namespace :admin do"
     route_lines << "    resources :#{plural_name}"
-    route_lines << "  end"
-    route_lines << "  # TODO: sort these new public routes"
-    route_lines << "  resources :#{plural_name}, only: [:index, :show]\n"
+    route_lines << "  end\n"
+
+    unless options.skip_public?
+      route_lines << "  # TODO: sort these new public routes"
+      route_lines << "  resources :#{plural_name}, only: [:index, :show]\n"
+    end
+
     route route_lines.join("\n")
   end
 

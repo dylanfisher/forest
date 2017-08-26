@@ -11,7 +11,7 @@ module Forest
   class Engine < ::Rails::Engine
     config.autoload_paths << "#{config.root}/app/models/blocks"
 
-    initializer :assets, :group => :all do
+    initializer :assets, group: :all do
       Rails.application.config.assets.precompile += %w(
         forest/application_admin.css
         forest/application_public.css
@@ -26,6 +26,10 @@ module Forest
         forest/favicons/manifest.json
         forest/favicons/safari-pinned-tab.svg
       )
+    end
+
+    config.after_initialize do
+      Translation.initialize_from_i18n
     end
   end
 end

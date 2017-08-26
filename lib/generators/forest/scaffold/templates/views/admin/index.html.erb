@@ -27,11 +27,11 @@
           <td><%%= <%= singular_name %>.updated_at.to_formatted_s(:short) %></td>
           <td width="1"><%%= link_to 'Edit', edit_admin_<%= singular_name %>_path(<%= singular_name %>), class: 'btn btn-xs btn-primary', role: 'button' %></td>
           <td width="1">
-            <% if respond_to? <%= singular_name %>_path(<%= singular_name %>) %>
+            <%% if try('<%= singular_name %>_path', <%= singular_name %>) %>
               <%%= link_to 'Show', <%= singular_name %>_path(<%= singular_name %>), class: 'btn btn-xs btn-info', role: 'button' %>
-            <% else %>
+            <%% else %>
               <%%= link_to 'Show', admin_<%= singular_name %>_path(<%= singular_name %>), class: 'btn btn-xs btn-info', role: 'button' %>
-            <% end %>
+            <%% end %>
           </td>
           <td width="1"><%%= link_to 'Destroy', [:admin, <%= singular_name %>], method: :delete, class: 'btn btn-xs btn-danger', role: 'button', data: { confirm: 'Are you sure?' } %></td>
         </tr>

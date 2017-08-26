@@ -20,6 +20,7 @@ Rails.application.routes.draw do
     resources :menus
     resources :pages
     resources :settings
+    resources :translations
     resources :users
     resources :user_groups, path: 'user-groups'
 

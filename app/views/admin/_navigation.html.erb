@@ -38,7 +38,7 @@
           <li>
             <% if @record.statusable? %>
               <p class="navbar-text">
-                <%= content_tag :span, t(@record.status, scope: [@record.class.model_name.i18n_key, :status]), class: 'badge', title: "#{@record.class.model_name.human} Status" %>
+                <%= content_tag :span, t(@record.status, scope: [:forest, @record.class.model_name.i18n_key, :status]), class: 'badge', title: "#{@record.class.model_name.human} Status" %>
               </p>
             <% end %>
             <% if public_area? %>

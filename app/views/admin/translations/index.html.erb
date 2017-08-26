@@ -1,0 +1,51 @@
+<% content_for :index_header_body do %>
+  <div class="row">
+    <div class="col-md-10 col-lg-8">
+      <p class="text-muted">
+        <%= t(:description, scope: [:forest, :admin, :index, :translations]) %>
+      </p>
+    </div>
+  </div>
+<% end %>
+
+<%= render 'admin/headers/index', records: @translations, model_name: 'Translation' %>
+
+<div class="table-responsive">
+  <table class="forest-table table table-striped">
+    <thead>
+      <tr>
+        <th><%= table_sorter title: 'ID', path: :admin_translations_path, scope: :by_id, default_order: :desc %></th>
+        <th>Key</th>
+        <th>Value</th>
+        <th>Description</th>
+        <th><%= table_sorter title: 'Created&nbsp;at'.html_safe, path: :admin_translations_path, scope: :by_created_at, default_order: :desc %></th>
+        <th><%= table_sorter title: 'Updated&nbsp;at'.html_safe, path: :admin_translations_path, scope: :by_updated_at, default_order: :desc %></th>
+        <th colspan="3"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @translations.each do |translation| %>
+        <tr>
+          <td><%= translation.id %></td>
+          <td><%= translation.key %></td>
+          <td><%= translation.value %></td>
+          <td><%= translation.description %></td>
+          <td><%= translation.created_at.to_formatted_s(:short) %></td>
+          <td><%= translation.updated_at.to_formatted_s(:short) %></td>
+          <td width="1"><%= link_to 'Edit', edit_admin_translation_path(translation), class: 'btn btn-xs btn-primary', role: 'button' %></td>
+          <td width="1">
+            <% if try('translation_path', translation) %>
+              <%= link_to 'Show', translation_path(translation), class: 'btn btn-xs btn-info', role: 'button' %>
+            <% else %>
+              <%= link_to 'Show', admin_translation_path(translation), class: 'btn btn-xs btn-info', role: 'button' %>
+            <% end %>
+          </td>
+          <td width="1"><%= link_to 'Destroy', [:admin, translation], method: :delete, class: 'btn btn-xs btn-danger', role: 'button', data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<%= paginate @translations %>
