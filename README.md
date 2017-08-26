@@ -5,6 +5,9 @@ Forest is a Rails 5 CMS that provides an opinionated starting point when creatin
 Much inspiration was drawn from Wordpress' dashboard. The Forest dashboard uses Bootstrap and very little
 additional CSS to create an easily customizable interface.
 
+## Generating a new app
+rails new myapp --database=postgresql
+
 ## Installation
 Add this line to your application's Gemfile:
 
@@ -53,6 +56,15 @@ Install Forest's migrations
 
 ```
 bin/rails railties:install:migrations
+```
+
+Delete `layouts/application.html.erb` to use Forest's layout.
+
+Update your ApplicationRecord to inherit from `Forest::ApplicationRecord`
+
+```
+class ApplicationRecord < Forest::ApplicationRecord
+end
 ```
 
 For an example of a host app running Forest, view [github.com/dylanfisher/forest_blog](https://github.com/dylanfisher/forest_blog).

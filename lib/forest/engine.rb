@@ -29,6 +29,7 @@ module Forest
     end
 
     config.after_initialize do
+      Setting.initialize_from_i18n
       Translation.initialize_from_i18n
     end
   end

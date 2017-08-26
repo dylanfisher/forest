@@ -33,10 +33,10 @@ class Translation < Forest::ApplicationRecord
 
       if k.blank? && v.blank?
         if translation.is_a?(Hash)
-          k = translation.keys.first
+          k = translation.keys.first.to_s
           v = translation[k]
         else
-          k = translation[0]
+          k = translation[0].to_s
           v = translation[1]
         end
       end
