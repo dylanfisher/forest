@@ -19,6 +19,7 @@ class Translation < Forest::ApplicationRecord
     Rails.cache.delete self::CACHE_KEY
   end
 
+  # TODO: Update to support multiple locales
   def self.initialize_from_i18n
     I18n.backend.send(:init_translations) unless I18n.backend.initialized?
     translations = I18n.backend.send(:translations).dig(:en, :forest, :translations).presence || []
@@ -31,8 +32,13 @@ class Translation < Forest::ApplicationRecord
       d = translation.delete(:description)
 
       if k.blank? && v.blank?
-        k = translation.keys.first
-        v = translation[k]
+        if translation.is_a?(Hash)
+          k = translation.keys.first
+          v = translation[k]
+        else
+          k = translation[0]
+          v = translation[1]
+        end
       end
 
       if [k, v].all?(&:present?)
