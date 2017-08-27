@@ -25,7 +25,6 @@ class MediaItem < Forest::ApplicationRecord
 
   has_many :image_gallery_block_images, foreign_key: :image_id, dependent: :destroy
 
-  scope :by_id, -> (orderer = :desc) { order(id: orderer) }
   scope :by_date, -> (date) {
     begin
       date = Date.parse(date)

@@ -6,10 +6,6 @@ class Setting < Forest::ApplicationRecord
   after_save :expire_cache
   after_destroy :expire_cache
 
-  scope :by_id, -> (orderer = :asc) { order(id: orderer) }
-  scope :by_title, -> (orderer = :asc) { order(title: orderer) }
-  scope :by_created_at, -> (orderer = :desc) { order(created_at: orderer) }
-
   def self.for(slug)
     self.settings.select { |setting| setting.slug == slug.to_s.parameterize }.first
   end
