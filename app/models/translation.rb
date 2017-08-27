@@ -7,6 +7,8 @@ class Translation < Forest::ApplicationRecord
   validates_presence_of :key
   validates_presence_of :value
 
+  scope :by_key, -> (orderer = :asc) { order(key: orderer, id: :desc) }
+
   def self.for(key)
     self.translations.select { |setting| setting.key == key.to_s }.first
   end
