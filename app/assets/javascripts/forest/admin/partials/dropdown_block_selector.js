@@ -50,8 +50,6 @@ App.pageLoad.push(function() {
 
         previousBlockKindId = blockKindId;
 
-        console.log($blockSlot);
-        console.log($blockSlot.find('.block-slot__inputs :input:visible').not(':disabled'));
         $blockSlot.find('.block-slot__inputs :input:visible').not(':disabled').first().focus();
 
         $(document).trigger('app:block-slot-after-insert', $blockSlot);

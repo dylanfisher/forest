@@ -19,7 +19,6 @@ $(document).on('turbolinks:load app:block-slot-after-insert', function() {
       var $gallery = $(this);
 
       $gallery.sortable('destroy');
-      console.log('destroyed');
     });
   });
 });

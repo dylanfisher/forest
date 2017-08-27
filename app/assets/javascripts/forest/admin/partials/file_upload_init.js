@@ -32,7 +32,6 @@ App.FileUploader = {
 
         $('#progress .progress-bar').css( 'width', progress + '%' );
       }).on('fileuploadcompleted', function(e, data) {
-        console.log(e, data);
         var previewLink = $('.template-download .preview a').attr('href');
         var fileId = data.result.files[0].id;
         var previewImageUrl = $('.template-download .preview img').attr('src');

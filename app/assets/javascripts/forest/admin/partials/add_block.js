@@ -19,6 +19,4 @@ $(document).on('click', '[data-block-add]', function() {
     $addBlockButton.removeAttr('data-association-insertion-node')
                    .removeData('association-insertion-node');
   }
-
-  console.log('forest data node', $addBlockButton.attr('data-association-insertion-node'));
 });
