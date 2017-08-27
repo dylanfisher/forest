@@ -29,8 +29,8 @@ module Forest
     end
 
     config.after_initialize do
-      'Setting'.safe_constantize&.initialize_from_i18n
-      'Translation'.safe_constantize&.initialize_from_i18n
+      Setting.initialize_from_i18n if ActiveRecord::Base.connection.data_source_exists? 'settings'
+      Translation.initialize_from_i18n if ActiveRecord::Base.connection.data_source_exists? 'translations'
     end
   end
 end

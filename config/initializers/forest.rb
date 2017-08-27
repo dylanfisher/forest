@@ -1,3 +1,3 @@
-'Menu'.safe_constantize&.expire_cache!
-'Setting'.safe_constantize&.expire_cache!
-'Translation'.safe_constantize&.expire_cache!
+Menu.expire_cache!
+Setting.expire_cache!
+Translation.expire_cache!
