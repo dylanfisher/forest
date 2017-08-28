@@ -12,6 +12,7 @@ class <%= class_name %>sController < ForestController
   end
 
   private
+
     def set_<%= singular_name %>
       @<%= singular_name %> = <%= name %>.find_by_slug(params[:id])
     end
