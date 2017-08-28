@@ -12,6 +12,8 @@ module Sluggable
     def slug_attribute
       if respond_to?(:title)
         title
+      elsif respond_to?(:name)
+        name
       else
         raise Forest::Error.new("Slug attribute :title does not exist on #{self.class.name}. Define a `slug_attribute` method with a valid attribue.")
       end

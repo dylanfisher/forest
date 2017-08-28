@@ -8,7 +8,7 @@ class <%= class_name %>sController < ForestController
   end
 
   def show
-    authorize @<%= singular_name %>
+    # authorize @<%= singular_name %>
   end
 
   private

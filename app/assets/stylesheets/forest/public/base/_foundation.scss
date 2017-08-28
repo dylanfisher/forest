@@ -1,5 +1,13 @@
 // Foundation
 
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
 html,
 body {
   min-height: 100%;
@@ -12,4 +20,8 @@ img {
 
 .markdown {
   display: inline;
+}
+
+div {
+  vertical-align: top;
 }

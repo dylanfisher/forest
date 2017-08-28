@@ -1,9 +1,7 @@
 <%%= simple_form_for([:admin, @<%= singular_table_name %>]) do |f| %>
   <%%= f.error_notification %>
-
   <div class="row">
     <div class="col-sm-12">
-
       <div class="panel panel-default" data-collapse-parent>
         <div class="panel-heading">
           <h3 class="panel-title">
@@ -23,14 +21,15 @@
                 <%%= render 'admin/form_inputs/slug', f: f %>
                 <%%= f.button :submit, class: 'btn-success' %>
               </div>
+              <div class="col-sm-6">
+                <%%= render 'admin/form_inputs/status', f: f, record: @<%= singular_table_name %> %>
+              </div>
             </div>
           </div>
         </div>
       </div>
-
       <%%# Uncomment this if the record is blockable %>
-      <%%#= render 'admin/blocks/block_layout', f: f, block_kinds: @block_kinds %>
-
+      <%%#= render 'admin/block_record/block_layout', f: f, block_kinds: @block_kinds %>
       <%%#= f.button :submit, class: 'btn-success' %>
     </div>
   </div>

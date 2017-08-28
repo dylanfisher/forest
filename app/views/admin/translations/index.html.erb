@@ -1,13 +1,3 @@
-<% content_for :index_header_body do %>
-  <div class="row">
-    <div class="col-md-10 col-lg-8">
-      <p class="text-muted">
-        <%= t(:description, scope: [:forest, :admin, :index, :translations]) %>
-      </p>
-    </div>
-  </div>
-<% end %>
-
 <%= render 'admin/headers/index', records: @translations, model_name: 'Translation' %>
 
 <div class="table-responsive">

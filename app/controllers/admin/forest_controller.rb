@@ -61,10 +61,12 @@ class Admin::ForestController < ApplicationController
     end
 
     def admin_resource_names
-      Rails.application.routes.routes.collect do |route|
+      @admin_resource_names ||= Rails.application.routes.routes.collect do |route|
         if route.path.spec.to_s.starts_with?('/admin') && route.requirements[:action] == 'index'
           route.name
         end
-      end.reject(&:blank?).uniq
+      end.reject(&:blank?)
+         .uniq
+         .sort
     end
 end

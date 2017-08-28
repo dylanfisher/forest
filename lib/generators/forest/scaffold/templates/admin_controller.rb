@@ -3,7 +3,7 @@ class Admin::<%= class_name %>sController < Admin::ForestController
   before_action :set_<%= singular_name %>, only: [:show, :edit, :update, :destroy]
 
   def index
-    @<%= plural_name %> = apply_scopes(<%= name %>).by_id.page params[:page]
+    @<%= plural_name %> = apply_scopes(<%= name %>).by_id.page(params[:page])
   end
 
   def show
@@ -50,7 +50,8 @@ class Admin::<%= class_name %>sController < Admin::ForestController
 
     def <%= singular_name %>_params
       # Add blockable params to the permitted attributes if this record is blockable `**BlockSlot.blockable_params`
-      params.require(:<%= singular_name %>).permit(<%= attributes.collect { |a| ":#{a.name}, " }.join %>)
+      # Add :slug, :status
+      params.require(:<%= singular_name %>).permit(<%= attributes.collect { |a| ":#{a.name}" }.join(', ') %>)
     end
 
     def set_<%= singular_name %>

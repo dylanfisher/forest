@@ -1,12 +1,25 @@
-.select-tag-form {
-  display: inline-block;
-  vertical-align: middle;
-}
-
 select {
   width: 100%;
 }
 
+.form-group.select {
+  min-height: 59px;
+
+  select {
+    height: 34px;
+    text-indent: 4px;
+
+    option {
+      visibility: hidden;
+    }
+  }
+}
+
 .select .select2-container {
   width: 100% !important;
+}
+
+.select-tag-form {
+  display: inline-block;
+  vertical-align: middle;
 }
