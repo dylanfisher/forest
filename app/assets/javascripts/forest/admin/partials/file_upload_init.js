@@ -32,17 +32,52 @@ App.FileUploader = {
 
         $('#progress .progress-bar').css( 'width', progress + '%' );
       }).on('fileuploadcompleted', function(e, data) {
-        var previewLink = $('.template-download .preview a').attr('href');
-        var fileId = data.result.files[0].id;
-        var previewImageUrl = $('.template-download .preview img').attr('src');
-        var previewHTML = '<div class="col-xs-4 col-sm-3 col-md-2">\
-                              <a class="media-library-link" href="' + previewLink + '" data-media-item-id="' + fileId + '" data-image-url="' + previewImageUrl + '">\
-                                <div class="media-library-image img-rounded" style="background-image: url(' + previewImageUrl + ')"></div>\
-                              </a>\
-                            </div>';
+        console.log('e, data', e, data);
+        var $table = $('.forest-table');
+        var previewHTML;
 
-        $('.template-download').remove();
-        $(previewHTML).prependTo( $('.media-library [data-infinite-load]') );
+        if ( $fileupload.hasClass('fileupload--media_item') ) {
+          // Media items
+          var previewLink = $('.template-download .preview a').attr('href');
+          var fileId = data.result.files[0].id;
+          var previewImageUrl = $('.template-download .preview img').attr('src');
+          previewHTML = '<div class="col-xs-4 col-sm-3 col-md-2">\
+                          <a class="media-library-link" href="' + previewLink + '" data-media-item-id="' + fileId + '" data-image-url="' + previewImageUrl + '">\
+                            <div class="media-library-image img-rounded" style="background-image: url(' + previewImageUrl + ')"></div>\
+                          </a>\
+                        </div>';
+
+          $('.template-download').remove();
+          $(previewHTML).prependTo( $('.media-library [data-infinite-load]') );
+        } else if ( $table.length ) {
+          var columns = [];
+          var $tableHeaders = $table.find('thead th');
+
+          for ( var i = 0; i < data.result.files.length; i++ ) {
+            var result = data.result.files[i];
+
+            columns.push('<tr>');
+
+            $tableHeaders.each(function() {
+              var $header = $(this);
+              var headerAttr = $header.attr('data-column');
+              var columnValue = result[headerAttr];
+              var colSpan = parseInt( $header.attr('colspan') );
+
+              columns.push( '<td>' + columnValue + '</td>' );
+            });
+
+            for ( var ii = 0; ii < 3; ii++ ) {
+              columns.push( '<td></td>' );
+            }
+
+            columns.push('</tr>');
+          }
+
+          $table.find('tbody').prepend( columns.join() );
+        } else {
+          console.warn('[Forest] Can\'t find suitable element to prepend file upload to.');
+        }
       }).on('fileuploadstop', function(e, data) {
         $('#progress').addClass('hidden').removeClass('fade in');
       });

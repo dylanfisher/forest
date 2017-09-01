@@ -15,3 +15,4 @@
 //= require_tree ./public/vendor
 //= require forest/main
 //= require_tree ./public/partials
+// = require application

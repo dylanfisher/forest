@@ -1,6 +1,10 @@
-<%= simple_form_for [:admin, MediaItem.new], html: { multipart: true, id: 'fileupload', class: 'fileupload' } do |f| %>
+<%= simple_form_for [:admin, klass.new],
+                    html: {
+                      multipart: true,
+                      id: 'fileupload',
+                      class: "fileupload fileupload--#{klass.model_name.singular}" } do |f| %>
   <div class="hidden">
-    <%= f.input :attachment %>
+    <%= f.input association %>
   </div>
   <div id="progress" class="progress hidden">
     <div class="progress-bar progress-bar-success"></div>

@@ -48,4 +48,4 @@
 
 <%= paginate @media_items if @layout == :list %>
 
-<%= render 'admin/file_upload' %>
+<%= render 'admin/file_upload', klass: MediaItem, association: :attachment %>

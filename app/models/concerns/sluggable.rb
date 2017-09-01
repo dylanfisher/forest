@@ -4,7 +4,7 @@ module Sluggable
   included do
     before_validation :generate_slug
 
-    validates :slug, presence: true, uniqueness: true
+    # validates :slug, presence: true, uniqueness: true
 
     scope :by_slug, -> (orderer = :asc) { order(slug: orderer) }
 
@@ -20,7 +20,7 @@ module Sluggable
     end
 
     def generate_slug
-      self.slug = slug_attribute.parameterize if generate_slug?
+      self.slug = slug_attribute&.parameterize if generate_slug?
     end
 
     def generate_slug?
