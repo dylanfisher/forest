@@ -1,5 +1,5 @@
-<% block_kinds = local_assigns.fetch(:block_kinds, BlockKind.all.by_name) %>
-<% block_layout = local_assigns.fetch(:block_layout, BlockLayout.default_layout) %>
+<% block_kinds = local_assigns.fetch(:block_kinds, nil).presence || BlockKind.all.by_name %>
+<% block_layout = local_assigns.fetch(:block_layout, nil).presence || BlockLayout.default_layout %>
 
 <% raise Forest::Error.new('Block Layout does not exist.', block_layout) if block_layout.blank? %>
 
