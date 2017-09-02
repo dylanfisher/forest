@@ -1,11 +1,21 @@
 class ForestController < ApplicationController
   protect_from_forgery with: :exception
 
+  layout :layout_by_resource
+
   before_action :set_body_classes
   before_action :set_page_title
   before_action :reset_class_method_cache
 
   private
+
+    def layout_by_resource
+      if devise_controller?
+        'devise'
+      else
+        'application'
+      end
+    end
 
     def set_body_classes
       controller_heirarchy = self.class.name.split('::').reject(&:blank?)

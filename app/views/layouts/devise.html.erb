@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%= render 'layouts/shared_head' %>
+    <%= stylesheet_link_tag 'forest/application_admin', media: 'all', 'data-turbolinks-track': 'reload' %>
+  </head>
+  <body class="<%= @body_classes %> devise">
+    <div id="admin-container" class="container-fluid">
+      <%= yield %>
+    </div>
+  </body>
+</html>
