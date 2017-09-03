@@ -1,3 +1,5 @@
+require 'redcarpet/render_strip'
+
 class Forest::MarkdownRenderer < Redcarpet::Render::HTML
   include Redcarpet::Render::SmartyPants
 
