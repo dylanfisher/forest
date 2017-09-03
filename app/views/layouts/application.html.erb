@@ -3,13 +3,12 @@
   <head>
     <%= render 'layouts/shared_head' %>
     <%= stylesheet_link_tag 'forest/application_public', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= stylesheet_link_tag 'forest/application_bootstrap', media: 'all', 'data-turbolinks-track': 'reload' if controller_name == 'sessions' %>
   </head>
   <body class="<%= @body_classes %> public">
     <%#= TODO: if a admin user is logged in, show admin bar %>
-    <%= render 'shared/header' unless controller_name == 'sessions' %>
+    <%= render 'shared/header' %>
     <%= yield %>
-    <%= render 'shared/footer' unless controller_name == 'sessions' %>
+    <%= render 'shared/footer' %>
     <%= jquery_include_tag %>
     <%= javascript_include_tag 'forest/application_public', data: { turbolinks_eval: false }  %>
   </body>
