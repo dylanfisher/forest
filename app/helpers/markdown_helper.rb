@@ -1,8 +1,6 @@
 module MarkdownHelper
   def md(text)
-    content_tag :div, class: 'markdown' do
-      parser.render(text.to_s).html_safe
-    end
+    parser.render(text.to_s).html_safe
   end
 
   def stripdown(text)
