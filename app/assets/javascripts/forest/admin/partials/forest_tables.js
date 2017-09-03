@@ -29,7 +29,14 @@ $(document).on('click', '.forest-table tbody tr', function(e) {
     var url = $button.attr('href');
 
     if ( url ) {
-      Turbolinks.visit(url);
+      if ( e.metaKey || e.ctrlKey ) {
+        window.open( url, '_blank' );
+      } else if ( e.shiftKey ) {
+        window.open( url, '_blank' );
+        window.focus();
+      } else {
+        Turbolinks.visit(url);
+      }
     }
   }
 });
