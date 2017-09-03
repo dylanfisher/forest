@@ -10,6 +10,10 @@ class Translation < Forest::ApplicationRecord
   scope :by_key, -> (orderer = :asc) { order(key: orderer, id: :desc) }
 
   def self.for(key)
+    self.get(key).try(:value)
+  end
+
+  def self.get(key)
     self.translations.select { |setting| setting.key == key.to_s }.first
   end
 
@@ -40,7 +44,7 @@ class Translation < Forest::ApplicationRecord
       end
 
       if [k, v].all?(&:present?)
-        t = Translation.for(k)
+        t = Translation.get(k)
         if t.blank?
           t = Translation.new(key: k)
         end

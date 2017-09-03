@@ -6,6 +6,7 @@ class Setting < Forest::ApplicationRecord
   after_save :expire_cache
   after_destroy :expire_cache
 
+  # TODO: rename `for` to `get` and update `for` to return value
   def self.for(slug)
     self.settings.select { |setting| setting.slug == slug.to_s.parameterize }.first
   end
