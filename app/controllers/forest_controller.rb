@@ -4,7 +4,6 @@ class ForestController < ApplicationController
   layout :layout_by_resource
 
   before_action :set_body_classes
-  before_action :set_page_title
   before_action :reset_class_method_cache
 
   private
@@ -28,10 +27,6 @@ class ForestController < ApplicationController
       classes << "action--#{action_name}"
 
       @body_classes = classes.join ' '
-    end
-
-    def set_page_title
-      @page_title = controller_name.titleize
     end
 
     def reset_class_method_cache

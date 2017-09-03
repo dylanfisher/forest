@@ -1,3 +1,5 @@
+require 'redcarpet/render_strip'
+
 module MarkdownHelper
   def md(text)
     parser.render(text.to_s).html_safe
