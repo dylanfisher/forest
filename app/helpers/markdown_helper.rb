@@ -16,6 +16,6 @@ module MarkdownHelper
     end
 
     def stripper
-      @stripper = Redcarpet::Markdown.new(Redcarpet::Render::StripDown)
+      @stripper ||= Redcarpet::Markdown.new(Redcarpet::Render::StripDown)
     end
 end
