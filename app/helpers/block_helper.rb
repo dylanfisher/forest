@@ -7,7 +7,7 @@ module BlockHelper
         block_layout = BlockLayout.find_by_slug(block_layout)
       end
 
-      content_tag :div, class: 'blocks' do
+      content_tag :div, class: "blocks block-layout--#{block_layout.slug}" do
         render partial: 'blocks/show', collection: record.blocks(block_layout: block_layout), as: 'block'
       end
     rescue Exception => e
