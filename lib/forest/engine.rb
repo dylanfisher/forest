@@ -29,10 +29,10 @@ module Forest
     end
 
     config.after_initialize do
-      c = ActiveRecord::Base.connection
-      Setting.initialize_from_i18n if c.data_source_exists? 'settings'
-      Translation.initialize_from_i18n if c.data_source_exists? 'translations'
-      c.close
+      ActiveRecord::Base.connection_pool.with_connection do |c|
+        Setting.initialize_from_i18n if c.data_source_exists? 'settings'
+        Translation.initialize_from_i18n if c.data_source_exists? 'translations'
+      end
     end
   end
 end

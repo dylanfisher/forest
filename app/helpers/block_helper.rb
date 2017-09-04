@@ -2,7 +2,7 @@ module BlockHelper
 
   def render_blocks(record, options = {})
     begin
-      block_layout = options.fetch(:block_layout, BlockLayout.default_layout)
+      block_layout = options[:block_layout].presence || BlockLayout.default_layout
       if block_layout.is_a?(Symbol)
         block_layout = BlockLayout.find_by_slug(block_layout)
       end

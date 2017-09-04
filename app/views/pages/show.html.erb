@@ -1,32 +1,3 @@
 <p>Find me in app/views/forest/pages/show.html.erb</p>
 
-<%= render partial: 'shared/menu', collection: @menus %>
-
-<%= subnav %>
-
-<% cache @page do %>
-  <% content_for :page_description, @page.description if @page.description.present? %>
-  <% content_for :page_featured_image, @page.featured_image.attachment.url(:large) if @page.featured_image.present? %>
-
-  <%= content_tag(:h1, @page.title) if @page.title.present? %>
-
-  <p>
-    <b>Description:</b>
-    <%= @page.description %>
-  </p>
-
-  <p>
-    <b>Status:</b>
-    <%= @page.status %>
-  </p>
-
-  <div class="well">
-    <h2>These are header blocks</h2>
-    <%= render_blocks @page, block_layout: :header %>
-  </div>
-
-  <div class="default">
-    <h2>These are default layout blocks</h2>
-    <%= render_blocks @page %>
-  </div>
-<% end %>
+<%= render_blocks @page %>

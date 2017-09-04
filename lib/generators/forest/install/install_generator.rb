@@ -54,5 +54,9 @@ module Forest
     puts "[Forest] -- Import Forest's migrations by running this command:"
     puts "[Forest] rails railties:install:migrations"
 
+    # Application config
+    puts "[Forest] -- Add the following to application.rb"
+    puts '[Forest] config.autoload_paths << "#{config.root}/app/models/blocks"'
+
   end
 end

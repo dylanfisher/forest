@@ -20,7 +20,7 @@ Install gems
 $ bundle
 ```
 
-Run Forest install generator
+Run Forest install generator and follow post-install prompts
 ```bash
 $ rails g forest:install
 ```
