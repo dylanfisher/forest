@@ -20,7 +20,12 @@ module Sluggable
     end
 
     def generate_slug
-      self.slug = slug_attribute&.parameterize if generate_slug?
+      if slug_attribute.present?
+        slug_attr = slug_attribute.parameterize
+      else
+        slug_attr = SecureRandom.uuid
+      end
+      self.slug = slug_attr if generate_slug?
     end
 
     def generate_slug?
