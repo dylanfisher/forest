@@ -33,7 +33,7 @@
               <%% else %>
                 <%%= param = <%= singular_name %> %>
               <%% end %>
-              <%%= link_to 'Show', <%= singular_name %>_path(<%%= param %>), class: 'btn btn-xs btn-info', role: 'button' %>
+              <%%= link_to 'Show', <%= singular_name %>_path(param), class: 'btn btn-xs btn-info', role: 'button' %>
             <%% else %>
               <%%= link_to 'Show', admin_<%= singular_name %>_path(<%= singular_name %>), class: 'btn btn-xs btn-info', role: 'button' %>
             <%% end %>
