@@ -13,6 +13,7 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree ./public/vendor
+//= require ./admin/lib/jquery_plugins
 //= require forest/main
 //= require_tree ./public/partials
 // = require application
