@@ -1,11 +1,5 @@
-<% begin %>
-  <% cache [Menu::CACHE_KEY, Digest::MD5.hexdigest(request.path)], expires_in: 4.weeks do %>
-    <% if menu.present? %>
-      <%= content_tag :ul, class: "menu menu--#{menu.slug}" do %>
-        <%= render partial: 'shared/menu_item', collection: menu.structure_as_json, as: 'item' %>
-      <% end %>
-    <% end %>
+<% if menu.present? %>
+  <%= content_tag :ul, class: "menu menu--#{menu.slug}" do %>
+    <%= render partial: 'shared/menu_item', collection: menu.structure_as_json, as: 'item' %>
   <% end %>
-<% rescue Exception => e %>
-  <%= forest_admin_error(e) %>
 <% end %>

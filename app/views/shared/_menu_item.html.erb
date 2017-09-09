@@ -1,6 +1,8 @@
 <%# TODO: refactor this logic to exist in a MenuItem class %>
 
-<% page = Page.where(id: item['page'].to_i).first %>
+<% if item['page'].to_i > 0 %>
+  <% page = Page.where(id: item['page'].to_i).first %>
+<% end %>
 
 <% if item['name'].present? %>
   <% item_name = item['name'] %>
