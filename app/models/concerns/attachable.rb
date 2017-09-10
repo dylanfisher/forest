@@ -3,7 +3,7 @@ module Attachable
 
   included do
     has_attached_file :attachment,
-                        styles: {
+                        style: {
                           large: '2000x2000>',
                           medium: '1200x1200>',
                           small: '600x600>'
@@ -24,6 +24,7 @@ module Attachable
 
       scope :by_content_type, -> (content_type) { where(attachment_content_type: content_type) }
       scope :images, -> { where('attachment_content_type LIKE ?', '%image%') }
+      scope :videos, -> { where('attachment_content_type LIKE ?', '%video%') }
 
       def self.content_types_for_filter
         self.grouped_by_content_type.collect { |x| x.attachment_content_type }

@@ -131,6 +131,7 @@ Admin
 
 Generators
 
+- [ ] generate a simple json.jbuilder for admin indexes by default
 - [ ] initial app generator `rails g forest:install` and move migrations that seed initial data into the generator
 - [ ] add ability to skip block_record creation when creating new scaffold that doesn't need to support blocks
 - [x] scaffold generator
