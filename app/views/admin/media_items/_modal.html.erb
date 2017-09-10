@@ -30,13 +30,13 @@
           </div>
         </div>
       </div>
+      <%= render 'admin/file_upload', klass: MediaItem, association: :attachment %>
       <div class="modal-body">
         Loading...
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <button type="button" class="media-item-chooser__select-button btn btn-primary">Select</button>
-        <%= render 'admin/file_upload', klass: MediaItem, association: :attachment %>
       </div>
     </div>
   </div>

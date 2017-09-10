@@ -20,16 +20,26 @@ module Sluggable
     end
 
     def generate_slug
+      return unless generate_slug?
+
       if slug_attribute.present?
         slug_attr = slug_attribute.parameterize
+        if slug_as_key?
+          slug_attr = slug_attribute.parameterize.underscore
+        end
       else
         slug_attr = SecureRandom.uuid
       end
-      self.slug = slug_attr if generate_slug?
+      self.slug = slug_attr
     end
 
     def generate_slug?
       self.slug.blank? || changed.include?('slug')
+    end
+
+    # Override slug_as_key? in models like settings where the slug should be underscored, not dasherized
+    def slug_as_key?
+      false
     end
 
     def to_friendly_param

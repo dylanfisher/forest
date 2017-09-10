@@ -50,6 +50,10 @@ class Setting < Forest::ApplicationRecord
     expire_cache!
   end
 
+  def slug_as_key?
+    true
+  end
+
   private
 
     def self.settings
