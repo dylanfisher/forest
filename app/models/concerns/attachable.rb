@@ -35,7 +35,11 @@ module Attachable
       end
 
       def image?
-        attachment_content_type =~ %r{^(image|(x-)?application)/(bmp|gif|jpeg|jpg|pjpeg|png|x-png)$}
+        (attachment_content_type =~ %r{^(image|(x-)?application)/(bmp|gif|jpeg|jpg|pjpeg|png|x-png)$}).present?
+      end
+
+      def video?
+        (attachment_content_type =~ %r{^video\/}).present?
       end
 
       def file?

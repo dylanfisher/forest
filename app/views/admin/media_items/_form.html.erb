@@ -24,16 +24,24 @@
               </div>
               <div class="col-sm-6">
                 <% if @media_item.attachment.present? %>
-                  <% if @media_item.image? %>
-                    <%= image_tag @media_item.attachment.url(:medium) %>
-                  <% else %>
-                    <%= link_to media_item.attachment.url, class: 'blank-link', target: '_blank' do %>
-                      <%= content_tag :div, class: 'media-item-file img-rounded', title: 'Open file' do %>
-                        <%= content_tag :span, '', class: "media-library-image--grid__icon glyphicon #{media_item.glyphicon}" %>
-                        <%= content_tag :div, media_item.attachment_file_name, class: "media-library-image__label small well" %>
+                  <div class="form-group">
+                    <% if @media_item.image? %>
+                      <%= image_tag @media_item.attachment.url(:medium) %>
+                    <% elsif @media_item.video? %>
+                      <%= video_tag @media_item.attachment.url, controls: true %>
+                    <% else %>
+                      <%= link_to media_item.attachment.url, class: 'blank-link', target: '_blank' do %>
+                        <%= content_tag :div, class: 'media-item-file img-rounded', title: 'Open file' do %>
+                          <%= content_tag :span, '', class: "media-library-image--grid__icon glyphicon #{media_item.glyphicon}" %>
+                          <%= content_tag :div, media_item.attachment_file_name, class: "media-library-image__label small well" %>
+                        <% end %>
                       <% end %>
                     <% end %>
-                  <% end %>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label">Attachment URL</label>
+                    <textarea class="form-control not-resizable" type="text" readonly><%= @media_item.attachment.url %></textarea>
+                  </div>
                 <% end %>
               </div>
             </div>

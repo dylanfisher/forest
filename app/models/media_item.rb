@@ -40,6 +40,8 @@ class MediaItem < Forest::ApplicationRecord
   def glyphicon
     if image?
       'glyphicon-picture'
+    elsif video?
+      'glyphicon-play'
     elsif attachment_content_type == 'application/zip'
       'glyphicon-folder-close'
     else
