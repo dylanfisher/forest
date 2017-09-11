@@ -3,7 +3,7 @@ module Attachable
 
   included do
     has_attached_file :attachment,
-                        style: {
+                        styles: {
                           large: '2000x2000>',
                           medium: '1200x1200>',
                           small: '600x600>'
