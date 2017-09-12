@@ -18,6 +18,10 @@ class BlockKind < Forest::ApplicationRecord
     block.display_name
   end
 
+  def to_label
+    display_name
+  end
+
   def display_icon
     block.display_icon
   end

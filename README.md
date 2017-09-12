@@ -95,6 +95,7 @@ Forest relies heavily on the following gems, software and frameworks:
 
 Big Picture
 
+- [ ] add has_many ordered simpleform input and select2 option
 - [ ] add optional: true to optional belongs_to associations
       http://blog.bigbinary.com/2016/02/15/rails-5-makes-belong-to-association-required-by-default.html
 - [ ] add a documentation page directly within the forest cms with FAQ and basic overview of how to use the cms.
