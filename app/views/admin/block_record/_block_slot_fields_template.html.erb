@@ -1,6 +1,6 @@
 <div class="block-slot nested-fields">
   <%= f.association :block_kind,
-                    collection: BlockKind.all,
+                    collection: block_kinds,
                     include_blank: true,
                     input_html: {
                       class: 'block-kind-select' } %>

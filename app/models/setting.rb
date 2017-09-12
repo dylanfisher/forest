@@ -6,9 +6,12 @@ class Setting < Forest::ApplicationRecord
   after_save :expire_cache
   after_destroy :expire_cache
 
-  # TODO: rename `for` to `get` and update `for` to return value
-  def self.for(slug)
-    self.settings.select { |setting| setting.slug == slug.to_s.parameterize }.first
+  def self.for(key)
+    self.get(key).try(:value)
+  end
+
+  def self.get(key)
+    self.settings.select { |setting| setting.slug == key.to_s }.first
   end
 
   def self.expire_cache!
@@ -26,7 +29,7 @@ class Setting < Forest::ApplicationRecord
       v = setting[1]
 
       if [k, v].all?(&:present?)
-        s = Setting.for(k)
+        s = Setting.get(k)
         if s.blank?
           s = Setting.new(title: k.titleize, slug: k)
         end

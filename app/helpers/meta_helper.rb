@@ -18,7 +18,7 @@ module MetaHelper
   end
 
   def site_title
-    a = Setting.for('site-title')&.value || default_site_title
+    a = Setting.for('site-title') || default_site_title
     stripdown(a).squish
   end
 
@@ -35,7 +35,7 @@ module MetaHelper
   def page_keywords
     [
       content_for(:page_keywords),
-      Setting.for('page-keywords')&.value
+      Setting.for('page-keywords')
     ].reject(&:blank?).first.try(:squish)
   end
 
@@ -48,11 +48,11 @@ module MetaHelper
   end
 
   def site_description
-    (Setting.for('description')&.value || default_site_description).try(:squish)
+    (Setting.for('description') || default_site_description).try(:squish)
   end
 
   def site_featured_image
-    Setting.for('featured-image')&.value
+    Setting.for('featured-image')
   end
 
   def meta_see_also

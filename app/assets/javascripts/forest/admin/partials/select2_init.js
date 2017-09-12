@@ -71,6 +71,10 @@ $(document).on('app:show-media-item-chooser', function() {
   App.Select2.initialize( $('select:visible') );
 });
 
+$(document).on('app:block-slot-after-insert', function(e, blockSlot) {
+  App.Select2.initialize( $(blockSlot).find('select:visible') );
+});
+
 $(document).on('app:add-menu-item', function(e, $menuItem) {
   App.Select2.add( $menuItem.find('select:visible') );
 });
