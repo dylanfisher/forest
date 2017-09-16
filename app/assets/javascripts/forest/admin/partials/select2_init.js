@@ -3,8 +3,15 @@ $.fn.select2.defaults.set('theme', 'bootstrap');
 
 App.teardown.push(function() {
   $('select').each(function() {
-    if ( $(this).data('select2') ) {
-      $(this).select2('destroy');
+    var $select = $(this);
+    var $sortableList = $select.closest('.form-group.select').find('.is-ui-sortable');
+
+    if ( $sortableList.length ) {
+      $sortableList.sortable('destroy');
+    }
+
+    if ( $select.data('select2') ) {
+      $select.select2('destroy');
     }
   });
 });
@@ -14,6 +21,25 @@ App.Select2 = {
     var that = this;
 
     this.add($elements);
+  },
+  sortable: function($select2) {
+    var ul = $select2.next('.select2-container').first('ul.select2-selection__rendered');
+
+    ul.addClass('is-ui-sortable');
+
+    ul.sortable({
+      placeholder: 'ui-state-highlight',
+      forcePlaceholderSize: true,
+      items: 'li:not(.select2-search)',
+      stop: function() {
+        $( $(ul).find('.select2-selection__choice').get().reverse() ).each(function() {
+          var id = $(this).data('data').id;
+          var option = $select2.find('option[value="' + id + '"]')[0];
+
+          $select2.prepend(option);
+        });
+      }
+    });
   },
   add: function($elements) {
     var that = this;
@@ -59,6 +85,10 @@ App.Select2 = {
       }
 
       $select.select2( selectOptions );
+
+      if ( $select.attr('data-sortable') == 'true' ) {
+        App.Select2.sortable( $select );
+      }
     });
   }
 };
