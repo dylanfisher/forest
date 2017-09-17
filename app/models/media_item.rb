@@ -1,7 +1,6 @@
 class MediaItem < Forest::ApplicationRecord
   include Rails.application.routes.url_helpers
   include Attachable
-  include Searchable
   include Sluggable
 
   validates_attachment_presence :attachment

@@ -24,8 +24,9 @@ class Forest::ScaffoldGenerator < Rails::Generators::NamedBase
     admin_views.each do |view|
       filename = "#{view}.html.erb"
       template "views/admin/#{filename}", File.join("app/views/admin", plural_name, filename)
-      # TODO: Add jbuilder index
     end
+
+    template "views/admin/index.json.jbuilder", File.join("app/views/admin", plural_name, 'index.json.jbuilder')
 
     unless options.skip_public?
       public_views.each do |view|

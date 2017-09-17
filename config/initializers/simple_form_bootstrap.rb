@@ -11,7 +11,11 @@ SimpleForm.setup do |config|
     b.optional :pattern
     b.optional :min_max
     b.optional :readonly
+
+    # Custom components
     b.optional :sortable
+    b.optional :remote
+
     b.use :label, class: 'control-label'
 
     b.use :input, class: 'form-control'

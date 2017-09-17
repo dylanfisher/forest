@@ -1,6 +1,5 @@
 class Page < Forest::ApplicationRecord
   include Blockable
-  include Searchable
   # include Statusable
   # include Versionable
 

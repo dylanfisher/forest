@@ -70,17 +70,34 @@ App.Select2 = {
 
               return returnObj;
             },
-            processResults: function (response, params) {
+            processResults: function (data, params) {
               params.page = params.page || 1;
               return {
-                results: response.data,
+                results: data.items,
                 pagination: {
-                  more: (params.page * response.per_page) < response.total_count
+                  more: (params.page * data.per_page) < data.total_count
                 }
               };
             },
             cache: true,
           },
+          escapeMarkup: function (markup) {
+            return markup;
+          },
+          templateResult: function(data) {
+            return data.select2_response;
+          },
+          templateSelection: function(data) {
+            var selection = data.select2_response;
+
+            if ( !data.select2_response ) {
+              if ( data.element ) {
+                selection = $(data.element).attr('data-select2-response');
+              }
+            }
+
+            return selection;
+          }
         };
       }
 

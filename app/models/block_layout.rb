@@ -1,5 +1,4 @@
 class BlockLayout < Forest::ApplicationRecord
-  include Searchable
   include Sluggable
 
   has_many :block_slots

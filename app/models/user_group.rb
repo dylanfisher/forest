@@ -1,6 +1,4 @@
 class UserGroup < Forest::ApplicationRecord
-  include Searchable
-
   has_and_belongs_to_many :users
 
   scope :by_name, -> (orderer = :asc) { order(name: orderer) }

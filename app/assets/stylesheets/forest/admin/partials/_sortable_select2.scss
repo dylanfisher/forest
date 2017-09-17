@@ -4,5 +4,15 @@
     margin: 5px 0 0 6px;
     padding: 0 6px;
     border: 1px solid transparent;
+    border-radius: 4px;
   }
+
+  .select2-container--bootstrap .select2-selection--multiple .select2-selection__choice {
+    cursor: move;
+  }
+}
+
+.select2-response__id {
+  color: #aaa;
+  font-size: smaller;
 }

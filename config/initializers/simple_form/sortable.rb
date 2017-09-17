@@ -20,10 +20,6 @@ module SimpleForm
         nil
       end
 
-      def remote?
-        input_html_options.dig(:data, :remote_path).present?
-      end
-
       def sortable?
         options[:sortable].present? && options.dig(:input_html, :multiple).present?
       end
