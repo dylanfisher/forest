@@ -6,6 +6,10 @@ class ApplicationPolicy
     @record = record
   end
 
+  def scope
+    Pundit.policy_scope!(user, record.class)
+  end
+
   def index?
     admin? || editor? || contributor?
   end
@@ -34,8 +38,8 @@ class ApplicationPolicy
     admin?
   end
 
-  def scope
-    Pundit.policy_scope!(user, record.class)
+  def view_hidden?
+    admin? || editor? || contributor?
   end
 
   class Scope

@@ -38,11 +38,13 @@ module AdminHelper
   def admin_navbar_class
     return unless (@page && @page.statusable?)
 
-    if @page.scheduled?
-      'bg-info'
-    elsif !@page.published?
-      'bg-warning'
-    end
+    # if @page.scheduled?
+    #   'bg-info'
+    # elsif !@page.published?
+    #   'bg-warning'
+    # end
+
+    !@page.published?
   end
 
   def admin_navbar_active_class(nav_item_path)

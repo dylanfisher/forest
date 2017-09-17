@@ -1,4 +1,6 @@
 class ForestController < ApplicationController
+  include Pundit
+
   protect_from_forgery with: :exception
 
   layout :layout_by_resource

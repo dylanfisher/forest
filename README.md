@@ -103,8 +103,8 @@ Big Picture
 - [ ] add schema.org microdata where appopriate, e.g. for navigation menus, headers, footers
 - [ ] tests
 - [ ] is it better to namespace engine?
-- [ ] better naming conventions when it comes to blocks, block_record, and block_slots
 - [ ] squash migrations once final db structure is settled upon
+- [x] better naming conventions when it comes to blocks, block_record, and block_slots
 - [x] add has_many ordered simpleform input and select2 option
 - [x] remove any gem dependencies not totally necessary?
 
@@ -113,18 +113,18 @@ Admin
 - [ ] more robust filter pattern for index views, and ability to select by multiple filters + search,
       and retain these filters when navigating between records
 - [ ] add and/or standardize setting @record and @records instance variables in controller to alias appropriate record
-- [ ] add select2 with remote ajax selects, automatically infer path to avoid manual setup for each association input
 - [ ] reset password and/or change password when editing user profile
 - [ ] email confirmations for user related actions
 - [ ] remove font-awesome dependency from simplemde markdown editor
 - [ ] add migrations to host app without running install:migrations command
 - [ ] versioning option for data associated pages, settings, menus, etc.
 - [ ] version diff UI like wordpress?
-- [ ] intuitive select2 association UI
-- [ ] sortable select2 items
 - [ ] modal to create associated records directly from association page?
 - [ ] bulk actions to delete pages (and other records)
 - [ ] duplicate records
+- [x] intuitive select2 association UI
+- [x] sortable select2 items
+- [x] add select2 with remote ajax selects, automatically infer path to avoid manual setup for each association input
 - [x] remove bootstrap as frontend dependency (admin navbar is only place this is currently shared)
 - [x] purge cache button
 - [x] s3 storage for paperclip, assets, heroku support, etc.
@@ -132,9 +132,9 @@ Admin
 
 Generators
 
-- [ ] generate a simple json.jbuilder for admin indexes by default
 - [ ] initial app generator `rails g forest:install` and move migrations that seed initial data into the generator
 - [ ] add ability to skip block_record creation when creating new scaffold that doesn't need to support blocks
+- [x] generate a simple json.jbuilder for admin indexes by default
 - [x] scaffold generator
 - [x] block type generator
 
@@ -152,8 +152,9 @@ Pages
 
 Blocks
 
-- [ ] minimum and maximum blocks per layout
+- [ ] remove all blocks from forest and instead output a command to generate your first block after the install generator runs
 - [ ] additional default content blocks, mainly image and/or gallery, maybe video and/or oEmbed
+- [ ] minimum and maximum blocks per layout
 - [ ] solution for color picker, date picker, map picker, etc. similar to ACF
 - [x] more performant record saving when parsing block attributes
 - [x] validate block attributes before saving page
@@ -162,12 +163,12 @@ Media Gallery
 
 - [ ] fix slug generation to support uploading images/files with the same name
 - [ ] better media item upload in media_item#edit
-- [ ] store image dimensions and metadata in attachment https://github.com/thoughtbot/paperclip/wiki/Extracting-image-dimensions
 - [ ] ability to add new media items through modals (e.g. featured in on pages)
 - [ ] ability to upload other file types, not just images (pdf, video, audio)
 - [ ] ability to associate multiple media items at once, e.g. for a carousel
 - [ ] crop tool and other enhancements
 - [ ] configure paperclip to generate optimized images so that google page speed test doesn't complain about the lack of savings.
+- [x] store image dimensions and metadata in attachment https://github.com/thoughtbot/paperclip/wiki/Extracting-image-dimensions
 - [x] add ability to remove media item (e.g. remove feature media item from page)
 
 Menus

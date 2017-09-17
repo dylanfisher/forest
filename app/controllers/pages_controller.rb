@@ -5,6 +5,7 @@ class PagesController < ForestController
     unless @page
       raise ActionController::RoutingError.new('Not Found')
     end
+    authorize @page
   end
 
   private
