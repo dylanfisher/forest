@@ -25,4 +25,22 @@ class BlockKind < Forest::ApplicationRecord
   def display_icon
     block.display_icon
   end
+
+  def to_select2_response
+    r = ''
+    r += '<div>'
+    r += "<span class='block-kind__select2-response__icon #{display_icon}'></span> "
+    r += display_name
+    r += '</div>'
+
+    if description.present?
+      r += '<div class="text-muted">'
+      r += '<smaller>'
+      r += description
+      r += '</smaller>'
+      r += '</div>'
+    end
+
+    r
+  end
 end

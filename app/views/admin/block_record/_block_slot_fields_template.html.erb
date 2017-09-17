@@ -1,6 +1,9 @@
 <div class="block-slot nested-fields">
+  <% collection = block_kinds.to_a.collect { |bk| [bk.to_label, bk.id, category: bk.category, data: { select2_response: bk.to_select2_response }] } %>
   <%= f.association :block_kind,
-                    collection: block_kinds,
+                    collection: collection,
+                    as: :grouped_select,
+                    group_by: proc { |bk| bk.last[:category].humanize },
                     include_blank: true,
                     input_html: {
                       class: 'block-kind-select' } %>

@@ -2,3 +2,18 @@
   min-width: 150px;
   max-width: 100%;
 }
+
+.select2-container--bootstrap .select2-results__option--highlighted[aria-selected] {
+  .text-muted {
+    color: #fff;
+  }
+}
+
+.select2-results__option[role="group"] + .select2-results__option[role="group"] {
+  margin-top: 15px;
+}
+
+.select2-results__group {
+  background: $well-bg;
+  border-top: 1px solid $panel-default-border;
+}

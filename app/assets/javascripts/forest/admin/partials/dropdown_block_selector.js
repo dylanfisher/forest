@@ -2,7 +2,21 @@ App.blockKindSelector = {};
 
 App.blockKindSelector.select2 = function($select) {
   var selectOptions = {
-    placeholder: 'Select a block'
+    placeholder: 'Select a block',
+    escapeMarkup: function (markup) {
+      return markup;
+    },
+    templateResult: function(data) {
+      var result;
+
+      if ( $(data.element).is('optgroup') ) {
+        result = data.text;
+      } else {
+        result = $(data.element).attr('data-select2-response');
+      }
+
+      return result;
+    }
   }
 
   $select.select2( selectOptions );
