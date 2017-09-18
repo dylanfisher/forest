@@ -4,7 +4,7 @@ class User < Forest::ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  store :settings, accessors: [ :page_settings ], coder: JSON
+  store :settings, accessors: [:page_settings], coder: JSON
 
   before_create :assign_default_user_groups
 

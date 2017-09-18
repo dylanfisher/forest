@@ -44,8 +44,25 @@ class Admin::UsersController < Admin::ForestController
   # PATCH/PUT /users/1
   def update
     authorize @user
+
+    if params[:user][:password].blank? && params[:user][:password_confirmation].blank?
+      params[:user].delete(:password)
+      params[:user].delete(:password_confirmation)
+    end
+
     if @user.update(user_params)
       redirect_to edit_admin_user_path(@user), notice: 'User was successfully updated.'
+    else
+      render :edit
+    end
+  end
+
+  def reset_password
+    @user = User.find(params[:user_id])
+    authorize @user
+
+    if @user.send_reset_password_instructions
+      redirect_to edit_admin_user_path(@user), notice: 'User password reset link was successfully sent.'
     else
       render :edit
     end

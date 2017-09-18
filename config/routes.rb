@@ -21,7 +21,9 @@ Rails.application.routes.draw do
     resources :pages
     resources :settings
     resources :translations
-    resources :users
+    resources :users do
+      get 'reset_password'
+    end
     resources :user_groups, path: 'user-groups'
 
     get 'documentation', to: 'documentation#index'

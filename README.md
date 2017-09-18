@@ -113,7 +113,6 @@ Admin
 - [ ] more robust filter pattern for index views, and ability to select by multiple filters + search,
       and retain these filters when navigating between records
 - [ ] add and/or standardize setting @record and @records instance variables in controller to alias appropriate record
-- [ ] reset password and/or change password when editing user profile
 - [ ] email confirmations for user related actions
 - [ ] remove font-awesome dependency from simplemde markdown editor
 - [ ] add migrations to host app without running install:migrations command
@@ -122,6 +121,7 @@ Admin
 - [ ] modal to create associated records directly from association page?
 - [ ] bulk actions to delete pages (and other records)
 - [ ] duplicate records
+- [x] reset password and/or change password when editing user profile
 - [x] intuitive select2 association UI
 - [x] sortable select2 items
 - [x] add select2 with remote ajax selects, automatically infer path to avoid manual setup for each association input
@@ -173,6 +173,7 @@ Media Gallery
 
 Menus
 
+- [ ] refactor menus to use nested rails forms rather than serialized json
 - [ ] create pattern for linking to other record types in navigation menus
 - [x] ability to remove menu items
 
