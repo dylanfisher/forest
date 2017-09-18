@@ -3,6 +3,7 @@ App.blockKindSelector = {};
 App.blockKindSelector.select2 = function($select) {
   var selectOptions = {
     placeholder: 'Select a block',
+    dropdownCssClass: 'block-kind-selector',
     escapeMarkup: function (markup) {
       return markup;
     },

@@ -76,6 +76,8 @@
         <div class="col-sm-4 col-md-3">
           <div class="form-group">
             <div class="dd-input">
+              <%# TODO: replace with remote form component %>
+              <%#= f.association :parent_page, remote: { scope: :title_like } %>
               <%= select_tag 'pages',
                 options_from_collection_for_select(@pages, 'id', 'title'),
                 class: 'dd-input__select form-control',
