@@ -1,0 +1,57 @@
+// Repeater inputs
+
+$repeater-control-width: 40px;
+
+.repeater__group {
+  margin-bottom: $form-group-margin-bottom;
+  position: relative;
+
+  &:hover {
+    .repeater__controls__buttons {
+      opacity: 1;
+    }
+  }
+
+  .form-group {
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.repeater__group__body,
+.repeater__controls {
+  display: inline-block;
+}
+
+.repeater__group__body {
+  width: calc(100% - #{$repeater-control-width});
+}
+
+.repeater__controls {
+  width: $repeater-control-width;
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+}
+
+.repeater__controls__buttons {
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  transition: opacity 0.1s;
+}
+
+.repeater__controls__button {
+  & + .repeater__controls__button {
+    margin-top: 4px;
+  }
+}
+
+.repeater__hidden-textarea,
+.repeater__template {
+  display: none;
+}

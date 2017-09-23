@@ -3,7 +3,7 @@
   <%= f.association :block_kind,
                     collection: collection,
                     as: :grouped_select,
-                    group_by: proc { |bk| bk.last[:category].humanize },
+                    group_by: proc { |bk| bk.last[:category].humanize if bk.last[:category].present? },
                     include_blank: true,
                     input_html: {
                       class: 'block-kind-select' } %>

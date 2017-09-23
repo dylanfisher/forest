@@ -184,6 +184,9 @@ Search
 JavaScript
 - [ ] better namespacing of all custom events. e.g. they should be `forest:my-custom-event`
 
+Sass
+- [ ] potentially speed up sass compilation by following pattern like this? http://blog.teamtreehouse.com/tale-front-end-sanity-beware-sass-import
+
 Settings
 
 - [x] better settings UI, ability to set multiple data types, e.g. boolean, or association
