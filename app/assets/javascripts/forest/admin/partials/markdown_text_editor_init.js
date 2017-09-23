@@ -8,8 +8,12 @@ App.MarkdownTextEditor = {
     });
 
     $textAreas.each(function() {
-      that.instances.push( new SimpleMDE({
+      var $textArea = $(this);
+      var placeholder = $textArea.attr('placeholder');
+
+      var editor = new SimpleMDE({
         element: this,
+        placeholder: placeholder,
         spellChecker: false,
         status: false,
         toolbar: [
@@ -22,7 +26,13 @@ App.MarkdownTextEditor = {
           '|',
           'link',
           '|',
-          'guide',
+          {
+            name: 'guide',
+            action: 'https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet',
+            className: 'fa fa-question-circle',
+            title: 'Markdown Guide',
+            default: true
+          },
         ],
         shortcuts: {
           'drawImage': null,
@@ -38,7 +48,12 @@ App.MarkdownTextEditor = {
           'toggleSideBySide': null,
           'toggleUnorderedList': null,
         }
-      }) );
+      });
+
+      editor.codemirror.options.extraKeys['Tab'] = false;
+      editor.codemirror.options.extraKeys['Shift-Tab'] = false;
+
+      that.instances.push( editor );
     });
   },
   teardown: function() {
