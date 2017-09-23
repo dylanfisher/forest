@@ -13,8 +13,9 @@ SimpleForm.setup do |config|
     b.optional :readonly
 
     # Custom components
-    b.optional :sortable
+    b.optional :markdown
     b.optional :remote
+    b.optional :sortable
 
     b.use :label, class: 'control-label'
 
