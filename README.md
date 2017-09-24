@@ -98,6 +98,7 @@ Big Picture
 - [ ] add optional: true to optional belongs_to associations
       http://blog.bigbinary.com/2016/02/15/rails-5-makes-belong-to-association-required-by-default.html
 - [ ] add a documentation page directly within the forest cms with FAQ and basic overview of how to use the cms.
+- [ ] document custom simple form components and inputs
 - [ ] rip out paper_trail gem in favor of our own solution for versioning
 - [ ] add additional og tags http://ogp.me/
 - [ ] add schema.org microdata where appopriate, e.g. for navigation menus, headers, footers
