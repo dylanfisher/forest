@@ -6,48 +6,60 @@
 <% locals = { block_kinds: block_kinds,
               block_layout: block_layout } %>
 
-<div class="block-layout panel panel-default" data-collapse-parent>
-  <div class="block-layout__panel-heading panel-heading">
-    <h2 class="block-layout__title">
-      <%= block_layout.display_name %>
-      <% if block_layout.description.present? %>
-        <small>
-          <%= block_layout.description %>
-        </small>
-      <% end %>
-      <button type="button" class="block-collapse-button btn btn-default btn-xs pull-right" title="Collapse all blocks" data-block-collapse-all>
-        <div class="collapsable-icon glyphicon glyphicon-chevron-up"></div>
-      </button>
-    </h2>
-  </div>
-  <div class="panel-body">
-    <div class="form-inputs">
-      <div class="row">
-        <div class="col-sm-12">
-          <div id="block_slots" class="block_slots">
-            <%= f.simple_fields_for :block_slots, f.object.block_slots.select { |bs| bs.block_layout_id == block_layout.id } do |f| %>
-              <%= render 'admin/block_record/block_slot_fields', f: f, **locals %>
-            <% end %>
+<% if block_kinds.present? %>
+  <div class="block-layout panel panel-default" data-collapse-parent>
+    <div class="block-layout__panel-heading panel-heading">
+      <h2 class="block-layout__title">
+        <%= block_layout.display_name %>
+        <% if block_layout.description.present? %>
+          <small>
+            <%= block_layout.description %>
+          </small>
+        <% end %>
+        <button type="button" class="block-collapse-button btn btn-default btn-xs pull-right" title="Collapse all blocks" data-block-collapse-all>
+          <div class="collapsable-icon glyphicon glyphicon-chevron-up"></div>
+        </button>
+      </h2>
+    </div>
+    <div class="panel-body">
+      <div class="form-inputs">
+        <div class="row">
+          <div class="col-sm-12">
+            <div id="block_slots" class="block_slots">
+              <%= f.simple_fields_for :block_slots, f.object.block_slots.select { |bs| bs.block_layout_id == block_layout.id } do |f| %>
+                <%= render 'admin/block_record/block_slot_fields', f: f, **locals %>
+              <% end %>
 
-            <% if f.object.block_slots.blank? %>
-              <div class="well well-lg text-center block-layout__empty-description">
-                <p>Click the <%= "\"Add #{block_layout.display_name.downcase} block\"" %> button below to start creating your layout.</p>
+              <% if f.object.block_slots.blank? %>
+                <div class="well well-lg text-center block-layout__empty-description">
+                  <p>Click the <%= "\"Add #{block_layout.display_name.downcase} block\"" %> button below to start creating your layout.</p>
+                </div>
+              <% end %>
+
+              <div class="links">
+                <%= link_to_add_association "Add #{block_layout.display_name.downcase} block",
+                                            f,
+                                            :block_slots,
+                                            partial: 'admin/block_record/block_slot_fields_template',
+                                            class: 'add-block-button btn btn-primary',
+                                            render_options: {
+                                              locals: locals } %>
               </div>
-            <% end %>
-
-            <div class="links">
-              <%= link_to_add_association "Add #{block_layout.display_name.downcase} block",
-                                          f,
-                                          :block_slots,
-                                          partial: 'admin/block_record/block_slot_fields_template',
-                                          class: 'add-block-button btn btn-primary',
-                                          render_options: {
-                                            locals: locals } %>
             </div>
           </div>
-        </div>
 
+        </div>
       </div>
     </div>
   </div>
-</div>
+<% elsif Rails.env.development? %>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <p>No block kinds exist. Generate a new Block Kind with the command <code>rails g forest:block TextBlock text:text</code>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

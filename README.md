@@ -20,6 +20,11 @@ Install gems
 $ bundle
 ```
 
+Create database and run migrations
+```
+$ rails db:create
+```
+
 Run Forest install generator and follow post-install prompts
 ```bash
 $ rails g forest:install
@@ -153,10 +158,10 @@ Pages
 
 Blocks
 
-- [ ] remove all blocks from forest and instead output a command to generate your first block after the install generator runs
 - [ ] additional default content blocks, mainly image and/or gallery, maybe video and/or oEmbed
 - [ ] minimum and maximum blocks per layout
 - [ ] solution for color picker, date picker, map picker, etc. similar to ACF
+- [x] remove all blocks from forest and instead output a command to generate your first block after the install generator runs
 - [x] more performant record saving when parsing block attributes
 - [x] validate block attributes before saving page
 

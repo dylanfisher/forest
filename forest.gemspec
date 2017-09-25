@@ -20,6 +20,7 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency 'pg'
 
+  s.add_dependency 'aws-sdk', '~> 2'
   s.add_dependency 'bootstrap-sass'
   s.add_dependency 'cocoon'
   s.add_dependency 'devise'
@@ -27,6 +28,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'jquery-fileupload-rails'
   s.add_dependency 'jquery-ui-rails'
   s.add_dependency 'kaminari'
+  s.add_dependency 'nokogiri'
   s.add_dependency 'paperclip'
   s.add_dependency 'pundit'
   s.add_dependency 'redcarpet'
