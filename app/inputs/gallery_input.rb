@@ -10,6 +10,7 @@ class GalleryInput < SimpleForm::Inputs::CollectionSelectInput
 
     field_name = input_html_options.fetch :field_name, "#{input_html_options[:id]}"
 
+    # TODO: update to save position
     # TODO: update to allow this to work with other associations, not just images
     # e.g. obj.send(attribute_name)
     selected_images = template.render(partial: 'admin/media_items/media_item_grid_layout', collection: obj.images, as: :media_item, cached: true)
