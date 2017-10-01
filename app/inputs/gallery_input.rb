@@ -5,6 +5,7 @@ class GalleryInput < SimpleForm::Inputs::CollectionSelectInput
   end
 
   def input(wrapper_options = nil)
+    sortable = options.fetch(:sortable, true)
     obj = input_html_options.fetch :object, object
     input_html_options.merge! id: object_name.parameterize
 
@@ -48,16 +49,15 @@ class GalleryInput < SimpleForm::Inputs::CollectionSelectInput
                     **modal_data_attributes
                   })
 
-    content << @builder.collection_select(attribute_name,
-              obj.images, :id, :title,
-              {
-                selected: obj.send(reflection_or_attribute_name)&.collect(&:id)
-              },
-              multiple: true,
-              id: field_name,
-              class: 'gallery__input',
-              hidden: true
-            )
+    if sortable
+      content << @builder.collection_select(attribute_name,
+                obj.images, :id, :title, { selected: obj.send(reflection_or_attribute_name)&.collect(&:id) },
+                multiple: true,
+                id: field_name,
+                class: 'gallery__input',
+                hidden: true
+              )
+    end
 
     content
   end

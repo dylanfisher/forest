@@ -6,7 +6,7 @@ module Forest
       def has_many_ordered(association, options = {})
         through = options.delete(:through)
         order_by = options.delete(:order_by) || :position
-        singular = association.to_s.singularize
+        singular = options.fetch(:source, association.to_s.singularize).to_s
 
         has_many through, -> { reorder(order_by) }, options.reverse_merge(dependent: :destroy)
         has_many association, -> { reorder("#{through}.#{order_by}") }, options.merge(through: through)
