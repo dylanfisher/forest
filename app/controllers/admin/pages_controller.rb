@@ -74,10 +74,16 @@ class Admin::PagesController < Admin::ForestController
   private
 
     def page_params
-      params.require(:page).permit(:title, :slug, :description, :status, :featured_image_id,
+      page_attributes = [
+        :title, :slug, :description, :status, :featured_image_id,
         :media_item_ids, :parent_page_id, :ancestor_page_id, :scheduled_date, :path,
         **BlockSlot.blockable_params
-      )
+      ]
+      # TODO: come up with a better pattern for adding additional params via the host app, rather than
+      # just permitting all other column_names of the class.
+      column_names = (@page.class.column_names.collect(&:to_sym) - page_attributes).reject { |a| [:id, :created_at, :updated_at].include?(a) }
+      permitted_attributes = page_attributes + column_names
+      params.require(:page).permit(permitted_attributes)
     end
 
     def set_page
