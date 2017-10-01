@@ -28,7 +28,7 @@ class ForestController < ApplicationController
       classes << "controller--#{controller_name}"
       classes << "action--#{action_name}"
 
-      @body_classes = classes.join ' '
+      @body_classes = classes
     end
 
     def reset_class_method_cache

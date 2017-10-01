@@ -6,6 +6,8 @@ class PagesController < ForestController
       raise ActionController::RoutingError.new('Not Found')
     end
     authorize @page
+
+    @body_classes << "page--#{@page.slug}"
   end
 
   private
