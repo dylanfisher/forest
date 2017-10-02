@@ -6,7 +6,7 @@
           Forest Documentation
         </h1>
       </div>
-      <div class="col-sm-4 col-sm-offset-2">
+      <div class="col-sm-5 col-sm-offset-1">
         <%= Gem.loaded_specs['forest'].name.titleize %> <%= Gem.loaded_specs['forest'].version %><br>
         <%= Gem.loaded_specs['forest'].date.to_formatted_s(:long_ordinal).sub(/ 00:00/, '') %><br>
         <% if Gem.loaded_specs['forest'].homepage.present? %>
@@ -18,33 +18,42 @@
 </div>
 
 <% content_for :body do %>
-  <h2 id="general">General</h2>
   <p>Welcome to <strong>Forest Documentation</strong>, the built-in manual for Forest CMS.</p>
-  <h2 id="topics-to-cover">Topics to Cover</h2>
-  <p>
-    <ul>
-      <li>Block Layouts</li>
-    </ul>
-  </p>
-  <h2 id="navigation">Navigation</h2>
-  <p>Forest's primary navigation is comprised of the following sections:</p>
-  <%= render 'admin/navigation' %>
+  <h2 id="general">General</h2>
+  <p>Forest is an intuitive, easy to use content management system that is built around your content.</p>
   <h2 id="dashboard">Dashboard</h2>
-  <p>The <a href="#">Dashboard</a> is the CMS' home page, where your primary <a href="#">Resources</a> are organized.</p>
+  <p>The <span class="text-danger" data-toggle="tooltip" title="The dashboard is the admin home page.">dashboard</span> is the CMS' home page, where your primary <span class="text-danger" data-toggle="tooltip" title="A resource is a data type that you control via the admin database.">resources</span> are organized.</p>
   <h2 id="pages">Pages</h2>
-  <p><a href="#">Pages</a> are typically composed of various interchangeable <a href="#">Blocks</a>.</p>
+  <p>Pages are typically composed of various interchangeable <span class="text-danger" data-toggle="tooltip" title="A block is a modular component that is used to add content to pages and other resources.">blocks</span>.</p>
+  <h2 id="blocks">Blocks</h2>
+  <p>Pages and other resoures may be composed of blocks, reusable fields such as text, images and more customized implementations based on your project. A resource may contain any number of blocks, which can be re-arrange, deleted and added to suit the page's design.</p>
+  <p>It's also possible that blocks may be organized into various <span class="text-danger" data-toggle="tooltip" title="A block layout is a grouping of blocks that may appear in a particular part of the page. For example, you may have block layouts that apply to the sidebar or header areas of a page.">block layouts</span>.</p>
   <h2 id="media-library">Media Library</h2>
-  <p>The <a href="#">Media Library</a> is where you manage image and file uploads.</p>
-  <h2 id="users">Users</h2>
-  <p><a href="#">Users</a> are the website administrators who have access to the CMS. Users are organized by <a href="#">User Groups</a> that define what a user has permission to edit, publish and view.</p>
+  <p>The media library is where you manage image, video and other file uploads. You can drag and drop files onto the media index to upload multiple items at once.</p>
   <h2 id="menus">Menus</h2>
-  <p><a href="#">Menus</a> are where you edit the navigation structure of your website.</p>
+  <p>Menus are where you edit the navigation structure of your website. Menu items are composed of custom links or associations with pages.</p>
   <h2 id="resources">Resources</h2>
-  <p><a href="#">Resources</a> represent all of the data in the Forest CMS.</p>
+  <p>Resources represent all of the user-controllable data in Forest CMS. You can create, edit, update and delete items from a consistent interface.</p>
+  <h2 id="bulk-import">Bulk Import</h2>
+  <p>Most resources support bulk import, accessible from the resource's index screen, in the new resource button dropdown. Use the bulk import screen to download an import template, fill out the appropriate fields, then upload the CSV file. Note that not all attributes of a resource are able to be imported without a custom implementation.</p>
   <h2 id="settings">Settings</h2>
-  <p><a href="#">Settings</a> are where you maintain mostly static values that are used throughout the site. For example the title of your website, the description, and other values. You can also purge the <a href="#">Cache</a> of the website from the settings dropdown nav.</p>
-  <h2 id="user-tab">User Tab</h2>
-  <p>The <a href="#">User Tab</a> gives you access to edit your profile, view the website's public home page, read this documentation, and log out of the CMS.</p>
+  <p>Settings are where you define static values that are used throughout the site. For example the title of your website, the description, and other values. You can also <span class="text-danger" data-toggle="tooltip" title="Your website may be cached to improve performance times. If you notice stale data, purge the cache to refresh it.">purge the cache</span> of the website from the settings dropdown nav.</p>
+  <h2 id="users">Users</h2>
+  <p>Users are the website editors, administrators and content managers who have access to the CMS. Users are organized by <span class="text-danger" data-toggle="tooltip" title="User groups allow you to control which users have access to certain resources.">user groups</span> that define what a user has permission to edit, publish and view.</p>
+  <h2 id="user-groups">User Groups</h2>
+  <p>The user tab in the navigation bar gives you access to edit your profile, view the website's public home page, read this documentation, and log out of the CMS.</p>
+  <h2 id="statusable">Statusable</h2>
+  <p>Some resources support changing the status, which controls whether the resource is visible. Current supported statuses are:</p>
+  <dl>
+    <dt>Published</dt>
+    <dd>The default status. The resource is published and may be visible to the public.</dd>
+    <dt>Hidden</dt>
+    <dd>The resource is not visible to the public, even with a direct link to the resource.</dd>
+  </dl>
+  <h2 id="about-forest">About Forest</h2>
+  <p>Forest is created and maintained by <a href="http://dylanfisher.com/" target="_blank">Dylan Fisher</a>.</p>
+  <p>The goal of forest is to provide an easy to use, full featured CMS similar to Wordpress but with the flexibility and security of Ruby on Rails.</p>
+  <p>If you have questions about the CMS, the project you are currently working on, or just want to get in touch, email me at <%= mail_to 'hi@dylanfisher.com' %></p>
 <% end %>
 
 <%= render 'body' %>
