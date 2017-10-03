@@ -167,6 +167,7 @@ Blocks
 
 Media Gallery
 
+- [ ] use mini_magick or similar, more efficient image editor to process paperclip files
 - [ ] fix slug generation to support uploading images/files with the same name
 - [ ] better media item upload in media_item#edit
 - [ ] ability to add new media items through modals (e.g. featured in on pages)
