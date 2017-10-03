@@ -4,12 +4,17 @@ module Attachable
   included do
     has_attached_file :attachment,
                         styles: {
-                          large: '2000x2000>',
+                          thumb: '200x200#',
+                          small: '600x600>',
                           medium: '1200x1200>',
-                          small: '600x600>'
+                          large: '2000x2000>'
                         },
                         convert_options: {
-                          :all => '-strip -interlace Plane'
+                          thumb: '-unsharp 0x1',
+                          small: '-unsharp 0x1',
+                          medium: '-unsharp 1.5x1+0.7+0.02',
+                          large: '-unsharp 1.5x1+0.7+0.02',
+                          all: '-strip -quality 85 -colorspace sRGB -interlace Plane'
                         },
                         default_url: '/images/:style/missing.png'
 

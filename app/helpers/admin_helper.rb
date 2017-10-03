@@ -13,6 +13,14 @@ module AdminHelper
       class: "#{active_class}#{(is_default_order ? 'order--default' : 'order--reverse')}"
   end
 
+  def table_thumbnail(image)
+    if image.attachment.present?
+      content_tag :div, class: 'table-thumbnail' do
+        image_tag image.attachment.url(:thumb)
+      end
+    end
+  end
+
   def admin_page_level_indicator(level)
     (level + 1).times.collect{}.join('&mdash; ').html_safe
   end

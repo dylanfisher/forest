@@ -1,3 +1,4 @@
+<%# TODO: Add ability to easily add to the admin navigation via the host app %>
 <%# TODO: DRY this file up with link helpers %>
 <nav class="navbar navbar-default">
   <div class="container-fluid <%= admin_navbar_class %>">
@@ -18,20 +19,7 @@
         <li class="<%= admin_navbar_active_class(admin_media_items_path) %>"><%= link_to 'Media', admin_media_items_path %></li>
         <li class="<%= admin_navbar_active_class(admin_users_path) %>"><%= link_to 'Users', admin_users_path %></li>
         <li class="<%= admin_navbar_active_class(admin_menus_path) %>"><%= link_to 'Menus', admin_menus_path %></li>
-        <%# TODO: Add ability to easily add to the admin navigation via the host app %>
-        <%# TODO: add resources list to dropdown %>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-            Resources <span class="caret"></span>
-          </a>
-          <ul class="dropdown-menu">
-            <% @admin_resources.each do |resource| %>
-              <li>
-                <%= link_to resource.model_name.human.titleize.pluralize, polymorphic_path([:admin, resource]) %>
-              </li>
-            <% end %>
-          </ul>
-        </li>
+        <%= render 'admin/navigation/resources_dropdown' %>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <% if @record %>

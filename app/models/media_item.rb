@@ -30,7 +30,13 @@ class MediaItem < Forest::ApplicationRecord
         slug_attribute = SecureRandom.uuid
       end
 
-      self.slug = slug_attribute.parameterize
+      slug_attribute = slug_attribute.parameterize
+
+      if MediaItem.where(slug: slug_attribute).present?
+        slug_attribute = slug_attribute + '-' + SecureRandom.uuid
+      end
+
+      self.slug = slug_attribute
     end
   end
 
