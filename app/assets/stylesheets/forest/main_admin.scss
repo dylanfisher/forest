@@ -1,5 +1,6 @@
 // Bootstrap
-@import 'main_bootstrap';
+@import 'bootstrap/variables';
+@import 'admin/bootstrap-variables'; // rename this to variable overrides
 
 // Modules
 @import 'admin/variables';
