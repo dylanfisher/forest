@@ -1,3 +1,4 @@
+// TODO: refactor this whole file
 App.MediaItemChooser = {
   instances: [],
   initialize: function($elements) {
@@ -114,7 +115,11 @@ $(document).on('click', '.media-item-chooser .media-library-link', function(e) {
   var $removeButton = $(this).closest('.image').find('.media-item-chooser__remove-image');
 
   if ( App.MediaItemChooser.inputSelector ) {
-    App.MediaItemChooser.input = App.MediaItemChooser.scope.closest('.gallery, .image').find( App.MediaItemChooser.inputSelector );
+    if ( App.MediaItemChooser.toPath ) {
+      App.MediaItemChooser.input = App.MediaItemChooser.scope.closest('.image-to-path-wrapper').find( App.MediaItemChooser.inputSelector );
+    } else {
+      App.MediaItemChooser.input = App.MediaItemChooser.scope.closest('.gallery, .image').find( App.MediaItemChooser.inputSelector );
+    }
     App.MediaItemChooser.preview = App.MediaItemChooser.scope.closest('.gallery, .image').find( App.MediaItemChooser.inputSelector + '_preview' );
 
     if ( App.MediaItemChooser.multiple ) {
