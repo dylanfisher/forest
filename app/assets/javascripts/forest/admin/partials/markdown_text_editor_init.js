@@ -16,6 +16,7 @@ App.MarkdownTextEditor = {
         placeholder: placeholder,
         spellChecker: false,
         status: false,
+        autoDownloadFontAwesome: false,
         toolbar: [
           'bold',
           'italic',
