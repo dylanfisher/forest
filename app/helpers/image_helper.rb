@@ -7,12 +7,14 @@ module ImageHelper
     if options[:class].present?
       svg['class'] = "#{svg['class']} #{options[:class]}"
     end
+    if options[:id].present?
+      svg['id'] = options[:id]
+    end
     doc.to_html.html_safe
   end
 
   def responsive_image(media_item, options = {})
     # TODO: DF 08/04/17 - return a missing image if media item is blank?
-    # TODO: DF 08/04/17 - does it make sense to include the original dimensions as width and height attribtues?
     # return if media_item.blank?
     css_class = options.fetch :class, nil
     image_set_tag media_item.attachment.url(:small), {
@@ -21,9 +23,7 @@ module ImageHelper
       },
       options.merge(
         sizes: options.fetch(:sizes, '100vw'),
-        class: "responsive-image #{css_class}",
-        width: media_item.try(:dimensions).try(:[], :width),
-        height: media_item.try(:dimensions).try(:[], :height)
+        class: "responsive-image #{css_class}"
       )
   end
 
