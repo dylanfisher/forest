@@ -155,14 +155,15 @@ Forest relies heavily on the following gems, software and frameworks:
 ## TODO
 
 Big Picture
+- [ ] 404 page, error pages. Document how to customize these.
 - [ ] add a documentation page directly within the forest cms with FAQ and basic overview of how to use the cms.
-- [ ] document custom simple form components and inputs
-- [ ] rip out paper_trail gem in favor of our own solution for versioning
 - [ ] add additional og tags http://ogp.me/
 - [ ] add schema.org microdata where appopriate, e.g. for navigation menus, headers, footers
-- [ ] tests
 - [ ] is it better to namespace engine?
+- [ ] document custom simple form components and inputs
+- [ ] rip out paper_trail gem in favor of our own solution for versioning
 - [ ] squash migrations once final db structure is settled upon
+- [ ] tests
 - [x] add optional: true to optional belongs_to associations http://blog.bigbinary.com/2016/02/15/rails-5-makes-belong-to-association-required-by-default.html
 - [x] better naming conventions when it comes to blocks, block_record, and block_slots
 - [x] add has_many ordered simpleform input and select2 option
@@ -207,7 +208,6 @@ Pages
 - [ ] show page hierarchy in select2 selection?
 - [ ] page status for scheduled, pending and hidden states
 - [ ] better page versioning, page history navigation, restore content blocks with page version
-- [ ] 404 page, error pages
 - [x] data associated pages that support blocks
 
 Blocks
