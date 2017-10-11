@@ -1,9 +1,9 @@
 ### 🚧 Under Construction 🚧
 
 # 🌲 Forest
-Forest is a Rails 5 CMS that provides an opinionated starting point when creating new websites.
-Much inspiration was drawn from Wordpress' dashboard. The Forest dashboard uses Bootstrap and very little
-additional CSS to create an easily customizable interface.
+Forest is a Rails 5 CMS that makes creating and managing websites easy.
+It draws inspiration from Wordpress' dashboard and makes it easy to upload images,
+manage menus, create users with permissions, etc.
 
 ## Generating a new app
 rails new myapp --database=postgresql
@@ -34,19 +34,19 @@ $ rails g forest:install
 Forest aims to include the following features out of the box.
 
 ### Pages
-Pages are versionable, schedulable and draftable. Each page is composed of a series of page blocks that
+Pages are versionable (coming soon), schedulable and draftable. Each page is composed of a series of blocks that
 a user can use to create dynamic page layouts. Additional blocks are easy to develop using regular Ruby
 classes and methods. Forest doesn't use any custom DSL.
 
 ### Media Browser
-An advanced media browser, similar to Wordpress, is included by default and features multi-file drag and drop upload,
+An intuitive media browser, similar to Wordpress, is included by default and features multi-file drag and drop upload,
 and an easy to use modal interface for selecting associated files.
 
 ### Menus
-An easy to use draggable, nestable interface for managing menus, similar to Wordpress.
+A draggable, nestable interface for managing menus, similar to Wordpress.
 
 ### Users
-Users and user groups, a permissions system, and secure authentication.
+Users and user groups, a permissions system, and secure authentication using Devise.
 
 ## Usage
 Forest runs as an engine. To get started using this gem, create a new rails app and add the forest gem to your gemfile.
@@ -81,6 +81,62 @@ First, run the block type generator
 rails generate forest:block TitleAndTextBlock title:string content:text
 ```
 
+## Custom SimpleForm inputs
+These custom SimpleForm inputs are available in your form builders by setting an `as` option.
+
+#### datepicker_input.rb
+Render a date or datetime input using a jQuery UI datepicker.
+
+`<%= f.input :date, as: :datepicker %>`
+
+#### gallery_input.rb
+A sortable gallery of Media Items.
+
+`<%= f.association :images, sortable: true, as: :gallery %>`
+
+#### image_input.rb
+A single image association.
+
+`<%= f.association :featured_image, as: :image %>`
+
+#### repeater_input.rb
+Create a repeatable set of key, value pairs. These are saved as a serialized array directly on the model.
+Useful when you don't need a full has_and_belongs_to_many association.
+
+`<%= f.input :metadata, as: :repeater %>`
+
+## Custom SimpleForm components
+These custom SimpleForm components are available in your form builders by setting the component option to true.
+
+#### markdown.rb
+Render a text field with a WYSIWYG markdown editor.
+
+`<%= f.input :description, markdown: true %>`
+
+#### remote.rb
+Render an association that may have many records using an ajax select2 input.
+
+`<%= f.association :page, remote: true %>`
+
+Explicitly set the ajax path:
+
+`<%= f.association :project, remote: { path: admin_projects_path(active: true) } %>`
+
+#### sortable.rb
+Create sortable select2 inputs by using a custom ActiveRecord class method:
+
+```
+# project_block.rb
+
+has_many_ordered :projects, through: :project_block_projects
+```
+
+```
+# project_block/_edit.html.erb
+
+<%= f.association :projects, sortable: true, remote: true %>
+```
+
 ## Primary Dependencies
 Forest relies heavily on the following gems, software and frameworks:
 
@@ -99,8 +155,6 @@ Forest relies heavily on the following gems, software and frameworks:
 ## TODO
 
 Big Picture
-
-      http://blog.bigbinary.com/2016/02/15/rails-5-makes-belong-to-association-required-by-default.html
 - [ ] add a documentation page directly within the forest cms with FAQ and basic overview of how to use the cms.
 - [ ] document custom simple form components and inputs
 - [ ] rip out paper_trail gem in favor of our own solution for versioning
@@ -109,7 +163,7 @@ Big Picture
 - [ ] tests
 - [ ] is it better to namespace engine?
 - [ ] squash migrations once final db structure is settled upon
-- [x] add optional: true to optional belongs_to associations
+- [x] add optional: true to optional belongs_to associations http://blog.bigbinary.com/2016/02/15/rails-5-makes-belong-to-association-required-by-default.html
 - [x] better naming conventions when it comes to blocks, block_record, and block_slots
 - [x] add has_many ordered simpleform input and select2 option
 - [x] remove any gem dependencies not totally necessary?
