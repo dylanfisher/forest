@@ -18,6 +18,8 @@ App.Datepicker = {
         dateFormat: 'yy-mm-dd'
       };
 
+      console.log('$el', $el);
+
       if ( $el.data('datepicker') ) {
         // Already initialized
       } else {
@@ -37,4 +39,5 @@ App.Datepicker = {
 
 App.pageLoad.push(function() {
   App.Datepicker.initialize( $('.form-group[class*="_scheduled_date"] input[name$="[scheduled_date]"]:visible') );
+  App.Datepicker.initialize( $('.form-group [data-datepicker="true"]:visible') );
 });
