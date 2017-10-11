@@ -23,8 +23,8 @@
 <%- for attribute in attributes -%>
           <td><%%= <%= singular_name %>.<%= attribute.name %> %></td>
 <% end -%>
-          <td><%%= <%= singular_name %>.created_at.to_formatted_s(:short) %></td>
-          <td><%%= <%= singular_name %>.updated_at.to_formatted_s(:short) %></td>
+          <td><%%= <%= singular_name %>.created_at.to_formatted_s(:long) %></td>
+          <td><%%= <%= singular_name %>.updated_at.to_formatted_s(:long) %></td>
           <td width="1"><%%= link_to 'Edit', edit_admin_<%= singular_name %>_path(<%= singular_name %>), class: 'btn btn-xs btn-primary', role: 'button' %></td>
           <td width="1">
             <%% if try('<%= singular_name %>_path', <%= singular_name %>) %>
