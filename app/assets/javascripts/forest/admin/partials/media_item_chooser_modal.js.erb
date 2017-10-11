@@ -204,3 +204,14 @@ $(document).on('click', '#admin-container .media-item__buttons__remove', functio
 $(document).on('click', '.media-gallery-preview', function(e) {
   e.preventDefault();
 });
+
+$(document).on('click', '#admin-container .media-item__button[data-path]', function() {
+  var url = $(this).attr('data-path');
+
+  window.open( url, '_blank' );
+  window.focus();
+});
+
+$(document).on('click', '.media-gallery-preview', function(e) {
+  e.preventDefault();
+});

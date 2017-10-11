@@ -79,7 +79,7 @@ module MetaHelper
   def meta_viewport
     [
       content_for(:meta_viewport),
-      'width=device-width'
+      'width=device-width, initial-scale=1.0'
     ].reject(&:blank?).first
   end
 
