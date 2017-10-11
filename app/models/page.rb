@@ -23,8 +23,8 @@ class Page < Forest::ApplicationRecord
   has_many :media_items, as: :attachable
   has_many :immediate_children, -> { by_title }, class_name: 'Page', foreign_key: 'parent_page_id'
 
-  belongs_to :featured_image, class_name: 'MediaItem'
-  belongs_to :parent_page, class_name: 'Page'
+  belongs_to :featured_image, class_name: 'MediaItem', optional: true
+  belongs_to :parent_page, class_name: 'Page', optional: true
 
   scope :by_parent_page, -> (orderer = :desc) { order("pages.parent_page_id #{orderer} NULLS #{orderer == :desc ? 'LAST' : 'FIRST'}, pages.title #{orderer}, pages.id ASC") }
   scope :title_like, -> (string) { where('pages.title ILIKE ?', "%#{string}%") }

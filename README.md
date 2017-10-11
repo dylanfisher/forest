@@ -100,7 +100,6 @@ Forest relies heavily on the following gems, software and frameworks:
 
 Big Picture
 
-- [ ] add optional: true to optional belongs_to associations
       http://blog.bigbinary.com/2016/02/15/rails-5-makes-belong-to-association-required-by-default.html
 - [ ] add a documentation page directly within the forest cms with FAQ and basic overview of how to use the cms.
 - [ ] document custom simple form components and inputs
@@ -110,6 +109,7 @@ Big Picture
 - [ ] tests
 - [ ] is it better to namespace engine?
 - [ ] squash migrations once final db structure is settled upon
+- [x] add optional: true to optional belongs_to associations
 - [x] better naming conventions when it comes to blocks, block_record, and block_slots
 - [x] add has_many ordered simpleform input and select2 option
 - [x] remove any gem dependencies not totally necessary?

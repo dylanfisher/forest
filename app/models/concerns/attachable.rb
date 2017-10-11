@@ -25,7 +25,7 @@ module Attachable
 
       serialize :dimensions
 
-      belongs_to :attachable, polymorphic: true
+      belongs_to :attachable, polymorphic: true, optional: true
 
       scope :by_content_type, -> (content_type) { where(attachment_content_type: content_type) }
       scope :images, -> { where('attachment_content_type LIKE ?', '%image%') }
