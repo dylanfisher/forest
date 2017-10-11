@@ -8,3 +8,13 @@
     color: #fff;
   }
 }
+
+.form-group.date {
+  select.date {
+    width: 32%;
+  }
+
+  .select2-container {
+    min-width: 100px;
+  }
+}
