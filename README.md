@@ -6,7 +6,9 @@ It draws inspiration from Wordpress' dashboard and makes it easy to upload image
 manage menus, create users with permissions, etc.
 
 ## Generating a new app
+```
 rails new myapp --database=postgresql
+```
 
 ## Installation
 Add this line to your application's Gemfile:
@@ -92,7 +94,7 @@ Render a date or datetime input using a jQuery UI datepicker.
 #### gallery_input.rb
 A sortable gallery of Media Items.
 
-`<%= f.association :images, sortable: true, as: :gallery %>`
+`<%= f.association :images, as: :gallery, sortable: true %>`
 
 #### image_input.rb
 A single image association.
@@ -134,7 +136,7 @@ has_many_ordered :projects, through: :project_block_projects
 ```
 # project_block/_edit.html.erb
 
-<%= f.association :projects, sortable: true, remote: true %>
+<%= f.association :projects, sortable: true %>
 ```
 
 ## Primary Dependencies
@@ -182,6 +184,7 @@ Admin
 - [ ] modal to create associated records directly from association page?
 - [ ] bulk actions to delete pages (and other records)
 - [ ] duplicate records
+- [ ] add an option to repeater field to allow adjusting number of fields in each repeated set.
 - [x] reset password and/or change password when editing user profile
 - [x] intuitive select2 association UI
 - [x] sortable select2 items

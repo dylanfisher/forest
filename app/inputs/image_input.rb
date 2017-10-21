@@ -5,10 +5,10 @@ class ImageInput < SimpleForm::Inputs::StringInput
     input_html_options.merge! id: object_name.parameterize
 
     button_title = input_html_options.fetch :button_title, 'Choose Image'
-    img_src      = input_html_options.fetch :img_src, obj.send(reflection_or_attribute_name).try(:attachment).try(:url, :large)
+    img_src      = input_html_options.fetch :img_src, obj.send(reflection_or_attribute_name).try(:attachment).try(:url, :medium)
     # TODO: clean this craziness up
     if img_src.nil? && obj.respond_to?(self.input_type)
-      img_src = obj.send(self.input_type).try(:attachment).try(:url, :large)
+      img_src = obj.send(self.input_type).try(:attachment).try(:url, :medium)
     end
     path_only    = input_html_options.fetch :path_only, false
     field_name   = input_html_options.fetch :field_name, "#{input_html_options[:id]}"
