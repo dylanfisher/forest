@@ -6,7 +6,7 @@ namespace :forest do
     database = db['database']
     puts "[Forest] This command captures a snapshot of the Heroku database, downloads it, drops the local database and recreates if from the Heroku snapshot."
     puts "[Forest] Please run:"
-    puts "heroku pg:backups:capture; heroku pg:backups:download; bin/rails db:drop; bin/rails db:create; pg_restore --verbose --clean --no-acl --no-owner -h localhost #{if user then "-U #{user}" end} -d #{database} latest.dump; rm latest.dump"
+    puts "heroku pg:backups:capture && heroku pg:backups:download && bin/rails db:drop && bin/rails db:create && pg_restore --verbose --clean --no-acl --no-owner -h localhost #{if user then "-U #{user}" end} -d #{database} latest.dump; rm latest.dump"
   end
 
   # https://gist.github.com/hopsoft/56ba6f55fe48ad7f8b90
@@ -25,7 +25,7 @@ namespace :forest do
     with_config do |app, db, user|
       puts "[Forest] This task restores the database from #{Rails.root}/db/#{app}.dump"
       puts "[Forest] Please run:"
-      puts 'bin/rails db:drop; bin/rails db:create;'
+      puts 'bin/rails db:drop && bin/rails db:create'
       puts "pg_restore --verbose --host localhost #{if user then "-U #{user}" end} --clean --no-owner --no-acl --dbname #{db} #{Rails.root}/db/#{app}.dump"
     end
   end
