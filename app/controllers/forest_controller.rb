@@ -23,12 +23,10 @@ class ForestController < ApplicationController
       controller_heirarchy.pop
       controller_heirarchy = controller_heirarchy.collect { |a| "controller-class--#{a.underscore}" }.join(' ')
 
-      classes = []
-      classes << controller_heirarchy
-      classes << "controller--#{controller_name}"
-      classes << "action--#{action_name}"
-
-      @body_classes = classes
+      @body_classes ||= []
+      @body_classes << controller_heirarchy
+      @body_classes << "controller--#{controller_name}"
+      @body_classes << "action--#{action_name}"
     end
 
     def reset_class_method_cache
