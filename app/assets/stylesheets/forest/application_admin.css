@@ -16,4 +16,5 @@
  *= require forest/admin/sprockets/main_bootstrap
  *= require forest/admin/sprockets/font-awesome
  *= require forest/main_admin
+ *= require forest/admin_overrides
 */

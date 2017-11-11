@@ -9,5 +9,6 @@ class CreateBlockKinds < ActiveRecord::Migration[5.0]
       t.timestamps
     end
     add_index :block_kinds, :name, unique: true
+    add_index :block_kinds, :category
   end
 end

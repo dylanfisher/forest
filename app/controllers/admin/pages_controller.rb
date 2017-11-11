@@ -6,7 +6,7 @@ class Admin::PagesController < Admin::ForestController
 
   def index
     if request.format.json?
-      @pages = apply_scopes(Page).by_title.page params[:page]
+      @pages = apply_scopes(Page).by_title.where.not(id: params[:current_record]).page params[:page]
     else
       @parent_pages = apply_scopes(Page).parent_pages.page params[:page]
       @pages = apply_scopes(Page).by_title.page params[:page]

@@ -16,7 +16,7 @@ class Menu < Forest::ApplicationRecord
   # scope :by_page_group, -> (page_groups) { joins(:page_groups).where('page_groups.id IN (?)', page_groups.collect(&:id)) }
 
   def self.for(slug)
-    self.menus.select { |menu| menu.slug == slug.parameterize }.first
+    self.menus.select { |menu| menu.slug == slug.to_s }.first
   end
 
   def self.expire_cache!

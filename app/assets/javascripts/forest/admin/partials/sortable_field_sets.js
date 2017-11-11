@@ -24,6 +24,7 @@ $(document).on('turbolinks:load app:block-slot-after-insert', function() {
 
       $fields.each(function(index) {
         var $field = $(this);
+        console.log(index, $field);
         var $input = $field.find('.sortable-field-set__position');
 
         $input.val(index);

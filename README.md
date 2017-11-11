@@ -163,9 +163,9 @@ Big Picture
 - [ ] add schema.org microdata where appopriate, e.g. for navigation menus, headers, footers
 - [ ] is it better to namespace engine?
 - [ ] document custom simple form components and inputs
-- [ ] rip out paper_trail gem in favor of our own solution for versioning
 - [ ] squash migrations once final db structure is settled upon
 - [ ] tests
+- [x] rip out paper_trail gem in favor of our own solution for versioning
 - [x] add optional: true to optional belongs_to associations http://blog.bigbinary.com/2016/02/15/rails-5-makes-belong-to-association-required-by-default.html
 - [x] better naming conventions when it comes to blocks, block_record, and block_slots
 - [x] add has_many ordered simpleform input and select2 option
@@ -175,9 +175,7 @@ Admin
 
 - [ ] more robust filter pattern for index views, and ability to select by multiple filters + search,
       and retain these filters when navigating between records
-- [ ] add and/or standardize setting @record and @records instance variables in controller to alias appropriate record
 - [ ] email confirmations for user related actions
-- [ ] remove font-awesome dependency from simplemde markdown editor
 - [ ] add migrations to host app without running install:migrations command
 - [ ] versioning option for data associated pages, settings, menus, etc.
 - [ ] version diff UI like wordpress?
@@ -185,6 +183,7 @@ Admin
 - [ ] bulk actions to delete pages (and other records)
 - [ ] duplicate records
 - [ ] add an option to repeater field to allow adjusting number of fields in each repeated set.
+- [ ] remove font-awesome dependency from simplemde markdown editor
 - [x] reset password and/or change password when editing user profile
 - [x] intuitive select2 association UI
 - [x] sortable select2 items
@@ -197,6 +196,7 @@ Admin
 Generators
 
 - [ ] initial app generator `rails g forest:install` and move migrations that seed initial data into the generator
+- [ ] add more notes to post-install message about what to do for first time installs. e.g. inheriting from Forest::ApplicationRecord, if this is necessary.
 - [ ] add ability to skip block_record creation when creating new scaffold that doesn't need to support blocks
 - [x] generate a simple json.jbuilder for admin indexes by default
 - [x] scaffold generator
@@ -215,6 +215,7 @@ Pages
 
 Blocks
 
+- [ ] is it possible to add the ability to create blocks within nested forms?
 - [ ] additional default content blocks, mainly image and/or gallery, maybe video and/or oEmbed
 - [ ] minimum and maximum blocks per layout
 - [ ] solution for color picker, date picker, map picker, etc. similar to ACF

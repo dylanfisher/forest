@@ -20,7 +20,7 @@
                 <%= f.input :title %>
                 <%= render 'admin/form_inputs/slug', f: f %>
                 <%#= f.input :path, readonly: true, required: false %>
-                <%= f.association :parent_page, remote: { scope: :title_like } %>
+                <%= f.association :parent_page, remote: { scope: :title_like, path: admin_pages_path(current_record: @page) } %>
                 <%= f.input :description %>
                 <%= f.button :submit, class: 'btn-success' %>
               </div>
