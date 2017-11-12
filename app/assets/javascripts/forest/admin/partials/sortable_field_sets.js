@@ -7,7 +7,7 @@ $(document).on('turbolinks:load app:block-slot-after-insert', function() {
     var $fieldSet = $(this);
 
     $fieldSet.sortable({
-      items: '.sortable-field',
+      items: '> .sortable-field',
       containment: $fieldSet,
       // tolerance: 'pointer',
       placeholder: 'sortable-placeholder',
@@ -20,11 +20,10 @@ $(document).on('turbolinks:load app:block-slot-after-insert', function() {
     });
 
     function calculatePositions($fieldSet) {
-      var $fields = $fieldSet.find('.sortable-field');
+      var $fields = $fieldSet.find('> .sortable-field');
 
       $fields.each(function(index) {
         var $field = $(this);
-        console.log(index, $field);
         var $input = $field.find('.sortable-field-set__position');
 
         $input.val(index);
