@@ -29,9 +29,9 @@
           <td width="1">
             <%% if try('<%= singular_name %>_path', <%= singular_name %>) %>
               <%% if <%= singular_name %>.respond_to?(:to_friendly_param) %>
-                <%%= param = <%= singular_name %>.to_friendly_param %>
+                <%% param = <%= singular_name %>.to_friendly_param %>
               <%% else %>
-                <%%= param = <%= singular_name %> %>
+                <%% param = <%= singular_name %> %>
               <%% end %>
               <%%= link_to 'Show', <%= singular_name %>_path(param), class: 'btn btn-xs btn-info', role: 'button' %>
             <%% else %>
