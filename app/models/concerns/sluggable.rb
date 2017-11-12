@@ -34,7 +34,7 @@ module Sluggable
     end
 
     def generate_slug?
-      self.slug.blank? || changed.include?('slug')
+      self.slug.blank?
     end
 
     # Override slug_as_key? in models like settings where the slug should be underscored, not dasherized
