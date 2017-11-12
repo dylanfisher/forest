@@ -22,7 +22,7 @@
 <% classes.push 'menu__item--with-children' if item['children'].present? %>
 <% classes.push "menu__item--#{item_name.parameterize}" if item_name %>
 <% classes.push 'menu__item--active' if item['page'].to_i == @page.try(:id) %>
-<% classes.push 'menu__item--active' if item_url.sub(/^\//, '') == request.path.split('/').reject(&:blank?).last %>
+<% classes.push 'menu__item--active' if item_url.sub(/^\//, '') == request.path.sub(/^\//, '') %>
 <% classes.push 'menu__item--active' if item_url == '/' && request.path == '' %>
 <% classes.push 'menu__item--active-child' if item_url.sub(/^\//, '') == request.path.split('/').reject(&:blank?).first %>
 
@@ -34,9 +34,13 @@
     <%# TODO: catch pages that no longer exist %>
     <% link = page_path(page.to_friendly_param) %>
   <% else %>
-    <% link = '#' %>
+    <% link = nil %>
   <% end %>
-  <%= link_to md(item_name), link, class: 'menu__item__link' %>
+  <% if link.present? %>
+    <%= link_to md(item_name), link, class: 'menu__item__link' %>
+  <% else %>
+    <%= content_tag :span, md(item_name), class: 'menu__item__link menu__item__link--no-link' %>
+  <% end %>
   <% if item['children'].present? %>
     <%= content_tag :ul, class: "menu__sub-menu" do %>
       <%= render partial: 'shared/menu_item', collection: item['children'], as: 'item' %>
