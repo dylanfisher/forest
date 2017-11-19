@@ -23,7 +23,6 @@ class Setting < Forest::ApplicationRecord
     I18n.backend.send(:init_translations) unless I18n.backend.initialized?
     settings = I18n.backend.send(:translations).dig(:en, :forest, :settings).presence || []
 
-
     settings.each do |setting|
       k = setting[0].to_s
       v = setting[1]

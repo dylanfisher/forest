@@ -8,6 +8,8 @@ class BlockSlot < Forest::ApplicationRecord
   belongs_to :block_kind
   belongs_to :block_layout
 
+  before_validation :create_block_if_block_attributes_empty
+
   accepts_nested_attributes_for :block, reject_if: :all_blank, allow_destroy: true
 
   scope :by_layout, -> (block_layout) { where(block_layout_id: block_layout.id) }
@@ -28,6 +30,12 @@ class BlockSlot < Forest::ApplicationRecord
     if BlockKind.where(name: self.block_kind.name).exists?
       self.block ||= self.block_kind.name.constantize.new
       self.block.assign_attributes(attributes)
+    end
+  end
+
+  def create_block_if_block_attributes_empty
+    if BlockKind.where(name: self.block_kind.name).exists? && BlockKind.where(name: self.block_kind.name).first.block.permitted_params.blank?
+      self.block ||= self.block_kind.name.constantize.new
     end
   end
 

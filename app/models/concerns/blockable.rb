@@ -4,7 +4,7 @@ module Blockable
   included do
     parent_class = self
 
-    after_destroy :destroy_associated_blocks
+    # after_destroy :destroy_associated_blocks
 
     has_many :block_slots, -> { where(block_record_type: parent_class.name).order(:position) },
              foreign_key: 'block_record_id',
@@ -29,8 +29,8 @@ module Blockable
 
     private
 
-      def destroy_associated_blocks
-        block_slots.destroy_all
-      end
+      # def destroy_associated_blocks
+      #   block_slots.destroy_all
+      # end
   end
 end
