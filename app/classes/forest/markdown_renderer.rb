@@ -11,4 +11,15 @@ class Forest::MarkdownRenderer < Redcarpet::Render::HTML
       space_after_headers: true
     }
   end
+
+  def postprocess(full_document)
+    begin
+      without_leading_trailing_paragraphs = Regexp.new(/\A<p>(.*)<\/p>\Z/mi).match(full_document)[1]
+      unless without_leading_trailing_paragraphs.include?('<p>')
+        full_document = without_leading_trailing_paragraphs
+      end
+    rescue Exception => e
+    end
+    full_document
+  end
 end
