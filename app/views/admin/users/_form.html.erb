@@ -19,9 +19,11 @@
                 <%= f.input :last_name %>
                 <%= f.input :password, required: @user.new_record?, hint: '6 characters minimum' %>
                 <%= f.input :password_confirmation, required: @user.new_record? %>
-                <div class="form-group">
-                  <%= link_to "Send password reset link to this user's email.", admin_user_reset_password_path(@user) %>
-                </div>
+                <% unless @user.new_record? %>
+                  <div class="form-group">
+                    <%= link_to "Send password reset link to this user's email.", admin_user_reset_password_path(@user) %>
+                  </div>
+                <% end %>
 
                 <%= f.button :submit, class: 'btn-success' %>
               </div>
