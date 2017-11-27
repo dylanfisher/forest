@@ -11,6 +11,13 @@ App.MarkdownTextEditor = {
       var $textArea = $(this);
       var placeholder = $textArea.attr('placeholder');
 
+      if ( ( $textArea.data('forest') && $textArea.data('forest').markdownInitialized ) || $textArea.closest('.CodeMirror').length ) {
+        return;
+      }
+
+      $textArea.data('forest') || $textArea.data('forest', {});
+      $textArea.data('forest', { markdownInitialized: true });
+
       var editor = new SimpleMDE({
         element: this,
         placeholder: placeholder,
