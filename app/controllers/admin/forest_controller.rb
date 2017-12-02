@@ -10,6 +10,8 @@ class Admin::ForestController < ApplicationController
   before_action :reset_class_method_cache
   before_action :set_admin_resources
 
+  rescue_from ActiveRecord::InvalidForeignKey, with: :foreign_key_contraint
+
   # rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   has_scope :by_status
@@ -68,5 +70,17 @@ class Admin::ForestController < ApplicationController
       end.reject(&:blank?)
          .uniq
          .sort
+    end
+
+    def record
+      instance_variable_get("@#{controller_name.singularize}")
+    end
+
+    def foreign_key_contraint(exception)
+      if record
+        redirect_to edit_polymorphic_path([:admin, record]), flash: { error: ["This record can't be deleted because another record depends on it. First remove the association to the other record before deleting this one.", exception.message] }
+      else
+        raise
+      end
     end
 end
