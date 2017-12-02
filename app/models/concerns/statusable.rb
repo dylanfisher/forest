@@ -1,6 +1,8 @@
 module Statusable
   extend ActiveSupport::Concern
 
+  # To make a record schedulable, create a date column named scheduled_date
+
   included do
     parent_class = self
 
@@ -25,6 +27,14 @@ module Statusable
 
     def self.statusable?
       true
+    end
+
+    def self.statuses_for_select
+      if self.column_names.include?('scheduled_date')
+        self.statuses
+      else
+        self.statuses.except(:scheduled)
+      end
     end
 
     def statusable?
