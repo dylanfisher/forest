@@ -139,6 +139,15 @@ has_many_ordered :projects, through: :project_block_projects
 <%= f.association :projects, sortable: true %>
 ```
 
+## Custom error pages
+Add this line to application.rb to tell your host app to use the router to handle errors.
+
+`config.exceptions_app = self.routes`
+
+Delete the error pages in /public to avoid collision with the custom error pages.
+
+Forest's router will render the appropriate error template via `ErrorsController`. Override the placeholder views to customize the error page.
+
 ## Primary Dependencies
 Forest relies heavily on the following gems, software and frameworks:
 
@@ -157,7 +166,6 @@ Forest relies heavily on the following gems, software and frameworks:
 ## TODO
 
 Big Picture
-- [ ] 404 page, error pages. Document how to customize these.
 - [ ] add a documentation page directly within the forest cms with FAQ and basic overview of how to use the cms.
 - [ ] add additional og tags http://ogp.me/
 - [ ] add schema.org microdata where appopriate, e.g. for navigation menus, headers, footers
@@ -165,6 +173,7 @@ Big Picture
 - [ ] document custom simple form components and inputs
 - [ ] squash migrations once final db structure is settled upon
 - [ ] tests
+- [x] 404 page, error pages. Document how to customize these.
 - [x] rip out paper_trail gem in favor of our own solution for versioning
 - [x] add optional: true to optional belongs_to associations http://blog.bigbinary.com/2016/02/15/rails-5-makes-belong-to-association-required-by-default.html
 - [x] better naming conventions when it comes to blocks, block_record, and block_slots
