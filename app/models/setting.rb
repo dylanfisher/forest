@@ -2,6 +2,7 @@ class Setting < Forest::ApplicationRecord
   include Sluggable
 
   CACHE_KEY = 'forest_settings'
+  DEFAULT_SETTINGS = %i(site_title description featured_image)
 
   after_save :expire_cache
   after_destroy :expire_cache
@@ -21,9 +22,20 @@ class Setting < Forest::ApplicationRecord
   # TODO: Update this to support description and boolean values
   def self.initialize_from_i18n
     I18n.backend.send(:init_translations) unless I18n.backend.initialized?
-    settings = I18n.backend.send(:translations).dig(:en, :forest, :settings).presence || []
+    settings_from_i18n = I18n.backend.send(:translations).dig(:en, :forest, :settings).presence || []
 
-    settings.each do |setting|
+    # Destroy any settings that are no longer in the i18n initialization or default settings array, and have matching updated and created at timestamps.
+    # This means any settings that are added directly from the database will be deleted.
+    Setting.all.reject { |setting|
+      Array(Setting::DEFAULT_SETTINGS).concat(settings_from_i18n.keys).include?(setting.slug.to_sym)
+    }.each { |setting|
+      if setting.updated_at == setting.created_at
+        logger.info { "[Forest][Setting] Destroying obsolete setting for #{setting.slug}" }
+        setting.destroy
+      end
+    }
+
+    settings_from_i18n.each do |setting|
       k = setting[0].to_s
       v = setting[1]
 

@@ -263,6 +263,7 @@ Sass
 
 Settings
 
+- add documentation for how settings should be added. Right now they must be initialized from the i18n en:forest:settings yaml file.
 - [x] better settings UI, ability to set multiple data types, e.g. boolean, or association
 
 ## Contributing
