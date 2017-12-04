@@ -23,6 +23,10 @@ class Menu < Forest::ApplicationRecord
     Rails.cache.delete CACHE_KEY
   end
 
+  def self.resource_description
+    "Menus are where you edit the navigation structure of your website. Menu items are composed of custom links or associations with pages."
+  end
+
   def structure_as_json
     JSON.parse(structure.presence || '[]')
   end

@@ -31,6 +31,10 @@ class Page < Forest::ApplicationRecord
   scope :parent_pages, -> { where(parent_page_id: nil).order(:title, :id) }
   scope :non_parent_pages, -> { where('pages.parent_page_id IS NOT NULL').order(:title, :id) }
 
+  def self.resource_description
+    "Pages offer a flexible and modular way to present information."
+  end
+
   def generate_slug
     self.slug = title.parameterize if self.slug.blank?
   end

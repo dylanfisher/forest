@@ -15,6 +15,10 @@ class User < Forest::ApplicationRecord
   scope :by_last_name, -> (orderer = :asc) { order(last_name: orderer) }
   scope :for_user_group_name, -> (group_name) { joins(:user_groups).where('user_groups.name = ?', group_name).limit(1) }
 
+  def self.resource_description
+    "Users are the website editors, administrators and content managers who have access to the CMS. Users are organized by user groups."
+  end
+
   def display_name
     [first_name, email].reject(&:blank?).first
   end

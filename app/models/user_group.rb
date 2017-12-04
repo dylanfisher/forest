@@ -3,6 +3,10 @@ class UserGroup < Forest::ApplicationRecord
 
   scope :by_name, -> (orderer = :asc) { order(name: orderer) }
 
+  def self.resource_description
+    "User groups allow you to control which users have access to certain resources."
+  end
+
   def display_name
     name.titleize
   end

@@ -52,6 +52,10 @@ class Setting < Forest::ApplicationRecord
     expire_cache!
   end
 
+  def self.resource_description
+    "Settings are where you define static values that are used throughout the site. For example the title of your website, the description, and other values."
+  end
+
   def slug_as_key?
     true
   end

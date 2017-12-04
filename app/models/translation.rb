@@ -72,6 +72,10 @@ class Translation < Forest::ApplicationRecord
     expire_cache!
   end
 
+  def self.resource_description
+    "Translations may be used in multilingual websites or to define values for particular setting or menu keys."
+  end
+
   def display_name
     key
   end

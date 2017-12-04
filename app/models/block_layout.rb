@@ -7,6 +7,10 @@ class BlockLayout < Forest::ApplicationRecord
 
   scope :default_layout, -> { BlockLayout.find_by_slug('default') }
 
+  def self.resource_description
+    "A block layout is a grouping of blocks that may appear in a particular part of the page. For example, you may have block layouts that apply to the sidebar or header areas of a page."
+  end
+
   def slug_attribute
     display_name
   end
