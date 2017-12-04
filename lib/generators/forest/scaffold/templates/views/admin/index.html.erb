@@ -4,6 +4,9 @@
   <table class="forest-table table table-striped">
     <thead>
       <tr>
+        <%% if <%= name %>.statusable? %>
+          <th></th>
+        <%% end %>
         <th><%%= table_sorter title: 'ID', path: :admin_<%= plural_name %>_path, scope: :by_id, default_order: :desc %></th>
         <th><%%= table_sorter title: 'Slug', path: :admin_<%= plural_name %>_path, scope: :by_slug, default_order: :asc %></th>
 <%- for attribute in attributes -%>
@@ -18,6 +21,9 @@
     <tbody>
       <%% @<%= plural_name %>.each do |<%= singular_name %>| %>
         <tr>
+          <%% if <%= name %>.statusable? %>
+            <td><%%= status_indicator <%= singular_name %> %></td>
+          <%% end %>
           <td><%%= <%= singular_name %>.id %></td>
           <td><%%= <%= singular_name %>.slug %></td>
 <%- for attribute in attributes -%>
