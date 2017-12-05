@@ -3,46 +3,26 @@
   data: {
     id: list_item['id'],
     name: list_item['name'],
-    url: list_item['url'],
-    page: list_item['page'],
+    url: list_item['url']
   } do %>
   <div class="dd-content">
-    <div class="dd-handle"><%= list_item['name'].presence || Page.where(id: list_item['page'].to_i).first.try(:title) || "Item #{list_item['id']}" %></div>
+    <div class="dd-handle"><%= list_item['name'].presence || "Item #{list_item['id']}" %></div>
     <div class="row">
-      <div class="col-sm-4 col-md-3">
+      <div class="col-sm-4">
         <div class="form-group">
           <div class="dd-input">
             <input type="text" class="dd-input__input form-control" name="name" value="<%= list_item['name'] %>" placeholder="Navigation label">
           </div>
         </div>
       </div>
-      <div class="col-sm-4 col-md-3">
+      <div class="col-sm-4">
         <div class="form-group">
           <div class="dd-input">
-            <%# TODO: replace with remote form component %>
-            <%#= f.association :parent_page, remote: { scope: :title_like } %>
-            <%= select_tag 'pages',
-              options_from_collection_for_select(@pages, 'id', 'title', list_item['page'].to_i),
-              class: 'dd-input__select form-control',
-              id: '',
-              include_blank: true,
-              placeholder: 'Page',
-              data: {
-                remote_path: admin_pages_path,
-                remote_scope: 'title_like',
-              } %>
-            <input type="hidden" class="dd-input__input dd-input__input-for-select form-control" name="page" value="<%= list_item['page'] %>">
+            <input type="text" class="dd-input__input form-control" name="url" value="<%= list_item['url'] %>" placeholder="URL">
           </div>
         </div>
       </div>
-      <div class="col-sm-4 col-md-3">
-        <div class="form-group">
-          <div class="dd-input">
-            <input type="text" class="dd-input__input form-control" name="url" value="<%= list_item['url'] %>" placeholder="Custom URL">
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-4 col-md-3">
+      <div class="col-sm-4">
         <div class="form-group">
           <div class="dd-input text-right">
             <button type="button" class="dd-content__remove-item btn btn-warning">Remove menu item</button>

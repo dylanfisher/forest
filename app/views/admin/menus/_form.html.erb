@@ -35,8 +35,7 @@
           <div class="form-inputs">
             <div class="row">
               <div class="col-sm-12">
-                <p class="text-muted">Add menu items and arrange them hierarchically by dragging them into position. Menu items may be linked directly to pages or to custom URLs.</p>
-                <p class="text-muted">When linking to a page directly, navigation label is optional.</p>
+                <p class="text-muted">Add menu items and arrange them hierarchically by dragging them into position. When linking to an internal page, make sure to use a <%= link_to 'relative url', admin_documentation_path(anchor: 'links'), target: '_blank' %>.</p>
               </div>
               <div class="col-sm-12">
                 <div class="dd" id="dd-primary">
@@ -66,42 +65,23 @@
     <div class="dd-content">
       <div class="dd-handle">Item</div>
       <div class="row">
-        <div class="col-sm-4 col-md-3">
+        <div class="col-sm-4">
           <div class="form-group">
             <div class="dd-input">
               <input type="text" class="dd-input__input form-control" name="name" placeholder="Navigation label">
             </div>
           </div>
         </div>
-        <div class="col-sm-4 col-md-3">
+        <div class="col-sm-4">
           <div class="form-group">
             <div class="dd-input">
-              <%# TODO: replace with remote form component %>
-              <%#= f.association :parent_page, remote: { scope: :title_like } %>
-              <%= select_tag 'pages',
-                options_from_collection_for_select(@pages, 'id', 'title'),
-                class: 'dd-input__select form-control',
-                id: '',
-                include_blank: true,
-                placeholder: 'Page',
-                data: {
-                  remote_path: admin_pages_path,
-                  remote_scope: 'title_like',
-                } %>
-              <input type="hidden" class="dd-input__input dd-input__input-for-select form-control" name="page">
+              <input type="text" class="dd-input__input form-control" name="url" placeholder="URL">
             </div>
           </div>
         </div>
-        <div class="col-sm-4 col-md-3">
+        <div class="col-sm-4">
           <div class="form-group">
-            <div class="dd-input">
-              <input type="text" class="dd-input__input form-control" name="url" placeholder="Custom URL">
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-4 col-md-3">
-          <div class="form-group">
-            <div class="dd-input">
+            <div class="dd-input text-right">
               <button type="button" class="dd-content__remove-item btn btn-warning">Remove menu item</button>
             </div>
           </div>
