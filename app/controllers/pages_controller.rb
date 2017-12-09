@@ -10,6 +10,15 @@ class PagesController < ForestController
     @body_classes << "page--#{@page.slug}"
   end
 
+  def edit
+    @page = Page.where(path: params[:page_path]).try(:first)
+    if @page
+      return redirect_to edit_admin_page_path(@page)
+    else
+      return redirect_to admin_pages_path
+    end
+  end
+
   private
 
     def set_page
