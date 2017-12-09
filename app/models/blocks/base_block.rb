@@ -27,6 +27,10 @@ class BaseBlock < Forest::ApplicationRecord
     self.class.permitted_params
   end
 
+  def block_id
+    "#{self.model_name.singular.dasherize}-#{self.id}"
+  end
+
   # TODO: association to represent this?
   def block_record
     @block_record ||= block_slot.block_record
