@@ -2,9 +2,8 @@
   <div class="row">
     <% if @setting.description.present? %>
       <div class="col-sm-6">
-        <div class="alert alert-info" role="alert">
-          <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-          <%= @setting.description %>
+        <div class="well text-muted">
+          <%= md @setting.description %>
         </div>
       </div>
     <% end %>
