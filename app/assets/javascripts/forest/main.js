@@ -2,15 +2,15 @@
 // App namespace
 //////////////////////////////////////////////////////////////
 
-var App = {
-  pageLoad: [],
-  pageResize: [],
-  pageScroll: [],
-  teardown: [],
-  runFunctions: function(array) {
-    for (var i = array.length - 1; i >= 0; i--) {
-      array[i]();
-    }
+window.App = window.App || {};
+
+App.pageLoad = [];
+App.pageResize = [];
+App.pageScroll = [];
+App.teardown = [];
+App.runFunctions = function(array) {
+  for (var i = array.length - 1; i >= 0; i--) {
+    array[i]();
   }
 };
 
