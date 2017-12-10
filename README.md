@@ -182,6 +182,7 @@ Big Picture
 
 Admin
 
+- [ ] do something more useful with the admin#show view
 - [ ] more robust filter pattern for index views, and ability to select by multiple filters + search,
       and retain these filters when navigating between records
 - [ ] email confirmations for user related actions
@@ -263,6 +264,7 @@ Sass
 
 Settings
 
+- [ ] when a setting is references in production.rb precompiling assets fails
 - add documentation for how settings should be added. Right now they must be initialized from the i18n en:forest:settings yaml file.
 - [x] better settings UI, ability to set multiple data types, e.g. boolean, or association
 

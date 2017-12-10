@@ -1,4 +1,3 @@
-# TODO: MenuItem class to represent each individual menu item. Could these be associated with cocoon?
 class Menu < Forest::ApplicationRecord
   include Sluggable
 
@@ -25,6 +24,16 @@ class Menu < Forest::ApplicationRecord
     JSON.parse(structure.presence || '[]')
   end
 
+  def nokogiri
+    @nokogiri ||= begin
+      fragment = Nokogiri::HTML.fragment('<ul></ul>')
+      structure_as_json.each do |menu_item|
+        create_nokogiri_children(menu_item, fragment.at_css('ul'))
+      end
+      fragment
+    end
+  end
+
   private
 
     def self.menus
@@ -39,5 +48,15 @@ class Menu < Forest::ApplicationRecord
 
     def expire_cache
       self.class.expire_cache!
+    end
+
+    def create_nokogiri_children(menu_item, node)
+      node.add_child("<li><a href='#{menu_item['url']}'>#{menu_item['name']}</a></li>")
+      if menu_item['children'].present?
+        node.css('> li').last.add_child('<ul></ul>')
+        menu_item['children'].each do |menu_item_child|
+          create_nokogiri_children(menu_item_child, node.css('> li').last.css('> ul').last)
+        end
+      end
     end
 end
