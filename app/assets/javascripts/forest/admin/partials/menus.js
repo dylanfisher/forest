@@ -5,6 +5,8 @@ App.NestableMenus = {};
 App.pageLoad.push(function() {
   var $nestable = $('.dd');
 
+  if ( !$nestable.length ) return;
+
   $nestable.nestable();
 
   App.NestableMenus.getSerializedJSON = function() {

@@ -22,3 +22,4 @@
 //= require_tree ./admin/vendor
 //= require forest/main
 //= require_tree ./admin/partials
+//= require forest/application_admin_from_host_app
