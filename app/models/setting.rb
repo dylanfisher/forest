@@ -22,7 +22,7 @@ class Setting < Forest::ApplicationRecord
   # TODO: Update this to support description and boolean values
   def self.initialize_from_i18n
     I18n.backend.send(:init_translations) unless I18n.backend.initialized?
-    settings_from_i18n = I18n.backend.send(:translations).dig(:en, :forest, :settings).presence || []
+    settings_from_i18n = I18n.backend.send(:translations).dig(:en, :forest, :settings).presence || {}
 
     # Destroy any settings that are no longer in the i18n initialization or default settings array, and have matching updated and created at timestamps.
     # This means any settings that are added directly from the database will be deleted.
