@@ -16,6 +16,8 @@ module Statusable
 
     validates_presence_of :status
 
+    before_save :check_active_scheduled_date
+
     scope :by_status, -> (status) { where(status: status) }
     scope :published_or_scheduled, -> {
       where("#{parent_class.model_name.plural}.status = :published OR (#{parent_class.model_name.plural}.status = :scheduled AND COALESCE(#{parent_class.model_name.plural}.scheduled_date, :date_yesterday) <= :date_today)",
@@ -40,5 +42,15 @@ module Statusable
     def statusable?
       true
     end
+
+    private
+
+      def check_active_scheduled_date
+        if self.respond_to?(:scheduled_date)
+          if self.scheduled_date <= Date.today
+            self.status = 'published'
+          end
+        end
+      end
   end
 end

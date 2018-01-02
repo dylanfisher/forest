@@ -2,7 +2,11 @@
   <div class="status-scheduler">
     <%= f.input :status, as: :select, collection: record.class.statuses_for_select.collect { |k, v| [k.titleize, k] }, include_blank: false %>
     <% if record.respond_to?(:scheduled_date) %>
-      <%= f.input :scheduled_date, as: :string, wrapper_html: { class: ('active' if record.scheduled?) } %>
+      <%= f.input :scheduled_date,
+                  as: :string,
+                  hint: "This record will be hidden until the day of this scheduled date.",
+                  wrapper_html: {
+                    class: ('active' if record.scheduled?) } %>
     <% end %>
   </div>
 <% end %>
