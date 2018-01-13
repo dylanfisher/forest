@@ -68,6 +68,14 @@ class MediaItem < Forest::ApplicationRecord
     }
   end
 
+  def landscape?(ratio = 1)
+    dimensions[:width].to_f / dimensions[:height].to_f > ratio
+  end
+
+  def portrait?(ratio = 1)
+    !landscape?(ratio)
+  end
+
   private
 
     def self.grouped_by_year_month
