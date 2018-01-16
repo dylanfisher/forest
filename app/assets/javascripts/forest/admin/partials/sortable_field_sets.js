@@ -25,6 +25,8 @@ $(document).on('turbolinks:load app:block-slot-after-insert', function() {
       forcePlaceholderSize: true
     });
 
+    calculatePositions( $fieldSet );
+
     $fieldSet.on('sortupdate.sortableFieldSets', function() {
       calculatePositions( $fieldSet );
     });
