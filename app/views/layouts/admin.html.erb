@@ -13,6 +13,6 @@
     </div>
     <%= render 'admin/media_items/modal' unless controller_name == 'media_items' %>
     <%= jquery_include_tag %>
-    <%= javascript_include_tag 'forest/application_admin', data: { turbolinks_eval: false } %>
+    <%= javascript_include_tag 'forest/application_admin', data: { turbolinks_eval: false, turbolinks_suppress_warning: true } %>
   </body>
 </html>
