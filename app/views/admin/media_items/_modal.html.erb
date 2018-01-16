@@ -15,11 +15,13 @@
               remote_response_target: '.media-library' %>
             <%# Create a remote form helper and wire this up like the dropdown_select_form with remote option %>
             <br>
-            <%= form_tag admin_media_items_path, class: 'form-inline admin-header__item', method: :get, enforce_utf8: false do %>
-              <div class="form-group">
-                <%= text_field_tag :search, params[:search], class: 'form-control', placeholder: 'Search' %>
-                <%= submit_tag 'Submit', name: nil, class: 'btn btn-default' %>
-              </div>
+            <% if false # TODO: Add search to modal %>
+              <%= form_tag admin_media_items_path, class: 'form-inline admin-header__item', method: :get, enforce_utf8: false do %>
+                <div class="form-group">
+                  <%= text_field_tag :search, params[:search], class: 'form-control', placeholder: 'Search' %>
+                  <%= submit_tag 'Submit', name: nil, class: 'btn btn-default' %>
+                </div>
+              <% end %>
             <% end %>
           </div>
           <div class="col-sm-6">
