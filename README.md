@@ -182,6 +182,8 @@ Big Picture
 
 Admin
 
+- [ ] nested forms are cumbersome at laptop size. It should be easier to rearrange nested items.
+- [ ] add ability to insert nested form items in between other nested items.
 - [ ] do something more useful with the admin#show view
 - [ ] more robust filter pattern for index views, and ability to select by multiple filters + search,
       and retain these filters when navigating between records
@@ -235,6 +237,7 @@ Blocks
 
 Media Gallery
 
+- [ ] in the fileUpload progress bar, once the files have been uploaded, change the progress bar to indicate that the server is processing the images. Right now it looks like it just hangs on a 100% green bar.
 - [ ] use mini_magick or similar, more efficient image editor to process paperclip files
 - [ ] fix slug generation to support uploading images/files with the same name
 - [ ] better media item upload in media_item#edit
