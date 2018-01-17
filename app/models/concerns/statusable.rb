@@ -47,7 +47,7 @@ module Statusable
 
       def check_active_scheduled_date
         if self.respond_to?(:scheduled_date)
-          if self.scheduled_date <= Date.today
+          if self.scheduled_date.present? && self.scheduled_date <= Date.today
             self.status = 'published'
           end
         end
