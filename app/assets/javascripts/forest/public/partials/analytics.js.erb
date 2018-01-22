@@ -1,0 +1,11 @@
+// Analytics
+
+<% if Rails.env.production? && Setting.for(:google_analytics).present? %>
+  $(document).on('turbolinks:load', function(e) {
+    // Register Google Analytics pageview
+    if ( typeof gtag === 'function' ) {
+      gtag('config', App.analytics.id, { 'page_path': e.originalEvent.data.url });
+    }
+  });
+  console.log('it ran');
+<% end %>
