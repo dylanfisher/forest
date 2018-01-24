@@ -55,7 +55,8 @@
 <link rel="mask-icon" href="<%= asset_path 'forest/favicons/safari-pinned-tab.svg' %>" color="#5bbad5">
 <meta name="theme-color" content="#ffffff">
 
-<% if Setting.for(:google_analytics).present? %>
+<%# TODO: fix google analytics and turbolinks %>
+<% if false && Setting.for(:google_analytics).present? %>
 <!-- Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=<%= Setting.for(:google_analytics) %>"></script>
 <script>
