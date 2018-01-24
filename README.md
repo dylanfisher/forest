@@ -247,6 +247,7 @@ Blocks
 
 Media Gallery
 
+- [ ] add direct to S3 file upload for large files like video, that otherwise look like they timeout on heroku
 - [ ] in the fileUpload progress bar, once the files have been uploaded, change the progress bar to indicate that the server is processing the images. Right now it looks like it just hangs on a 100% green bar.
 - [ ] use mini_magick or similar, more efficient image editor to process paperclip files
 - [ ] fix slug generation to support uploading images/files with the same name
