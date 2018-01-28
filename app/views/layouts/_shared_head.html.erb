@@ -54,20 +54,3 @@
 <link rel="manifest" href="<%= asset_path 'forest/favicons/manifest.json' %>">
 <link rel="mask-icon" href="<%= asset_path 'forest/favicons/safari-pinned-tab.svg' %>" color="#5bbad5">
 <meta name="theme-color" content="#ffffff">
-
-<%# TODO: fix google analytics and turbolinks %>
-<% if false && Setting.for(:google_analytics).present? %>
-<!-- Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=<%= Setting.for(:google_analytics) %>"></script>
-<script>
-  window.App = window.App || {};
-  App.analytics = App.analytics || {};
-  App.analytics.id = '<%= Setting.for(:google_analytics) %>';
-
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', App.analytics.id);
-</script>
-<% end %>

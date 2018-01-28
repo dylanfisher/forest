@@ -148,16 +148,6 @@ Delete the error pages in /public to avoid collision with the custom error pages
 
 Forest's router will render the appropriate error template via `ErrorsController`. Override the placeholder views to customize the error page.
 
-## Google analytics
-Create a `google_analytics` forest setting in your app's I18n file with your site's tracking ID to enable Google Analytics. Currently this only supports the newer Global Site Tag (gtag.js) script.
-
-```
-en:
-  forest:
-    settings:
-      google_analytics: UA-1111000123-1
-```
-
 ## Primary Dependencies
 Forest relies heavily on the following gems, software and frameworks:
 
