@@ -276,6 +276,8 @@ Sass
 
 Settings
 
+- [ ] featured image setting sets the og:image to :small size. It should use large size.
+- [ ] when updating featured image setting the home page cache didn't seem to get busted. Need to confirm this.
 - [ ] when a setting is references in production.rb precompiling assets fails
 - add documentation for how settings should be added. Right now they must be initialized from the i18n en:forest:settings yaml file.
 - [x] better settings UI, ability to set multiple data types, e.g. boolean, or association
