@@ -1,5 +1,6 @@
 class Admin::MediaItemsController < Admin::ForestController
   before_action :set_media_item, only: [:show, :edit, :update, :destroy]
+  before_action :set_s3_direct_post, only: [:new, :edit, :create, :update]
 
   has_scope :by_date
   has_scope :by_content_type
@@ -92,5 +93,11 @@ class Admin::MediaItemsController < Admin::ForestController
     # Only allow a trusted parameter "white list" through.
     def media_item_params
       params.require(:media_item).permit(:title, :slug, :caption, :alternative_text, :description, :attachment, :selected)
+    end
+
+    def set_s3_direct_post
+      if defined? S3_BUCKET
+        @s3_direct_post = S3_BUCKET.presigned_post(key: "uploads/#{SecureRandom.uuid}/${filename}", success_action_status: '201', acl: 'public-read')
+      end
     end
 end

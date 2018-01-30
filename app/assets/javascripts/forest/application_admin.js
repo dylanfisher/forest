@@ -11,6 +11,7 @@
 // about supported directives.
 //
 //= require jquery_ujs
+//= require jquery-ui/widget
 //= require jquery-ui/widgets/sortable
 //= require jquery-ui/widgets/datepicker
 //= require jquery-fileupload
