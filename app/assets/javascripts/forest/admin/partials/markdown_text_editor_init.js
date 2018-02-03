@@ -73,7 +73,7 @@ App.MarkdownTextEditor = {
 };
 
 App.pageLoad.push(function() {
-  App.MarkdownTextEditor.initialize( $('.block_slots .form-group.text textarea, .markdown-editor') );
+  App.MarkdownTextEditor.initialize( $('.markdown-editor') );
 });
 
 $(document).on('app:block-slot-after-insert', function(event, nestedFields) {
