@@ -54,7 +54,7 @@ module AdminHelper
   end
 
   def record_name(record)
-    record.try(:display_name) || record.try(:title) || record.try(:name)
+    record.try(:display_name).presence || record.try(:title).presence || record.try(:name).presence
   end
 
   def admin_header_tag(record, &block)
