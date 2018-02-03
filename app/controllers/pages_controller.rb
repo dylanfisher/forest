@@ -22,6 +22,6 @@ class PagesController < ForestController
   private
 
     def set_page
-      @page = Page.find_by_path(params[:page_path])
+      @page = Page.find_by_path(params[:page_path].presence || 'home')
     end
 end
