@@ -148,6 +148,14 @@ Delete the error pages in /public to avoid collision with the custom error pages
 
 Forest's router will render the appropriate error template via `ErrorsController`. Override the placeholder views to customize the error page.
 
+To test the errors in development, set the following config to false.
+
+```ruby
+# development.rb
+
+config.consider_all_requests_local = false
+```
+
 ## Primary Dependencies
 Forest relies heavily on the following gems, software and frameworks:
 
@@ -269,6 +277,8 @@ Sass
 
 Settings
 
+- [ ] featured image setting sets the og:image to :small size. It should use large size.
+- [ ] when updating featured image setting the home page cache didn't seem to get busted. Need to confirm this.
 - [ ] when a setting is references in production.rb precompiling assets fails
 - add documentation for how settings should be added. Right now they must be initialized from the i18n en:forest:settings yaml file.
 - [x] better settings UI, ability to set multiple data types, e.g. boolean, or association
