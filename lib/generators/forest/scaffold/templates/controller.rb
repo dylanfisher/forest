@@ -1,5 +1,5 @@
 <% module_namespacing do -%>
-class <%= class_name %>sController < ForestController
+class <%= plural_name.camelize %>Controller < ForestController
   before_action :set_<%= singular_name %>, only: [:show]
 
   def index

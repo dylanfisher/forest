@@ -1,5 +1,5 @@
 <% module_namespacing do -%>
-class Admin::<%= class_name %>sController < Admin::ForestController
+class Admin::<%= plural_name.camelize %>Controller < Admin::ForestController
   before_action :set_<%= singular_name %>, only: [:show, :edit, :update, :destroy]
 
   def index
