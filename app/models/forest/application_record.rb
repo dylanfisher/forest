@@ -51,11 +51,11 @@ module Forest
     end
 
     def to_label
-      if respond_to?(:display_name)
+      if try(:display_name).present?
         display_name
-      elsif respond_to?(:name)
+      elsif try(:name).present?
         name
-      elsif respond_to?(:title)
+      elsif try(:title).present?
         title
       else
         "#{self.model_name.human} #{id}"
