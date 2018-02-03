@@ -66,6 +66,10 @@ module Forest
       "<span class='select2-response__id'>#{id}</span> #{to_label}"
     end
 
+    def to_select2_selection
+      to_select2_response
+    end
+
     private
 
       def self.valid_csv_column_types

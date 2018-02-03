@@ -76,6 +76,16 @@ class MediaItem < Forest::ApplicationRecord
     !landscape?(ratio)
   end
 
+  def to_select2_response
+    img_tag = "<img src='#{attachment.url(:thumb)}' style='height: 50px;'> " if image? && attachment.present?
+    "#{img_tag}<span class='select2-response__id'>#{id}</span> #{to_label}"
+  end
+
+  def to_select2_selection
+    img_tag = "<img src='#{attachment.url(:thumb)}' style='height: 20px; display: inline-block; vertical-align: top;'> " if image? && attachment.present?
+    "#{img_tag}<span class='select2-response__id'>#{id}</span> #{to_label}"
+  end
+
   private
 
     def self.grouped_by_year_month

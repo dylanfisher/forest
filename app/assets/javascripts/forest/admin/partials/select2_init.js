@@ -88,9 +88,19 @@ App.Select2 = {
             return data.select2_response;
           },
           templateSelection: function(data) {
-            var selection = data.select2_response;
+            var selection = data.select2_selection;
 
-            if ( !data.select2_response ) {
+            if ( !selection ) {
+              if ( data.element ) {
+                selection = $(data.element).attr('data-select2-selection');
+              }
+            }
+
+            if ( !selection ) {
+              selection = data.select2_response;
+            }
+
+            if ( !selection ) {
               if ( data.element ) {
                 selection = $(data.element).attr('data-select2-response');
               }

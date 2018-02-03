@@ -5,6 +5,7 @@ class Admin::MediaItemsController < Admin::ForestController
   has_scope :by_date
   has_scope :by_content_type
   has_scope :videos, type: :boolean
+  has_scope :images, type: :boolean
   has_scope :search
 
   # GET /media_items

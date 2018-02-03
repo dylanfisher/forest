@@ -14,7 +14,7 @@ module SimpleForm
           options[:wrapper_html][:class] = "#{options[:wrapper_html][:class]} remote"
 
           options[:collection] = Array(object.send(reflection.name)).collect { |a|
-            [a.to_label, a.id, data: { select2_response: a.to_select2_response }]
+            [a.to_label, a.id, data: { select2_response: a.to_select2_response, select2_selection: a.to_select2_selection }]
           }
         end
         nil
