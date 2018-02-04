@@ -34,6 +34,10 @@ class Menu < Forest::ApplicationRecord
     end
   end
 
+  def render
+    nokogiri.to_html.html_safe
+  end
+
   private
 
     def self.menus
