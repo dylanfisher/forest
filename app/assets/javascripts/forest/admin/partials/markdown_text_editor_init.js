@@ -77,5 +77,5 @@ App.pageLoad.push(function() {
 });
 
 $(document).on('app:block-slot-after-insert', function(event, nestedFields) {
-  App.MarkdownTextEditor.initialize( $(nestedFields).find('.form-group.text textarea') );
+  App.MarkdownTextEditor.initialize( $(nestedFields).find('.form-group.text .markdown-editor') );
 });
