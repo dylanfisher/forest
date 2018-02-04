@@ -30,7 +30,9 @@ class BlockKind < Forest::ApplicationRecord
     r = ''
     r += '<div>'
     r += "<span class='block-kind__select2-response__icon #{display_icon}'></span> "
+    r += '<strong>'
     r += display_name
+    r += '</strong>'
     r += '</div>'
 
     if description.present?
