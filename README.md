@@ -136,7 +136,7 @@ has_many_ordered :projects, through: :project_block_projects
 ```
 # project_block/_edit.html.erb
 
-<%= f.association :projects, sortable: true %>
+<%= f.association :projects, sortable: true, remote: true %>
 ```
 
 ## Custom error pages

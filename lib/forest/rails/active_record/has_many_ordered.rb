@@ -9,7 +9,7 @@ module Forest
         singular = association.to_s.singularize
 
         has_many through, -> { reorder(order_by) }, options.reverse_merge(dependent: :destroy)
-        has_many association, -> { reorder("#{through}.#{order_by}") }, options.merge(through: through)
+        has_many association, -> { joins(through).reorder("#{through}.#{order_by}") }, options.merge(through: through)
         accepts_nested_attributes_for through, allow_destroy: true
 
         define_method("#{singular}_ids=") do |ids|
