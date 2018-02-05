@@ -73,9 +73,17 @@ App.MarkdownTextEditor = {
 };
 
 App.pageLoad.push(function() {
-  App.MarkdownTextEditor.initialize( $('.markdown-editor') );
+  App.MarkdownTextEditor.initialize( $('.markdown-editor:visible') );
 });
 
 $(document).on('app:block-slot-after-insert', function(event, nestedFields) {
-  App.MarkdownTextEditor.initialize( $(nestedFields).find('.form-group.text .markdown-editor') );
+  App.MarkdownTextEditor.initialize( $(nestedFields).find('.form-group.text .markdown-editor:visible') );
+});
+
+$(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function(e) {
+  var $tab = $(e.target);
+  var tabId = $tab.attr('href');
+  var $tabContent = $(tabId);
+
+  App.MarkdownTextEditor.initialize( $tabContent.find('.markdown-editor:visible') );
 });
