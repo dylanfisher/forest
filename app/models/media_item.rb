@@ -1,11 +1,14 @@
 class MediaItem < Forest::ApplicationRecord
   include Rails.application.routes.url_helpers
   include Attachable
+  include Forest::CacheBuster
   include Sluggable
 
   validates_attachment_presence :attachment
 
   before_validation :set_default_metadata
+
+  has_many :pages, foreign_key: :featured_image_id
 
   scope :by_date, -> (date) {
     begin

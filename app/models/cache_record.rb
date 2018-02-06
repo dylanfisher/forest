@@ -1,0 +1,2 @@
+class CacheRecord < ApplicationRecord
+end

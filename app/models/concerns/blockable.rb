@@ -20,7 +20,7 @@ module Blockable
         if block_type
           b = block_slots.includes(:block).where(block_kind_id: block_type.kind.id)
         else
-          b = block_slots.includes(:block)
+          b = block_slots.includes(:block, :block_layout)
         end
         b.select { |bs| bs.block_layout == block_layout }.collect(&:block)
       end)
