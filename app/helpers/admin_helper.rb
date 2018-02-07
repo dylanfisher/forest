@@ -79,6 +79,6 @@ module AdminHelper
     else
       jquery_url = 'forest/lib/jquery-3.2.1.min'
     end
-    javascript_include_tag jquery_url, data: { turbolinks_eval: false }
+    javascript_include_tag jquery_url, data: { turbolinks_eval: false, turbolinks_suppress_warning: true }
   end
 end
