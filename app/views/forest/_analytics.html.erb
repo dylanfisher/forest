@@ -1,0 +1,10 @@
+<% if Rails.env.production? && Setting.for(:google_analytics).present? %>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=<%= Setting.for(:google_analytics) %>"></script>
+  <script>
+    window.GOOGLE_ANALYTICS_ID = '<%= Setting.for(:google_analytics) %>';
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', window.GOOGLE_ANALYTICS_ID);
+  </script>
+<% end %>
