@@ -2,6 +2,13 @@ select {
   width: 100%;
 }
 
+.block-slot {
+  .form-group {
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+}
 .form-group.select {
   min-height: 59px;
 
