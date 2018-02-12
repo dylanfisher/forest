@@ -110,7 +110,7 @@ $(document).on('click', '.media-item-chooser .media-library-link', function(e) {
   }
 
   var id = $(this).attr('data-media-item-id');
-  var imageUrl = $(this).attr('data-image-url');
+  var imageUrl = $(this).attr('data-image-url-large');
   var value = App.MediaItemChooser.toPath ? imageUrl : id;
   var $removeButton = $(this).closest('.image').find('.media-item-chooser__remove-image');
 
@@ -155,7 +155,7 @@ $(document).on('click.mediaItemChooser', '.media-item-chooser__select-button', f
 
   $selected.each(function() {
     var id = parseInt( $(this).attr('data-media-item-id') );
-    var url = $(this).attr('data-image-url');
+    var url = $(this).attr('data-image-url-large');
     var $thumbnail = $( App.MediaItemChooser.createThumbnail(id, url) );
 
     if ( $.inArray(id, existingThumbnailIds) == -1 ) {
