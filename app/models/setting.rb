@@ -75,14 +75,8 @@ class Setting < Forest::ApplicationRecord
   private
 
     def self.settings
-      @memo ||= begin
-        if Rails.cache
-          Rails.cache.fetch CACHE_KEY do
-            self.all.to_a
-          end
-        else
-          self.all.to_a
-        end
+      @memo ||= Rails.cache.fetch CACHE_KEY do
+        self.all.to_a
       end
     end
 
