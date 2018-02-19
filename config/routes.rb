@@ -47,4 +47,13 @@ Rails.application.routes.draw do
   scope constraints: lambda { |request| request.format.to_s.include? 'text/html' } do
     get '*page_path', to: 'pages#show', as: 'page'
   end
+
+  # Redirect wordpress spam
+  get '/wp-login.php', to: redirect('/'), format: false
+  get '/wp-content', to: redirect('/'), format: false
+  get '/wp-admin', to: redirect('/'), format: false
+  get '/wp-login', to: redirect('/'), format: false
+  get '/wp-content/*all', to: redirect('/'), format: false
+  get '/wp-admin/*all', to: redirect('/'), format: false
+  get '/wp-login/*all', to: redirect('/'), format: false
 end
