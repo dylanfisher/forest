@@ -246,6 +246,7 @@ Blocks
 
 Media Gallery
 
+- [ ] when uploading video via drag and drop, the preview icon doesn't update properly after upload completes
 - [ ] add direct to S3 file upload for large files like video, that otherwise look like they timeout on heroku
 - [ ] in the fileUpload progress bar, once the files have been uploaded, change the progress bar to indicate that the server is processing the images. Right now it looks like it just hangs on a 100% green bar.
 - [ ] use mini_magick or similar, more efficient image editor to process paperclip files

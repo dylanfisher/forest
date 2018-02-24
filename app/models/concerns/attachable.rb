@@ -22,6 +22,7 @@ module Attachable
 
       before_post_process :skip_for_non_images
       after_post_process :extract_dimensions
+      after_post_process :collect_garbage
 
       serialize :dimensions
 
@@ -76,6 +77,12 @@ module Attachable
               height: geometry.height.to_i
             }
           end
+        end
+
+        # Not sure if this is a good idea, but Heroku's memory gets bogged down immediately
+        # when using paperclip and imagemagick.
+        def collect_garbage
+          GC.start
         end
   end
 end
