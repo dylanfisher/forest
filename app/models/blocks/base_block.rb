@@ -45,11 +45,15 @@ class BaseBlock < Forest::ApplicationRecord
     block_slot.block_layout
   end
 
+  def blocks
+    block_record.blocks(block_layout: block_layout)
+  end
+
   def first?
-    block_record.blocks(block_layout: block_layout).index(self) == 0
+    blocks.index(self) == 0
   end
 
   def last?
-    block_record.blocks(block_layout: block_layout).index(self) == block_record.blocks(block_layout: block_layout).length - 1
+    blocks.index(self) == block_record.blocks(block_layout: block_layout).length - 1
   end
 end
