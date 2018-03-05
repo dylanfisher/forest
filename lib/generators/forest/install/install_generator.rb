@@ -63,7 +63,7 @@ module Forest
         # Visit the site and create an admin user
         puts "[Forest] -- Visit the admin area of the website at localhost:3000/admin to create the admin user."
       else
-        puts "[Forest] -- Import Forest's migrations by running the following command."
+        puts "[Forest] -- ✋  Import Forest's migrations by running the following command."
         puts "[Forest] -- After installing migrations, run this generator again to seed the database."
         puts "[Forest] rails railties:install:migrations"
       end
