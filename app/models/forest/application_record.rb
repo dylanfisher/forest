@@ -8,7 +8,7 @@ module Forest
     scope :by_title, -> (orderer = :asc) { order(title: orderer, id: :desc) }
     scope :by_created_at, -> (orderer = :desc) { order(created_at: orderer, id: orderer) }
     scope :by_updated_at, -> (orderer = :desc) { order(updated_at: orderer, id: orderer) }
-    scope :search, -> (query) {
+    scope :fuzzy_search, -> (query) {
       columns_to_search = self.columns
                               .select { |x| [:string, :text].include?(x.type) }
                               .map(&:name).collect { |x| "#{self.model_name.plural}.#{x} ILIKE :query" }

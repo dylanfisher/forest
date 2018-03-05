@@ -21,7 +21,7 @@ class Admin::ForestController < ApplicationController
   has_scope :by_created_at
   has_scope :by_updated_at
   has_scope :by_status
-  has_scope :search
+  has_scope :fuzzy_search
 
   private
 

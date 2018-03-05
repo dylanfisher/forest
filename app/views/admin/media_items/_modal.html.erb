@@ -18,7 +18,7 @@
             <% if false # TODO: Add search to modal %>
               <%= form_tag admin_media_items_path, class: 'form-inline admin-header__item', method: :get, enforce_utf8: false do %>
                 <div class="form-group">
-                  <%= text_field_tag :search, params[:search], class: 'form-control', placeholder: 'Search' %>
+                  <%= text_field_tag :fuzzy_search, params[:fuzzy_search], class: 'form-control', placeholder: 'Search' %>
                   <%= submit_tag 'Submit', name: nil, class: 'btn btn-default' %>
                 </div>
               <% end %>

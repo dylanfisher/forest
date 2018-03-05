@@ -10,7 +10,7 @@
         <h1 class="admin-header__item"><%= model_names.plural.titleize %> <span class="badge"><%= number_with_delimiter records.total_count %></span></h1>
         <%= form_tag send("admin_#{model_names.route_key}_path"), class: 'form-inline admin-header__item', method: :get, enforce_utf8: false, data: { turboform: true } do %>
           <div class="form-group">
-            <%= text_field_tag :search, params[:search], class: 'form-control', placeholder: 'Search', autofocus: (true if params[:search].present?), data: { turboform: true } %>
+            <%= text_field_tag :fuzzy_search, params[:fuzzy_search], class: 'form-control', placeholder: 'Search', autofocus: (true if params[:fuzzy_search].present?), data: { turboform: true } %>
             <%= submit_tag 'Submit', name: nil, class: 'btn btn-default' %>
           </div>
         <% end %>
