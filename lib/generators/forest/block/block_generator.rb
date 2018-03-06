@@ -25,6 +25,10 @@ class Forest::BlockGenerator < Rails::Generators::NamedBase
     migration_template 'create_table_migration.rb', "db/migrate/create_#{table_name}.rb"
   end
 
+  def create_stylesheet
+    template '_block.scss.erb', File.join('app/assets/stylesheets/blocks', "_#{file_name}.scss")
+  end
+
   private
 
     attr_reader :migration_action, :join_tables
