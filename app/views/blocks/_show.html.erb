@@ -1,3 +1,7 @@
-<%= content_tag :div, id: block.block_id, class: "#{block.model_name.singular.dasherize} block #{block.try(:css_class)}" do %>
-  <%= render "blocks/#{block.model_name.singular}/show", block: block %>
+<% begin %>
+  <%= content_tag :div, id: block.block_id, class: "#{block.model_name.singular.dasherize} block #{block.try(:css_class)}" do %>
+    <%= render "blocks/#{block.model_name.singular}/show", block: block %>
+  <% end %>
+<% rescue Exception => e %>
+  <%= forest_admin_error(e) %>
 <% end %>
