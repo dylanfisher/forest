@@ -1,0 +1,8 @@
+<ul class="nav navbar-nav">
+  <li class="<%= admin_navbar_active_class(admin_path) %>"><%= link_to 'Dashboard', admin_path %></li>
+  <li class="<%= admin_navbar_active_class(admin_pages_path) %>"><%= link_to 'Pages', admin_pages_path %></li>
+  <li class="<%= admin_navbar_active_class(admin_media_items_path) %>"><%= link_to 'Media', admin_media_items_path %></li>
+  <li class="<%= admin_navbar_active_class(admin_users_path) %>"><%= link_to 'Users', admin_users_path %></li>
+  <li class="<%= admin_navbar_active_class(admin_menus_path) %>"><%= link_to 'Menus', admin_menus_path %></li>
+  <%= render 'admin/navigation/resources_dropdown' %>
+</ul>
