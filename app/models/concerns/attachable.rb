@@ -14,7 +14,7 @@ module Attachable
                           small: '-unsharp 0x1',
                           medium: '-unsharp 1.5x1+0.7+0.02',
                           large: '-unsharp 1.5x1+0.7+0.02',
-                          all: '-strip -quality 85 -colorspace sRGB -interlace Plane'
+                          all: '-strip -auto-orient -quality 85 -colorspace sRGB -interlace Plane'
                         },
                         default_url: '/images/:style/missing.png'
 
