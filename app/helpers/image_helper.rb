@@ -10,6 +10,9 @@ module ImageHelper
     if options[:id].present?
       svg['id'] = options[:id]
     end
+    if options[:style].present?
+      svg['style'] = "#{svg['style']} #{options[:style]}"
+    end
     doc.to_html.html_safe
   end
 
