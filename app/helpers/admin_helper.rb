@@ -21,6 +21,10 @@ module AdminHelper
     end
   end
 
+  def table_color_representation(color)
+    content_tag :div, '', class: 'table-color-representation', style: "background-color: #{color};"
+  end
+
   def admin_page_level_indicator(level)
     (level + 1).times.collect{}.join('&mdash; ').html_safe
   end
