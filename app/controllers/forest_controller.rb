@@ -9,6 +9,10 @@ class ForestController < ApplicationController
   before_action :set_body_classes
   before_action :reset_class_method_cache
 
+  def after_sign_in_path_for(resource)
+    main_app.admin_path
+  end
+
   private
 
     def layout_by_resource
