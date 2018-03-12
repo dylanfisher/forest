@@ -11,6 +11,14 @@ module Blockable
 
     accepts_nested_attributes_for :block_slots, allow_destroy: true
 
+    def self.blockable?
+      true
+    end
+
+    def blockable?
+      true
+    end
+
     # TODO: rename block_slots to blocks and get rid of this method?
     def blocks(options = {})
       block_layout = options.fetch(:block_layout, BlockLayout.default_layout)
