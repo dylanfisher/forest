@@ -1,6 +1,11 @@
 class SearchIndexManager
   INDEX_NAME = "#{Rails.app_class.parent_name.underscore}_#{Rails.env}".freeze
 
+  # Override this in your host app with an array of all the models you want to search
+  def self.indexed_models
+    []
+  end
+
   def self.create_index(options = {})
     # settings = indexed_models.map(&:settings).reduce({}, &:merge)
     # mappings = indexed_models.map(&:mappings).reduce({}, &:merge)
@@ -10,10 +15,10 @@ class SearchIndexManager
       delete_index!
     end
 
-    logger.debug { "[Forest] Creating index #{INDEX_NAME}" }
     # logger.debug { "[Forest] -- Settings #{settings.inspect}" }
     # logger.debug { "[Forest] -- Mappings #{mappings.inspect}" }
     # create index: INDEX_NAME, body: { settings: settings, mappings: mappings }
+    logger.debug { "[Forest] Creating index #{INDEX_NAME}" }
     create index: INDEX_NAME
   end
 
@@ -55,15 +60,6 @@ class SearchIndexManager
 
     def indices
       Elasticsearch::Model.client.indices
-    end
-
-    def indexed_models
-      @indexed_models ||= begin
-        eager_load!
-        ActiveRecord::Base.descendants.collect do |klass|
-          klass if klass.try(:searchable?)
-        end.reject(&:blank?)
-      end
     end
 
     def model_scope(klass)
