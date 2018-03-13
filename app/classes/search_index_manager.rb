@@ -7,19 +7,18 @@ class SearchIndexManager
   end
 
   def self.create_index(options = {})
-    # settings = indexed_models.map(&:settings).reduce({}, &:merge)
-    # mappings = indexed_models.map(&:mappings).reduce({}, &:merge)
+    settings = indexed_models.map(&:settings).reduce({}, &:merge)
+    mappings = indexed_models.map(&:mappings).reduce({}, &:merge)
 
     if options[:force]
       logger.debug { "[Forest] Deleting index #{INDEX_NAME}" }
       delete_index!
     end
 
-    # logger.debug { "[Forest] -- Settings #{settings.inspect}" }
-    # logger.debug { "[Forest] -- Mappings #{mappings.inspect}" }
-    # create index: INDEX_NAME, body: { settings: settings, mappings: mappings }
+    logger.debug { "[Forest] -- Settings #{settings.inspect}" }
+    logger.debug { "[Forest] -- Mappings #{mappings.inspect}" }
     logger.debug { "[Forest] Creating index #{INDEX_NAME}" }
-    create index: INDEX_NAME
+    create index: INDEX_NAME, body: { settings: settings, mappings: mappings }
   end
 
   def self.delete_index!

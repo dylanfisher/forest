@@ -60,4 +60,10 @@ class BaseBlock < Forest::ApplicationRecord
   def last?
     index == block_record.blocks(block_layout: block_layout).length - 1
   end
+
+  def as_indexed_json(options={})
+    self.as_json({
+      except: [:id, :created_at, :updated_at]
+    })
+  end
 end
