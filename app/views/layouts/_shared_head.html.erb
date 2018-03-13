@@ -38,6 +38,9 @@
 <% if page_featured_image.present? %>
 <!-- Featured image -->
 <%= tag :meta, property: 'og:image', content: page_featured_image %>
+<%# TODO: add og:image:width properties %>
+<%#= tag :meta, property: 'og:image:width', content: 123 %>
+<%#= tag :meta, property: 'og:image:height', content: 123 %>
 <%= tag :meta, itemprop: 'image', content: page_featured_image %>
 <%= tag :meta, itemprop: 'twitter:image', content: page_featured_image %>
 <% end %>
