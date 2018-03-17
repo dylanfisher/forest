@@ -8,7 +8,7 @@ module SimpleForm
 
           input_html_options[:data] ||= {}
           input_html_options[:data][:remote_path] = remote_options[:path]
-          input_html_options[:data][:remote_scope] = remote_options[:scope] || 'search'
+          input_html_options[:data][:remote_scope] = remote_options[:scope] || 'fuzzy_search'
 
           options[:wrapper_html] ||= {}
           options[:wrapper_html][:class] = "#{options[:wrapper_html][:class]} remote"
