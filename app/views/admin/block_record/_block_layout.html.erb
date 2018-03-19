@@ -11,15 +11,15 @@
     <div class="block-layout__panel-heading panel-heading">
       <h2 class="block-layout__title">
         <%= block_layout.display_name %>
-        <% if block_layout.description.present? %>
-          <small>
-            <%= block_layout.description %>
-          </small>
-        <% end %>
         <button type="button" class="block-collapse-button btn btn-default btn-xs pull-right" title="Collapse all blocks" data-block-collapse-all>
           <div class="collapsable-icon glyphicon glyphicon-chevron-up"></div>
         </button>
       </h2>
+      <% if block_layout.description.present? %>
+        <p class="text-muted">
+          <%= block_layout.description %>
+        </p>
+      <% end %>
     </div>
     <div class="panel-body">
       <div class="form-inputs">
