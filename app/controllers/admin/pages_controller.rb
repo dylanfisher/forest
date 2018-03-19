@@ -1,5 +1,7 @@
 class Admin::PagesController < Admin::ForestController
   before_action :set_page, only: [:show, :edit, :update, :destroy]
+  before_action :set_block_layout, only: [:create, :edit, :new]
+  before_action :set_block_kinds, only: [:create, :edit, :new]
 
   has_scope :by_parent_page
   has_scope :title_like
@@ -88,5 +90,13 @@ class Admin::PagesController < Admin::ForestController
 
     def set_page
       @page = Page.find(params[:id])
+    end
+
+    def set_block_layout
+      @block_layout = BlockLayout.find_by_slug('default')
+    end
+
+    def set_block_kinds
+      @block_kinds = BlockKind.all
     end
 end

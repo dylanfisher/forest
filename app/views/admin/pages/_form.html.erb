@@ -35,7 +35,7 @@
 
       <%= render 'admin/pages/additional_inputs', f: f %>
 
-      <%= render 'admin/block_record/block_layout', f: f %>
+      <%= render 'admin/block_record/block_layout', f: f, block_layout: @block_layout, block_kinds: @block_kinds %>
 
       <%= f.button :submit, class: 'btn-success' %>
     </div>
