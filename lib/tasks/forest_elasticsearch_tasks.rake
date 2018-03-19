@@ -1,4 +1,7 @@
-require 'elasticsearch/rails/tasks/import'
+begin
+  require 'elasticsearch/rails/tasks/import'
+rescue LoadError
+end
 
 namespace :forest do
   namespace :elasticsearch do
