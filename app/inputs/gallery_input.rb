@@ -5,16 +5,12 @@ class GalleryInput < SimpleForm::Inputs::CollectionSelectInput
   end
 
   def input(wrapper_options = nil)
-    sortable = options.fetch(:sortable, true)
     obj = input_html_options.fetch :object, object
     input_html_options.merge! id: object_name.parameterize
 
     field_name = input_html_options.fetch :field_name, "#{input_html_options[:id]}"
 
-    # TODO: update to save position
-    # TODO: update to allow this to work with other associations, not just images
-    # e.g. obj.send(attribute_name)
-    selected_images = template.render(partial: 'admin/media_items/media_item_grid_layout', collection: obj.images, as: :media_item, cached: true)
+    selected_images = template.render(partial: 'admin/media_items/media_item_grid_layout', collection: collection, as: :media_item, cached: true)
 
     modal_data_attributes = {
       toggle: 'modal',
@@ -49,15 +45,13 @@ class GalleryInput < SimpleForm::Inputs::CollectionSelectInput
                     **modal_data_attributes
                   })
 
-    if sortable
-      content << @builder.collection_select(attribute_name,
-                obj.images, :id, :title, { selected: obj.send(reflection_or_attribute_name)&.collect(&:id) },
-                multiple: true,
-                id: field_name,
-                class: 'gallery__input',
-                hidden: true
-              )
-    end
+    content << @builder.collection_select(attribute_name,
+              collection, :id, :title, { selected: obj.send(reflection_or_attribute_name)&.collect(&:id) },
+              multiple: true,
+              id: field_name,
+              class: 'gallery__input',
+              hidden: true
+            )
 
     content
   end
