@@ -7,8 +7,11 @@
 # TODO: Once the elasticsearch/rails gems make it easier to use version 6, make this
 # Searchable concern compatible.
 
-require 'elasticsearch/model'
-require 'elasticsearch/rails'
+begin
+  require 'elasticsearch/model'
+  require 'elasticsearch/rails'
+rescue LoadError
+end
 
 module Searchable
   extend ActiveSupport::Concern
