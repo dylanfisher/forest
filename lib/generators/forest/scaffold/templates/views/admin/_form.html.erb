@@ -28,8 +28,8 @@
           </div>
         </div>
       </div>
-      <%%# Uncomment this if the record is blockable. Optionally pass the block_layout or block_kinds to the partial. %>
-      <%%#= render 'admin/block_record/block_layout', f: f %>
+      <%# Uncomment this if the record is blockable. Optionally pass the block_layout or block_kinds to the partial. %>
+      <%%#= render 'admin/block_record/block_layout', f: f, block_layout: @block_layout, block_kinds: @block_kinds %>
       <%%#= f.button :submit, class: 'btn-success' %>
     </div>
   </div>
