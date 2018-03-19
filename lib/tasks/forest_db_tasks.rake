@@ -58,7 +58,7 @@ namespace :forest do
     end
   end
 
-  desc "Import the database to Heroku."
+  desc "Destroy a database dump from Amazon S3."
   task 'db:destroy_s3_dump' => :environment do
     check_for_s3_env_variables!
 
