@@ -32,9 +32,9 @@ module Blockable
           b = block_slots.includes(:block, :block_layout)
         end
         if block_layout.present?
-          b = b.select { |bs| bs.block_layout == block_layout }.collect(&:block)
+          b = b.select { |bs| bs.block_layout == block_layout }
         end
-        b
+        b.collect(&:block)
       end)
     end
 
