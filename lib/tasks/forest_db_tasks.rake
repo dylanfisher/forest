@@ -30,11 +30,71 @@ namespace :forest do
     end
   end
 
+  desc "Import the database to Heroku."
+  task 'db:import_to_heroku' => :environment do
+    with_config do |app, db, user|
+      check_for_s3_env_variables!
+
+      timestamp = Time.now.to_i
+
+      object_key = "forest/forest_db_dumps/#{app}_#{timestamp}.dump"
+      if s3_bucket.object(object_key).upload_file("#{Rails.root}/db/#{app}.dump")
+        s3.client.put_object_acl({
+          acl: 'public-read',
+          bucket: s3_bucket.name,
+          key: object_key,
+        })
+
+        puts "[Forest] Careful! You just uploaded a publicly accessible db dump to the #{s3_bucket.name} bucket."
+        puts "[Forest] To import that db dump to Heroku, please run:"
+
+        puts "heroku pg:backups:restore 'https://s3.amazonaws.com/#{ENV['S3_BUCKET_NAME']}/#{object_key}' DATABASE_URL"
+        puts "\n"
+        puts "[Forest] ** After importing to Heroku, run this command to delete the public db dump from Amazon S3. Don't leave the db dump publicly accessible! **"
+        puts "bin/rails forest:db:destroy_s3_dump object_key=#{object_key}"
+      else
+        puts "[Forest] Error: unable to upload object to S3. "
+      end
+    end
+  end
+
+  desc "Import the database to Heroku."
+  task 'db:destroy_s3_dump' => :environment do
+    check_for_s3_env_variables!
+
+    if s3_bucket.object(ENV['object_key']).delete
+      puts "[Forest] #{ENV['object_key']} destroyed"
+      remaining_objects = s3_bucket.objects(prefix: 'forest/forest_db_dumps/').collect(&:key).reject { |k| k == 'forest/forest_db_dumps/' }
+      if remaining_objects.present?
+        puts "[Forest] Warning: There are still files in the forest/forest_db_dumps directory (this directory should be empty!). Please delete these publicly accessible files."
+        puts "[Forest] Run the following commands to delete the objects:"
+        remaining_objects.each do |object_key|
+          puts "bin/rails forest:db:destroy_s3_dump object_key=#{object_key}"
+        end
+      end
+    else
+      puts "[Forest] Error: unable to destroy #{ENV['object_key']}. Log in to Amazon S3 and destroy the object manually."
+    end
+  end
+
   private
 
     def with_config
       yield Rails.application.class.parent_name.underscore,
         ActiveRecord::Base.connection_config[:database],
         ActiveRecord::Base.connection_config[:username]
+    end
+
+    def s3
+      @s3 ||= Aws::S3::Resource.new(region: ENV['AWS_REGION'])
+    end
+
+    def s3_bucket
+      @s3_bucket ||= s3.bucket(ENV['S3_BUCKET_NAME'])
+    end
+
+    def check_for_s3_env_variables!
+      abort('[Forest] Error: Please specify an AWS_REGION environment variable') if ENV['AWS_REGION'].blank?
+      abort('[Forest] Error: Please specify an S3_BUCKET_NAME environment variable') if ENV['S3_BUCKET_NAME'].blank?
     end
 end
