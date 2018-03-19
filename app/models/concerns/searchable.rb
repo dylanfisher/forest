@@ -86,10 +86,10 @@ module Searchable
             only: :block,
             include: {
               block: {
+                methods: [:as_indexed_json],
                 only: {
                   methods: [:as_indexed_json]
-                },
-                methods: [:as_indexed_json]
+                }
               }
             }
           }

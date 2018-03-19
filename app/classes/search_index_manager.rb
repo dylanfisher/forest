@@ -1,3 +1,5 @@
+# Does not support Elasticsearch version > 6
+
 class SearchIndexManager
   INDEX_NAME = "#{Rails.app_class.parent_name.underscore}_#{Rails.env}".freeze
 

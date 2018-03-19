@@ -2,6 +2,7 @@ module Statusable
   extend ActiveSupport::Concern
 
   # To make a record schedulable, create a date column named scheduled_date
+  # TODO: rename scheduled_date to published_date
 
   included do
     parent_class = self
