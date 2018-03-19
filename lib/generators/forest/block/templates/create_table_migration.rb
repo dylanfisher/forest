@@ -17,8 +17,8 @@ class <%= migration_class_name %> < ActiveRecord::Migration[<%= ActiveRecord::Mi
       change.up do
         unless BlockKind.find_by_name('<%= class_name %>')
           BlockKind.create name: '<%= class_name %>',
-                           category: 'default',
-                           description: ''
+                           category: '<%= block_category %>',
+                           description: '<%= block_description %>'
         end
       end
 

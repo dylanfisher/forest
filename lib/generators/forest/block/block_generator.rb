@@ -84,4 +84,16 @@ class Forest::BlockGenerator < Rails::Generators::NamedBase
     def normalize_table_name(_table_name)
       pluralize_table_names? ? _table_name.pluralize : _table_name.singularize
     end
+
+    def block_category
+      escape_quotes (ENV['BLOCK_CATEGORY'].presence || 'default')
+    end
+
+    def block_description
+      escape_quotes (ENV['BLOCK_DESCRIPTION'].presence || '')
+    end
+
+    def escape_quotes(string)
+      string.gsub(/[']/, '\\\\\'')
+    end
 end
