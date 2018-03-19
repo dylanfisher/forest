@@ -21,16 +21,20 @@ module Blockable
 
     # TODO: rename block_slots to blocks and get rid of this method?
     def blocks(options = {})
-      block_layout = options.fetch(:block_layout, BlockLayout.default_layout)
+      block_layout = options.fetch(:block_layout, nil)
+      block_layout_name = block_layout.try(:slug).try(:underscore).presence || 'all'
       block_type = options.fetch(:kind, nil)
 
-      instance_variable_get("@#{block_layout.slug}_blocks") || instance_variable_set("@#{block_layout.slug}_blocks", begin
+      instance_variable_get("@#{block_layout_name}_blocks") || instance_variable_set("@#{block_layout_name}_blocks", begin
         if block_type
           b = block_slots.includes(:block).where(block_kind_id: block_type.kind.id)
         else
           b = block_slots.includes(:block, :block_layout)
         end
-        b.select { |bs| bs.block_layout == block_layout }.collect(&:block)
+        if block_layout.present?
+          b = b.select { |bs| bs.block_layout == block_layout }.collect(&:block)
+        end
+        b
       end)
     end
 
