@@ -2,6 +2,7 @@ class BlockSlot < Forest::ApplicationRecord
   parent_class = self
 
   validates_presence_of :block_kind
+  validates :block_record, presence: true, on: :update
 
   belongs_to :block, polymorphic: true, dependent: :destroy
   # TODO: this block_record association is not optional, but in
