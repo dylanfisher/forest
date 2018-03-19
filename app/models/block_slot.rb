@@ -4,7 +4,9 @@ class BlockSlot < Forest::ApplicationRecord
   validates_presence_of :block_kind
 
   belongs_to :block, polymorphic: true, dependent: :destroy
-  belongs_to :block_record, polymorphic: true
+  # TODO: this block_record association is not optional, but in
+  # some apps this fails to validate when optional is false.
+  belongs_to :block_record, polymorphic: true, optional: true
   belongs_to :block_kind
   belongs_to :block_layout
 
