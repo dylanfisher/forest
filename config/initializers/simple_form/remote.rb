@@ -4,7 +4,7 @@ module SimpleForm
       def remote(wrapper_options = nil)
         @remote ||= begin
           remote_options = options[:remote].is_a?(Hash) ? options[:remote] : {}
-          remote_options.reverse_merge!(path: template.polymorphic_path([:admin, reflection.klass]))
+          remote_options[:path] ||= template.polymorphic_path([:admin, reflection.klass])
 
           input_html_options[:data] ||= {}
           input_html_options[:data][:remote_path] = remote_options[:path]
