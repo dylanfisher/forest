@@ -1,6 +1,4 @@
 class Forest::MarkdownRenderer < Redcarpet::Render::HTML
-  include Redcarpet::Render::SmartyPants
-
   def self.options
     {
       hard_wrap: true,
@@ -18,7 +16,9 @@ class Forest::MarkdownRenderer < Redcarpet::Render::HTML
       unless without_leading_trailing_paragraphs.include?('<p>')
         full_document = without_leading_trailing_paragraphs
       end
+      full_document = Redcarpet::Render::SmartyPants.render(full_document)
     rescue Exception => e
+      logger.error { "Error in Forest::MarkdownRenderer postprocess #{e.inspect}" }
     end
     full_document
   end
