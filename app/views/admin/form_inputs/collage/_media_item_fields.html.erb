@@ -1,0 +1,12 @@
+<div class="nested-fields">
+  <% f.object.inspect %>
+
+  <%= f.association :media_item, as: :image %>
+
+  <%= f.input :collage_position_left, placeholder: 'collage_position_left' %>
+  <%= f.input :collage_position_top, placeholder: 'collage_position_top' %>
+  <%= f.input :collage_z_index, placeholder: 'collage_z_index' %>
+  <%= f.input :collage_column_size, placeholder: 'collage_column_size' %>
+
+  <%= link_to_remove_association 'remove item', f %>
+</div>

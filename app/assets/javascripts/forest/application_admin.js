@@ -14,6 +14,7 @@
 //= require jquery-ui/widget
 //= require jquery-ui/widgets/sortable
 //= require jquery-ui/widgets/datepicker
+//= require jquery-ui/widgets/draggable
 //= require jquery-fileupload
 //= require jquery-fileupload/basic-plus
 //= require turbolinks

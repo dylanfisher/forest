@@ -118,14 +118,13 @@ $(document).on('click', '.media-item-chooser .media-library-link', function(e) {
     if ( App.MediaItemChooser.toPath ) {
       App.MediaItemChooser.input = App.MediaItemChooser.scope.closest('.image-to-path-wrapper').find( App.MediaItemChooser.inputSelector );
     } else {
-      App.MediaItemChooser.input = App.MediaItemChooser.scope.closest('.gallery, .image').find( App.MediaItemChooser.inputSelector );
+      App.MediaItemChooser.input = App.MediaItemChooser.scope.closest('.gallery, .image, .collage').find( App.MediaItemChooser.inputSelector );
     }
-    App.MediaItemChooser.preview = App.MediaItemChooser.scope.closest('.gallery, .image').find( App.MediaItemChooser.inputSelector + '_preview' );
+    App.MediaItemChooser.preview = App.MediaItemChooser.scope.closest('.gallery, .image, .collage').find( App.MediaItemChooser.inputSelector + '_preview' );
 
     if ( App.MediaItemChooser.multiple ) {
       // Multiple upload
       $(this).addClass('media-library-link--selected');
-
     } else {
       // Single item
       App.MediaItemChooser.input.val( value );
@@ -145,7 +144,7 @@ $(document).on('click.mediaItemChooser', '.media-library-link--selected', functi
 });
 
 $(document).on('click.mediaItemChooser', '.media-item-chooser__select-button', function() {
-  var $gallery = App.MediaItemChooser.preview.closest('.gallery');
+  var $gallery = App.MediaItemChooser.preview.closest('.gallery, .collage');
   var $selected = $('.media-item-chooser .media-library-link--selected');
   var thumbnails = [];
   var $existingThumbnails = $gallery.find('.media-library-image');
@@ -164,7 +163,6 @@ $(document).on('click.mediaItemChooser', '.media-item-chooser__select-button', f
   });
 
   $('.modal.media-item-chooser').modal('hide');
-
   if ( App.MediaItemChooser.preview.length ) {
     if ( App.MediaItemChooser.preview.closest('.media-gallery-preview-wrapper').hasClass('media-gallery-preview-wrapper--no-images') ) {
       App.MediaItemChooser.preview.closest('.media-gallery-preview-wrapper').removeClass('media-gallery-preview-wrapper--no-images').addClass('media-gallery-preview-wrapper--has-images');
@@ -193,7 +191,7 @@ $(document).on('click', '.media-item-chooser__remove-image', function() {
 });
 
 $(document).on('click', '#admin-container .media-item__buttons__remove', function() {
-  var $gallery = $(this).closest('.gallery');
+  var $gallery = $(this).closest('.gallery, .collage');
   var $mediaItem = $(this).closest('.media-item--grid');
 
   $mediaItem.remove();
