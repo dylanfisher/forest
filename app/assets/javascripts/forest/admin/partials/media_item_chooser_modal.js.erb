@@ -137,6 +137,8 @@ $(document).on('click', '.media-item-chooser .media-library-link', function(e) {
       $(this).closest('.modal').modal('hide');
     }
   }
+
+  $(document).trigger('forest:update-media-gallery-preview', [ App.MediaItemChooser.preview ]);
 });
 
 $(document).on('click.mediaItemChooser', '.media-library-link--selected', function() {

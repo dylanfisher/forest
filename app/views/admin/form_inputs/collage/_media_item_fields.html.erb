@@ -1,12 +1,26 @@
-<div class="nested-fields">
-  <% f.object.inspect %>
+<% classes = [] %>
+<% classes << 'collage-input__item' %>
+<% classes << "collage-input__item--#{f.object.media_item.present? ? 'with-image' : 'without-image'}" %>
+<% classes << 'nested-fields' %>
 
-  <%= f.association :media_item, as: :image %>
+<% styles = [] %>
+<% styles << "left: #{f.object.collage_position_left}%" %>
+<% styles << "top: #{f.object.collage_position_top}%" %>
+<% styles << "width: #{f.object.collage_item_width}%" %>
+<% styles << "z-index: #{f.object.collage_z_index}" %>
 
-  <%= f.input :collage_position_left, placeholder: 'collage_position_left' %>
-  <%= f.input :collage_position_top, placeholder: 'collage_position_top' %>
-  <%= f.input :collage_z_index, placeholder: 'collage_z_index' %>
-  <%= f.input :collage_column_size, placeholder: 'collage_column_size' %>
+<%= content_tag :div, class: classes.join(' '), style: styles.join(';') do %>
+  <%= f.association :media_item, as: :image, label: false %>
 
-  <%= link_to_remove_association 'remove item', f %>
-</div>
+  <%= f.hidden_field :collage_position_left, class: 'collage-input__input--position-left' %>
+  <%= f.hidden_field :collage_position_top, class: 'collage-input__input--position-top' %>
+  <%= f.hidden_field :collage_z_index, class: 'collage-input__input--z-index' %>
+  <%= f.hidden_field :collage_item_width, class: 'collage-input__input--item-width' %>
+  <%= f.hidden_field :collage_item_height, class: 'collage-input__input--item-height' %>
+
+  <%= f.hidden_field :id %>
+
+  <div class="media-item__buttons">
+    <%= link_to_remove_association '', f, class: 'media-item__button media-item__buttons__remove glyphicon glyphicon-remove' %>
+  </div>
+<% end %>

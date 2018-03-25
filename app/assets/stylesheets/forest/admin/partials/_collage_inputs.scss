@@ -1,5 +1,55 @@
 // Collage inputs
 
+.collage-input__canvas {
+  height: 60vw;
+
+  &.initialized {
+    .collage-input__item {
+      opacity: 1;
+    }
+  }
+}
+
+.collage-input__item {
+  opacity: 0;
+  position: absolute;
+  cursor: move;
+  transition: opacity 0.2s;
+
+  &:hover {
+    .media-item__buttons {
+      display: block;
+    }
+  }
+
+  .form-group {
+    display: inline-block;
+    position: relative;
+    margin: 0;
+
+    br {
+      display: none;
+    }
+  }
+
+  .media-item-chooser__image {
+    max-width: 100%;
+    max-height: none;
+  }
+}
+
 .collage-input__item__image {
   max-width: 200px;
+}
+
+.collage-input__item {
+  .media-item-chooser__remove-image {
+    display: none;
+  }
+}
+
+.collage-input__item--with-image {
+  .media-item-chooser__button {
+    display: none;
+  }
 }

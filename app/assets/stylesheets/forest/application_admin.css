@@ -11,6 +11,8 @@
  *= require_self
  *= require jquery-ui/sortable
  *= require jquery-ui/datepicker
+ *= require jquery-ui/draggable
+ *= require jquery-ui/resizable
  *= require jquery.fileupload
  *= require jquery.fileupload-ui
  *= require forest/admin/sprockets/main_bootstrap
