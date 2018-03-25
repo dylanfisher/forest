@@ -8,9 +8,11 @@ class GalleryInput < SimpleForm::Inputs::CollectionSelectInput
     obj = input_html_options.fetch :object, object
     input_html_options.merge! id: object_name.parameterize
 
+    associated_records = obj.send(reflection_or_attribute_name)
+
     field_name = input_html_options.fetch :field_name, "#{input_html_options[:id]}"
 
-    selected_images = template.render(partial: 'admin/media_items/media_item_grid_layout', collection: collection, as: :media_item, cached: true)
+    selected_images = template.render(partial: 'admin/media_items/media_item_grid_layout', collection: associated_records, as: :media_item, cached: true)
 
     modal_data_attributes = {
       toggle: 'modal',
@@ -46,7 +48,7 @@ class GalleryInput < SimpleForm::Inputs::CollectionSelectInput
                   })
 
     content << @builder.collection_select(attribute_name,
-              collection, :id, :title, { selected: obj.send(reflection_or_attribute_name)&.collect(&:id) },
+              associated_records, :id, :title, { selected: associated_records&.collect(&:id) },
               multiple: true,
               id: field_name,
               class: 'gallery__input',
