@@ -1,6 +1,10 @@
 class BlockRecordPolicy < ApplicationPolicy
   def show?
-    true
+    if record.respond_to?(:statusable?)
+      record.published? || edit?
+    else
+      true
+    end
   end
 
   def index?
