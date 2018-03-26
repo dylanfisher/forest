@@ -1,7 +1,11 @@
 <% if record.statusable? %>
   <div class="status-scheduler">
     <%= f.input :status, as: :select, collection: record.class.statuses_for_select.collect { |k, v| [k.titleize, k] }, include_blank: false %>
-    <% if record.respond_to?(:scheduled_date) %>
+    <% if record.respond_to?(:published_date) %>
+      <%= f.input :published_date,
+                  as: :datepicker,
+                  hint: "This record will be hidden until the day of this published date." %>
+    <% elsif record.respond_to?(:scheduled_date) %>
       <%= f.input :scheduled_date,
                   as: :string,
                   hint: "This record will be hidden until the day of this scheduled date.",

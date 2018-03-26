@@ -1,8 +1,8 @@
 module Statusable
   extend ActiveSupport::Concern
 
-  # To make a record schedulable, create a date column named scheduled_date
-  # TODO: rename scheduled_date to published_date
+  # To make a record schedulable, create a date column named published_date
+  # TODO: remove references to scheduled_date in favor of published_date
 
   included do
     parent_class = self
@@ -17,12 +17,12 @@ module Statusable
 
     validates_presence_of :status
 
-    before_save :check_active_scheduled_date
+    before_save :set_status_by_published_date
 
     scope :by_status, -> (status) { where(status: status) }
     scope :published, -> { by_status(:published) }
     scope :published_or_scheduled, -> {
-      where("#{parent_class.model_name.plural}.status = :published OR (#{parent_class.model_name.plural}.status = :scheduled AND COALESCE(#{parent_class.model_name.plural}.scheduled_date, :date_yesterday) <= :date_today)",
+      where("#{parent_class.model_name.plural}.status = :published OR (#{parent_class.model_name.plural}.status = :scheduled AND COALESCE(#{parent_class.model_name.plural}.#{attribute_for_scheduled_date}, :date_yesterday) <= :date_today)",
         published: 1,
         scheduled: 3,
         date_today: Date.today,
@@ -34,10 +34,18 @@ module Statusable
     end
 
     def self.statuses_for_select
-      if self.column_names.include?('scheduled_date')
+      if (self.column_names & ['scheduled_date', 'published_date']).present?
         self.statuses
       else
         self.statuses.except(:scheduled)
+      end
+    end
+
+    def self.attribute_for_scheduled_date
+      if column_names.include?('scheduled_date')
+        :scheduled_date
+      elsif column_names.include?('published_date')
+        :published_date
       end
     end
 
@@ -47,10 +55,12 @@ module Statusable
 
     private
 
-      def check_active_scheduled_date
-        if self.respond_to?(:scheduled_date)
-          if self.scheduled_date.present? && self.scheduled_date <= Date.today
+      def set_status_by_published_date
+        if self.respond_to?(self.class.attribute_for_scheduled_date)
+          if self.send(self.class.attribute_for_scheduled_date).present? && self.send(self.class.attribute_for_scheduled_date) <= Date.today
             self.status = 'published'
+          else
+            self.status = 'scheduled'
           end
         end
       end
