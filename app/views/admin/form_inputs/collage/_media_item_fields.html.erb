@@ -11,6 +11,8 @@
 
 <%= content_tag :div, class: classes.join(' '), style: styles.join(';') do %>
   <%= f.association :media_item, as: :image, label: false %>
+  <%# If you're host app view displays captions in the collage, you may want to show this css class in a admin css override in the host app. %>
+  <%= content_tag(:div, md(f.object.media_item.caption), class: 'collage-input__caption') if f.object.media_item.present? %>
 
   <%= f.hidden_field :collage_position_left, class: 'collage-input__input--position-left' %>
   <%= f.hidden_field :collage_position_top, class: 'collage-input__input--position-top' %>
@@ -21,6 +23,9 @@
   <%= f.hidden_field :id %>
 
   <div class="media-item__buttons">
+    <% if f.object.media_item.present? %>
+      <%= content_tag :div, '', class: 'media-item__button media-item__buttons__edit glyphicon glyphicon-pencil', data: { path: edit_admin_media_item_path(f.object.media_item) } %>
+    <% end %>
     <%= link_to_remove_association '', f, class: 'media-item__button media-item__buttons__remove glyphicon glyphicon-remove' %>
   </div>
 <% end %>

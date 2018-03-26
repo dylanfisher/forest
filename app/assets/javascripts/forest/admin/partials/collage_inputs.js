@@ -4,6 +4,7 @@
   var collageCanvasSelector = '.collage-input__canvas';
   var collageItemSelector = '.collage-input__item';
   var totalGridColumnNumber = 12;
+  var uiInteractionInProgress = false;
 
   var updateZIndexes = function($canvas) {
     var $items = $canvas.find(collageItemSelector);
@@ -34,8 +35,7 @@
     });
   };
 
-  var updateInputValues = function(ui) {
-    var $item = ui.helper.closest(collageItemSelector);
+  var updateInputValues = function($item) {
     var $image = $item.find('img');
     var $canvas = $item.closest(collageCanvasSelector);
     var $collage = $canvas.closest('.collage');
@@ -75,8 +75,7 @@
     });
   };
 
-  var updateCanvasInputValues = function(ui) {
-    var $canvas = ui.helper;
+  var updateCanvasInputValues = function($canvas) {
     var $collage = $canvas.closest('.collage');
     var $inputCanvasHeightRatio = $collage.find('.collage-input__input--height-ratio');
 
@@ -108,29 +107,46 @@
 
   var resizableCanvasOptions = {
     handles: 's',
+    start: function(event, ui) {
+      uiInteractionInProgress = true;
+    },
     stop: function(event, ui) {
-      updateCanvasInputValues(ui);
+      var $canvas = ui.helper;
+
+      updateCanvasInputValues($canvas);
+
+      uiInteractionInProgress = false;
     }
   };
 
   var resizableImageOptions = {
     aspectRatio: true,
+    start: function(event, ui) {
+      uiInteractionInProgress = true;
+    },
     stop: function(event, ui) {
       var $item = ui.helper.closest(collageItemSelector);
       var $canvas = $item.closest(collageCanvasSelector);
 
-      updateInputValues(ui);
+      updateInputValues($item);
       setRelativeImageSizes($canvas);
+
+      uiInteractionInProgress = false;
     }
   };
 
   var draggableOptions = {
     containment: 'parent',
     start: function(event, ui) {
+      uiInteractionInProgress = true;
       setMaxZIndexForItem(ui.helper);
     },
     stop: function(event, ui) {
-      updateInputValues(ui);
+      var $item = ui.helper.closest(collageItemSelector);
+
+      updateInputValues($item);
+
+      uiInteractionInProgress = false;
     }
   };
 
@@ -148,6 +164,8 @@
       $canvas.css({ height: $canvas.outerHeight(), paddingBottom: '' });
       $canvas.attr('data-original-height-ratio', getItemRatio($canvas) );
 
+      updateCanvasInputValues($canvas);
+
       $canvas.imagesLoaded(function() {
         var $items = $canvas.find(collageItemSelector);
         var $images = $items.find('img');
@@ -161,16 +179,22 @@
         setRelativeImageSizes($canvas);
 
         $canvas.addClass('initialized');
+
+        $(document).one('turbolinks:before-cache', function() {
+          $items.draggable('destroy');
+          $images.resizable('destroy');
+        });
       });
 
       $(document).one('turbolinks:before-cache', function() {
-        $canvas.resizable('destroy');
-        $items.draggable('destroy');
-        $images.resizable('destroy');
+        $canvas.resizable('destroy')
+               .removeClass('pre-initialized');
       });
     });
 
     $(window).on('resize.collageInput', $.debounce(250, function() {
+      if ( uiInteractionInProgress ) return;
+
       $canvases.each(function() {
         var $canvas = $(this);
         var newCanvasWidth = $canvas.width();
@@ -219,7 +243,10 @@
       var $emptyCanvasMessage = $canvas.find('.collage-input__empty-canvas-message');
 
       setMaxZIndexForItem($newItem);
-      $newImage.css({ width: $canvas.width() / 3 });
+      $newImage.css({
+        opacity: 0,
+        width: $canvas.width() / 3
+      });
 
       $newItem.imagesLoaded(function() {
         $newItem.draggable(draggableOptions)
@@ -227,18 +254,21 @@
                   top: 'calc(50% - ' + ( $newImage.height() / 2 ) + 'px)',
                   left: 'calc(50% - ' + ( $newImage.width() / 2 ) + 'px)',
                 });
-        $newImage.resizable(resizableImageOptions);
+        $newImage.resizable(resizableImageOptions)
+                 .css({ opacity: 1 });
         $newImage.resizable('option', 'containment', canvasId);
+
+        updateInputValues($newItem);
+
+        $(document).one('turbolinks:before-cache', function() {
+          $newItem.draggable('destroy');
+          $newImage.resizable('destroy');
+        });
       });
 
       $mediaGalleryChooserButton.remove();
 
       if ( $emptyCanvasMessage.length ) $emptyCanvasMessage.remove();
-
-      $(document).one('turbolinks:before-cache', function() {
-        $newItem.draggable('destroy');
-        $newImage.resizable('destroy');
-      });
     });
   });
 
