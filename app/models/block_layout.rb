@@ -1,7 +1,7 @@
 class BlockLayout < Forest::ApplicationRecord
   include Sluggable
 
-  has_many :block_slots
+  has_many :block_slots, inverse_of: :block_layout
 
   validates_presence_of :display_name
 

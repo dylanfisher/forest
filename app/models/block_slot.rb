@@ -2,14 +2,15 @@ class BlockSlot < Forest::ApplicationRecord
   parent_class = self
 
   validates_presence_of :block_kind
-  validates :block_record, presence: true, on: :update
+  # validates :block_record, presence: true, on: :update
 
   belongs_to :block, polymorphic: true, dependent: :destroy
   # TODO: this block_record association is not optional, but in
   # some apps this fails to validate when optional is false.
-  belongs_to :block_record, polymorphic: true, optional: true
-  belongs_to :block_kind
-  belongs_to :block_layout
+  # belongs_to :block_record, polymorphic: true, optional: true
+  belongs_to :block_record, polymorphic: true
+  belongs_to :block_kind, inverse_of: :block_slots
+  belongs_to :block_layout, inverse_of: :block_slots
 
   before_validation :create_block_if_block_attributes_empty
 

@@ -1,4 +1,6 @@
 class BlockKind < Forest::ApplicationRecord
+  has_many :block_slots, inverse_of: :block_kind
+
   scope :by_name, -> (orderer = :asc) { order(name: orderer, id: :desc) }
 
   # TODO: - set up a BlockKind has_many blocks association?

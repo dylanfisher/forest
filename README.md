@@ -77,7 +77,7 @@ end
 For an example of a host app running Forest, view [github.com/dylanfisher/forest_blog](https://github.com/dylanfisher/forest_blog).
 
 ## Creating additional block types
-First, run the block type generator
+First, run the block type generator. Make sure to restart your server when generating new blocks.
 
 ```
 rails generate forest:block TitleAndTextBlock title:string content:text
