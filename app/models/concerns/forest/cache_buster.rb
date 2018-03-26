@@ -47,8 +47,10 @@ module Forest::CacheBuster
         association_groups.each do |records|
           if records.try :any?
             if records.class.parent.name == 'ActiveRecord::Associations'
-              logger.debug { "[Forest] CacheBuster is updating associations for #{records.length} #{records.first.class.model_name.plural}" }
-              records.unscope(:order).update_all updated_at: time_now
+              if records.column_names.include?('updated_at')
+                logger.debug { "[Forest] CacheBuster is updating associations for #{records.length} #{records.first.class.model_name.plural}" }
+                records.unscope(:order).update_all updated_at: time_now
+              end
 
               # Delete record ids from the to_update hash if we update them here
               records.to_a.flatten.each do |record|
@@ -63,8 +65,10 @@ module Forest::CacheBuster
         to_update.each do |klass, ids|
           records = klass.safe_constantize&.where(id: ids)
           if records.present?
-            logger.debug { "[Forest] CacheBuster is updating remaining associations for #{records.length} #{records.first.class.model_name.plural} inferred from the cache_record" }
-            records.unscope(:order).update_all(updated_at: time_now)
+            if records.column_names.include?('updated_at')
+              logger.debug { "[Forest] CacheBuster is updating remaining associations for #{records.length} #{records.first.class.model_name.plural} inferred from the cache_record" }
+              records.unscope(:order).update_all(updated_at: time_now)
+            end
           end
         end
 
