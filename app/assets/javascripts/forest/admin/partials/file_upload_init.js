@@ -32,7 +32,6 @@ App.FileUploader = {
 
         $('#progress .progress-bar').css( 'width', progress + '%' );
       }).on('fileuploadcompleted', function(e, data) {
-        console.log('e, data', e, data);
         var $table = $('.forest-table');
         var previewHTML;
 
@@ -42,7 +41,7 @@ App.FileUploader = {
           var fileId = data.result.files[0].id;
           var previewImageUrl = $('.template-download .preview img').attr('src');
           previewHTML = '<div class="col-xs-4 col-sm-3 col-md-2">\
-                          <a class="media-library-link" href="' + previewLink + '" data-media-item-id="' + fileId + '" data-image-url="' + previewImageUrl + '">\
+                          <a class="media-library-link" href="' + previewLink + '" data-media-item-id="' + fileId + '" data-image-url="' + previewImageUrl + '" data-image-url-large="' + previewImageUrl + '">\
                             <div class="media-library-image img-rounded" style="background-image: url(' + previewImageUrl + ')"></div>\
                           </a>\
                         </div>';
