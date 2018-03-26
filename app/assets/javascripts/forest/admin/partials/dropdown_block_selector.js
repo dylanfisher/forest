@@ -67,7 +67,7 @@ App.pageLoad.push(function() {
 
         $blockSlot.find('.block-slot__inputs :input:visible').not(':disabled').first().focus();
 
-        $(document).trigger('app:block-slot-after-insert', $blockSlot);
+        $(document).trigger('forest:block-slot-after-insert', $blockSlot);
       });
     });
 

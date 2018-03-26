@@ -76,7 +76,7 @@ App.pageLoad.push(function() {
   App.MarkdownTextEditor.initialize( $('.markdown-editor:visible') );
 });
 
-$(document).on('app:block-slot-after-insert', function(event, nestedFields) {
+$(document).on('forest:block-slot-after-insert', function(event, nestedFields) {
   App.MarkdownTextEditor.initialize( $(nestedFields).find('.form-group.text .markdown-editor:visible') );
 });
 

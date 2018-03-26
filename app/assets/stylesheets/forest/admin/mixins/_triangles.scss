@@ -1,0 +1,21 @@
+// Triangles
+
+@mixin triangle($direction: right, $size: 20px, $color: #000, $ratio: 0.866025) {
+  width: 0;
+  height: 0;
+  border-style: solid;
+
+  @if $direction == up {
+    border-width: 0 ($size/2) ($size*$ratio) ($size/2);
+    border-color: transparent transparent $color transparent;
+  } @elseif $direction == right {
+    border-width: ($size/2) 0 ($size/2) ($size*$ratio);
+    border-color: transparent transparent transparent $color;
+  } @elseif $direction == down {
+    border-width: ($size*$ratio) ($size/2) 0 ($size/2);
+    border-color: $color transparent transparent transparent;
+  } @else {
+    border-width: ($size/2) ($size*$ratio) ($size/2) 0;
+    border-color: transparent $color transparent transparent;
+  }
+}

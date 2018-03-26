@@ -4,8 +4,10 @@
       <div class="block-type-header-title">
         <% if f.object.block_kind %>
           <%= content_tag :div, '', class: "nested-fields__panel-display-icon #{f.object.block_kind.name.constantize.display_icon}" %>
-          <%= f.object.block_kind.name %>
-          <%= f.object.block_id %>
+          <%= f.object.block.display_name %>
+          <span class="text-muted">
+            <small><%= f.object.block_id %></small>
+          </span>
         <% end %>
       </div>
 

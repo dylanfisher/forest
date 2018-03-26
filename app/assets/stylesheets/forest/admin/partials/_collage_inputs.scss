@@ -1,7 +1,31 @@
 // Collage inputs
 
+.collage-input__canvas-wrapper {
+  overflow: hidden;
+
+  .ui-resizable-s {
+    height: 20px;
+    bottom: -20px;
+    left: -$padding-small-horizontal / 2;
+    width: calc(100% + #{$padding-small-horizontal});
+    border-bottom-left-radius: $border-radius-base;
+    border-bottom-right-radius: $border-radius-base;
+    border-top: 1px solid $well-border;
+    background-color: $well-bg;
+
+    &:after {
+      @include glyphicon-move;
+      position: absolute;
+      top: 3px;
+      right: 6px;
+      color: $gray;
+    }
+  }
+}
+
 .collage-input__canvas {
   height: 60vw;
+  position: relative;
 
   &.initialized {
     .collage-input__item {
@@ -35,6 +59,8 @@
   .media-item-chooser__image {
     max-width: 100%;
     max-height: none;
+    pointer-events: none;
+    margin: 0;
   }
 }
 
@@ -52,4 +78,11 @@
   .media-item-chooser__button {
     display: none;
   }
+}
+
+.collage-input__empty-canvas-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

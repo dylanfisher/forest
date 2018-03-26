@@ -11,12 +11,20 @@ class CollageInput < SimpleForm::Inputs::CollectionSelectInput
 
     associated_records = obj.send(reflection_or_attribute_name)
 
-    field_name = input_html_options.fetch :field_name, "#{input_html_options[:id]}"
+    if object.new_record?
+      field_name = input_html_options.fetch(:field_name, "#{input_html_options[:id]}") << SecureRandom.hex
+    else
+      field_name = input_html_options.fetch :field_name, "#{input_html_options[:id]}"
+    end
 
     cocoon_content = ActiveSupport::SafeBuffer.new
 
     @builder.simple_fields_for(reflection_or_attribute_name) do |f|
       cocoon_content << template.render('admin/form_inputs/collage/media_item_fields', f: f)
+    end
+
+    if associated_records.blank?
+      cocoon_content << template.content_tag(:div, 'Click the "Add collage item" button below to add images to this collage.', class: 'collage-input__empty-canvas-message')
     end
 
     canvas_styles = []

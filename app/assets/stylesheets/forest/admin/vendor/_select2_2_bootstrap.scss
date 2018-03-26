@@ -125,6 +125,10 @@
 .select2-container--bootstrap .select2-results__option--highlighted[aria-selected] {
   background-color: #337ab7;
   color: #fff;
+
+  strong {
+    -webkit-font-smoothing: antialiased;
+  }
 }
 .select2-container--bootstrap .select2-results__option .select2-results__option {
   padding: 6px 12px;

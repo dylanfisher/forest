@@ -67,7 +67,7 @@ $(document).on('click', '#menu__add-item-button', function() {
 
   var $ddItem = $ddList.find('.dd-item[data-id="' + itemId + '"]');
 
-  $(document).trigger('app:add-menu-item', [$ddItem]);
+  $(document).trigger('forest:add-menu-item', [$ddItem]);
 });
 
 $(document).on('click', '.dd-content__remove-item', function() {

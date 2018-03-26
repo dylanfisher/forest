@@ -1,4 +1,4 @@
-$(document).on('turbolinks:load app:block-slot-after-insert', function() {
+$(document).on('turbolinks:load forest:block-slot-after-insert', function() {
   var $blockSlotWrapper = $('.block_slots');
   var $blockSlots = $('.block_slots > .nested-fields');
 

@@ -10,7 +10,7 @@
 //   </div>
 // </div>
 
-$(document).on('turbolinks:load app:block-slot-after-insert', function() {
+$(document).on('turbolinks:load forest:block-slot-after-insert', function() {
   var $fieldSets = $('.sortable-field-set');
 
   $fieldSets.each(function() {

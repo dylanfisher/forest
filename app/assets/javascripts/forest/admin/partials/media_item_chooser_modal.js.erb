@@ -33,7 +33,7 @@ App.MediaItemChooser = {
           }
         })
         .on('shown.bs.modal', function() {
-          $(document).trigger('app:show-media-item-chooser');
+          $(document).trigger('forest:show-media-item-chooser');
         })
         .on('hide.bs.modal', function() {
           that.destroyModal();
