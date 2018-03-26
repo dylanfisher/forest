@@ -41,4 +41,23 @@ module ImageHelper
     srcset = srcset.map { |src, size| "#{asset_path(src)} #{size}" }.join(', ')
     image_tag source, options.merge(srcset: srcset)
   end
+
+  # Prevent images from thrashing your page's layout with the image_jump_fix helper.
+  #
+  # <%= image_jump_fix block.media_item do %>
+  #   <%= image_tag block.media_item.attachment.url(:medium) %>
+  # <% end %>
+  def image_jump_fix(media_item)
+    width = media_item.try(:dimensions).try(:[], :width)
+    height = media_item.try(:dimensions).try(:[], :height)
+
+    if [width, height].all?
+      ratio = height.to_f / width.to_f * 100
+      padding_bottom = "padding-bottom: #{ratio}%;"
+    end
+
+    content_tag :div, class: "forest-image-jump-fix #{('forest-image-jump-fix--' + media_item.attachment_content_type.parameterize) if media_item.try(:attachment_content_type).present?}", style: padding_bottom do
+      yield
+    end
+  end
 end
