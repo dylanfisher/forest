@@ -4,7 +4,8 @@
     <% if record.respond_to?(:published_date) %>
       <%= f.input :published_date,
                   as: :datepicker,
-                  hint: "This record will be hidden until the day of this published date." %>
+                  hint: "This record will be hidden until the day of this published date.",
+                  input_html: { value: f.object.published_date.presence || Date.today } %>
     <% elsif record.respond_to?(:scheduled_date) %>
       <%= f.input :scheduled_date,
                   as: :string,
