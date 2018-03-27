@@ -4,6 +4,8 @@ module Blockable
   included do
     parent_class = self
 
+    before_save :touch_self
+
     has_many :block_slots, -> { order(:position) },
              as: :block_record,
              foreign_key: 'block_record_id',
@@ -38,5 +40,12 @@ module Blockable
       end)
     end
 
+    private
+
+      def touch_self
+        if self.respond_to?(:updated_at)
+          self.updated_at = Time.now
+        end
+      end
   end
 end
