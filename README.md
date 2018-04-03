@@ -105,6 +105,14 @@ A single image association.
 Create a repeatable set of key, value pairs. These are saved as a serialized array directly on the model.
 Useful when you don't need a full has_and_belongs_to_many association.
 
+Add a text column where you want to store the repeatable data, for example a column named `additional_metadata`
+
+Then, in your model:
+
+`has_repeatable :additional_metadata`
+
+And in your form:
+
 `<%= f.input :metadata, as: :repeater %>`
 
 ## Custom SimpleForm components

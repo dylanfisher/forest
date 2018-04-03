@@ -4,7 +4,7 @@ class RepeaterInput < SimpleForm::Inputs::TextInput
 
     content = ActiveSupport::SafeBuffer.new
     content << '<div class="repeater__group-wrapper">'.html_safe
-    content << repeater_group_fields
+    content << repeater_group_fields(options)
     content << '</div>'.html_safe
     content << content_tag(:div, "Add #{attribute_name.to_s.humanize.downcase}", class: 'repeater__add-item-button btn btn-default')
     content << content_tag(:div, '', class: 'repeater__template', data: { template: repeater_group_fields(as_template: true) })
@@ -15,7 +15,8 @@ class RepeaterInput < SimpleForm::Inputs::TextInput
 
     def repeater_group_fields(options = {})
       repeater_group_fields = ActiveSupport::SafeBuffer.new
-      if object.send(attribute_name).try(:blank?) || options[:as_template]
+      repeatable_records = object.send(attribute_name)
+      if repeatable_records.try(:blank?) || options[:as_template]
         repeater_group_fields << '<div class="repeater__group panel panel-default">'.html_safe
         repeater_group_fields << '<div class="repeater__group__body panel-body">'.html_safe
         repeater_group_fields << key_input
@@ -24,7 +25,7 @@ class RepeaterInput < SimpleForm::Inputs::TextInput
         repeater_group_fields << repeater_controls
         repeater_group_fields << '</div>'.html_safe
       else
-        object.send(attribute_name).each do |row|
+        repeatable_records&.each do |row|
           repeater_group_fields << '<div class="repeater__group panel panel-default">'.html_safe
           repeater_group_fields << '<div class="repeater__group__body panel-body">'.html_safe
           repeater_group_fields << key_input(row[:key])
