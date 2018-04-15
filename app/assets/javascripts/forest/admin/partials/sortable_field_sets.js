@@ -1,5 +1,7 @@
 // Sortable fields
-
+//
+// This pattern for sorting fields can be used with the Cocoon gem.
+//
 // Sortable field sets can be nested multiple times, but need to follow this hierarchy:
 // <div class="sortable-field-set">
 //   <div class="sortable-field">

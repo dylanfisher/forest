@@ -18,8 +18,6 @@ App.Datepicker = {
         dateFormat: 'yy-mm-dd'
       };
 
-      console.log('$el', $el);
-
       if ( $el.data('datepicker') ) {
         // Already initialized
       } else {

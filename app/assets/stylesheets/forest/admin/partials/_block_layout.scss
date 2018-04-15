@@ -10,12 +10,13 @@
 
 .block-collapse-button {
   position: absolute;
-  top: $gutter;
+  top: 10px;
   right: $gutter;
 }
 
 .block-type-header-title {
   display: inline-block;
+  padding-right: 40px;
 }
 
 .block-layout__description {
@@ -33,4 +34,14 @@
       opacity: 1;
     }
   }
+}
+
+.block-slot__panel-heading {
+  position: relative;
+}
+
+.block-slot__buttons {
+  position: absolute;
+  top: 10px;
+  right: $gutter;
 }
