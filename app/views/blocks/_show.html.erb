@@ -1,5 +1,5 @@
 <% begin %>
-  <%= content_tag :div, id: block.block_id, class: "#{block.model_name.singular.dasherize} block block-category--#{block.class.kind.category.to_s.parameterize} #{block.try(:css_class)}" do %>
+  <%= content_tag :div, id: block.block_id, class: "#{block.model_name.singular.dasherize} block #{block.first? ? 'block--first' : ''} block-category--#{block.class.kind.category.to_s.parameterize} #{block.try(:css_class)}" do %>
     <%= render "blocks/#{block.model_name.singular}/show", block: block %>
   <% end %>
 <% rescue Exception => e %>
