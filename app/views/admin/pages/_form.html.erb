@@ -4,6 +4,14 @@
   <div class="row">
     <div class="col-sm-12">
 
+      <% if @page.redirect.present? %>
+        <div class="alert alert-danger" role="alert">
+          <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+          <span class="sr-only">Error:</span>
+          This page is being redirected to: <%= link_to @page.redirect, @page.redirect, class: 'text-danger' %>
+        </div>
+      <% end %>
+
       <div class="panel panel-default" data-collapse-parent>
         <div class="panel-heading">
           <h3 class="panel-title">
@@ -19,13 +27,13 @@
               <div class="col-sm-6">
                 <%= f.input :title %>
                 <%= render 'admin/form_inputs/slug', f: f %>
-                <%#= f.input :path, readonly: true, required: false %>
                 <%= f.association :parent_page, remote: { scope: :title_like, path: admin_pages_path(current_record: @page) } %>
                 <%= f.input :description %>
                 <%= f.button :submit, class: 'btn-success' %>
               </div>
               <div class="col-sm-6">
                 <%= render 'admin/form_inputs/status', f: f, record: @page %>
+                <%= f.input :redirect, hint: 'Add a relative path or full URL if you need to redirect this page to another URL.' %>
                 <%= f.association :featured_image, as: :image %>
               </div>
             </div>

@@ -77,7 +77,7 @@ class Admin::PagesController < Admin::ForestController
 
     def page_params
       page_attributes = [
-        :title, :slug, :description, :status, :featured_image_id,
+        :title, :slug, :description, :status, :featured_image_id, :redirect,
         :media_item_ids, :parent_page_id, :ancestor_page_id, :scheduled_date, :path,
         **BlockSlot.blockable_params
       ]

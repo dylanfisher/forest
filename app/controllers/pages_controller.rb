@@ -7,6 +7,10 @@ class PagesController < ForestController
     end
     authorize @page
 
+    if @page.redirect.present?
+      return redirect_to @page.redirect
+    end
+
     @body_classes << "page--#{@page.slug}"
   end
 
