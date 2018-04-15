@@ -15,26 +15,22 @@
         <div class="col-sm-6 text-right">
           <div class="btn-group">
             <% if try(:respond_to?, "new_admin_#{record.class.model_name.singular}_path") %>
-              <%= link_to "New #{record.class.model_name.singular.titleize}", send("new_admin_#{record.class.model_name.singular}_path"), class: 'btn btn-default' %>
+              <%= link_to "New", send("new_admin_#{record.class.model_name.singular}_path"), title: "Create a new #{record.class.model_name.singular.titleize}", class: 'btn btn-default' %>
             <% end %>
-            <%= link_to "All #{record.class.model_name.plural.titleize}", send("admin_#{record.class.model_name.plural}_path"), class: 'btn btn-default' %>
+            <%= link_to "All", send("admin_#{record.class.model_name.plural}_path"), title: "View all #{record.class.model_name.plural.titleize}", class: 'btn btn-default' %>
+            <% if respond_to? "#{record.class.model_name.singular}_path" %>
+              <%= link_to "Show", send("#{record.class.model_name.singular}_path", record.to_friendly_param), title: "View this #{record.class.model_name.singular.titleize}", class: 'btn btn-default' %>
+            <% elsif try(:respond_to?, "admin_#{record.class.model_name.singular}_path") %>
+              <%= link_to "Show", send("admin_#{record.class.model_name.singular}_path", record), title: "View this #{record.class.model_name.singular.titleize}", class: 'btn btn-default' %>
+            <% end %>
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <span class="caret"></span>
               <span class="sr-only">Toggle Dropdown</span>
             </button>
             <ul class="dropdown-menu dropdown-menu--right">
-              <% if respond_to? "#{record.class.model_name.singular}_path" %>
-                <li>
-                  <%= link_to "View #{record.class.model_name.singular.titleize}", send("#{record.class.model_name.singular}_path", record.to_friendly_param) %>
-                </li>
-              <% elsif try(:respond_to?, "admin_#{record.class.model_name.singular}_path") %>
-                <li>
-                  <%= link_to "View #{record.class.model_name.singular.titleize}", send("admin_#{record.class.model_name.singular}_path", record) %>
-                </li>
-              <% end %>
               <% record_namespaces = record.model_name.collection.split('/') %>
               <% record_namespaces = record_namespaces.take(record_namespaces.length - 1) %>
-              <li><%= link_to "Destroy #{record.class.model_name.singular.titleize}", [:admin, *record_namespaces, record].reject(&:blank?), method: :delete, data: { confirm: "Are you sure you want to destroy this #{record.class.model_name.singular}?" } %></li>
+              <li><%= link_to "Destroy", [:admin, *record_namespaces, record].reject(&:blank?), method: :delete, data: { confirm: "Are you sure you want to destroy this #{record.class.model_name.singular}?" } %></li>
             </ul>
           </div>
           <% if try(:respond_to?, "update_admin_#{record.class.model_name.singular}_path") %>
