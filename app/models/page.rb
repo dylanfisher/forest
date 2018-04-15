@@ -124,6 +124,6 @@ class Page < Forest::ApplicationRecord
     end
 
     def touch_self
-      self.touch
+      self.touch unless self.new_record?
     end
 end
