@@ -19,10 +19,13 @@
                         block_kind_id: block_kind.id } do %>
 
         <div class="panel panel-default">
-          <div class="panel-heading sortable-handle" data-block-type-header>
+          <div class="block-slot__panel-heading panel-heading sortable-handle" data-block-type-header>
             <div class="block-type-header-title">
               <%= content_tag :div, '', class: "nested-fields__panel-display-icon #{klass.display_icon}" %>
               <%= klass.display_name %>
+              <span class="text-muted">
+                <small><%= block_kind.description %></small>
+              </span>
             </div>
 
             <%= render 'admin/block_record/block_slot_field_buttons', f: f %>

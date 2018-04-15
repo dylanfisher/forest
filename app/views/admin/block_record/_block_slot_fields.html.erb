@@ -1,12 +1,13 @@
 <div class="block-slot nested-fields">
   <div class="panel panel-default">
-    <div class="panel-heading sortable-handle" data-block-type-header>
+    <div class="block-slot__panel-heading panel-heading sortable-handle" data-block-type-header>
       <div class="block-type-header-title">
         <% if f.object.block_kind %>
           <%= content_tag :div, '', class: "nested-fields__panel-display-icon #{f.object.block_kind.name.constantize.display_icon}" %>
-          <%= f.object.block.display_name %>
+          <%= f.object.block.try(:display_name) %>
           <span class="text-muted">
             <small><%= f.object.block_id %></small>
+            <small><%= f.object.block_kind.description %></small>
           </span>
         <% end %>
       </div>
