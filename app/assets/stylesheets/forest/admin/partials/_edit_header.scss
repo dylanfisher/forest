@@ -1,0 +1,16 @@
+// Edit headers
+
+.fixed-update-record-button {
+  opacity: 0;
+  position: fixed;
+  z-index: 100;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  top: $gutter;
+  right: $gutter + $gutter / 2;
+}
+
+.fixed-update-record-button--active {
+  opacity: 1;
+  pointer-events: auto;
+}
