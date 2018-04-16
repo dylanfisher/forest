@@ -30,6 +30,9 @@
               Drag and drop images or files to upload new items.
             </p>
           </div>
+          <div class="col-sm-12 text-right">
+            <button type="button" class="media-item-chooser__select-button btn btn-primary">Select</button>
+          </div>
         </div>
       </div>
       <%= render 'admin/file_upload', klass: MediaItem, association: :attachment %>
