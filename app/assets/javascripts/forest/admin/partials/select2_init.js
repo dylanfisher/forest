@@ -50,6 +50,7 @@ App.Select2 = {
       var remotePath = $select.attr('data-remote-path');
       var allowClear = $select.find('option:first:empty').length;
       var placeholder = $select.attr('placeholder') || '';
+      console.log('placeholder', placeholder);
 
       if ( remotePath && remotePath.length ) {
         selectOptions = {
@@ -104,6 +105,10 @@ App.Select2 = {
               if ( data.element ) {
                 selection = $(data.element).attr('data-select2-response');
               }
+            }
+
+            if ( !selection ) {
+              selection = placeholder;
             }
 
             return selection;

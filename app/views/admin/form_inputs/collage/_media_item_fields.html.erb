@@ -22,6 +22,16 @@
 
   <%= f.hidden_field :id %>
 
+  <% begin %>
+    <%# Add a partial named collage_fields to your block if you need to add additional fiels to the collage items %>
+    <%= capture do %>
+      <div class="collage-input__additional-fields">
+        <%= render "blocks/#{obj.model_name.singular}/collage_fields", f: f %>
+      </div>
+    <% end %>
+  <% rescue ActionView::MissingTemplate %>
+  <% end %>
+
   <div class="media-item__buttons">
     <% if f.object.media_item.present? %>
       <%= content_tag :div, '', class: 'media-item__button media-item__buttons__edit glyphicon glyphicon-pencil', data: { path: edit_admin_media_item_path(f.object.media_item) } %>

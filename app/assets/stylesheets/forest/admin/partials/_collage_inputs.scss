@@ -1,5 +1,9 @@
 // Collage inputs
 
+.form-group.collage {
+  margin-top: $form-group-margin-bottom;
+}
+
 .collage-input__canvas-wrapper {
   overflow: hidden;
 
@@ -90,4 +94,21 @@
 .collage-input__caption {
   display: none;
   position: absolute;
+}
+
+.collage-input__additional-fields {
+  position: absolute;
+  bottom: 10px;
+  left: 5px;
+  width: calc(100% - 10px);
+  max-width: 250px;
+  opacity: 0.9;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  .form-group {
+    display: block;
+  }
 }

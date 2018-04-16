@@ -20,7 +20,7 @@ class CollageInput < SimpleForm::Inputs::CollectionSelectInput
     cocoon_content = ActiveSupport::SafeBuffer.new
 
     @builder.simple_fields_for(reflection_or_attribute_name) do |f|
-      cocoon_content << template.render('admin/form_inputs/collage/media_item_fields', f: f)
+      cocoon_content << template.render('admin/form_inputs/collage/media_item_fields', f: f, obj: obj)
     end
 
     if associated_records.blank?
@@ -44,6 +44,11 @@ class CollageInput < SimpleForm::Inputs::CollectionSelectInput
                                                    reflection_or_attribute_name,
                                                    class: 'collage-input__link-to-add-association btn btn-default',
                                                    partial: 'admin/form_inputs/collage/media_item_fields',
+                                                   render_options: {
+                                                     locals: {
+                                                       obj: obj
+                                                     }
+                                                   },
                                                    data: {
                                                     association_insertion_node: "##{field_name}_preview",
                                                     association_insertion_method: 'append' })

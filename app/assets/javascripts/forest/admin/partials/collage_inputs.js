@@ -36,7 +36,7 @@
   };
 
   var updateInputValues = function($item) {
-    var $image = $item.find('img');
+    var $image = $item.find('.media-item-chooser__image');
     var $canvas = $item.closest(collageCanvasSelector);
     var $collage = $canvas.closest('.collage');
     var $items = $canvas.find(collageItemSelector);
@@ -168,7 +168,7 @@
 
       $canvas.imagesLoaded(function() {
         var $items = $canvas.find(collageItemSelector);
-        var $images = $items.find('img');
+        var $images = $items.find('.media-item-chooser__image');
 
         $canvas.resizable(resizableCanvasOptions);
 
@@ -206,7 +206,7 @@
 
         $items.each(function() {
           var $item = $(this);
-          var $image = $item.find('img');
+          var $image = $item.find('.media-item-chooser__image');
           var $uiWrapper = $item.find('.ui-wrapper');
           var itemWidth = $item.width();
           var originalItemRatio = $item.attr('data-item-width-to-canvas-width-ratio');
@@ -239,7 +239,7 @@
 
     $(document).one('forest:update-media-gallery-preview.collageInput', function(e, insertedMediaItem) {
       var $newItem = $(insertedMediaItem).closest(collageItemSelector);
-      var $newImage = $newItem.find('img');
+      var $newImage = $newItem.find('.media-item-chooser__image');
       var $emptyCanvasMessage = $canvas.find('.collage-input__empty-canvas-message');
 
       setMaxZIndexForItem($newItem);

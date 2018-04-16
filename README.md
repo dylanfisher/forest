@@ -115,6 +115,34 @@ And in your form:
 
 `<%= f.input :metadata, as: :repeater %>`
 
+#### collage_input.rb
+Create a collage of Media Items that you can drag to rearrange on a resizable canvas.
+
+Generate the block:
+
+`rails g forest:block CollageBlock collage_height_ratio:decimal`
+
+Generate the associated collage items:
+
+`rails g model CollageBlockItem media_item:references collage_block:references collage_position_left:decimal collage_position_top:decimal collage_item_width:decimal collage_item_height:decimal collage_z_index:integer`
+
+```ruby
+# collage_block.rb
+has_many :collage_block_items, dependent: :destroy
+has_many :media_items, through: :collage_block_items
+
+accepts_nested_attributes_for :collage_block_items, allow_destroy: true, reject_if: :all_blank
+```
+
+```erb
+<%# /app/views/blocks/collage_block/_edit.html.erb %>
+<%= f.association :collage_block_items, as: :collage %>
+```
+
+If you need to add additional fields to the collage items, you can insert them into the edit view by creating a partial at the following location:
+
+`/app/views/blocks/collage_block/_collage_fields.html.erb`
+
 ## Custom SimpleForm components
 These custom SimpleForm components are available in your form builders by setting the component option to true.
 
