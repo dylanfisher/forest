@@ -19,6 +19,10 @@ class BaseBlock < Forest::ApplicationRecord
     self.class.display_name
   end
 
+  def hidden?
+    false
+  end
+
   def display_icon
     self.class.display_icon
   end

@@ -8,7 +8,7 @@ module BlockHelper
       end
 
       content_tag :div, class: "blocks block-layout--#{block_layout.slug}" do
-        render partial: 'blocks/show', collection: record.blocks(block_layout: block_layout), as: 'block'
+        render partial: 'blocks/show', collection: record.blocks(block_layout: block_layout).reject(&:hidden?), as: 'block'
       end
     rescue Exception => e
       forest_admin_error(e)
