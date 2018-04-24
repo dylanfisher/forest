@@ -175,6 +175,11 @@ has_many_ordered :projects, through: :project_block_projects
 <%= f.association :projects, sortable: true, remote: true %>
 ```
 
+## Video associations uploaded as Media Items
+```
+<%= f.association :media_item, label: 'Video', remote: { path: admin_media_items_path(videos: true) } %>
+```
+
 ## Custom error pages
 Add this line to application.rb to tell your host app to use the router to handle errors.
 
