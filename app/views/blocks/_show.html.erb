@@ -1,5 +1,12 @@
 <% begin %>
-  <%= content_tag :div, id: block.block_id, class: "#{block.model_name.singular.dasherize} block #{block.first? ? 'block--first' : ''} block-category--#{block.class.kind.category.to_s.parameterize} #{block.try(:css_class)}" do %>
+  <% classes = [] %>
+  <% classes << block.model_name.singular.dasherize %>
+  <% classes << 'block' %>
+  <% classes << (block.first? ? 'block--first' : '') %>
+  <% classes << (block.last? ? 'block--last' : '') %>
+  <% classes << "block-category--#{block.class.kind.category.to_s.parameterize}" %>
+  <% classes << block.try(:css_class) %>
+  <%= content_tag :div, id: block.block_id, class: classes.join(' ') do %>
     <%= render "blocks/#{block.model_name.singular}/show", block: block %>
   <% end %>
 <% rescue Exception => e %>
