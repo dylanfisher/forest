@@ -36,6 +36,6 @@ App.Datepicker = {
 };
 
 App.pageLoad.push(function() {
-  App.Datepicker.initialize( $('.form-group[class*="_scheduled_date"] input[name$="[scheduled_date]"]:visible') );
-  App.Datepicker.initialize( $('.form-group [data-datepicker="true"]:visible') );
+  App.Datepicker.initialize( $('.form-group[class*="_scheduled_date"] input[name$="[scheduled_date]"]').filter(':visible') );
+  App.Datepicker.initialize( $('.form-group [data-datepicker="true"]').filter(':visible') );
 });

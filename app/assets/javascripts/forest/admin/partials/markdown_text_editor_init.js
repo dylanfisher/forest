@@ -73,11 +73,11 @@ App.MarkdownTextEditor = {
 };
 
 App.pageLoad.push(function() {
-  App.MarkdownTextEditor.initialize( $('.markdown-editor:visible') );
+  App.MarkdownTextEditor.initialize( $('.markdown-editor').filter(':visible') );
 });
 
 $(document).on('forest:block-slot-after-insert', function(event, nestedFields) {
-  App.MarkdownTextEditor.initialize( $(nestedFields).find('.form-group.text .markdown-editor:visible') );
+  App.MarkdownTextEditor.initialize( $(nestedFields).find('.form-group.text .markdown-editor').filter(':visible') );
 });
 
 $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function(e) {
@@ -85,5 +85,5 @@ $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function(e) {
   var tabId = $tab.attr('href');
   var $tabContent = $(tabId);
 
-  App.MarkdownTextEditor.initialize( $tabContent.find('.markdown-editor:visible') );
+  App.MarkdownTextEditor.initialize( $tabContent.find('.markdown-editor').filter(':visible') );
 });

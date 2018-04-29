@@ -65,7 +65,7 @@ App.pageLoad.push(function() {
 
         previousBlockKindId = blockKindId;
 
-        $blockSlot.find('.block-slot__inputs :input:visible').not(':disabled').first().focus();
+        $blockSlot.find('.block-slot__inputs').filter(':input:visible').not(':disabled').first().focus();
 
         $(document).trigger('forest:block-slot-after-insert', $blockSlot);
       });
