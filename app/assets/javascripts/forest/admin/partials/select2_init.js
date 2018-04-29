@@ -58,7 +58,7 @@ App.Select2 = {
           ajax: {
             url: remotePath,
             dataType: 'json',
-            delay: 150,
+            delay: 250,
             data: function (params) {
               var returnObj = {};
               var remoteScope = $select.attr('data-remote-scope'); // TODO: remote scope default?
@@ -85,6 +85,7 @@ App.Select2 = {
             return markup;
           },
           templateResult: function(data) {
+            if ( data.loading ) return data.text;
             return data.select2_response;
           },
           templateSelection: function(data) {
