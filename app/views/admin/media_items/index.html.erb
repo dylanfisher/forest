@@ -32,6 +32,9 @@
 
       <%= submit_tag 'Apply', class: 'btn btn-default', data: { confirm: 'Are you sure you want to apply this bulk action?' } %>
 
+      <br>
+      <%= paginate @media_items if @layout == :list %>
+
       <table class="table table-striped">
         <thead>
           <tr>
