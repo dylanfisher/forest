@@ -21,7 +21,7 @@
             <% if respond_to? "#{record.class.model_name.singular}_path" %>
             <% record_namespaces = record.model_name.collection.split('/') %>
             <% record_namespaces = record_namespaces.take(record_namespaces.length - 1) %>
-            <%= link_to "Destroy", [:admin, *record_namespaces, record].reject(&:blank?), method: :delete, data: { confirm: "Are you sure you want to destroy this #{record.class.model_name.singular}?" }, class: 'btn btn-default' %>
+            <%= link_to "Destroy", [:admin, *record_namespaces, record].reject(&:blank?), method: :delete, title: "Destroy this #{record.class.model_name.singular.titleize}", data: { confirm: "Are you sure you want to destroy this #{record.class.model_name.singular.titleize}?" }, class: 'btn btn-default' %>
               <%= link_to "Show", send("#{record.class.model_name.singular}_path", record.to_friendly_param), title: "View this #{record.class.model_name.singular.titleize}", class: 'btn btn-default' %>
             <% elsif try(:respond_to?, "admin_#{record.class.model_name.singular}_path") %>
               <%= link_to "Show", send("admin_#{record.class.model_name.singular}_path", record), title: "View this #{record.class.model_name.singular.titleize}", class: 'btn btn-default' %>

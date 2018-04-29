@@ -17,9 +17,9 @@
                 <%= f.input :attachment, hint: 'Replace the file by uploading a new attachment.' %>
                 <%= f.input :title, placeholder: 'The title will be generated automatically from the file name if left blank.' %>
                 <%= render 'admin/form_inputs/slug', f: f %>
-                <%= f.input :caption %>
                 <%= f.input :alternative_text, hint: 'The alt attribute provides alternative information for an image if a user for some reason cannot view it (because of slow connection, an error in the src attribute, or if the user uses a screen reader).' %>
-                <%= f.input :description %>
+                <%= f.input :caption, markdown: true %>
+                <%#= f.input :description %>
                 <%= f.button :submit, class: 'btn-success' %>
               </div>
               <div class="col-sm-6">

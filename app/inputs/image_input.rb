@@ -5,7 +5,8 @@ class ImageInput < SimpleForm::Inputs::StringInput
     input_html_options.merge! id: object_name.parameterize
 
     button_title = input_html_options.fetch :button_title, 'Choose Image'
-    img_src      = input_html_options.fetch :img_src, obj.send(reflection_or_attribute_name).try(:attachment).try(:url, :medium)
+    image_object = obj.send(reflection_or_attribute_name)
+    img_src      = input_html_options.fetch :img_src, image_object.try(:attachment).try(:url, :medium)
     # TODO: clean this craziness up
     if img_src.nil? && obj.respond_to?(self.input_type)
       img_src = obj.send(self.input_type).try(:attachment).try(:url, :medium)
@@ -29,6 +30,7 @@ class ImageInput < SimpleForm::Inputs::StringInput
     image_tag_classes = image_tag_classes.join(' ')
 
     content = ActiveSupport::SafeBuffer.new
+    buttons = ActiveSupport::SafeBuffer.new
 
     content << tag(:br)
 
@@ -39,18 +41,25 @@ class ImageInput < SimpleForm::Inputs::StringInput
                     **modal_data_attributes
                   })
 
-    content << template.content_tag(:button, button_title,
+    buttons << template.content_tag(:button, button_title,
                   type: 'button',
                   class: "media-item-chooser__button btn btn-default #{path_class}",
                   data: {
                     **modal_data_attributes
                   })
 
-    content << ' '
-
-    content << template.content_tag(:button, 'Remove image',
+    buttons << template.content_tag(:button, 'Remove image',
                   type: 'button',
-                  class: "media-item-chooser__remove-image btn btn-default #{'hidden' unless obj.send(reflection_or_attribute_name).present?}")
+                  class: "media-item-chooser__remove-image btn btn-default #{'hidden' unless image_object.present?}")
+
+    if image_object.present?
+      buttons << template.link_to('Edit image',
+                    template.edit_admin_media_item_path(id: image_object.id),
+                    class: "media-item-chooser__edit-image btn btn-default",
+                    target: '_blank')
+    end
+
+    content << template.content_tag(:div, buttons, class: 'btn-group', role: 'group')
 
     content << @builder.hidden_field(attribute_name, input_html_options) unless path_only
 
