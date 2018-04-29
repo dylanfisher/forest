@@ -48,8 +48,8 @@ module ImageHelper
   #   <%= image_tag block.media_item.attachment.url(:medium) %>
   # <% end %>
   def image_jump_fix(media_item, options = {})
-    width = media_item.try(:dimensions).try(:[], :width)
-    height = media_item.try(:dimensions).try(:[], :height)
+    width = media_item.try(:dimensions).try(:[], :width) || media_item.try(:attachment_width)
+    height = media_item.try(:dimensions).try(:[], :height) || media_item.try(:attachment_height)
     css_class = options[:class]
 
     if [width, height].all?
