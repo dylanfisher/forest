@@ -50,7 +50,6 @@ App.Select2 = {
       var remotePath = $select.attr('data-remote-path');
       var allowClear = $select.find('option:first:empty').length;
       var placeholder = $select.attr('placeholder') || '';
-      console.log('placeholder', placeholder);
 
       if ( remotePath && remotePath.length ) {
         selectOptions = {
@@ -126,17 +125,17 @@ App.Select2 = {
 };
 
 App.pageLoad.push(function() {
-  App.Select2.initialize( $('select:visible') );
+  App.Select2.initialize( $('select').filter(':visible') );
 });
 
 $(document).on('forest:show-media-item-chooser', function() {
-  App.Select2.initialize( $('select:visible') );
+  App.Select2.initialize( $('#media-item-chooser').find('select').filter(':visible') );
 });
 
 $(document).on('forest:block-slot-after-insert', function(e, blockSlot) {
-  App.Select2.initialize( $(blockSlot).find('select:visible') );
+  App.Select2.initialize( $(blockSlot).find('select').filter(':visible') );
 });
 
 $(document).on('forest:add-menu-item', function(e, $menuItem) {
-  App.Select2.add( $menuItem.find('select:visible') );
+  App.Select2.add( $menuItem.find('select').filter(':visible') );
 });
