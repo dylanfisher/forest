@@ -19,19 +19,13 @@
             <% end %>
             <%= link_to "All", send("admin_#{record.class.model_name.plural}_path"), title: "View all #{record.class.model_name.plural.titleize}", class: 'btn btn-default' %>
             <% if respond_to? "#{record.class.model_name.singular}_path" %>
+            <% record_namespaces = record.model_name.collection.split('/') %>
+            <% record_namespaces = record_namespaces.take(record_namespaces.length - 1) %>
+            <%= link_to "Destroy", [:admin, *record_namespaces, record].reject(&:blank?), method: :delete, data: { confirm: "Are you sure you want to destroy this #{record.class.model_name.singular}?" }, class: 'btn btn-default' %>
               <%= link_to "Show", send("#{record.class.model_name.singular}_path", record.to_friendly_param), title: "View this #{record.class.model_name.singular.titleize}", class: 'btn btn-default' %>
             <% elsif try(:respond_to?, "admin_#{record.class.model_name.singular}_path") %>
               <%= link_to "Show", send("admin_#{record.class.model_name.singular}_path", record), title: "View this #{record.class.model_name.singular.titleize}", class: 'btn btn-default' %>
             <% end %>
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <span class="caret"></span>
-              <span class="sr-only">Toggle Dropdown</span>
-            </button>
-            <ul class="dropdown-menu dropdown-menu--right">
-              <% record_namespaces = record.model_name.collection.split('/') %>
-              <% record_namespaces = record_namespaces.take(record_namespaces.length - 1) %>
-              <li><%= link_to "Destroy", [:admin, *record_namespaces, record].reject(&:blank?), method: :delete, data: { confirm: "Are you sure you want to destroy this #{record.class.model_name.singular}?" } %></li>
-            </ul>
           </div>
           <% if try(:respond_to?, "update_admin_#{record.class.model_name.singular}_path") %>
             <div class="btn btn-success update-record-button">Update <%= record.class.model_name.singular.titleize %></div>
