@@ -66,6 +66,14 @@
     pointer-events: none;
     margin: 0;
   }
+
+  .btn-group {
+    display: block;
+  }
+
+  .media-item-chooser__edit-image {
+    display: none;
+  }
 }
 
 .collage-input__item__image {
