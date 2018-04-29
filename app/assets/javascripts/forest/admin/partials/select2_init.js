@@ -139,3 +139,11 @@ $(document).on('forest:block-slot-after-insert', function(e, blockSlot) {
 $(document).on('forest:add-menu-item', function(e, $menuItem) {
   App.Select2.add( $menuItem.find('select').filter(':visible') );
 });
+
+$(document).on('cocoon:after-insert', function(e, insertedItem) {
+  var $item = $(insertedItem);
+
+  if ( $item.hasClass('block-slot') ) return;
+
+  App.Select2.initialize( $(insertedItem).find('select').filter(':visible') );
+});
