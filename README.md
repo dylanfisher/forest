@@ -32,6 +32,58 @@ Run Forest install generator and follow post-install prompts
 $ rails g forest:install
 ```
 
+## Usage
+Forest runs as an engine. To get started using this gem, create a new rails app and add the forest gem to your gemfile.
+
+Mount forest in your routes.rb file
+
+```
+mount Forest::Engine, at: '/'
+```
+
+Install Forest's migrations
+
+```bash
+bin/rails railties:install:migrations
+```
+
+Delete `layouts/application.html.erb` to use Forest's layout.
+
+Update your ApplicationRecord to inherit from `Forest::ApplicationRecord`
+
+```ruby
+class ApplicationRecord < Forest::ApplicationRecord
+end
+```
+
+Add the blocks directory to Rails' autoload paths:
+
+```ruby
+# application.rb
+config.autoload_paths << "#{config.root}/app/models/blocks"
+```
+
+You may want to add the following code to make it easy to monkey patch Forest's classes:
+
+```ruby
+# application.rb
+config.to_prepare do
+  # Load application's model / class decorators
+  Dir.glob(File.join(File.dirname(__FILE__), "../app/**/*_decorator*.rb")) do |c|
+    Rails.configuration.cache_classes ? require(c) : load(c)
+  end
+end
+```
+
+Configure bootsnap if necessary by adding the following right underneath `require 'bundler/setup'`:
+
+```ruby
+# boot.rb
+require 'bootsnap/setup'
+```
+
+For an example of a host app running Forest, view [github.com/dylanfisher/forest_blog](https://github.com/dylanfisher/forest_blog).
+
 ## Features
 Forest aims to include the following features out of the box.
 
@@ -49,32 +101,6 @@ A draggable, nestable interface for managing menus, similar to Wordpress.
 
 ### Users
 Users and user groups, a permissions system, and secure authentication using Devise.
-
-## Usage
-Forest runs as an engine. To get started using this gem, create a new rails app and add the forest gem to your gemfile.
-
-Mount forest in your routes.rb file
-
-```
-mount Forest::Engine, at: '/'
-```
-
-Install Forest's migrations
-
-```
-bin/rails railties:install:migrations
-```
-
-Delete `layouts/application.html.erb` to use Forest's layout.
-
-Update your ApplicationRecord to inherit from `Forest::ApplicationRecord`
-
-```
-class ApplicationRecord < Forest::ApplicationRecord
-end
-```
-
-For an example of a host app running Forest, view [github.com/dylanfisher/forest_blog](https://github.com/dylanfisher/forest_blog).
 
 ## Creating additional block types
 First, run the block type generator. Make sure to restart your server when generating new blocks.
