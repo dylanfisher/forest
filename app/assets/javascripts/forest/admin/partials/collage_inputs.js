@@ -112,8 +112,16 @@
     },
     stop: function(event, ui) {
       var $canvas = ui.helper;
+      var $items = $canvas.find(collageItemSelector);
 
+      setRelativeImageSizes($canvas);
       updateCanvasInputValues($canvas);
+
+      $items.each(function() {
+        var $item = $(this);
+
+        updateInputValues($item);
+      });
 
       uiInteractionInProgress = false;
     }
