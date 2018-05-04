@@ -7,7 +7,8 @@ class Forest::BlockSet
 
   def kind(block_kinds)
     @kind ||= {}
-    @kind[block_kinds] ||= Array(block_kinds).collect(&:to_s)
+    block_kinds = Array(block_kinds).collect(&:to_s)
+    @kind[block_kinds] ||= block_kinds
     @blocks.select do |block|
       @kind[block_kinds].select do |block_kind|
         @kind[block_kinds].include?(block.class.name)
