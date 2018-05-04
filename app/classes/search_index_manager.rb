@@ -4,6 +4,12 @@ class SearchIndexManager
   INDEX_NAME = "#{Rails.app_class.parent_name.underscore}_#{Rails.env}".freeze
 
   # Override this in your host app with an array of all the models you want to search
+  #
+  # SearchIndexManager.class_eval do
+  #   def self.indexed_models
+  #     [Page, Spree::Product]
+  #   end
+  # end
   def self.indexed_models
     []
   end
@@ -35,10 +41,10 @@ class SearchIndexManager
     end
   end
 
-  def self.rebuild(options = {})
-    options.merge!(force: true)
+  def self.rebuild
+    options = { force: true }
     create_index(options)
-    import(options)
+    import
   end
 
   def self.import(options = {})
@@ -50,7 +56,7 @@ class SearchIndexManager
 
     models_to_index.each do |model|
       logger.debug { "[Forest] importing model #{model.name}#{' (using `' + model_scope(model).to_s + '` scope)' if model_scope(model).present?}" }
-      model.import batch_size: 500, scope: model_scope(model), force: options[:force]
+      model.import batch_size: 500, scope: model_scope(model)
     end
   end
 
@@ -69,12 +75,12 @@ class SearchIndexManager
       end
     end
 
-    def eager_load!
-      @eager_load ||= begin
-        Dir["#{Forest::Engine.root}/app/models/*.rb"].each { |file| load file }
-        Rails.application.eager_load!
-      end
-    end
+    # def eager_load!
+    #   @eager_load ||= begin
+    #     Dir["#{Forest::Engine.root}/app/models/*.rb"].each { |file| load file }
+    #     Rails.application.eager_load!
+    #   end
+    # end
 
     def logger
       @logger ||= Logger.new(STDOUT)

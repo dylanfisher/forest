@@ -226,9 +226,19 @@ config.consider_all_requests_local = false
 ## Search
 Forest makes it easy to integrate with Elasticsearch. Just include the `Searchable` concern in any ActiveRecord models that you want to be searchable.
 
+Then, override the SearchIndexManager method below to indicate which models should be indexed.
+
+```ruby
+SearchIndexManager.class_eval do
+  def self.indexed_models
+    [Page, BlogPost]
+  end
+end
+```
+
 Index your documents using the tasks in forest_elasticsearch_tasks.rake. To rebuild the search index, you'd run:
 
-`rake forest:elasticsearch rebuild`
+`rake forest:elasticsearch:rebuild`
 
 ## Primary Dependencies
 Forest relies heavily on the following gems, software and frameworks:
