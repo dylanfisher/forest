@@ -65,9 +65,20 @@ class BaseBlock < Forest::ApplicationRecord
     index == block_record.blocks(block_layout: block_layout).length - 1
   end
 
+  def non_indexed_attributes
+    %W(id created_at updated_at)
+  end
+
+  # Override this in your block to define which attributes should be indexed for search
+  def indexed_attributes
+    self.class.columns.select { |c| %i(text string).include?(c.type) }
+           .collect(&:name)
+           .reject { |c| c =~ /_url$/ } - non_indexed_attributes
+  end
+
   def as_indexed_json(options={})
     self.as_json({
-      except: [:id, :created_at, :updated_at]
+      only: indexed_attributes
     })
   end
 end
