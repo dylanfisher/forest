@@ -1,9 +1,12 @@
 # Does not support Elasticsearch version > 6
 
 class SearchIndexManager
+  # A single combined index name is used for environments like Heroku where multiple
+  # shards are expensive.
   INDEX_NAME = "#{Rails.app_class.parent_name.underscore}_#{Rails.env}".freeze
 
-  # Override this in your host app with an array of all the models you want to search
+  # Override this in your host app with an array of all the models you want to search.
+  # For example:
   #
   # SearchIndexManager.class_eval do
   #   def self.indexed_models
@@ -23,9 +26,9 @@ class SearchIndexManager
       delete_index!
     end
 
+    logger.debug { "[Forest] Creating index #{INDEX_NAME} with configuration:" }
     logger.debug { "[Forest] -- Settings #{settings.inspect}" }
     logger.debug { "[Forest] -- Mappings #{mappings.inspect}" }
-    logger.debug { "[Forest] Creating index #{INDEX_NAME}" }
     create index: INDEX_NAME, body: { settings: settings, mappings: mappings }
   end
 
@@ -74,13 +77,6 @@ class SearchIndexManager
         :published
       end
     end
-
-    # def eager_load!
-    #   @eager_load ||= begin
-    #     Dir["#{Forest::Engine.root}/app/models/*.rb"].each { |file| load file }
-    #     Rails.application.eager_load!
-    #   end
-    # end
 
     def logger
       @logger ||= Logger.new(STDOUT)

@@ -6,6 +6,9 @@
 # Does not support Elasticsearch version > 6
 # TODO: Once the elasticsearch/rails gems make it easier to use version 6, make this
 # Searchable concern compatible.
+#
+# You'll want to look at the SearchIndexManager class next for information on how to customize
+# the elasticsearch indices for your models.
 
 begin
   require 'elasticsearch/model'
