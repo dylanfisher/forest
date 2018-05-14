@@ -52,7 +52,7 @@ class ImageInput < SimpleForm::Inputs::StringInput
                   type: 'button',
                   class: "media-item-chooser__remove-image btn btn-default #{'hidden' unless image_object.present?}")
 
-    if image_object.present?
+    if image_object.try(:id).present?
       buttons << template.link_to('Edit image',
                     template.edit_admin_media_item_path(id: image_object.id),
                     class: "media-item-chooser__edit-image btn btn-default",
