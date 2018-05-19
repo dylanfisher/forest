@@ -200,8 +200,8 @@ module MetaHelper
 
     def build_page_description_from_record
       @_build_page_description_from_record ||= begin
-        description = build_page_title_from_record.try(:to_page_description) ||
-          build_page_title_from_record.try(:description)
+        description = record_to_build_from.try(:to_page_description) ||
+          record_to_build_from.try(:description)
         truncate(description, length: 240)
       end
     end
