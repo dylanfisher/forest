@@ -28,10 +28,20 @@ module Forest
     end
 
     config.after_initialize do
-      ActiveRecord::Base.connection_pool.with_connection do |c|
-        Setting.initialize_from_i18n if c.data_source_exists? 'settings'
-        Translation.initialize_from_i18n if c.data_source_exists? 'translations'
+      if database_exists?
+        ActiveRecord::Base.connection_pool.with_connection do |c|
+          Setting.initialize_from_i18n if c.data_source_exists? 'settings'
+          Translation.initialize_from_i18n if c.data_source_exists? 'translations'
+        end
       end
+    end
+
+    def database_exists?
+      ActiveRecord::Base.connection
+    rescue ActiveRecord::NoDatabaseError
+      false
+    else
+      true
     end
   end
 end
