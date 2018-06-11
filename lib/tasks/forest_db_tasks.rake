@@ -48,7 +48,7 @@ namespace :forest do
         puts "[Forest] Careful! You just uploaded a publicly accessible db dump to the #{s3_bucket.name} bucket."
         puts "[Forest] To import that db dump to Heroku, please run:"
 
-        puts "heroku pg:backups:restore 'https://s3.amazonaws.com/#{ENV['S3_BUCKET_NAME']}/#{object_key}' DATABASE_URL"
+        puts "heroku pg:backups:restore 'https://s3.amazonaws.com/#{s3_bucket_name}/#{object_key}' DATABASE_URL"
         puts "\n"
         puts "[Forest] ** After importing to Heroku, run this command to delete the public db dump from Amazon S3. Don't leave the db dump publicly accessible! **"
         puts "bin/rails forest:db:destroy_s3_dump object_key=#{object_key}"
@@ -86,15 +86,23 @@ namespace :forest do
     end
 
     def s3
-      @s3 ||= Aws::S3::Resource.new(region: ENV['AWS_REGION'])
+      @s3 ||= Aws::S3::Resource.new(region: aws_region)
     end
 
     def s3_bucket
-      @s3_bucket ||= s3.bucket(ENV['S3_BUCKET_NAME'])
+      @s3_bucket ||= s3.bucket(s3_bucket_name)
     end
 
     def check_for_s3_env_variables!
-      abort('[Forest] Error: Please specify an AWS_REGION environment variable') if ENV['AWS_REGION'].blank?
-      abort('[Forest] Error: Please specify an S3_BUCKET_NAME environment variable') if ENV['S3_BUCKET_NAME'].blank?
+      abort('[Forest] Error: Please specify an AWS_REGION environment variable') if aws_region.blank?
+      abort('[Forest] Error: Please specify an S3_BUCKET_NAME environment variable') if s3_bucket_name.blank?
+    end
+
+    def aws_region
+      ENV['AWS_REGION'].presence || Rails.application.credentials&.dig(:aws, :aws_region)
+    end
+
+    def s3_bucket_name
+      ENV['S3_BUCKET_NAME'].presence || Rails.application.credentials&.dig(:aws, :s3_bucket_name)
     end
 end
