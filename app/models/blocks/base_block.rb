@@ -23,6 +23,10 @@ class BaseBlock < Forest::ApplicationRecord
     false
   end
 
+  def block?
+    true
+  end
+
   def display_icon
     self.class.display_icon
   end
