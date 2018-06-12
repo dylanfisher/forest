@@ -47,8 +47,9 @@ module Forest::CacheBuster
         association_groups.each do |records|
           if records.try :any?
             if records.class.parent.name == 'ActiveRecord::Associations'
+
               if records.column_names.include?('updated_at')
-                logger.debug { "[Forest] CacheBuster is updating associations for #{records.length} #{records.first.class.model_name.plural}" }
+                logger.debug { "[Forest] CacheBuster is updating associations for #{records.length} #{records.first.model_name.plural}" }
                 records.unscope(:order).update_all updated_at: time_now
               end
 
@@ -61,12 +62,22 @@ module Forest::CacheBuster
           end
         end
 
+        # Check all associations and see if they are blocks. If they are, collect the unique associated
+        # block records and touch each one.
+        associated_blocks = association_groups.flatten.select { |r| r.try(:block?) }
+        if associated_blocks.present?
+          associated_blocks.collect(&:block_record).uniq.each do |block_record|
+            logger.debug { "[Forest] CacheBuster is updating block_record #{block_record.class.to_s} that was associated with a block." }
+            block_record.touch
+          end
+        end
+
         # Update any remaining associations
         to_update.each do |klass, ids|
           records = klass.safe_constantize&.where(id: ids)
           if records.present?
             if records.column_names.include?('updated_at')
-              logger.debug { "[Forest] CacheBuster is updating remaining associations for #{records.length} #{records.first.class.model_name.plural} inferred from the cache_record" }
+              logger.debug { "[Forest] CacheBuster is updating remaining associations for #{records.length} #{records.first.model_name.plural} inferred from the cache_record" }
               records.unscope(:order).update_all(updated_at: time_now)
             end
           end
