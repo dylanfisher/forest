@@ -3,10 +3,11 @@ class ImageInput < SimpleForm::Inputs::StringInput
   def input(wrapper_options = nil)
     obj = input_html_options.fetch :object, object
     input_html_options.merge! id: object_name.parameterize
-
     button_title = input_html_options.fetch :button_title, 'Choose Image'
     image_object = obj.send(reflection_or_attribute_name)
-    img_src      = input_html_options.fetch :img_src, image_object.try(:attachment).try(:url, :medium)
+    img_src = input_html_options.fetch :img_src, image_object.try(:attachment).try(:url, :medium)
+    attribute_name_to_use = "#{reflection.name}_id"
+
     # TODO: clean this craziness up
     if img_src.nil? && obj.respond_to?(self.input_type)
       img_src = obj.send(self.input_type).try(:attachment).try(:url, :medium)
@@ -61,7 +62,7 @@ class ImageInput < SimpleForm::Inputs::StringInput
 
     content << template.content_tag(:div, buttons, class: 'btn-group', role: 'group')
 
-    content << @builder.hidden_field(attribute_name, input_html_options) unless path_only
+    content << @builder.hidden_field(attribute_name_to_use, input_html_options) unless path_only
 
     content
   end
