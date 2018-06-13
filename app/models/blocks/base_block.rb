@@ -69,6 +69,14 @@ class BaseBlock < Forest::ApplicationRecord
     index == block_record.blocks(block_layout: block_layout).length - 1
   end
 
+  def first_of_kind?
+    blocks.first_of_kind(self.class.name) == self
+  end
+
+  def last_of_kind?
+    blocks.last_of_kind(self.class.name) == self
+  end
+
   def non_indexed_attributes
     %W(id created_at updated_at)
   end
