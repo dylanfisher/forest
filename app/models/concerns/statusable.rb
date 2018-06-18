@@ -56,6 +56,7 @@ module Statusable
     private
 
       def set_status_by_published_date
+        return if self.class.attribute_for_scheduled_date.blank?
         return if self.send(self.class.attribute_for_scheduled_date).blank?
 
         if self.respond_to?(self.class.attribute_for_scheduled_date)
