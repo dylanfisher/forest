@@ -35,7 +35,7 @@ module MetaHelper
         @page_description,
         build_page_description_from_record,
         site_description
-      ].reject(&:blank?).first.squish
+      ].reject(&:blank?).first.try(:squish)
       stripdown(description).squish
     end
   end
