@@ -195,7 +195,11 @@ module MetaHelper
     end
 
     def build_page_title_from_controller
-      controller_name.titleize
+      if controller_name == 'home_pages'
+        'Home'
+      else
+        controller_name.titleize
+      end
     end
 
     def build_page_description_from_record
