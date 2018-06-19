@@ -169,6 +169,14 @@ If you need to add additional fields to the collage items, you can insert them i
 
 `/app/views/blocks/collage_block/_collage_fields.html.erb`
 
+#### block_selector_input.rb
+Add a select input that allows you to choose a block from the current block record.
+
+```erb
+<%# /app/views/blocks/jump_link_block/_edit.html.erb %>
+<%= f.input :anchor, as: :block_selector %>
+```
+
 ## Custom SimpleForm components
 These custom SimpleForm components are available in your form builders by setting the component option to true.
 

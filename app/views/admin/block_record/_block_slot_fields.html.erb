@@ -1,4 +1,10 @@
-<div class="block-slot nested-fields">
+<% block_id = f.object.try(:block).try(:block_id) %>
+<% block_kind = f.object.try(:block).try(:model_name).try(:name) %>
+<%= content_tag :div,
+                class: 'block-slot nested-fields',
+                id: block_id,
+                data: {
+                  kind: block_kind } do %>
   <div class="panel panel-default">
     <div class="block-slot__panel-heading panel-heading sortable-handle" data-block-type-header>
       <div class="block-type-header-title">
@@ -27,4 +33,4 @@
   <%= f.input :block_record_type, as: :hidden %>
   <%= f.input :block_kind_id, as: :hidden %>
   <%= f.input :position, as: :hidden, input_html: { class: 'block-position' } %>
-</div>
+<% end %>
