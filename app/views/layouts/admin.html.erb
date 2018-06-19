@@ -2,6 +2,9 @@
 <html lang="en">
   <head>
     <%= render 'layouts/shared_head' %>
+    <%= jquery_include_tag %>
+    <%= javascript_include_tag 'forest/application_admin' %>
+    <%= render 'admin/shared/admin_head_additions' %>
     <meta name="turbolinks-cache-control" content="no-preview">
     <%= stylesheet_link_tag 'forest/application_admin', media: 'all', 'data-turbolinks-track': 'reload' %>
   </head>
@@ -12,7 +15,5 @@
       <%= yield %>
     </div>
     <%= render 'admin/media_items/modal' unless controller_name == 'media_items' %>
-    <%= jquery_include_tag %>
-    <%= javascript_include_tag 'forest/application_admin', data: { turbolinks_eval: false, turbolinks_suppress_warning: true } %>
   </body>
 </html>
