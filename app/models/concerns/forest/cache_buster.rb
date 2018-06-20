@@ -98,6 +98,7 @@ module Forest::CacheBuster
       # as necessary, using something like the commented out code here.
       def touch_dependent_records
         # For example:
+        # logger.debug { "[Forest] CacheBuster is touching dependent records for #{'CurrentExhibitionsBlock'.safe_constantize.length} CurrentExhibitionsBlocks" }
         # 'CurrentExhibitionsBlock'.safe_constantize&.update_all(updated_at: Time.now)
       end
   end
