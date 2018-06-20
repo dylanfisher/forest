@@ -46,10 +46,14 @@ App.Select2 = {
 
     $elements.each(function() {
       var $select = $(this);
-      var selectOptions = {};
       var remotePath = $select.attr('data-remote-path');
       var allowClear = $select.find('option:first:empty').length;
-      var placeholder = $select.attr('placeholder') || '';
+      var placeholder = $select.attr('placeholder');
+      placeholder = (placeholder == 'false' ? false : (placeholder || ''));
+      var selectOptions = {
+        allowClear: allowClear,
+        placeholder: placeholder
+      };
 
       if ( remotePath && remotePath.length ) {
         selectOptions = {

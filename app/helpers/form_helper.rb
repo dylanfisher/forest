@@ -8,6 +8,8 @@ module FormHelper
     id                     = options.fetch :id
     select_options         = options.fetch :select_options
     title                  = options.fetch :title, nil
+    placeholder            = options.fetch :placeholder, nil
+    include_blank          = options.fetch :include_blank, nil
     css_class              = options.fetch :css_class, nil
     remote_parent          = options.fetch :remote_parent, nil
     remote_target          = options.fetch :remote_target, nil
@@ -28,6 +30,8 @@ module FormHelper
       concat select_tag_dropdown id: id,
         select_options: select_options,
         title: title,
+        placeholder: placeholder,
+        include_blank: include_blank,
         selected: params[id],
         remote_parent: remote_parent,
         remote_target: remote_target,
@@ -41,6 +45,8 @@ module FormHelper
       id                     = options.fetch :id
       select_options         = options.fetch :select_options
       title                  = options.fetch :title, nil
+      placeholder            = options.fetch :placeholder, nil
+      include_blank          = options.fetch :include_blank, nil
       selected               = options.fetch :selected, nil
       remote_parent          = options.fetch :remote_parent, nil
       remote_target          = options.fetch :remote_target, nil
@@ -63,15 +69,19 @@ module FormHelper
         css_class = 'select-tag--default'
       end
 
+      puts "!! placeholder #{placeholder}"
+
       select_tag id,
         options_for_select(options_for_select, selected),
-          id: id,
-          class: css_class,
-          style: 'width: 100%',
-          data: {
-            form_title: title,
-            **remote_attributes
-          }
+        placeholder: placeholder.presence || 'false',
+        id: id,
+        class: css_class,
+        include_blank: include_blank,
+        style: 'width: 100%',
+        data: {
+          form_title: title,
+          **remote_attributes
+        }
     end
 
     def params_as_hidden_fields(additional_params_to_ignore)
