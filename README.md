@@ -177,6 +177,11 @@ Add a select input that allows you to choose a block from the current block reco
 <%= f.input :anchor, as: :block_selector %>
 ```
 
+#### color_input.rb
+Adds a dynamic color picker for choosing a hex color.
+
+`<%= f.input :color, as: color %>`
+
 ## Custom SimpleForm components
 These custom SimpleForm components are available in your form builders by setting the component option to true.
 
