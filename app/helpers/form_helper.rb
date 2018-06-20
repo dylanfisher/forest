@@ -69,8 +69,6 @@ module FormHelper
         css_class = 'select-tag--default'
       end
 
-      puts "!! placeholder #{placeholder}"
-
       select_tag id,
         options_for_select(options_for_select, selected),
         placeholder: placeholder.presence || 'false',
