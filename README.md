@@ -215,7 +215,17 @@ has_many_ordered :projects, through: :project_block_projects
 ```
 
 ## Video associations uploaded as Media Items
+```ruby
+# in your migration
+add_reference :video_blocks, :video, foreign_key: { to_table: :media_items }
 ```
+
+```ruby
+# video_block.rb
+belongs_to :video, class_name: 'MediaItem'
+```
+
+```erb
 <%= f.association :media_item, label: 'Video', remote: { path: admin_media_items_path(videos: true) } %>
 ```
 
