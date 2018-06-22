@@ -10,11 +10,11 @@ module Attachable
                           large: '2000x2000>'
                         },
                         convert_options: {
-                          thumb: '-unsharp 0x1',
-                          small: '-unsharp 0x1',
-                          medium: '-unsharp 1.5x1+0.7+0.02',
-                          large: '-unsharp 1.5x1+0.7+0.02',
-                          all: '-strip -auto-orient -quality 85 -colorspace sRGB -interlace Plane'
+                          thumb:  lambda { |r| r.gif? ? '' : '-unsharp 0x1' },
+                          small:  lambda { |r| r.gif? ? '' : '-unsharp 0x1' },
+                          medium: lambda { |r| r.gif? ? '' : '-unsharp 1.5x1+0.7+0.02' },
+                          large:  lambda { |r| r.gif? ? '' : '-unsharp 1.5x1+0.7+0.02' },
+                          all:    lambda { |r| r.gif? ? '-strip -auto-orient -colorspace sRGB' : '-strip -auto-orient -quality 85 -colorspace sRGB -interlace Plane' }
                         },
                         default_url: '/images/:style/missing.png'
 
@@ -50,6 +50,10 @@ module Attachable
 
       def file?
         !image?
+      end
+
+      def gif?
+        attachment_content_type == 'image/gif'
       end
 
       private
