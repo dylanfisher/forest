@@ -213,7 +213,8 @@ module MetaHelper
     def build_page_featured_image_from_record
       @_build_page_featured_image_from_record ||= begin
         record_to_build_from.try(:featured_image).presence ||
-          record_to_build_from.try(:media_item).presence
+          record_to_build_from.try(:media_item).presence ||
+          record_to_build_from.try(:blockable_metadata).try(:[], 'featured_image_url').presence
       end
     end
 

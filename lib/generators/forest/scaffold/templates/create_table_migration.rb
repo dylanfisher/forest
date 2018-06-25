@@ -7,6 +7,7 @@ class <%= migration_class_name %> < ActiveRecord::Migration[<%= ActiveRecord::Mi
 
       t.string :slug
       t.integer :status, default: 1, null: false
+      t.jsonb :blockable_metadata, default: {}
 
       t.timestamps
     end
@@ -19,5 +20,6 @@ class <%= migration_class_name %> < ActiveRecord::Migration[<%= ActiveRecord::Mi
 
     add_index :<%= table_name %>, :slug, unique: true
     add_index :<%= table_name %>, :status
+    add_index :<%= table_name %>, :blockable_metadata, using: :gin
   end
 end

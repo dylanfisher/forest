@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    forest (0.40.0)
+    forest (0.43.1)
       aws-sdk-s3
       bootstrap-sass
       cocoon
@@ -65,11 +65,11 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
     arel (9.0.0)
-    autoprefixer-rails (8.6.2)
+    autoprefixer-rails (8.6.3)
       execjs
     aws-eventstream (1.0.1)
-    aws-partitions (1.91.0)
-    aws-sdk-core (3.21.2)
+    aws-partitions (1.94.0)
+    aws-sdk-core (3.21.3)
       aws-eventstream (~> 1.0)
       aws-partitions (~> 1.0)
       aws-sigv4 (~> 1.0)
@@ -146,7 +146,7 @@ GEM
     mini_portile2 (2.3.0)
     minitest (5.11.3)
     nio4r (2.3.1)
-    nokogiri (1.8.2)
+    nokogiri (1.8.3)
       mini_portile2 (~> 2.3.0)
     orm_adapter (0.5.0)
     paperclip (6.0.0)
@@ -207,7 +207,7 @@ GEM
     simple_form (4.0.1)
       actionpack (>= 5.0)
       activemodel (>= 5.0)
-    sprockets (3.7.1)
+    sprockets (3.7.2)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
     sprockets-rails (3.2.1)
@@ -238,4 +238,4 @@ DEPENDENCIES
   pg
 
 BUNDLED WITH
-   1.16.1
+   1.16.2
