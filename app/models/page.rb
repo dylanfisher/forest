@@ -20,7 +20,6 @@ class Page < Forest::ApplicationRecord
   validates_uniqueness_of :path
   validate :parent_page_is_not_self
 
-  has_many :media_items, as: :attachable
   has_many :immediate_children, -> { by_title }, class_name: 'Page', foreign_key: 'parent_page_id'
 
   belongs_to :featured_image, class_name: 'MediaItem', optional: true
