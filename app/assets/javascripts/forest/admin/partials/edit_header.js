@@ -1,3 +1,15 @@
+$(document).on('click', '.preview-record-button', function(e) {
+  e.preventDefault();
+
+  var $form = $('form[class*="edit_"]:first');
+  var $submitButton = $form.find('input[type="submit"]:last');
+  var previewPath = $form.attr('data-preview-path');
+
+  $form.attr('action', previewPath);
+
+  $submitButton.trigger('click');
+});
+
 $(document).on('click', '.update-record-button', function() {
   var $form = $('form[class*="edit_"]:first');
   var $submitButton = $form.find('input[type="submit"]:last');

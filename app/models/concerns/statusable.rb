@@ -12,14 +12,15 @@ module Statusable
       # draft: 2,
       scheduled: 3,
       # pending: 4,
-      hidden: 5
+      hidden: 5,
+      preview: 6
     }
 
     validates_presence_of :status
 
     before_save :set_status_by_published_date
 
-    scope :by_status, -> (status) { where(status: status) }
+    scope :by_status, -> (status) { puts "STATUS IS #{status}"; where(status: status) }
     scope :published, -> { by_status(:published) }
     scope :published_or_scheduled, -> {
       where("#{parent_class.model_name.plural}.status = :published OR (#{parent_class.model_name.plural}.status = :scheduled AND COALESCE(#{parent_class.model_name.plural}.#{attribute_for_scheduled_date}, :date_yesterday) <= :date_today)",

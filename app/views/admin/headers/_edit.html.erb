@@ -14,6 +14,9 @@
         </div>
         <div class="col-sm-6 text-right">
           <div class="btn-group">
+            <% if record.is_a?(Page) %>
+              <%= link_to "Preview", "#", title: "Preview this #{record.class.model_name.singular.titleize}", class: 'preview-record-button btn btn-default' %>
+            <% end %>
             <% if try(:respond_to?, "new_admin_#{record.class.model_name.singular}_path") %>
               <%= link_to "New", send("new_admin_#{record.class.model_name.singular}_path"), title: "Create a new #{record.class.model_name.singular.titleize}", class: 'btn btn-default' %>
             <% end %>

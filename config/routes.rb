@@ -19,7 +19,11 @@ Rails.application.routes.draw do
       end
     end
     resources :menus
-    resources :pages
+    resources :pages do
+      member do
+        match 'preview', via: [:patch, :post]
+      end
+    end
     resources :settings
     resources :translations
     resources :users do

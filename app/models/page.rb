@@ -29,6 +29,7 @@ class Page < Forest::ApplicationRecord
   scope :title_like, -> (string) { where('pages.title ILIKE ?', "%#{string}%") }
   scope :parent_pages, -> { where(parent_page_id: nil).order(:title, :id) }
   scope :non_parent_pages, -> { where('pages.parent_page_id IS NOT NULL').order(:title, :id) }
+  # scope :not_preview, -> { where.not(status: :preview) }
 
   def self.resource_description
     "Pages offer a flexible and modular way to present information."
@@ -86,6 +87,17 @@ class Page < Forest::ApplicationRecord
 
   def select2_format
     ((page_ancestors.length + 1).times.collect{}.join('&mdash; ') + title).as_json
+  end
+
+  def create_preview
+    preview = deep_clone(include: [ block_slots: :block ])
+    random_hex = SecureRandom.hex
+
+    preview.slug = random_hex
+    preview.path = random_hex
+    preview.status = 'preview'
+
+    preview
   end
 
   private

@@ -64,6 +64,28 @@ class Admin::PagesController < Admin::ForestController
     end
   end
 
+  def preview
+    if params[:id].present?
+      @page = Page.find(params[:id])
+    else
+      @page = Page.new
+    end
+
+    authorize @page
+
+    @preview = @page.create_preview
+
+    respond_to do |format|
+      if @preview.save
+        format.html { redirect_to @preview.path.prepend('/') }
+        format.json { render :show, status: :created, location: @preview }
+      else
+        format.html { render @page.new_record? ? :new : :edit }
+        format.json { render json: @page.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   def destroy
     authorize @page
     @page.destroy

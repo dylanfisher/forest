@@ -1,4 +1,4 @@
-<%= simple_form_for([:admin, @page]) do |f| %>
+<%= simple_form_for [:admin, @page], data: { preview_path: preview_admin_page_path(@page) } do |f| %>
   <%= f.error_notification %>
 
   <div class="row">
