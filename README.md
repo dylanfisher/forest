@@ -109,7 +109,7 @@ rails generate forest:block TitleAndTextBlock title:string content:text
 
 ## Custom SimpleForm inputs
 
-A number of custom SimpleForm inputs and components are baked into Forest: [https://github.com/dylanfisher/forest/wiki/SimpleForm-inputs-&-components](SimpleForm Inputs & Components)
+A number of custom SimpleForm inputs and components are baked into Forest: https://github.com/dylanfisher/forest/wiki/SimpleForm-inputs-&-components
 
 ## Video associations uploaded as Media Items
 ```ruby
