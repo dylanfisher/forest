@@ -1,5 +1,3 @@
-### 🚧 Under Construction 🚧
-
 # 🌲 Forest
 Forest is a Rails 5 CMS that makes creating and managing websites easy.
 It draws inspiration from Wordpress' dashboard and makes it easy to upload images,
@@ -287,14 +285,7 @@ Big Picture
 - [ ] add schema.org microdata where appopriate, e.g. for navigation menus, headers, footers
 - [ ] is it better to namespace engine?
 - [ ] document custom simple form components and inputs
-- [ ] squash migrations once final db structure is settled upon
 - [ ] tests
-- [x] 404 page, error pages. Document how to customize these.
-- [x] rip out paper_trail gem in favor of our own solution for versioning
-- [x] add optional: true to optional belongs_to associations http://blog.bigbinary.com/2016/02/15/rails-5-makes-belong-to-association-required-by-default.html
-- [x] better naming conventions when it comes to blocks, block_record, and block_slots
-- [x] add has_many ordered simpleform input and select2 option
-- [x] remove any gem dependencies not totally necessary?
 
 Admin
 
@@ -312,23 +303,12 @@ Admin
 - [ ] duplicate records
 - [ ] add an option to repeater field to allow adjusting number of fields in each repeated set.
 - [ ] remove font-awesome dependency from simplemde markdown editor
-- [x] reset password and/or change password when editing user profile
-- [x] intuitive select2 association UI
-- [x] sortable select2 items
-- [x] add select2 with remote ajax selects, automatically infer path to avoid manual setup for each association input
-- [x] remove bootstrap as frontend dependency (admin navbar is only place this is currently shared)
-- [x] purge cache button
-- [x] s3 storage for paperclip, assets, heroku support, etc.
-- [x] bulk csv import
 
 Generators
 
 - [ ] initial app generator `rails g forest:install` and move migrations that seed initial data into the generator
 - [ ] add more notes to post-install message about what to do for first time installs. e.g. inheriting from Forest::ApplicationRecord, if this is necessary.
 - [ ] add ability to skip block_record creation when creating new scaffold that doesn't need to support blocks
-- [x] generate a simple json.jbuilder for admin indexes by default
-- [x] scaffold generator
-- [x] block type generator
 
 Pages
 
@@ -339,7 +319,6 @@ Pages
 - [ ] show page hierarchy in select2 selection?
 - [ ] page status for scheduled, pending and hidden states
 - [ ] better page versioning, page history navigation, restore content blocks with page version
-- [x] data associated pages that support blocks
 
 Blocks
 
@@ -347,9 +326,6 @@ Blocks
 - [ ] additional default content blocks, mainly image and/or gallery, maybe video and/or oEmbed
 - [ ] minimum and maximum blocks per layout
 - [ ] solution for color picker, date picker, map picker, etc. similar to ACF
-- [x] remove all blocks from forest and instead output a command to generate your first block after the install generator runs
-- [x] more performant record saving when parsing block attributes
-- [x] validate block attributes before saving page
 
 Media Gallery
 
@@ -365,21 +341,15 @@ Media Gallery
 - [ ] ability to associate multiple media items at once, e.g. for a carousel
 - [ ] crop tool and other enhancements
 - [ ] configure paperclip to generate optimized images so that google page speed test doesn't complain about the lack of savings.
-- [x] store image dimensions and metadata in attachment https://github.com/thoughtbot/paperclip/wiki/Extracting-image-dimensions
-- [x] add ability to remove media item (e.g. remove feature media item from page)
 
 Menus
 
 - [ ] refactor menus to use nested rails forms rather than serialized json
 - [ ] create pattern for linking to other record types in navigation menus
-- [x] ability to remove menu items
 
 Search
 
 - [ ] frontend search design
-
-JavaScript
-- [x] better namespacing of all custom events. e.g. they should be `forest:my-custom-event`
 
 Sass
 - [ ] potentially speed up sass compilation by following pattern like this? http://blog.teamtreehouse.com/tale-front-end-sanity-beware-sass-import
@@ -389,8 +359,6 @@ Settings
 - [ ] when updating featured image setting the home page cache didn't seem to get busted. Need to confirm this.
 - [ ] when a setting is references in production.rb precompiling assets fails
 - [ ] add documentation for how settings should be added. Right now they must be initialized from the i18n en:forest:settings yaml file.
-- [x] featured image setting sets the og:image to :small size. It should use large size.
-- [x] better settings UI, ability to set multiple data types, e.g. boolean, or association
 
 ## Contributing
 If you are interested in contributing to this project please [get in touch](mailto:hi@dylanfisher.com).
