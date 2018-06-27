@@ -183,7 +183,6 @@ Big Picture
 - [ ] add additional og tags http://ogp.me/
 - [ ] add schema.org microdata where appopriate, e.g. for navigation menus, headers, footers
 - [ ] is it better to namespace engine?
-- [ ] document custom simple form components and inputs
 - [ ] tests
 
 Admin
