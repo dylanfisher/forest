@@ -9,7 +9,7 @@ class Admin::UsersController < Admin::ForestController
 
   # GET /users
   def index
-    @users = apply_scopes(User).by_id.page params[:page]
+    @users = apply_scopes(User.includes(:user_groups)).by_id.page params[:page]
     authorize @users
   end
 
