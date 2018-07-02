@@ -2,7 +2,7 @@
   <% if Page.statusable? %>
     <%= dropdown_select_form url: admin_pages_path,
       id: 'by_status',
-      select_options: Page.statuses.keys.to_a.collect{ |x| [x.titleize, x] },
+      select_options: Page.statuses.keys.to_a.reject{ |x| x == 'preview' }.collect{ |x| [x.titleize, x] },
       title: 'All Statuses' %>
   <% end %>
 <% end %>
