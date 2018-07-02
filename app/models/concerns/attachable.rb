@@ -32,10 +32,6 @@ module Attachable
       scope :images, -> { where('attachment_content_type LIKE ?', '%image%') }
       scope :videos, -> { where('attachment_content_type LIKE ?', '%video%') }
 
-      def self.content_types_for_filter
-        self.grouped_by_content_type.collect { |x| x.attachment_content_type }
-      end
-
       def large_attachment_url
         attachment.url(:large)
       end

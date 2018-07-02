@@ -4,9 +4,15 @@ class MediaItem < Forest::ApplicationRecord
   include Forest::CacheBuster
   include Sluggable
 
+  DATE_FILTER_CACHE_KEY = 'forest_media_item_dates_for_filter'
+  CONTENT_TYPE_CACHE_KEY = 'forest_media_item_content_types_for_filter'
+
   validates_attachment_presence :attachment
 
   before_validation :set_default_metadata
+
+  after_save :expire_cache
+  after_destroy :expire_cache
 
   has_many :pages, foreign_key: :featured_image_id
 
@@ -19,12 +25,25 @@ class MediaItem < Forest::ApplicationRecord
     end
   }
 
-  def self.dates_for_filter
-    self.grouped_by_year_month.collect { |x| [x.created_at.strftime('%B %Y'), x.created_at.strftime('%d-%m-%Y')] }.reverse
-  end
-
   def self.resource_description
     'Media items consist of image, video and other file uploads.'
+  end
+
+  def self.dates_for_filter
+    Rails.cache.fetch DATE_FILTER_CACHE_KEY do
+      self.grouped_by_year_month.collect { |x| [x.created_at.strftime('%B %Y'), x.created_at.strftime('%d-%m-%Y')] }.reverse
+    end
+  end
+
+  def self.content_types_for_filter
+    Rails.cache.fetch CONTENT_TYPE_CACHE_KEY do
+      self.grouped_by_content_type.collect { |x| x.attachment_content_type }
+    end
+  end
+
+  def self.expire_cache!
+    Rails.cache.delete self::DATE_FILTER_CACHE_KEY
+    Rails.cache.delete self::CONTENT_TYPE_CACHE_KEY
   end
 
   def generate_slug
@@ -97,5 +116,9 @@ class MediaItem < Forest::ApplicationRecord
 
     def self.grouped_by_content_type
       self.select("DISTINCT ON (media_items.attachment_content_type) *")
+    end
+
+    def expire_cache
+      self.class.expire_cache!
     end
 end
