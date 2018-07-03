@@ -1,0 +1,50 @@
+<%= render 'admin/headers/index', records: @versions, model_name: 'forest/version' %>
+
+<div class="table-responsive">
+  <table class="forest-table table table-striped">
+    <thead>
+      <tr>
+        <% if forest/version.statusable? %>
+          <th></th>
+        <% end %>
+        <th><%= table_sorter title: 'ID', path: :admin_versions_path, scope: :by_id, default_order: :desc %></th>
+        <th><%= table_sorter title: 'Slug', path: :admin_versions_path, scope: :by_slug, default_order: :asc %></th>
+        <th>Record</th>
+        <th><%= table_sorter title: 'Created&nbsp;at'.html_safe, path: :admin_versions_path, scope: :by_created_at, default_order: :desc %></th>
+        <th><%= table_sorter title: 'Updated&nbsp;at'.html_safe, path: :admin_versions_path, scope: :by_updated_at, default_order: :desc %></th>
+        <th colspan="3"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @versions.each do |version| %>
+        <tr>
+          <% if forest/version.statusable? %>
+            <td><%= status_indicator version %></td>
+          <% end %>
+          <td><%= version.id %></td>
+          <td><%= version.slug %></td>
+          <td><%= version.record %></td>
+          <td><%= version.created_at.to_formatted_s(:long) %></td>
+          <td><%= version.updated_at.to_formatted_s(:long) %></td>
+          <td width="1"><%= link_to 'Edit', edit_admin_version_path(version), class: 'btn btn-xs btn-primary', role: 'button' %></td>
+          <td width="1">
+            <% if try('version_path', version) %>
+              <% if version.respond_to?(:to_friendly_param) %>
+                <% param = version.to_friendly_param %>
+              <% else %>
+                <% param = version %>
+              <% end %>
+              <%= link_to 'Show', version_path(param), class: 'btn btn-xs btn-info', role: 'button' %>
+            <% else %>
+              <%= link_to 'Show', admin_version_path(version), class: 'btn btn-xs btn-info', role: 'button' %>
+            <% end %>
+          </td>
+          <td width="1"><%= link_to 'Destroy', [:admin, version], method: :delete, class: 'btn btn-xs btn-danger', role: 'button', data: { confirm: 'Are you sure you want to destroy this version?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<%= paginate @versions %>

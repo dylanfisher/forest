@@ -1,10 +1,11 @@
 PATH
   remote: .
   specs:
-    forest (0.43.1)
+    forest (0.46.1)
       aws-sdk-s3
       bootstrap-sass
       cocoon
+      deep_cloneable
       devise
       has_scope
       jquery-fileupload-rails
@@ -65,23 +66,23 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
     arel (9.0.0)
-    autoprefixer-rails (8.6.3)
+    autoprefixer-rails (8.6.4)
       execjs
     aws-eventstream (1.0.1)
     aws-partitions (1.94.0)
-    aws-sdk-core (3.21.3)
+    aws-sdk-core (3.22.1)
       aws-eventstream (~> 1.0)
       aws-partitions (~> 1.0)
       aws-sigv4 (~> 1.0)
       jmespath (~> 1.0)
-    aws-sdk-kms (1.5.0)
+    aws-sdk-kms (1.6.0)
       aws-sdk-core (~> 3)
       aws-sigv4 (~> 1.0)
-    aws-sdk-s3 (1.14.0)
+    aws-sdk-s3 (1.16.0)
       aws-sdk-core (~> 3, >= 3.21.2)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.0)
-    aws-sigv4 (1.0.2)
+    aws-sigv4 (1.0.3)
     bcrypt (3.1.12)
     bootstrap-sass (3.3.7)
       autoprefixer-rails (>= 5.2.1)
@@ -91,6 +92,8 @@ GEM
     cocoon (1.2.11)
     concurrent-ruby (1.0.5)
     crass (1.0.4)
+    deep_cloneable (2.3.2)
+      activerecord (>= 3.1.0, < 6)
     devise (4.4.3)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)

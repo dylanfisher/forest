@@ -1,7 +1,7 @@
 class Page < Forest::ApplicationRecord
   include Blockable
   include Statusable
-  # include Versionable
+  include Versionable
 
   before_validation :generate_slug
   # before_validation :assign_page_heirarchy! if :hierarchy_changed?

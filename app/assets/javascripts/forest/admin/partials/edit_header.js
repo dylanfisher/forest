@@ -5,7 +5,8 @@ $(document).on('click', '.preview-record-button', function(e) {
   var $submitButton = $form.find('input[type="submit"]:last');
   var previewPath = $form.attr('data-preview-path');
 
-  $form.attr('action', previewPath);
+  $form.attr('action', previewPath)
+       .attr('target', '_blank');
 
   $submitButton.trigger('click');
 });

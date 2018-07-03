@@ -1,0 +1,10 @@
+<p>Find me in app/views/forest/versions/show.html.erb</p>
+
+<%# content_for :page_description, @version.description if @version.try(:description).present? %>
+
+<p>
+  <b>Record</b>
+  <%= @version.record %>
+</p>
+
+<%= render_blocks @version %>
