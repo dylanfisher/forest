@@ -60,7 +60,7 @@ module Statusable
         return if self.send(self.class.attribute_for_scheduled_date).blank?
 
         if self.respond_to?(self.class.attribute_for_scheduled_date)
-          if self.send(self.class.attribute_for_scheduled_date).present? && self.send(self.class.attribute_for_scheduled_date) <= Date.today
+          if self.send(self.class.attribute_for_scheduled_date).present? && self.send(self.class.attribute_for_scheduled_date).to_date <= Date.today
             self.status = self.scheduled? ? 'published' : self.status
           else
             self.status = self.published? ? 'scheduled' : self.status

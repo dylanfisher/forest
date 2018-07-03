@@ -1,3 +1,11 @@
+<% if record.try(:statusable?) && !record.try(:published?) %>
+  <div class="alert alert-danger" role="alert">
+    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+    <span class="sr-only">Error:</span>
+    This page is currently <strong><%= record.status %></strong> and is not visible to the public.
+  </div>
+<% end %>
+
 <%= admin_header_tag(record) do %>
   <div class="panel panel-default">
     <div class="panel-heading">
