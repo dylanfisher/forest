@@ -14,7 +14,7 @@ module Attachable
                           small:  lambda { |r| r.gif? ? '' : '-unsharp 0x1' },
                           medium: lambda { |r| r.gif? ? '' : '-unsharp 1.5x1+0.7+0.02' },
                           large:  lambda { |r| r.gif? ? '' : '-unsharp 1.5x1+0.7+0.02' },
-                          all:    lambda { |r| r.gif? ? '-strip -auto-orient -colorspace sRGB' : '-strip -auto-orient -quality 85 -colorspace sRGB -interlace Plane' }
+                          all:    lambda { |r| r.gif? ? '-strip -auto-orient -colorspace sRGB' : '-strip -auto-orient -quality 85 -colorspace sRGB -interlace Plane -sampling-factor 4:2:0' }
                         },
                         default_url: '/images/:style/missing.png'
 
