@@ -203,26 +203,19 @@ Admin
 
 Generators
 
-- [ ] initial app generator `rails g forest:install` and move migrations that seed initial data into the generator
-- [ ] add more notes to post-install message about what to do for first time installs. e.g. inheriting from Forest::ApplicationRecord, if this is necessary.
 - [ ] add ability to skip block_record creation when creating new scaffold that doesn't need to support blocks
 
 Pages
 
-- [ ] if you modify form data and navigate away from the page, prompt user for confirmation
-      https://github.com/turbolinks/turbolinks-classic/issues/249#issuecomment-302279482
 - [ ] proper drafting/publishing permissions for drafted/published pages
 - [ ] page groups / page heirarchy
 - [ ] show page hierarchy in select2 selection?
-- [ ] page status for scheduled, pending and hidden states
 - [ ] better page versioning, page history navigation, restore content blocks with page version
 
 Blocks
 
 - [ ] is it possible to add the ability to create blocks within nested forms?
-- [ ] additional default content blocks, mainly image and/or gallery, maybe video and/or oEmbed
 - [ ] minimum and maximum blocks per layout
-- [ ] solution for color picker, date picker, map picker, etc. similar to ACF
 
 Media Gallery
 
@@ -231,22 +224,9 @@ Media Gallery
 - [ ] add direct to S3 file upload for large files like video, that otherwise look like they timeout on heroku
 - [ ] in the fileUpload progress bar, once the files have been uploaded, change the progress bar to indicate that the server is processing the images. Right now it looks like it just hangs on a 100% green bar.
 - [ ] use mini_magick or similar, more efficient image editor to process paperclip files
-- [ ] fix slug generation to support uploading images/files with the same name
 - [ ] better media item upload in media_item#edit
-- [ ] ability to add new media items through modals (e.g. featured in on pages)
-- [ ] ability to upload other file types, not just images (pdf, video, audio)
-- [ ] ability to associate multiple media items at once, e.g. for a carousel
 - [ ] crop tool and other enhancements
 - [ ] configure paperclip to generate optimized images so that google page speed test doesn't complain about the lack of savings.
-
-Menus
-
-- [ ] refactor menus to use nested rails forms rather than serialized json
-- [ ] create pattern for linking to other record types in navigation menus
-
-Search
-
-- [ ] frontend search design
 
 Sass
 - [ ] potentially speed up sass compilation by following pattern like this? http://blog.teamtreehouse.com/tale-front-end-sanity-beware-sass-import
@@ -254,7 +234,7 @@ Sass
 Settings
 
 - [ ] when updating featured image setting the home page cache didn't seem to get busted. Need to confirm this.
-- [ ] when a setting is references in production.rb precompiling assets fails
+- [ ] when a setting is referenced in production.rb precompiling assets fails
 - [ ] add documentation for how settings should be added. Right now they must be initialized from the i18n en:forest:settings yaml file.
 
 ## Contributing
