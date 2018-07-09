@@ -1,7 +1,11 @@
 class GalleryInput < SimpleForm::Inputs::CollectionSelectInput
 
   def label(wrapper_options)
-    false
+    if options[:label]
+      super
+    else
+      false
+    end
   end
 
   def input(wrapper_options = nil)
