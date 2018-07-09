@@ -19,3 +19,9 @@
   line-height: $line-height-base;
   background-color: $white;
 }
+
+.form-group.image {
+  .btn-group + .image + .help-block {
+    margin-top: -10px;
+  }
+}

@@ -93,6 +93,10 @@
   }
 }
 
+.media-gallery-preview-wrapper {
+  margin-bottom: 10px;
+}
+
 .media-gallery-preview-wrapper--no-images {
   cursor: pointer;
 
@@ -112,7 +116,7 @@
 }
 
 .gallery {
-  margin-bottom: 0;
+  // margin-bottom: 0;
 
   .media-item-chooser__button {
     margin-bottom: 0;

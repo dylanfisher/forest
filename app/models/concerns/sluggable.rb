@@ -30,6 +30,7 @@ module Sluggable
       else
         slug_attr = SecureRandom.uuid
       end
+
       self.slug = slug_attr
     end
 
