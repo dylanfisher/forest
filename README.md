@@ -177,6 +177,9 @@ Forest relies heavily on the following gems, software and frameworks:
 
 ## TODO
 
+Priority
+- Maintain block position when validations fail
+
 Big Picture
 - [ ] add a documentation page directly within the forest cms with FAQ and basic overview of how to use the cms.
 - [ ] add additional og tags http://ogp.me/
@@ -185,7 +188,6 @@ Big Picture
 - [ ] tests
 
 Admin
-
 - [ ] nested forms are cumbersome at laptop size. It should be easier to rearrange nested items.
 - [ ] add ability to insert nested form items in between other nested items.
 - [ ] do something more useful with the admin#show view
@@ -202,23 +204,19 @@ Admin
 - [ ] remove font-awesome dependency from simplemde markdown editor
 
 Generators
-
 - [ ] add ability to skip block_record creation when creating new scaffold that doesn't need to support blocks
 
 Pages
-
 - [ ] proper drafting/publishing permissions for drafted/published pages
 - [ ] page groups / page heirarchy
 - [ ] show page hierarchy in select2 selection?
 - [ ] better page versioning, page history navigation, restore content blocks with page version
 
 Blocks
-
 - [ ] is it possible to add the ability to create blocks within nested forms?
 - [ ] minimum and maximum blocks per layout
 
 Media Gallery
-
 - [ ] add ability to specify image format, perhaps with a just-in-time file processing like this example http://www.ryanalynporter.com/2012/06/07/resizing-thumbnails-on-demand-with-paperclip-and-rails/
 - [ ] when uploading video via drag and drop, the preview icon doesn't update properly after upload completes
 - [ ] add direct to S3 file upload for large files like video, that otherwise look like they timeout on heroku
@@ -232,7 +230,6 @@ Sass
 - [ ] potentially speed up sass compilation by following pattern like this? http://blog.teamtreehouse.com/tale-front-end-sanity-beware-sass-import
 
 Settings
-
 - [ ] when updating featured image setting the home page cache didn't seem to get busted. Need to confirm this.
 - [ ] when a setting is referenced in production.rb precompiling assets fails
 - [ ] add documentation for how settings should be added. Right now they must be initialized from the i18n en:forest:settings yaml file.
