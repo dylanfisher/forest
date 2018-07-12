@@ -16,6 +16,11 @@ class MediaItem < Forest::ApplicationRecord
 
   has_many :pages, foreign_key: :featured_image_id
 
+  enum media_item_status: {
+    not_hidden: 0,
+    hidden: 1
+  }
+
   scope :by_date, -> (date) {
     begin
       date = Date.parse(date)

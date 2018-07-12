@@ -10,7 +10,7 @@ class Admin::MediaItemsController < Admin::ForestController
 
   # GET /media_items
   def index
-    @media_items = apply_scopes(MediaItem.all).by_id.page(params[:page]).per(36)
+    @media_items = apply_scopes(MediaItem.all).by_id.not_hidden.page(params[:page]).per(36)
     authorize @media_items
 
     if params[:layout].blank? || params[:layout] != 'list'
