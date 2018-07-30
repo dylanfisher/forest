@@ -44,33 +44,37 @@ class Page < Forest::ApplicationRecord
 
   def page_ancestors
     # TODO: these recursive function aren't performant and should be cached in the view
-    ancestors ||= []
-    page = self
-    parent = page.parent_page unless page.parent_page == page
-    while parent
-      ancestors << parent
-      page = parent
-      parent = page.try :parent_page
+    @_page_ancestors ||= begin
+      ancestors ||= []
+      page = self
+      parent = page.parent_page unless page.parent_page == page
+      while parent
+        ancestors << parent
+        page = parent
+        parent = page.try :parent_page
+      end
+      ancestors
     end
-    ancestors
   end
 
   def page_descendents
     # TODO: these recursive function aren't performant and should be cached in the view
-    descendents = []
-    children = self.immediate_children
+    @_page_descendents ||= begin
+      descendents = []
+      children = self.immediate_children
 
-    while children.present?
-      descendents.concat children
-      children = children.collect(&:immediate_children).reject(&:blank?).flatten
+      while children.present?
+        descendents.concat children
+        children = children.collect(&:immediate_children).reject(&:blank?).flatten
+      end
+
+      descendents
     end
-
-    descendents
   end
 
   def all_associated_pages
     # TODO: these recursive function aren't performant and should be cached in the view
-    page_ancestors.concat(page_ancestors.each.collect(&:page_descendents)).flatten
+    @_all_associated_pages ||= page_ancestors.concat(page_ancestors.each.collect(&:page_descendents)).flatten
   end
 
   # def assign_page_heirarchy!
@@ -81,7 +85,6 @@ class Page < Forest::ApplicationRecord
     pages_to_touch = Page.where(id: [self.id, *self.page_descendents.collect(&:id)])
     self.immediate_children.update_all(parent_page_id: nil)
     pages_to_touch.update_all(updated_at: DateTime.now)
-    # generate_path
   end
 
   def select2_format
@@ -89,10 +92,6 @@ class Page < Forest::ApplicationRecord
   end
 
   private
-
-    def valid_for_page_group?
-      self.parent_page.present? || self.immediate_children.any?
-    end
 
     def hierarchy_changed?
       valid_attributes_for_change = %w(parent_page_id slug)
