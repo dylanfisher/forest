@@ -51,13 +51,13 @@ class Forest::ScaffoldGenerator < Rails::Generators::NamedBase
 
     route_lines = []
     route_lines << "# TODO: sort these new admin routes"
-    route_lines << "  namespace :admin do"
-    route_lines << "    resources :#{plural_name}"
-    route_lines << "  end\n"
+    route_lines << "namespace :admin do"
+    route_lines << "  resources :#{plural_name}"
+    route_lines << "end\n"
 
     unless options.skip_public?
-      route_lines << "  # TODO: sort these new public routes"
-      route_lines << "  resources :#{plural_name}, only: [:index, :show]\n"
+      route_lines << "# TODO: sort these new public routes"
+      route_lines << "resources :#{plural_name}, only: [:index, :show]\n\n"
     end
 
     route route_lines.join("\n")

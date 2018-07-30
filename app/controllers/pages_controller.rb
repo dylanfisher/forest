@@ -3,7 +3,14 @@ class PagesController < ForestController
 
   def show
     unless @page
-      raise ActionController::RoutingError.new('Not Found')
+      if Rails.configuration.consider_all_requests_local
+        raise ActionController::RoutingError.new('Not Found')
+      else
+        logger.error("[Forest][Error] 404 page not found. Looked for path \"#{request.fullpath}\"")
+        @body_classes ||= []
+        @body_classes << 'page--404'
+        return render 'errors/not_found'
+      end
     end
     authorize @page
 

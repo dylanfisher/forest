@@ -5,7 +5,7 @@ class <%= class_name %> < Forest::ApplicationRecord
   include Statusable
 
   # def self.resource_description
-  #   "Briefly describe this resource."
+  #   'Briefly describe this resource.'
   # end
 end
 <% end -%>

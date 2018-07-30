@@ -8,7 +8,7 @@ class <%= plural_name.camelize %>Controller < ForestController
   end
 
   def show
-    # authorize @<%= singular_name %>
+    authorize @<%= singular_name %>
   end
 
   private

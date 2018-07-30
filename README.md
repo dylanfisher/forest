@@ -177,8 +177,10 @@ Forest relies heavily on the following gems, software and frameworks:
 
 ## TODO
 
+Priority
+- Maintain block position when validations fail
+
 Big Picture
-- [ ] decouple admin js/css with public js/css
 - [ ] add a documentation page directly within the forest cms with FAQ and basic overview of how to use the cms.
 - [ ] add additional og tags http://ogp.me/
 - [ ] add schema.org microdata where appopriate, e.g. for navigation menus, headers, footers
@@ -186,7 +188,6 @@ Big Picture
 - [ ] tests
 
 Admin
-
 - [ ] nested forms are cumbersome at laptop size. It should be easier to rearrange nested items.
 - [ ] add ability to insert nested form items in between other nested items.
 - [ ] do something more useful with the admin#show view
@@ -203,59 +204,34 @@ Admin
 - [ ] remove font-awesome dependency from simplemde markdown editor
 
 Generators
-
-- [ ] initial app generator `rails g forest:install` and move migrations that seed initial data into the generator
-- [ ] add more notes to post-install message about what to do for first time installs. e.g. inheriting from Forest::ApplicationRecord, if this is necessary.
 - [ ] add ability to skip block_record creation when creating new scaffold that doesn't need to support blocks
 
 Pages
-
-- [ ] if you modify form data and navigate away from the page, prompt user for confirmation
-      https://github.com/turbolinks/turbolinks-classic/issues/249#issuecomment-302279482
 - [ ] proper drafting/publishing permissions for drafted/published pages
 - [ ] page groups / page heirarchy
 - [ ] show page hierarchy in select2 selection?
-- [ ] page status for scheduled, pending and hidden states
 - [ ] better page versioning, page history navigation, restore content blocks with page version
 
 Blocks
-
 - [ ] is it possible to add the ability to create blocks within nested forms?
-- [ ] additional default content blocks, mainly image and/or gallery, maybe video and/or oEmbed
 - [ ] minimum and maximum blocks per layout
-- [ ] solution for color picker, date picker, map picker, etc. similar to ACF
 
 Media Gallery
-
 - [ ] add ability to specify image format, perhaps with a just-in-time file processing like this example http://www.ryanalynporter.com/2012/06/07/resizing-thumbnails-on-demand-with-paperclip-and-rails/
 - [ ] when uploading video via drag and drop, the preview icon doesn't update properly after upload completes
 - [ ] add direct to S3 file upload for large files like video, that otherwise look like they timeout on heroku
 - [ ] in the fileUpload progress bar, once the files have been uploaded, change the progress bar to indicate that the server is processing the images. Right now it looks like it just hangs on a 100% green bar.
 - [ ] use mini_magick or similar, more efficient image editor to process paperclip files
-- [ ] fix slug generation to support uploading images/files with the same name
 - [ ] better media item upload in media_item#edit
-- [ ] ability to add new media items through modals (e.g. featured in on pages)
-- [ ] ability to upload other file types, not just images (pdf, video, audio)
-- [ ] ability to associate multiple media items at once, e.g. for a carousel
 - [ ] crop tool and other enhancements
 - [ ] configure paperclip to generate optimized images so that google page speed test doesn't complain about the lack of savings.
-
-Menus
-
-- [ ] refactor menus to use nested rails forms rather than serialized json
-- [ ] create pattern for linking to other record types in navigation menus
-
-Search
-
-- [ ] frontend search design
 
 Sass
 - [ ] potentially speed up sass compilation by following pattern like this? http://blog.teamtreehouse.com/tale-front-end-sanity-beware-sass-import
 
 Settings
-
 - [ ] when updating featured image setting the home page cache didn't seem to get busted. Need to confirm this.
-- [ ] when a setting is references in production.rb precompiling assets fails
+- [ ] when a setting is referenced in production.rb precompiling assets fails
 - [ ] add documentation for how settings should be added. Right now they must be initialized from the i18n en:forest:settings yaml file.
 
 ## Contributing

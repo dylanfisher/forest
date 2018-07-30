@@ -5,7 +5,7 @@
     <% if media_item.file? %>
       <%= content_tag :span, '', class: "media-library-image--grid__icon glyphicon #{media_item.glyphicon}" %>
     <% end %>
-    <%= content_tag :div, media_item.attachment_file_name, class: "media-library-image__label small well", title: media_item.attachment_file_name %>
+    <%= content_tag :div, media_item.title, class: "media-library-image__label small well", title: media_item.attachment_file_name %>
   <% end %>
   <%= link_to edit_admin_media_item_path(media_item),
               class: "media-library-link #{media_item.file? ? 'media-library-link--file' : 'media-library-link--image'}",
