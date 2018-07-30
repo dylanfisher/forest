@@ -33,9 +33,9 @@
       <%= submit_tag 'Apply', class: 'btn btn-default', data: { confirm: 'Are you sure you want to apply this bulk action?' } %>
 
       <br>
-      <%= paginate @media_items if @layout == :list %>
+      <%= paginate @media_items %>
 
-      <table class="table table-striped">
+      <table class="table table-striped multi-checkbox-parent">
         <thead>
           <tr>
             <th width="1"><%= check_box_tag 'select_all' %></th>

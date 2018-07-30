@@ -185,13 +185,13 @@ Big Picture
 - [ ] tests
 
 Admin
+- [ ] add migrations to host app without running install:migrations command
 - [ ] nested forms are cumbersome at laptop size. It should be easier to rearrange nested items.
 - [ ] add ability to insert nested form items in between other nested items.
 - [ ] do something more useful with the admin#show view
 - [ ] more robust filter pattern for index views, and ability to select by multiple filters + search,
       and retain these filters when navigating between records
 - [ ] email confirmations for user related actions
-- [ ] add migrations to host app without running install:migrations command
 - [ ] versioning option for data associated pages, settings, menus, etc.
 - [ ] version diff UI like wordpress?
 - [ ] modal to create associated records directly from association page?
