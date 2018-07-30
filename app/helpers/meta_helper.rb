@@ -1,10 +1,10 @@
 module MetaHelper
   def meta_page_title
     @_meta_page_title ||= begin
-      title = [
-        page_title,
-        site_title
-      ].reject(&:blank?).join(divider)
+      title = []
+      title << page_title unless controller_name == 'home_pages'
+      title << site_title
+      title = title.reject(&:blank?).join(divider)
       stripdown(title).squish
     end
   end
