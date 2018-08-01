@@ -185,7 +185,6 @@ Big Picture
 - [ ] tests
 
 Admin
-- [ ] add migrations to host app without running install:migrations command
 - [ ] nested forms are cumbersome at laptop size. It should be easier to rearrange nested items.
 - [ ] add ability to insert nested form items in between other nested items.
 - [ ] do something more useful with the admin#show view

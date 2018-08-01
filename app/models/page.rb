@@ -4,7 +4,6 @@ class Page < Forest::ApplicationRecord
   # include Versionable
 
   before_validation :generate_slug
-  # before_validation :assign_page_heirarchy! if :hierarchy_changed?
   before_validation :generate_path if :hierarchy_changed?
 
   after_save :touch_associated_pages if :hierarchy_changed?
@@ -100,7 +99,7 @@ class Page < Forest::ApplicationRecord
 
     def generate_path
       if page_ancestors.any?
-        generated_path = "#{page_ancestors.collect(&:slug).join('/')}/#{self.slug}"
+        generated_path = "#{page_ancestors.reverse.collect(&:slug).join('/')}/#{self.slug}"
       else
         generated_path = self.slug
       end
