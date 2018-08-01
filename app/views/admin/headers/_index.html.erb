@@ -6,7 +6,7 @@
 <%= admin_header_tag(records) do %>
   <div class="well">
     <div class="row">
-      <div class="admin-header__item-group col-sm-6">
+      <div class="admin-header__item-group col-sm-8">
         <h1 class="admin-header__item"><%= model_names.plural.titleize %> <span class="badge"><%= number_with_delimiter records.total_count %></span></h1>
         <%= form_tag send("admin_#{model_names.plural}_path"), class: 'form-inline admin-header__item', method: :get, enforce_utf8: false, data: { turboform: true } do %>
           <div class="form-group">
@@ -15,7 +15,7 @@
           </div>
         <% end %>
       </div>
-      <div class="col-sm-6 text-right">
+      <div class="col-sm-4 text-right">
         <div class="btn-group text-left">
           <% if content_for? :index_header_button_group %>
             <%= content_for :index_header_button_group %>
