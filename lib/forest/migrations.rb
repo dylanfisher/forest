@@ -48,6 +48,7 @@ module Forest
 
     def engine_migrations
       Dir.entries(engine_dir).map do |file_name|
+        next if migration_file_blacklist.any? { |b| file_name =~ /#{b}/i }
         name = file_name.split('_', 2).last.split('.', 2).first
         name.empty? ? next : name
       end.compact! || []
@@ -55,6 +56,7 @@ module Forest
 
     def app_migrations
       Dir.entries(app_dir).map do |file_name|
+        next if migration_file_blacklist.any? { |b| file_name =~ /#{b}/i }
         next if ['.', '..'].include? file_name
         name = file_name.split('_', 2).last
         name.empty? ? next : name
@@ -69,12 +71,15 @@ module Forest
       "#{config.root}/db/migrate"
     end
 
+    def migration_file_blacklist
+      ['.DS_STORE']
+    end
+
     def engine_display_name
       engine_name.capitalize.sub(/_engine/, '')
     end
 
     def match_engine?(engine)
-      # binding.pry
       engine == "#{engine_name}.rb"
     end
   end
