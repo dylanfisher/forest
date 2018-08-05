@@ -95,8 +95,12 @@ class MediaItem < Forest::ApplicationRecord
     }
   end
 
+  def aspect_ratio
+    dimensions[:width].to_f / dimensions[:height].to_f
+  end
+
   def landscape?(ratio = 1)
-    dimensions[:width].to_f / dimensions[:height].to_f > ratio
+    aspect_ratio > ratio
   end
 
   def portrait?(ratio = 1)
