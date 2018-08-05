@@ -15,12 +15,12 @@
     </div>
     <div class="panel-body">
       <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-8">
           <h1>
             <%= record_name record %>
           </h1>
         </div>
-        <div class="col-sm-6 text-right">
+        <div class="col-sm-4 text-right">
           <div class="btn-group">
             <% if try(:respond_to?, "new_admin_#{record.class.model_name.singular}_path") %>
               <%= link_to "New", send("new_admin_#{record.class.model_name.singular}_path"), title: "Create a new #{record.class.model_name.singular.titleize}", class: 'btn btn-default' %>
