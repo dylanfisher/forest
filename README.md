@@ -200,6 +200,7 @@ Admin
 - [ ] remove font-awesome dependency from simplemde markdown editor
 
 Generators
+- [ ] automatically infer associations and set up block allowed params, scaffold admin controller params, and form input associations properly
 - [ ] add ability to skip block_record creation when creating new scaffold that doesn't need to support blocks
 
 Pages

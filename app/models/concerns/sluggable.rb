@@ -8,7 +8,8 @@ module Sluggable
 
     scope :by_slug, -> (orderer = :asc) { order(slug: orderer) }
 
-    # Override this method to define which attribute the slug is created from
+    # Override this method to define which attribute the slug is created from, or
+    # have this method return false to use a random slug
     def slug_attribute
       if respond_to?(:title)
         title
