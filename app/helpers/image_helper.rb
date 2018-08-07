@@ -50,6 +50,7 @@ module ImageHelper
   def image_jump_fix(media_item, options = {})
     width = media_item.try(:dimensions).try(:[], :width) || media_item.try(:attachment_width)
     height = media_item.try(:dimensions).try(:[], :height) || media_item.try(:attachment_height)
+    tag_type = options.delete(:tag) || :div
     css_class = options[:class]
 
     if [width, height].all?
@@ -57,7 +58,7 @@ module ImageHelper
       padding_bottom = "padding-bottom: #{ratio}%;"
     end
 
-    content_tag :div, class: "forest-image-jump-fix #{('forest-image-jump-fix--' + media_item.attachment_content_type.parameterize) if media_item.try(:attachment_content_type).present?} #{css_class}", style: padding_bottom do
+    content_tag tag_type, class: "forest-image-jump-fix #{('forest-image-jump-fix--' + media_item.attachment_content_type.parameterize) if media_item.try(:attachment_content_type).present?} #{css_class}", style: padding_bottom do
       yield
     end
   end
