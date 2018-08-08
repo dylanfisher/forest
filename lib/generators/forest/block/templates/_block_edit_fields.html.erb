@@ -1,7 +1,11 @@
-<% if attributes.present? -%>
-<% attributes.each do |attribute| -%>
+<%- if attributes.present? -%>
+  <%- attributes.each do |attribute| -%>
+    <%- if attribute.reference? -%>
+<%%= f.association :<%= attribute.name %> %>
+    <%- else -%>
 <%%= f.input :<%= attribute.name %> %>
-<% end -%>
-<% else -%>
+    <%- end -%>
+  <%- end -%>
+<%- else -%>
 <%%#= f.input :attribute_name %>
-<% end -%>
+<%- end -%>

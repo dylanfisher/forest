@@ -16,7 +16,11 @@
             <div class="row">
               <div class="col-sm-6">
                 <%- for attribute in attributes -%>
+                <%- if attribute.reference? -%>
+                <%%= f.association :<%= attribute.name %> %>
+                <%- else -%>
                 <%%= f.input :<%= attribute.name %> %>
+                <%- end -%>
                 <%- end -%>
                 <%%= render 'admin/form_inputs/slug', f: f %>
                 <%%= f.button :submit, class: 'btn-success' %>

@@ -1,7 +1,7 @@
 <% module_namespacing do -%>
 class <%= class_name %> < BaseBlock
   def self.permitted_params
-    [<%= attributes.collect { |attribute| ":#{attribute.name}" }.join(', ') %>]
+    [<%= attributes.collect { |attribute| ":#{attribute.column_name}" }.join(', ') %>]
   end
 
   def self.display_name

@@ -27,7 +27,7 @@
           <td><%%= <%= singular_name %>.id %></td>
           <td><%%= <%= singular_name %>.slug %></td>
 <%- for attribute in attributes -%>
-          <td><%%= <%= singular_name %>.<%= attribute.name %> %></td>
+          <td><%%= <%= singular_name %>.<%= attribute.column_name %> %></td>
 <% end -%>
           <td><%%= <%= singular_name %>.created_at.to_formatted_s(:long) %></td>
           <td><%%= <%= singular_name %>.updated_at.to_formatted_s(:long) %></td>

@@ -50,7 +50,7 @@ class Admin::<%= plural_name.camelize %>Controller < Admin::ForestController
 
     def <%= singular_name %>_params
       # Add blockable params to the permitted attributes if this record is blockable `**BlockSlot.blockable_params`
-      params.require(:<%= singular_name %>).permit(:slug, :status, <%= attributes.collect { |a| ":#{a.name}" }.join(', ') %>)
+      params.require(:<%= singular_name %>).permit(:slug, :status, <%= attributes.collect { |a| ":#{a.column_name}" }.join(', ') %>)
     end
 
     def set_<%= singular_name %>
