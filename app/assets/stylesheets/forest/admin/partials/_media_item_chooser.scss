@@ -93,6 +93,22 @@
   }
 }
 
+.media-item-chooser__modal-title {
+  margin-bottom: 5px;
+  position: relative;
+}
+
+.media-item-chooser__modal-search-form,
+.media-item-chooser__modal-search-input {
+  width: 100%;
+}
+
+.media-item-chooser__modal-title__loading-indicator {
+  position: absolute;
+  top: 5px;
+  right: 30px;
+}
+
 .media-gallery-preview-wrapper {
   margin-bottom: 10px;
 }
