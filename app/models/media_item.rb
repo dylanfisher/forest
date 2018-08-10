@@ -24,7 +24,7 @@ class MediaItem < Forest::ApplicationRecord
   scope :by_date, -> (date) {
     begin
       date = Date.parse(date)
-      where('created_at >= ? AND created_at <= ?', date.beginning_of_month, date.end_of_month)
+      where('media_items.created_at >= ? AND media_items.created_at <= ?', date.beginning_of_month, date.end_of_month)
     rescue ArgumentError => e
       date = nil
     end
