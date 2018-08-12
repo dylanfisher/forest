@@ -53,7 +53,7 @@ Rails.application.routes.draw do
   get '/wp-admin/*all', to: redirect('/'), format: false
   get '/wp-login/*all', to: redirect('/'), format: false
 
-  scope constraints: lambda { |request| request.format.to_s.include? 'text/html' } do
+  scope constraints: lambda { |request| ['text/html', '*/*'].include?(request.format.to_s) } do
     get '*page_path', to: 'pages#show', as: 'page'
   end
 end
