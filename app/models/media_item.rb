@@ -87,6 +87,7 @@ class MediaItem < Forest::ApplicationRecord
     {
       'id': self.id,
       'name': read_attribute(:title),
+      'file_name': attachment_file_name,
       'size': attachment.size,
       'url': edit_admin_media_item_path(self),
       'thumbnail_url': attachment.url(:medium),
