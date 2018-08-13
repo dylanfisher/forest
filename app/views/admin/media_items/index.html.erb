@@ -7,8 +7,8 @@
     <span class="glyphicon glyphicon-th-large"></span>
   <% end %>
 
-  <%= dropdown_select_form url: admin_media_items_path, id: 'by_date', select_options: MediaItem.dates_for_filter, title: 'All Dates' %>
-  <%= dropdown_select_form url: admin_media_items_path, id: 'by_content_type', select_options: MediaItem.content_types_for_filter, title: 'All Content Types' %>
+  <%= dropdown_select_form url: admin_media_items_path(current_scopes.except(:by_date)), id: 'by_date', select_options: MediaItem.dates_for_filter, title: 'All Dates' %>
+  <%= dropdown_select_form url: admin_media_items_path(current_scopes.except(:by_content_type)), id: 'by_content_type', select_options: MediaItem.content_types_for_filter, title: 'All Content Types' %>
 <% end %>
 
 <%= render 'admin/headers/index', records: @media_items, model_name: 'MediaItem', paginate: false %>
