@@ -81,6 +81,8 @@ namespace :forest do
 
   desc "Upload the latest Heroku database to S3 for archival purposes. This assumes you have already enabled daily pg backups on Heroku."
   task 'db:archive_to_s3' => :environment do
+    # TODO: This won't work as is because the heroku CLI isn't available by default on
+    # heroku. It may be better to use https://github.com/kbaum/heroku-database-backups.
     # TODO: add configuration that allows setting a maximum number of database backups.
     # The price class could also be adjusted, for example setting S3 One Zone-IA Storage
     # for very old files to save $$.
