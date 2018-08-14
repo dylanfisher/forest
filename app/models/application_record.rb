@@ -3,11 +3,11 @@ class ApplicationRecord < ActiveRecord::Base
 
   # Add the following code to your app's ApplicationRecord to update the application
   # wide cache key.
-  after_commit :bust_application_cache_key
+  after_commit :expire_application_cache_key
 
   private
 
-  def bust_application_cache_key
-    Rails.application.config.forest_application_cache_key = SecureRandom.uuid
+  def expire_application_cache_key
+    Setting.expire_application_cache_key!
   end
 end

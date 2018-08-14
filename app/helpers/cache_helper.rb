@@ -18,6 +18,6 @@ module CacheHelper
   end
 
   def application_cache_key
-    Rails.application.config.forest_application_cache_key
+    @_application_cache_key ||= Setting.application_cache_key
   end
 end

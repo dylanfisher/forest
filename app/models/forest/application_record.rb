@@ -4,6 +4,8 @@ module Forest
   class ApplicationRecord < ActiveRecord::Base
     self.abstract_class = true
 
+    after_commit :expire_application_cache_key
+
     scope :by_id, -> (orderer = :desc) { order(id: orderer) }
     scope :by_title, -> (orderer = :asc) { order(title: orderer, id: :desc) }
     scope :by_created_at, -> (orderer = :desc) { order(created_at: orderer, id: orderer) }
@@ -81,6 +83,10 @@ module Forest
 
       def self.invalid_csv_column_names
         %w(id created_at updated_at status slug)
+      end
+
+      def expire_application_cache_key
+        Setting.expire_application_cache_key!
       end
   end
 end

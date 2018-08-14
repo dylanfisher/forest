@@ -2,6 +2,7 @@ class Setting < Forest::ApplicationRecord
   include Sluggable
 
   CACHE_KEY = 'forest_settings'
+  APPLICATION_CACHE_KEY = 'forest_application_cache_key'
   DEFAULT_SETTINGS = %i(site_title description featured_image)
 
   after_save :expire_cache
@@ -17,6 +18,16 @@ class Setting < Forest::ApplicationRecord
 
   def self.expire_cache!
     Rails.cache.delete self::CACHE_KEY
+  end
+
+  def self.expire_application_cache_key!
+    Rails.cache.delete self::APPLICATION_CACHE_KEY
+  end
+
+  def self.application_cache_key
+    Rails.cache.fetch APPLICATION_CACHE_KEY do
+      SecureRandom.uuid
+    end
   end
 
   # TODO: Update this to support description and boolean values
