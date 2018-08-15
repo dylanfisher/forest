@@ -3,8 +3,7 @@ class Menu < Forest::ApplicationRecord
 
   CACHE_KEY = 'forest_menus'
 
-  after_save :expire_cache
-  after_destroy :expire_cache
+  after_commit :expire_cache
 
   validates :title, presence: true
 

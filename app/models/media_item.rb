@@ -11,8 +11,7 @@ class MediaItem < Forest::ApplicationRecord
 
   before_validation :set_default_metadata
 
-  after_save :expire_cache
-  after_destroy :expire_cache
+  after_commit :expire_cache
 
   has_many :pages, foreign_key: :featured_image_id
 

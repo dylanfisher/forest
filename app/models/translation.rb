@@ -1,8 +1,7 @@
 class Translation < Forest::ApplicationRecord
   CACHE_KEY = 'forest_translations'
 
-  after_save :expire_cache
-  after_destroy :expire_cache
+  after_commit :expire_cache
 
   validates_presence_of :key
   validates_presence_of :value

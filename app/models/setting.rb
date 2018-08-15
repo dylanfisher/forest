@@ -5,8 +5,7 @@ class Setting < Forest::ApplicationRecord
   APPLICATION_CACHE_KEY = 'forest_application_cache_key'
   DEFAULT_SETTINGS = %i(site_title description featured_image)
 
-  after_save :expire_cache
-  after_destroy :expire_cache
+  after_commit :expire_cache
 
   def self.for(key)
     self.get(key).try(:value)
