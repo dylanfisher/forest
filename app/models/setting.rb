@@ -5,6 +5,7 @@ class Setting < Forest::ApplicationRecord
   APPLICATION_CACHE_KEY = 'forest_application_cache_key'
   DEFAULT_SETTINGS = %i(site_title description featured_image)
 
+  after_commit :touch_associations
   after_commit :expire_cache
 
   def self.for(key)
@@ -96,5 +97,10 @@ class Setting < Forest::ApplicationRecord
 
     def expire_cache
       self.class.expire_cache!
+    end
+
+    # Pages may depend on settings and should be updated each time a setting is changed
+    def touch_associations
+      Page.update_all(updated_at: Time.now)
     end
 end

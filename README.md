@@ -226,7 +226,6 @@ Sass
 - [ ] potentially speed up sass compilation by following pattern like this? http://blog.teamtreehouse.com/tale-front-end-sanity-beware-sass-import
 
 Settings
-- [ ] when updating featured image setting the home page cache didn't seem to get busted. Need to confirm this.
 - [ ] when a setting is referenced in production.rb precompiling assets fails
 - [ ] add documentation for how settings should be added. Right now they must be initialized from the i18n en:forest:settings yaml file.
 
