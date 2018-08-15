@@ -27,7 +27,8 @@
         <div class="row">
           <div class="col-sm-12">
             <div id="block_slots" class="block_slots">
-              <%= f.simple_fields_for :block_slots, f.object.block_slots.includes(:block, :block_kind).sort_by(&:position).select { |bs| bs.block_layout_id == block_layout.id } do |f| %>
+              <%# Don't try to eager load the :block or :block_kind associations here otherwise validations for new blocks will fail. %>
+              <%= f.simple_fields_for :block_slots, f.object.block_slots.sort_by(&:position).select { |bs| bs.block_layout_id == block_layout.id } do |f| %>
                 <%= render 'admin/block_record/block_slot_fields', f: f, **locals %>
               <% end %>
 
