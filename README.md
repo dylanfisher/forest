@@ -73,6 +73,8 @@ config.to_prepare do
 end
 ```
 
+You may want to delete or override your host app's application record to inherit from Forest's.
+
 Configure bootsnap if necessary by adding the following right underneath `require 'bundler/setup'`:
 
 ```ruby

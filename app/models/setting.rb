@@ -17,11 +17,11 @@ class Setting < Forest::ApplicationRecord
   end
 
   def self.expire_cache!
-    Rails.cache.delete self::CACHE_KEY
+    Rails.cache.delete CACHE_KEY
   end
 
   def self.expire_application_cache_key!
-    Rails.cache.delete self::APPLICATION_CACHE_KEY
+    Rails.cache.delete APPLICATION_CACHE_KEY
   end
 
   def self.application_cache_key
