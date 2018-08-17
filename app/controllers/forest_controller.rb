@@ -1,7 +1,7 @@
 class ForestController < ApplicationController
   include Pundit
 
-  protect_from_forgery with: :exception
+  protect_from_forgery with: :exception, prepend: true
   skip_before_action :verify_authenticity_token, if: -> { controller_name == 'sessions' && action_name == 'create' }
 
   layout :layout_by_resource
