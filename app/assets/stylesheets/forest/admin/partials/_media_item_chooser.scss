@@ -93,6 +93,13 @@
   }
 }
 
+.modal-header {
+  .close {
+    z-index: 1;
+    position: relative;
+  }
+}
+
 .media-item-chooser__modal-title {
   margin-bottom: 5px;
   position: relative;
