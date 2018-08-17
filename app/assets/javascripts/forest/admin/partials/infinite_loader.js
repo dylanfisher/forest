@@ -26,6 +26,7 @@ App.InfiniteLoader = {
           scrollOffsetPoint = App.windowHeight * 2;
         });
 
+        $scrollListener.off('scroll.infiniteLoader');
         $scrollListener.on('scroll.infiniteLoader', function() {
           if ( $element.data('disabled') ) return;
 

@@ -40,6 +40,10 @@ App.MediaItemChooser = {
           var lastSearchValue;
           var $loadingIndicator = $('#media-item-chooser__modal-title__loading-indicator');
 
+          $(document).on('keydown.mediaItemModalSearch', '#media_item_modal_fuzzy_search', function(e) {
+            if ( e.which == 13 ) e.preventDefault();
+          });
+
           $(document).on('change.mediaItemModalSearch keyup.mediaItemModalSearch', '#media_item_modal_fuzzy_search', $.debounce(300, function(e) {
             var $input = $(this);
             var searchValue = $input.val();
@@ -85,7 +89,7 @@ App.MediaItemChooser = {
       App.InfiniteLoader.unbindScroll( this.instances[i] );
     }
     $('.media-item-chooser__button--active').removeClass('media-item-chooser__button--active');
-    $(document).off('change.mediaItemModalSearch keyup.mediaItemModalSearch');
+    $(document).off('change.mediaItemModalSearch keyup.mediaItemModalSearch keydown.mediaItemModalSearch');
   },
   createThumbnail: function(id, url) {
     return '<div class="media-item--grid col-xs-4 col-sm-3 col-md-2">' +
