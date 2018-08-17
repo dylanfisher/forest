@@ -8,7 +8,7 @@ class PagesController < ForestController
       else
         logger.error("[Forest][Error] 404 page not found. Looked for path \"#{request.fullpath}\"")
         @body_classes ||= []
-        @body_classes << 'page--404'
+        @body_classes << 'controller--errors action--not_found'
         return render 'errors/not_found'
       end
     end
