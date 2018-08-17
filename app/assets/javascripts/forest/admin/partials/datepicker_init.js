@@ -11,6 +11,11 @@ App.Datepicker = {
   },
   add: function($elements) {
     var that = this;
+    var date = new Date();
+    var year = date.getFullYear().toString();
+    var month = date.getMonth().toString().padStart(2, 0);
+    var day = date.getDay().toString().padStart(2, 0);
+    var defaultDate = year + '-' + month + '-' + day;
 
     $elements.each(function() {
       var $el = $(this);
@@ -25,6 +30,10 @@ App.Datepicker = {
       }
 
       $el.datepicker( options );
+
+      if ( $el.hasClass('required') && $el.datepicker('getDate') == null ) {
+        $el.datepicker('setDate', defaultDate);
+      }
     });
   },
   teardown: function() {
