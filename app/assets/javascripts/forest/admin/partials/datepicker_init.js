@@ -23,7 +23,7 @@ App.Datepicker = {
         dateFormat: 'yy-mm-dd'
       };
 
-      if ( $el.data('datepicker') ) {
+      if ( $el.data('datepicker') && $el.data('datepicker')['input'] ) {
         // Already initialized
       } else {
         that.instances.push( $el );
@@ -37,12 +37,17 @@ App.Datepicker = {
     });
   },
   teardown: function() {
+    $.datepicker.dpDiv.remove();
     for ( var i = this.instances.length - 1; i >= 0; i-- ) {
       $(this.instances[i]).datepicker('destroy');
     }
     this.instances = [];
   }
 };
+
+$(document).on('turbolinks:before-render', function(e) {
+  $.datepicker.dpDiv.appendTo(e.originalEvent.data.newBody);
+});
 
 App.pageLoad.push(function() {
   App.Datepicker.initialize( $('.form-group[class*="_scheduled_date"] input[name$="[scheduled_date]"]').filter(':visible') );
