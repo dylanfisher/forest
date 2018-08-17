@@ -28,6 +28,7 @@ class ForestController < ApplicationController
       @body_classes << controller_heirarchy
       @body_classes << "controller--#{controller_name}"
       @body_classes << "action--#{action_name}"
+      @body_classes << 'current-user--admin' if current_user&.admin?
     end
 
     def reset_class_method_cache

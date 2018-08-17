@@ -1,0 +1,15 @@
+// Images
+
+.admin-error-message {
+  display: none !important;
+
+  .current-user--admin & {
+    display: block !important;
+    overflow: hidden !important;
+    max-height: 75vh !important;
+    font-size: 12px !important;
+    line-height: 1.2 !important;
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+  }
+}
