@@ -223,7 +223,7 @@ $(document).on('click', '.media-item-chooser__remove-image', function() {
   var $wrapper = $(this).closest('.image');
   var $image = $wrapper.find('.media-item-chooser__image');
   var $button = $wrapper.find('.media-item-chooser__button');
-  var $input = $( $button.attr('data-media-item-input') );
+  var $input = $wrapper.find( $button.attr('data-media-item-input') );
 
   $image.attr('src', '').attr('alt', '').addClass('hidden');
   $input.val('');
