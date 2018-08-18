@@ -5,6 +5,7 @@ module Forest
     self.abstract_class = true
 
     after_commit :expire_application_cache_key
+    after_commit :expire_cache_key
 
     scope :by_id, -> (orderer = :desc) { order(id: orderer) }
     scope :by_title, -> (orderer = :asc) { order(title: orderer, id: :desc) }
@@ -17,6 +18,16 @@ module Forest
       columns_to_search << "CAST(#{self.model_name.plural}.id AS TEXT) ILIKE :query"
       where(columns_to_search.join(' OR '), query: "%#{query}%")
     }
+
+    def self.cache_key_name
+      "forest_all_#{model_name.plural}_cache_key"
+    end
+
+    def self.cache_key
+      Rails.cache.fetch self.cache_key_name do
+        SecureRandom.uuid
+      end
+    end
 
     def self.csv_columns
       valid_columns = self.columns.select { |a| valid_csv_column_types.include?(a.type) }
@@ -87,6 +98,10 @@ module Forest
 
       def expire_application_cache_key
         Setting.expire_application_cache_key!
+      end
+
+      def expire_cache_key
+        Rails.cache.delete self.class.cache_key_name
       end
   end
 end
