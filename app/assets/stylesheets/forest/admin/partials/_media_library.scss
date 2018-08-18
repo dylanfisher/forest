@@ -37,7 +37,8 @@
   top: 33.33%;
   left: 50%;
   transform: translate(-50%, -50%);
-  margin: 0;
+  margin: 17px 0 0;
+  z-index: 1;
 }
 
 .media-library-image--list__icon {
