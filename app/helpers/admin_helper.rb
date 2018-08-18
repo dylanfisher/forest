@@ -25,6 +25,11 @@ module AdminHelper
     content_tag :div, '', class: 'table-color-representation', style: "background-color: #{color};"
   end
 
+  def forest_date(datetime)
+    datetime_format = datetime.is_a?(Date) ? '%m-%d-%Y' : '%m-%d-%Y %l:%M %p'
+    datetime.strftime(datetime_format).html_safe
+  end
+
   def admin_page_level_indicator(level)
     (level + 1).times.collect{}.join('&mdash; ').html_safe
   end
