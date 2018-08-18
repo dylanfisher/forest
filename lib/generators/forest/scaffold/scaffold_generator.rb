@@ -2,6 +2,7 @@ require "rails/generators/rails/resource/resource_generator"
 
 # TODO:
 # - add option to skip public views
+# - admin controller should use model_name.human when referencing the model
 
 class Forest::ScaffoldGenerator < Rails::Generators::NamedBase
   include Rails::Generators::Migration

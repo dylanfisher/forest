@@ -180,6 +180,7 @@ Forest relies heavily on the following gems, software and frameworks:
 ## TODO
 
 Big Picture
+- [ ] change references to model names and other hard coded names to use I18n
 - [ ] add rake task to download database dumps from heroku and store in S3
 - [ ] add a documentation page directly within the forest cms with FAQ and basic overview of how to use the cms.
 - [ ] add additional og tags http://ogp.me/

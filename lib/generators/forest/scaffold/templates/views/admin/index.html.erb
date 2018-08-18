@@ -44,7 +44,7 @@
               <%%= link_to 'Show', admin_<%= singular_name %>_path(<%= singular_name %>), class: 'btn btn-xs btn-info', role: 'button' %>
             <%% end %>
           </td>
-          <td width="1"><%%= link_to 'Destroy', [:admin, <%= singular_name %>], method: :delete, class: 'btn btn-xs btn-danger', role: 'button', data: { confirm: 'Are you sure you want to destroy this <%= singular_name %>?' } %></td>
+          <td width="1"><%%= link_to 'Destroy', [:admin, <%= singular_name %>], method: :delete, class: 'btn btn-xs btn-danger', role: 'button', data: { confirm: 'Are you sure you want to destroy this <%= singular_name.titleize %>?' } %></td>
         </tr>
       <%% end %>
     </tbody>
