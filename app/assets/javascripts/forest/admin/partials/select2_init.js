@@ -31,6 +31,9 @@ App.Select2 = {
       placeholder: 'ui-state-highlight',
       forcePlaceholderSize: true,
       items: 'li:not(.select2-search)',
+      start: function(e, ui) {
+        ui.placeholder.height( ui.item.outerHeight(true) );
+      },
       stop: function() {
         $( $(ul).find('.select2-selection__choice').get().reverse() ).each(function() {
           var id = $(this).data('data').id;
