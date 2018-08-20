@@ -76,10 +76,6 @@ class Page < Forest::ApplicationRecord
     @_all_associated_pages ||= page_ancestors.concat(page_ancestors.each.collect(&:page_descendents)).flatten
   end
 
-  # def assign_page_heirarchy!
-  #   Page.where(id: [self.id, *self.page_descendents.collect(&:id)]).update_all(updated_at: DateTime.now)
-  # end
-
   def remove_page_hierarchy!
     pages_to_touch = Page.where(id: [self.id, *self.page_descendents.collect(&:id)])
     self.immediate_children.update_all(parent_page_id: nil)
