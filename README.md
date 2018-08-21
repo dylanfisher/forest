@@ -217,6 +217,8 @@ Blocks
 - [ ] minimum and maximum blocks per layout
 
 Media Gallery
+- [ ] should jquery file upload use sequential uploads? currently it seems like uploading many items at once will flood the server with simultaneous requests.
+- [ ] better UI for displaying, uploading and selecting files (e.g. PDF)
 - [ ] add ability to specify image format, perhaps with a just-in-time file processing like this example http://www.ryanalynporter.com/2012/06/07/resizing-thumbnails-on-demand-with-paperclip-and-rails/
 - [ ] when uploading video via drag and drop, the preview icon doesn't update properly after upload completes
 - [ ] add direct to S3 file upload for large files like video, that otherwise look like they timeout on heroku

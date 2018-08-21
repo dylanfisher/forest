@@ -95,6 +95,7 @@ class MediaItem < Forest::ApplicationRecord
     }
   end
 
+  # Portrait images have a lower aspect ratio
   def aspect_ratio
     dimensions[:width].to_f / dimensions[:height].to_f
   end
