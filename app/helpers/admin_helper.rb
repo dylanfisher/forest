@@ -14,7 +14,7 @@ module AdminHelper
   end
 
   def table_thumbnail(image)
-    if image.attachment.present?
+    if image&.attachment.present?
       content_tag :div, class: 'table-thumbnail' do
         image_tag image.attachment.url(:thumb)
       end
