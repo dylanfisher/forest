@@ -26,7 +26,7 @@ module AdminHelper
   end
 
   def forest_date(datetime)
-    datetime_format = datetime.is_a?(Date) ? '%m-%d-%Y' : '%m-%d-%Y %l:%M %p'
+    datetime_format = datetime.is_a?(Date) ? '%m-%d-%Y' : '%m-%d-%Y %l:%M&nbsp;%p'
     datetime.strftime(datetime_format).html_safe
   end
 
