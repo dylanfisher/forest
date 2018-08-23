@@ -4,7 +4,7 @@
   <% end %>
   <td><%= page.id %></td>
   <td><%= admin_page_level_indicator level %><%= page.title %></td>
-  <td><%= link_to(page.path, page_path(page.to_friendly_param)) %></td>
+  <td><%= link_to page.path, page_path(page.to_friendly_param), data: { turbolinks: false } %></td>
   <td><%= forest_date page.updated_at %></td>
   <td width="1"><%= link_to 'Edit', edit_admin_page_path(page), class: 'btn btn-xs btn-primary', role: 'button' %></td>
   <td width="1"><%= link_to 'Show', page_path(page.to_friendly_param), class: 'btn btn-xs btn-info', role: 'button', data: { turbolinks: false } %></td>
