@@ -71,6 +71,14 @@ class Page < Forest::ApplicationRecord
     end
   end
 
+  def descendent_of?(page_or_page_slug)
+    if page_or_page_slug.is_a?(Page)
+      page_ancestors.any? { |p| p == page_or_page_slug }
+    else
+      page_ancestors.any? { |p| p.slug == page_or_page_slug }
+    end
+  end
+
   def all_associated_pages
     # TODO: these recursive function aren't performant and should be cached in the view
     @_all_associated_pages ||= page_ancestors.concat(page_ancestors.each.collect(&:page_descendents)).flatten
