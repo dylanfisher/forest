@@ -6,7 +6,14 @@
   <% classes << (block.last? ? 'block--last' : '') %>
   <% classes << "block-category--#{block.class.kind.category.to_s.parameterize}" %>
   <% classes << block.try(:css_class) %>
-  <%= content_tag :div, id: block.block_id, class: classes.join(' '), data: { kind: block.model_name.name } do %>
+
+  <% options = {} %>
+  <% options[:id] = block.block_id %>
+  <% options[:class] = classes.join(' ') %>
+  <% options[:data] = { kind: block.model_name.name } %>
+  <% options[:style] = block.try(:css_styles) %>
+
+  <%= content_tag :div, **options do %>
     <%= render "blocks/#{block.model_name.singular}/show", block: block %>
   <% end %>
 <% rescue Exception => e %>
