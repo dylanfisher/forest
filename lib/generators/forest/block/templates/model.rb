@@ -1,5 +1,9 @@
 <% module_namespacing do -%>
 class <%= class_name %> < BaseBlock
+<% attributes.each do |attribute| %><% if attribute.reference? -%>
+  belongs_to :<%= attribute.name %>
+
+<% end -%><% end -%>
   def self.permitted_params
     [<%= attributes.collect { |attribute| ":#{attribute.column_name}" }.join(', ') %>]
   end
