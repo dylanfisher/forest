@@ -16,7 +16,7 @@ module Forest
                               .select { |x| [:string, :text].include?(x.type) }
                               .map(&:name).collect { |x| "#{self.model_name.plural}.#{x} ILIKE :query" }
       columns_to_search << "CAST(#{self.model_name.plural}.id AS TEXT) ILIKE :query"
-      where(columns_to_search.join(' OR '), query: "%#{query}%")
+      where(columns_to_search.join(' OR '), query: "%#{sanitize_sql_like(query)}%")
     }
 
     def self.cache_key_name
