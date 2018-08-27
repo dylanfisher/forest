@@ -206,7 +206,6 @@ Generators
 - [ ] add ability to skip block_record creation when creating new scaffold that doesn't need to support blocks
 
 Pages
-- [ ] cache page group heirarchy in blockable_metadata
 - [ ] proper drafting/publishing permissions for drafted/published pages
 - [ ] better page versioning, page history navigation, restore content blocks with page version
 
