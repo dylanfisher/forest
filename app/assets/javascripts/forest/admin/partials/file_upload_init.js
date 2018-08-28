@@ -24,7 +24,7 @@ App.FileUploader = {
 
       $fileupload.fileupload({
         autoUpload: true,
-        sequentialUploads: false,
+        sequentialUploads: true
       }).on('fileuploadstart', function (e) {
         $('#progress').removeClass('hidden').addClass('fade in');
       }).on('fileuploadprogressall', function (e, data) {
