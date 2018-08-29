@@ -47,7 +47,7 @@ bin/rails railties:install:migrations
 
 Delete `layouts/application.html.erb` to use Forest's layout.
 
-Update your ApplicationRecord to inherit from `Forest::ApplicationRecord`
+Update your ApplicationRecord to inherit from `Forest::ApplicationRecord`, or just delete the file.
 
 ```ruby
 class ApplicationRecord < Forest::ApplicationRecord
@@ -71,15 +71,6 @@ config.to_prepare do
     Rails.configuration.cache_classes ? require(c) : load(c)
   end
 end
-```
-
-You may want to delete or override your host app's application record to inherit from Forest's.
-
-Configure bootsnap if necessary by adding the following right underneath `require 'bundler/setup'`:
-
-```ruby
-# boot.rb
-require 'bootsnap/setup'
 ```
 
 For an example of a host app running Forest, view [github.com/dylanfisher/forest_blog](https://github.com/dylanfisher/forest_blog).
@@ -217,7 +208,6 @@ Blocks
 - [ ] minimum and maximum blocks per layout
 
 Media Gallery
-- [ ] should jquery file upload use sequential uploads? currently it seems like uploading many items at once will flood the server with simultaneous requests.
 - [ ] better UI for displaying, uploading and selecting files (e.g. PDF)
 - [ ] add ability to specify image format, perhaps with a just-in-time file processing like this example http://www.ryanalynporter.com/2012/06/07/resizing-thumbnails-on-demand-with-paperclip-and-rails/
 - [ ] when uploading video via drag and drop, the preview icon doesn't update properly after upload completes

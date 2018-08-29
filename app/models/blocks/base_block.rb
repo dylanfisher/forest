@@ -27,6 +27,18 @@ class BaseBlock < Forest::ApplicationRecord
     true
   end
 
+  # Override to add css classes to a block's wrapper
+  def css_class
+  end
+
+  # Override to add css styles to a block's wrapper
+  def css_styles
+  end
+
+  # Override to add data attributes to a block's wrapper. Make sure this is a hash.
+  def data_attributes
+  end
+
   def display_icon
     self.class.display_icon
   end

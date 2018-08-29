@@ -10,7 +10,7 @@
   <% options = {} %>
   <% options[:id] = block.block_id %>
   <% options[:class] = classes.join(' ') %>
-  <% options[:data] = { kind: block.model_name.name } %>
+  <% options[:data] = (block.try(:data_attributes).presence || {}).merge(kind: block.model_name.name) %>
   <% options[:style] = block.try(:css_styles) %>
 
   <%= content_tag :div, **options do %>
