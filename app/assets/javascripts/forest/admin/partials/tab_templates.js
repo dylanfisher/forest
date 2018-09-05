@@ -4,6 +4,9 @@
 // field set. Each "template" consists of a series of Bootstrap tabs. The inputs in all tabs
 // except for the active tab will be disabled on form submit, so that only the relevant data
 // for the active tab template is saved.
+//
+// In your host app, set an additional active--persisted class on the active tab item after
+// it has been stored in the database to alert users when they change the tab template.
 
 (function() {
   var index = 0;
@@ -41,6 +44,32 @@
 
   $(document).on('cocoon:after-insert', function(e, el) {
     generateUniqueId( $(el) );
+  });
+
+  $(document).on('shown.bs.tab', function(e) {
+    var $targetLink = $(e.target);
+    var $target = $targetLink.parent('li');
+    var $tabTemplate = $target.closest('.has-tab-template');
+    var $nav = $tabTemplate.find('.nav');
+    var $tabs = $nav.children();
+    var shouldShowWarning = $tabs.hasClass('active--persisted');
+    var $warning = $tabTemplate.find('.tab-template-persist-warning');
+    var templateName = $targetLink.html();
+    var warningMessage = '<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> You are changing the currently defined template. Saving this record will change the template to <strong>' + templateName + '</strong>.';
+
+    if ( !shouldShowWarning ) return;
+
+    if ( $target.hasClass('active--persisted') ) {
+      $tabTemplate.find('.tab-template-persist-warning').remove();
+      $warning = undefined;
+    } else {
+      if ( !$warning.length ) {
+        $nav.before('<div class="alert alert-warning tab-template-persist-warning" role="alert">' + warningMessage + '</div>');
+        $warning = $tabTemplate.find('.tab-template-persist-warning');
+      } else {
+        $warning.html(warningMessage);
+      }
+    }
   });
 })();
 
