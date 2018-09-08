@@ -3,6 +3,7 @@ module Sluggable
 
   included do
     before_validation :generate_slug
+    before_save :parameterize_slug, if: :will_save_change_to_slug?
 
     # validates :slug, presence: true, uniqueness: true
 
@@ -47,5 +48,11 @@ module Sluggable
     def to_friendly_param
       slug
     end
+
+    private
+
+      def parameterize_slug
+        self.slug = slug.parameterize
+      end
   end
 end
