@@ -3,4 +3,9 @@
 <%= f.input :slug,
             placeholder: 'Leave this blank. The slug will be generated automatically from the title.',
             required: false,
-            **options  %>
+            wrapper_class: 'form-group slug-attribute-wrapper',
+            **options,
+            input_html: {
+              data: {
+                persisted_value: f.object.try(:slug),
+                persisted_value_warning: '<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> You are changing the slug. Make sure to update any references to the old slug to avoid broken links.' } } %>
