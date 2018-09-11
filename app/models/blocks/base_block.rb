@@ -51,12 +51,14 @@ class BaseBlock < Forest::ApplicationRecord
     "#{self.model_name.singular.dasherize}-#{self.id}"
   end
 
-  # TODO: association to represent this?
+  def block_kind
+    @block_kind ||= BlockKind.find_by_name(self.class.name)
+  end
+
   def block_record
     @block_record ||= block_slot.block_record
   end
 
-  # TODO: association to represent this?
   def block_record_id
     block_record.block_record.id
   end
@@ -78,7 +80,7 @@ class BaseBlock < Forest::ApplicationRecord
   end
 
   def last?
-    index == block_record.blocks(block_layout: block_layout).length - 1
+    index == blocks.length - 1
   end
 
   def first_of_kind?
@@ -87,6 +89,16 @@ class BaseBlock < Forest::ApplicationRecord
 
   def last_of_kind?
     blocks.last_of_kind(self.class.name) == self
+  end
+
+  def previous
+    return nil if first?
+    blocks[index - 1]
+  end
+
+  def next
+    return nil if last?
+    blocks[index + 1]
   end
 
   def non_indexed_attributes
