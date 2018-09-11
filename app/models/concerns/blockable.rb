@@ -24,7 +24,7 @@ module Blockable
 
     def blocks(options = {})
       block_layout = options.fetch(:block_layout, nil)
-      block_layout_name = block_layout.try(:slug).try(:underscore).presence || 'all'
+      block_layout_name = block_layout.try(:slug).try(:underscore).presence || 'default'
       block_type = options.fetch(:kind, nil)
 
       instance_variable_get("@#{block_layout_name}_blocks") || instance_variable_set("@#{block_layout_name}_blocks", begin
