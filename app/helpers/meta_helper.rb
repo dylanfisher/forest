@@ -114,7 +114,7 @@ module MetaHelper
   def page_featured_image_alt
     @_page_featured_image_alt ||= begin
       return unless page_featured_image.is_a?(Paperclip::Attachment)
-      page_featured_image.try(:alternative_text)
+      page_featured_image.try(:instance).try(:alternative_text)
     end
   end
 
