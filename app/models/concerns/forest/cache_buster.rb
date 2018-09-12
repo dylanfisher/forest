@@ -10,6 +10,8 @@ module Forest::CacheBuster
   included do
     after_save :touch_associations
     after_save :touch_dependent_records
+    after_destroy :touch_associations
+    after_destroy :touch_dependent_records
 
     # A cached set of associations is stored in a polymorphic record after every save.
     # This allows us to know what the previous set of associated records was during a
