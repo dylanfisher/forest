@@ -14,7 +14,6 @@
           <%= content_tag :div, '', class: "nested-fields__panel-display-icon #{f.object.block_kind.name.constantize.display_icon}" %>
           <%= f.object.block.try(:display_name) %>
           <span class="text-muted">
-            <small><%= f.object.block_id %></small>
             <small><%= f.object.block_kind.description %></small>
           </span>
         <% end %>
