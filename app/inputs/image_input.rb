@@ -3,10 +3,11 @@ class ImageInput < SimpleForm::Inputs::StringInput
   def input(wrapper_options = nil)
     obj = input_html_options.fetch :object, object
     input_html_options.merge! id: object_name.parameterize
-    button_title = input_html_options.fetch :button_title, 'Choose Image'
     image_object = obj.send(reflection_or_attribute_name)
     img_src = input_html_options.fetch :img_src, image_object.try(:attachment).try(:url, :medium)
     attribute_name_to_use = reflection.present? ? "#{reflection.name}_id" : attribute_name
+    media_item_type = image_object.try(:display_content_type).presence || 'media item'
+    button_title = input_html_options.fetch :button_title, "Choose #{media_item_type}"
 
     # TODO: clean this craziness up
     if img_src.nil? && obj.respond_to?(self.input_type)
@@ -35,12 +36,24 @@ class ImageInput < SimpleForm::Inputs::StringInput
 
     content << tag(:br)
 
-    content << template.image_tag((img_src || ''),
-                  class: "media-item-chooser__image img-rounded cursor-pointer #{image_tag_classes}",
-                  id: "#{field_name}_preview",
-                  data: {
-                    **modal_data_attributes
-                  })
+    if image_object.try(:file?)
+      content << template.content_tag(:div,
+                    nil,
+                    class: "media-item-chooser__image media-item-chooser__image--file img-rounded cursor-pointer glyphicon glyphicon-file #{image_tag_classes}",
+                    id: "#{field_name}_preview",
+                    data: {
+                      **modal_data_attributes
+                    })
+      content << template.text_field_tag('File URL', image_object.attachment.try(:url), readonly: true, class: 'form-control string')
+      content << template.tag(:br)
+    else
+      content << template.image_tag((img_src || ''),
+                    class: "media-item-chooser__image img-rounded cursor-pointer #{image_tag_classes}",
+                    id: "#{field_name}_preview",
+                    data: {
+                      **modal_data_attributes
+                    })
+    end
 
     buttons << template.content_tag(:button, button_title,
                   type: 'button',
@@ -49,12 +62,12 @@ class ImageInput < SimpleForm::Inputs::StringInput
                     **modal_data_attributes
                   })
 
-    buttons << template.content_tag(:button, 'Remove image',
+    buttons << template.content_tag(:button, "Remove #{media_item_type}",
                   type: 'button',
                   class: "media-item-chooser__remove-image btn btn-default #{'hidden' unless image_object.present?}")
 
     if image_object.try(:id).present?
-      buttons << template.link_to('Edit image',
+      buttons << template.link_to("Edit #{media_item_type}",
                     template.edit_admin_media_item_path(id: image_object.id),
                     class: "media-item-chooser__edit-image btn btn-default",
                     target: '_blank')

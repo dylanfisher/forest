@@ -181,6 +181,8 @@ Big Picture
 - [ ] tests
 
 Admin
+- [ ] simpleMDE markdown editor has a bug where sometimes the text area gets messed up and needs to have the page resize functions run to work properly again.
+- [ ] fix user login page view when signing up for the first time and passwords don't match.
 - [ ] nested forms are cumbersome at laptop size. It should be easier to rearrange nested items.
 - [ ] add ability to insert nested form items in between other nested items.
 - [ ] do something more useful with the admin#show view
@@ -208,7 +210,7 @@ Blocks
 - [ ] minimum and maximum blocks per layout
 
 Media Gallery
-- [ ] better UI for displaying, uploading and selecting files (e.g. PDF)
+- [ ] better UI for displaying, uploading and selecting files (e.g. PDF). Add ability to filter media item chooser to file only, or video only, etc.
 - [ ] add ability to specify image format, perhaps with a just-in-time file processing like this example http://www.ryanalynporter.com/2012/06/07/resizing-thumbnails-on-demand-with-paperclip-and-rails/
 - [ ] when uploading video via drag and drop, the preview icon doesn't update properly after upload completes
 - [ ] add direct to S3 file upload for large files like video, that otherwise look like they timeout on heroku
@@ -222,6 +224,7 @@ Sass
 - [ ] potentially speed up sass compilation by following pattern like this? http://blog.teamtreehouse.com/tale-front-end-sanity-beware-sass-import
 
 Settings
+- [ ] disable the ability to delete default settings
 - [ ] when a setting is referenced in production.rb precompiling assets fails
 - [ ] add documentation for how settings should be added. Right now they must be initialized from the i18n en:forest:settings yaml file.
 
