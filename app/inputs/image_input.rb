@@ -36,7 +36,7 @@ class ImageInput < SimpleForm::Inputs::StringInput
 
     content << tag(:br)
 
-    if image_object.try(:file?)
+    if image_object.try(:file?) && !image_object.try(:video?)
       content << template.content_tag(:div,
                     nil,
                     class: "media-item-chooser__image media-item-chooser__image--file img-rounded cursor-pointer glyphicon glyphicon-file #{image_tag_classes}",
