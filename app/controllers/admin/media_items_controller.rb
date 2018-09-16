@@ -19,6 +19,8 @@ class Admin::MediaItemsController < Admin::ForestController
     else
       @layout = :list
     end
+
+    respond_to :html, :json
   end
 
   # GET /media_items/1
