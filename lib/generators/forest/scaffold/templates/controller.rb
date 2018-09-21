@@ -3,7 +3,7 @@ class <%= plural_name.camelize %>Controller < ForestController
   before_action :set_<%= singular_name %>, only: [:show]
 
   def index
-    # TODO: active/statusable scope
+    # TODO: published/statusable scope
     @<%= plural_name %> = apply_scopes(<%= name %>)
   end
 
