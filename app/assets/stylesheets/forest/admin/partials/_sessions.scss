@@ -1,15 +1,13 @@
-.controller-class--devise {
-  &.controller--sessions,
-  &.controller--confirmations,
-  &.controller--passwords,
-  &.controller--registrations,
-  &.controller--unlocks {
-    background-image: image-url('forest/forest-low.jpg');
-    background-size: cover;
-    background-position: center;
+.controller--sessions,
+.controller--confirmations,
+.controller--passwords,
+.controller--registrations,
+.controller--unlocks {
+  background-image: image-url('forest/forest-low.jpg');
+  background-size: cover;
+  background-position: center;
 
-    .panel {
-      margin-top: 80px;
-    }
+  .panel {
+    margin-top: 80px;
   }
 }
