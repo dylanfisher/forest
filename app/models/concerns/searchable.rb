@@ -3,12 +3,15 @@
 # add the 'bonsai-elasticsearch-rails' gem, and include this Searchable concern
 # in the models you want to index.
 #
-# Does not support Elasticsearch version > 6
+# Does not support Elasticsearch version > 5
 # TODO: Once the elasticsearch/rails gems make it easier to use version 6, make this
 # Searchable concern compatible.
 #
 # You'll want to look at the SearchIndexManager class next for information on how to customize
 # the elasticsearch indices for your models.
+#
+# Once your model is configured, import documents with the rake task:
+# `bin/rails forest:elasticsearch:rebuild`
 
 begin
   require 'elasticsearch/model'
@@ -57,6 +60,14 @@ module Searchable
 
     def self.searchable?
       true
+    end
+
+    # Override this in your host app with the scope method to use when importing elasticsearch documents. This
+    # should probably match the conditions of the indexable_for_elasticsearch? method.
+    def self.elasticsearch_import_model_scope
+      if self.respond_to?(:statusable?)
+        :published
+      end
     end
 
     def self.elasticsearch(query)

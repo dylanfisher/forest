@@ -151,7 +151,7 @@ end
 
 Index your documents using the tasks in forest_elasticsearch_tasks.rake. To rebuild the search index, you'd run:
 
-`rake forest:elasticsearch:rebuild`
+`bin/rails forest:elasticsearch:rebuild`
 
 ## Primary Dependencies
 Forest relies heavily on the following gems, software and frameworks:

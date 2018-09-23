@@ -1,4 +1,4 @@
-# Does not support Elasticsearch version > 6
+# Does not support Elasticsearch version > 5
 
 class SearchIndexManager
   # A single combined index name is used for environments like Heroku where multiple
@@ -73,9 +73,7 @@ class SearchIndexManager
     end
 
     def model_scope(klass)
-      if klass.try(:statusable?)
-        :published
-      end
+      klass.elasticsearch_import_model_scope
     end
 
     def logger
