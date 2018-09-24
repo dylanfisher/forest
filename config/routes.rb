@@ -20,7 +20,7 @@ Rails.application.routes.draw do
     end
     resources :menus
     resources :pages
-    resources :settings
+    resources :settings, except: [:destroy]
     resources :translations
     resources :users do
       get 'reset_password'
