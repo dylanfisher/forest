@@ -1,6 +1,6 @@
 <% if record.statusable? %>
   <% date_label = local_assigns.fetch(:date_label, 'Published date') %>
-  <div class="status-scheduler">
+  <div class="status-scheduler form-group">
     <%= f.input :status, as: :select, collection: record.class.statuses_for_select.collect { |k, v| [k.titleize, k] }, include_blank: false %>
     <% if record.respond_to?(:published_date) %>
       <%= f.input :published_date,
