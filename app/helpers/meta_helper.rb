@@ -184,7 +184,7 @@ module MetaHelper
       'website'
     end
 
-    def divider(spacer = ' – ')
+    def divider(spacer = ' - ')
       spacer
     end
 
