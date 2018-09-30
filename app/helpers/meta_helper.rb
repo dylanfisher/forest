@@ -11,6 +11,7 @@ module MetaHelper
 
   def page_title
     @_page_title ||= begin
+      return if @disable_page_title.present?
       title = [
         content_for(:page_title),
         @page_title,
