@@ -19,7 +19,7 @@ $(document).on('mouseleave', '.forest-table tbody tr', function() {
 $(document).on('click', '.forest-table tbody tr', function(e) {
   var $row = $(this);
 
-  if ( !$(e.target).closest('a').length ) {
+  if ( !$(e.target).closest('a, input').length ) {
     var $button = $row.find('a.forest-table__link:first');
 
     if ( !$button.length ) {
