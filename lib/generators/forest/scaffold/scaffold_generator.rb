@@ -1,16 +1,15 @@
 require "rails/generators/rails/resource/resource_generator"
 
-# TODO:
-# - add option to skip public views
-# - admin controller should use model_name.human when referencing the model
-
 class Forest::ScaffoldGenerator < Rails::Generators::NamedBase
   include Rails::Generators::Migration
 
   source_root File.expand_path('../templates', __FILE__)
 
   argument :attributes, type: :array, default: [], banner: "field[:type][:index] field[:type][:index]"
-  class_option :skip_public, type: :boolean, default: false, description: 'Include public controller and views'
+  class_option :skip_public, type: :boolean, default: false, description: 'Skip public controller and views'
+  class_option :skip_blockable, type: :boolean, default: false, description: 'Skip blockable concern'
+  class_option :skip_statusable, type: :boolean, default: false, description: 'Skip statusable concern'
+  class_option :skip_sluggable, type: :boolean, default: false, description: 'Skip sluggable concern'
 
   def self.next_migration_number(dirname)
     next_migration_number = current_migration_number(dirname) + 1
