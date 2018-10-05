@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   # Admin Resources
   namespace :admin do
     get '/', to: 'dashboard#index'
-    resources :block_layouts, path: 'block-layouts'
+    resources :block_layouts, except: [:destroy], path: 'block-layouts'
     resources :cache_purge, path: 'cache-purge', only: [:index]
     resources :imports, only: [:edit, :create]
     resources :media_items, path: 'media-items' do
@@ -25,7 +25,7 @@ Rails.application.routes.draw do
     resources :users do
       get 'reset_password'
     end
-    resources :user_groups, path: 'user-groups'
+    resources :user_groups, except: [:destroy], path: 'user-groups'
     get 'documentation', to: 'documentation#index'
   end
 
