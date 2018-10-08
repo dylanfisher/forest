@@ -14,7 +14,7 @@ App.Datepicker = {
     var date = new Date();
     var year = date.getFullYear().toString();
     var month = (date.getMonth() + 1).toString().padStart(2, 0);
-    var day = date.getDay().toString().padStart(2, 0);
+    var day = date.getDate().toString().padStart(2, 0);
     var defaultDate = year + '-' + month + '-' + day;
 
     $elements.each(function() {
