@@ -64,7 +64,8 @@ module AdminHelper
   end
 
   def record_name(record)
-    record.try(:display_name).presence || record.try(:title).presence || record.try(:name).presence
+    return unless record.present?
+    record.try(:display_name).presence || record.try(:title).presence || record.try(:name).presence || "#{record.model_name.human} #{record.id}"
   end
 
   def admin_header_tag(record, &block)
