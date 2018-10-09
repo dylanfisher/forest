@@ -65,6 +65,17 @@ module Attachable
         end
       end
 
+      def dimensions_at(size)
+        geometry = attachment.options[:styles][size].split('x')
+        w = geometry.first.to_f
+        ratio = dimensions[:width] / w
+
+        {
+          width: dimensions[:width] / ratio,
+          height: dimensions[:height] / ratio
+        }
+      end
+
       private
 
         def set_default_metadata
