@@ -58,6 +58,14 @@ module Forest
       false
     end
 
+    def self.expire_cache_key
+      Rails.cache.delete cache_key_name
+    end
+
+    def expire_cache_key
+      self.class.expire_cache_key
+    end
+
     # Override this to define a friendly param attribute, like `slug` or `path`
     def to_friendly_param
       to_param
@@ -98,10 +106,6 @@ module Forest
 
       def expire_application_cache_key
         Setting.expire_application_cache_key!
-      end
-
-      def expire_cache_key
-        Rails.cache.delete self.class.cache_key_name
       end
   end
 end
