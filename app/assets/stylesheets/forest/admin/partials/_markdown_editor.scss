@@ -5,3 +5,8 @@
   padding-top: 64px;
   padding-right: 30px;
 }
+
+// Fix text cursor alignment issue
+.CodeMirror pre {
+  margin-bottom: 0em !important;
+}
