@@ -204,7 +204,6 @@ Pages
 Blocks
 - [ ] add a built-in column UI for selecting column width, column offset (and maybe also column alignment and column pull)
 - [ ] add a duplicate block button to make adding additional blocks of the same type quicker and easier
-- [ ] move block description from a database column to a method on the model?
 - [ ] is it possible to add the ability to create blocks within nested forms?
 - [ ] minimum and maximum blocks per layout
 
