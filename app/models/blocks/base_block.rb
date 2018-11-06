@@ -84,11 +84,19 @@ class BaseBlock < Forest::ApplicationRecord
   end
 
   def first_of_kind?
-    blocks.first_of_kind(self.class.name) == self
+    blocks.first_of_kind(self.class) == self
   end
 
   def last_of_kind?
-    blocks.last_of_kind(self.class.name) == self
+    blocks.last_of_kind(self.class) == self
+  end
+
+  def even_of_kind?
+    blocks.kind(self.class).index(self).even?
+  end
+
+  def odd_of_kind?
+    blocks.kind(self.class).index(self).odd?
   end
 
   def previous
