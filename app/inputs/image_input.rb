@@ -8,6 +8,7 @@ class ImageInput < SimpleForm::Inputs::StringInput
     attribute_name_to_use = reflection.present? ? "#{reflection.name}_id" : attribute_name
     media_item_type = image_object.try(:display_content_type).presence || 'media item'
     button_title = input_html_options.fetch :button_title, "Choose #{media_item_type}"
+    compact = options.fetch(:compact, false)
 
     # TODO: clean this craziness up
     if img_src.nil? && obj.respond_to?(self.input_type)
@@ -34,7 +35,7 @@ class ImageInput < SimpleForm::Inputs::StringInput
     content = ActiveSupport::SafeBuffer.new
     buttons = ActiveSupport::SafeBuffer.new
 
-    content << tag(:br)
+    content << tag(:br) unless compact.present?
 
     if image_object.try(:file?) && !image_object.try(:video?)
       content << template.content_tag(:div,
@@ -73,11 +74,11 @@ class ImageInput < SimpleForm::Inputs::StringInput
                     target: '_blank')
     end
 
-    content << template.content_tag(:div, buttons, class: 'btn-group', role: 'group')
+    content << template.content_tag(:div, buttons, class: 'image__btn-group btn-group', role: 'group')
 
     content << @builder.hidden_field(attribute_name_to_use, input_html_options) unless path_only
 
-    content
+    template.content_tag(:div, content, class: "image-input__body image-input__body--compact-#{compact.present?}")
   end
 
 end

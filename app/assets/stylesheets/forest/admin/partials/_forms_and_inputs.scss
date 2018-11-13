@@ -26,6 +26,23 @@
   }
 }
 
+.image-input__body--compact-true {
+  .media-item-chooser__image,
+  .image__btn-group {
+    float: left;
+  }
+
+  .media-item-chooser__image {
+    max-height: 132px;
+    max-width: 220px;
+  }
+
+  .image__btn-group {
+    max-width: 160px;
+    margin-left: $gutter;
+  }
+}
+
 .persisted-value-warning {
   margin-bottom: 10px;
 }
