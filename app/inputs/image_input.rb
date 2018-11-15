@@ -35,8 +35,6 @@ class ImageInput < SimpleForm::Inputs::StringInput
     content = ActiveSupport::SafeBuffer.new
     buttons = ActiveSupport::SafeBuffer.new
 
-    content << tag(:br) unless compact.present?
-
     if image_object.try(:file?) && !image_object.try(:video?)
       content << template.content_tag(:div,
                     nil,
