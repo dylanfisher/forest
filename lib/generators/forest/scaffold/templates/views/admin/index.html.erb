@@ -8,7 +8,9 @@
           <th></th>
         <%% end %>
         <th><%%= table_sorter title: 'ID', path: :admin_<%= plural_name %>_path, scope: :by_id, default_order: :desc %></th>
+<%- unless options.skip_sluggable? -%>
         <th><%%= table_sorter title: 'Slug', path: :admin_<%= plural_name %>_path, scope: :by_slug, default_order: :asc %></th>
+<% end -%>
 <%- for attribute in attributes -%>
         <th><%= attribute.human_name.titleize %></th>
 <% end -%>
@@ -25,7 +27,9 @@
             <td><%%= status_indicator <%= singular_name %> %></td>
           <%% end %>
           <td><%%= <%= singular_name %>.id %></td>
+<%- unless options.skip_sluggable? -%>
           <td><%%= <%= singular_name %>.slug %></td>
+<% end -%>
 <%- for attribute in attributes -%>
           <td><%%= <%= singular_name %>.<%= attribute.column_name %> %></td>
 <% end -%>
