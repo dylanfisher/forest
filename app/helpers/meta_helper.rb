@@ -92,7 +92,8 @@ module MetaHelper
   def page_featured_image_width
     @_page_featured_image_width ||= begin
       return unless page_featured_image.is_a?(Paperclip::Attachment)
-      page_featured_image.instance.try(:dimensions).try(:[], :width) ||
+      @page_featured_image_width ||
+        page_featured_image.instance.try(:dimensions).try(:[], :width) ||
         page_featured_image.instance.try(:attachment_width)
     end
   end
@@ -100,7 +101,8 @@ module MetaHelper
   def page_featured_image_height
     @_page_featured_image_height ||= begin
       return unless page_featured_image.is_a?(Paperclip::Attachment)
-      page_featured_image.instance.try(:dimensions).try(:[], :height) ||
+      @page_featured_image_height ||
+        page_featured_image.instance.try(:dimensions).try(:[], :height) ||
         page_featured_image.instance.try(:attachment_height)
     end
   end
