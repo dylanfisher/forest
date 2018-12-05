@@ -30,23 +30,6 @@ Run Forest install generator and follow post-install prompts
 $ rails g forest:install
 ```
 
-## Usage
-Forest runs as an engine. To get started using this gem, create a new rails app and add the forest gem to your gemfile.
-
-Mount forest in your routes.rb file
-
-```
-mount Forest::Engine, at: '/'
-```
-
-Install Forest's migrations
-
-```bash
-bin/rails railties:install:migrations
-```
-
-Delete `layouts/application.html.erb` to use Forest's layout.
-
 Update your ApplicationRecord to inherit from `Forest::ApplicationRecord`, or just delete the file.
 
 ```ruby
