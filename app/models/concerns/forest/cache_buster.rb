@@ -53,7 +53,7 @@ module Forest::CacheBuster
                 logger.debug { "[Forest] CacheBuster is updating associations for #{records.length} #{records.first.model_name.plural}" }
                 records.unscope(:order).update_all updated_at: time_now
                 # Expire model cache_key
-                records.klass.name.safe_constantize&.expire_cache_key
+                records.klass.name.safe_constantize&.try(:expire_cache_key)
               end
 
               # Delete record ids from the to_update hash if we update them here
@@ -85,7 +85,7 @@ module Forest::CacheBuster
               logger.debug { "[Forest] CacheBuster is updating remaining associations for #{records.length} #{records.first.model_name.plural} inferred from the cache_record" }
               records.unscope(:order).update_all(updated_at: time_now)
               # Expire model cache_key
-              klass.expire_cache_key
+              klass.try(:expire_cache_key)
             end
           end
         end
