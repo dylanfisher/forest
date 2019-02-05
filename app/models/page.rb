@@ -99,7 +99,7 @@ class Page < Forest::ApplicationRecord
   end
 
   def create_preview
-    preview = deep_clone(include: [ block_slots: :block ])
+    preview = deep_clone(include: [ block_slots: :block ], validate: false)
     random_hex = SecureRandom.hex
 
     preview.slug = random_hex

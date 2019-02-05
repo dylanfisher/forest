@@ -27,7 +27,7 @@ module Versionable
 
       random_hex = SecureRandom.hex
 
-      new_record = deep_clone(**cloneable_associations)
+      new_record = deep_clone(**cloneable_associations, validate: false)
 
       new_record.slug = random_hex if new_record.respond_to?(:slug)
       new_record.path = random_hex if new_record.respond_to?(:path)
