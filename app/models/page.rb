@@ -4,10 +4,9 @@ class Page < Forest::ApplicationRecord
   include Versionable
 
   before_validation :generate_slug
-  # before_validation :assign_page_heirarchy! if :hierarchy_changed?
-  before_validation :generate_path if :hierarchy_changed?
+  before_validation :generate_path, if: :hierarchy_changed?
 
-  after_save :touch_associated_pages if :hierarchy_changed?
+  after_save :touch_associated_pages, if: :hierarchy_changed?
   after_save :expire_menu_cache
   after_save :touch_self
 
@@ -45,44 +44,54 @@ class Page < Forest::ApplicationRecord
 
   def page_ancestors
     # TODO: these recursive function aren't performant and should be cached in the view
-    ancestors ||= []
-    page = self
-    parent = page.parent_page unless page.parent_page == page
-    while parent
-      ancestors << parent
-      page = parent
-      parent = page.try :parent_page
+    @_page_ancestors ||= begin
+      ancestors ||= []
+      page = self
+      parent = page.parent_page unless page.parent_page == page
+      while parent
+        ancestors << parent
+        page = parent
+        parent = page.try :parent_page
+      end
+      ancestors
     end
-    ancestors
   end
 
   def page_descendents
     # TODO: these recursive function aren't performant and should be cached in the view
-    descendents = []
-    children = self.immediate_children
+    @_page_descendents ||= begin
+      descendents = []
+      children = self.immediate_children
 
-    while children.present?
-      descendents.concat children
-      children = children.collect(&:immediate_children).reject(&:blank?).flatten
+      while children.present?
+        descendents.concat children
+        children = children.collect(&:immediate_children).reject(&:blank?).flatten
+      end
+
+      descendents
     end
+  end
 
-    descendents
+  def page_root
+    @_page_root ||= page_ancestors.find { |p| p.parent_page_id.nil? }
+  end
+
+  def descendent_of?(page_or_page_slug)
+    if page_or_page_slug.is_a?(Page)
+      page_ancestors.any? { |p| p == page_or_page_slug }
+    else
+      page_ancestors.any? { |p| p.slug == page_or_page_slug }
+    end
   end
 
   def all_associated_pages
-    # TODO: these recursive function aren't performant and should be cached in the view
-    page_ancestors.concat(page_ancestors.each.collect(&:page_descendents)).flatten
+    @_all_associated_pages ||= page_ancestors.concat(page_ancestors.each.collect(&:page_descendents)).flatten
   end
-
-  # def assign_page_heirarchy!
-  #   Page.where(id: [self.id, *self.page_descendents.collect(&:id)]).update_all(updated_at: DateTime.now)
-  # end
 
   def remove_page_hierarchy!
     pages_to_touch = Page.where(id: [self.id, *self.page_descendents.collect(&:id)])
     self.immediate_children.update_all(parent_page_id: nil)
     pages_to_touch.update_all(updated_at: DateTime.now)
-    # generate_path
   end
 
   def select2_format
@@ -102,26 +111,25 @@ class Page < Forest::ApplicationRecord
 
   private
 
-    def valid_for_page_group?
-      self.parent_page.present? || self.immediate_children.any?
+    def touch_associated_pages
+      Page.where(id: all_associated_pages.collect(&:id)).update_all(updated_at: DateTime.now)
+    end
+
+    def current_or_previous_changes
+      self.changed.presence || self.previous_changes.keys
     end
 
     def hierarchy_changed?
-      valid_attributes_for_change = %w(parent_page_id slug)
-      (self.changed & valid_attributes_for_change).any?
+      (current_or_previous_changes & %w(parent_page_id slug)).any?
     end
 
     def generate_path
       if page_ancestors.any?
-        generated_path = "#{page_ancestors.collect(&:slug).join('/')}/#{self.slug}"
+        generated_path = "#{page_ancestors.reverse.collect(&:slug).join('/')}/#{self.slug}"
       else
         generated_path = self.slug
       end
       self.path = generated_path
-    end
-
-    def touch_associated_pages
-      Page.where(id: all_associated_pages.collect(&:id)).update_all(updated_at: DateTime.now)
     end
 
     def parent_page_is_not_self

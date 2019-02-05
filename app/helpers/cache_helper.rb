@@ -16,4 +16,8 @@ module CacheHelper
   def cache_digest_for(stringable)
     Digest::MD5.hexdigest(stringable.to_s)
   end
+
+  def application_cache_key
+    @_application_cache_key ||= Setting.application_cache_key
+  end
 end

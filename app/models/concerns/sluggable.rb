@@ -3,12 +3,14 @@ module Sluggable
 
   included do
     before_validation :generate_slug
+    before_save :parameterize_slug, if: :will_save_change_to_slug?
 
     # validates :slug, presence: true, uniqueness: true
 
     scope :by_slug, -> (orderer = :asc) { order(slug: orderer) }
 
-    # Override this method to define which attribute the slug is created from
+    # Override this method to define which attribute the slug is created from, or
+    # have this method return false to use a random slug
     def slug_attribute
       if respond_to?(:title)
         title
@@ -46,5 +48,11 @@ module Sluggable
     def to_friendly_param
       slug
     end
+
+    private
+
+      def parameterize_slug
+        self.slug = slug.parameterize
+      end
   end
 end

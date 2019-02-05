@@ -3,7 +3,7 @@
   <td>
     <div class="row">
       <div class="media-library-image-row col-xs-4 col-sm-2">
-        <% attachment_or_placeholder_url = media_item.attachment.exists? ? media_item.attachment.url(:medium) : '' %>
+        <% attachment_or_placeholder_url = media_item.attachment.exists? ? media_item.attachment.url(:thumb) : '' %>
         <% content = capture do %>
           <% if media_item.file? %>
             <%= content_tag :span, '', class: "media-library-image--list__icon glyphicon #{media_item.glyphicon}" %>
@@ -28,5 +28,5 @@
       </div>
     </div>
   </td>
-  <td><%= media_item.created_at.to_formatted_s(:long) %></td>
+  <td><%= forest_date media_item.created_at %></td>
 </tr>

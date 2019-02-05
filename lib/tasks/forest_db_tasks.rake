@@ -1,10 +1,12 @@
+require 'open-uri'
+
 namespace :forest do
   desc "Download and replace this database with a current capture from heroku."
   task 'db:capture' => :environment do
     db = Rails.application.config.database_configuration[Rails.env]
     user = db['username']
     database = db['database']
-    puts "[Forest] This command captures a snapshot of the Heroku database, downloads it, drops the local database and recreates if from the Heroku snapshot."
+    puts "[Forest] This command captures a snapshot of the Heroku database, downloads it, drops the local database and recreates it from the Heroku snapshot."
     puts "[Forest] Please run:"
     puts "heroku pg:backups:capture && heroku pg:backups:download && bin/rails db:drop DISABLE_DATABASE_ENVIRONMENT_CHECK=1 && bin/rails db:create && pg_restore --verbose --clean --no-acl --no-owner -h localhost #{if user then "-U #{user}" end} -d #{database} latest.dump; rm latest.dump"
   end
@@ -42,7 +44,7 @@ namespace :forest do
         s3.client.put_object_acl({
           acl: 'public-read',
           bucket: s3_bucket.name,
-          key: object_key,
+          key: object_key
         })
 
         puts "[Forest] Careful! You just uploaded a publicly accessible db dump to the #{s3_bucket.name} bucket."
@@ -53,7 +55,7 @@ namespace :forest do
         puts "[Forest] ** After importing to Heroku, run this command to delete the public db dump from Amazon S3. Don't leave the db dump publicly accessible! **"
         puts "bin/rails forest:db:destroy_s3_dump object_key=#{object_key}"
       else
-        puts "[Forest] Error: unable to upload object to S3. "
+        puts "[Forest] Error: unable to upload object to S3."
       end
     end
   end
@@ -77,11 +79,68 @@ namespace :forest do
     end
   end
 
+  desc "Upload the latest Heroku database to S3 for archival purposes. This assumes you have already enabled daily pg backups on Heroku."
+  task 'db:archive_to_s3' => :environment do
+    # TODO: This won't work as is because the heroku CLI isn't available by default on
+    # heroku. It may be better to use https://github.com/kbaum/heroku-database-backups.
+    # TODO: add configuration that allows setting a maximum number of database backups.
+    # The price class could also be adjusted, for example setting S3 One Zone-IA Storage
+    # for very old files to save $$.
+
+    check_for_s3_env_variables!
+
+    url = `heroku pg:backups public-url`
+    url.sub!(/\n$/, '')
+
+    db_uri = URI.parse(url)
+
+    file_name = db_uri.path.split('/').reject(&:blank?).join('_')
+    object_key = "forest/forest_db_archives/#{database_name}/#{file_name}.gz"
+    object = s3_bucket.object(object_key)
+
+    abort("[Forest] Database already exists on S3, aborting #{s3_bucket_name} #{object_key}") if object.exists?
+
+    file = Tempfile.new(["#{file_name}", '.sql'])
+
+    puts "[Forest] Downloading database from Heroku"
+    open(url) do |f|
+      IO.copy_stream(f, file)
+    end
+
+    puts "[Forest] Compressing database file"
+
+    zipped_file = Tempfile.new(["#{file_name}", '.gz'])
+
+    Zlib::GzipWriter.open(zipped_file) do |gz|
+      gz.mtime = File.mtime(file)
+      gz.orig_name = "#{file_name}.sql"
+      File.open(file) do |file|
+        while chunk = file.read(16*1024) do
+          gz.write(chunk)
+        end
+      end
+    end
+
+    puts "[Forest] Uploading database file to S3"
+    if object.upload_file(zipped_file)
+      s3.client.put_object_acl({
+        acl: 'private',
+        bucket: s3_bucket.name,
+        key: object_key
+      })
+    else
+      puts "[Forest] Error: unable to upload object to S3."
+    end
+
+    file.delete
+    zipped_file.delete
+  end
+
   private
 
     def with_config
       yield Rails.application.class.parent_name.underscore,
-        ActiveRecord::Base.connection_config[:database],
+        database_name,
         ActiveRecord::Base.connection_config[:username]
     end
 
@@ -99,10 +158,14 @@ namespace :forest do
     end
 
     def aws_region
-      ENV['AWS_REGION'].presence || Rails.application.credentials&.dig(:aws, :aws_region)
+      @aws_region ||= ENV['AWS_REGION'].presence || Rails.application.credentials&.dig(:aws, :aws_region)
     end
 
     def s3_bucket_name
-      ENV['S3_BUCKET_NAME'].presence || Rails.application.credentials&.dig(:aws, :s3_bucket_name)
+      @s3_bucket_name ||= ENV['S3_BUCKET_NAME'].presence || Rails.application.credentials&.dig(:aws, :s3_bucket_name)
+    end
+
+    def database_name
+      @database_name ||= ActiveRecord::Base.connection_config[:database]
     end
 end

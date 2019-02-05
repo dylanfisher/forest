@@ -10,7 +10,10 @@ $(document).on('turbolinks:load forest:block-slot-after-insert', function() {
     placeholder: 'ui-state-highlight',
     forcePlaceholderSize: true,
     tolerance: 'pointer',
-    containment: 'parent'
+    containment: 'parent',
+    start: function(e, ui) {
+      ui.placeholder.height( ui.item.outerHeight(true) );
+    }
   });
 
   $blockSlots.offOn('sortupdate.blockSlotSort', function(e, ui) {

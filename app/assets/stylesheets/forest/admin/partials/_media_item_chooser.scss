@@ -14,6 +14,12 @@
   }
 }
 
+.media-item-chooser__image--file {
+  color: #aaa;
+  font-size: 80px;
+  display: inline-block;
+}
+
 .media-item-chooser {
   .fileupload {
     margin-top: $gutter * 2;
@@ -91,6 +97,29 @@
   .media-item__buttons {
     display: none !important;
   }
+}
+
+.modal-header {
+  .close {
+    z-index: 1;
+    position: relative;
+  }
+}
+
+.media-item-chooser__modal-title {
+  margin-bottom: 5px;
+  position: relative;
+}
+
+.media-item-chooser__modal-search-form,
+.media-item-chooser__modal-search-input {
+  width: 100%;
+}
+
+.media-item-chooser__modal-title__loading-indicator {
+  position: absolute;
+  top: 5px;
+  right: 30px;
 }
 
 .media-gallery-preview-wrapper {

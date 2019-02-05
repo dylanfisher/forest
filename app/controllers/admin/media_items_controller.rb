@@ -6,6 +6,7 @@ class Admin::MediaItemsController < Admin::ForestController
   has_scope :by_content_type
   has_scope :videos, type: :boolean
   has_scope :images, type: :boolean
+  has_scope :pdfs, type: :boolean
   has_scope :fuzzy_search
 
   # GET /media_items
@@ -18,6 +19,8 @@ class Admin::MediaItemsController < Admin::ForestController
     else
       @layout = :list
     end
+
+    respond_to :html, :json
   end
 
   # GET /media_items/1

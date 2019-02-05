@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   # Admin Resources
   namespace :admin do
     get '/', to: 'dashboard#index'
-    resources :block_layouts, path: 'block-layouts'
+    resources :block_layouts, except: [:destroy], path: 'block-layouts'
     resources :cache_purge, path: 'cache-purge', only: [:index]
     resources :imports, only: [:edit, :create]
     resources :media_items, path: 'media-items' do
@@ -24,13 +24,13 @@ Rails.application.routes.draw do
         match 'preview', via: [:patch, :post]
       end
     end
-    resources :settings
+    resources :settings, except: [:destroy]
     resources :translations
     resources :users do
       get 'reset_password'
     end
-    resources :user_groups, path: 'user-groups'
     resources :versions
+    resources :user_groups, except: [:destroy], path: 'user-groups'
     get 'documentation', to: 'documentation#index'
   end
 
@@ -58,7 +58,10 @@ Rails.application.routes.draw do
   get '/wp-admin/*all', to: redirect('/'), format: false
   get '/wp-login/*all', to: redirect('/'), format: false
 
-  scope constraints: lambda { |request| request.format.to_s.include? 'text/html' } do
+  scope constraints: lambda { |request|
+    ['text/html', '*/*'].include?(request.format.to_s) &&
+    (request.path =~ /^\/admin\//).nil?
+  } do
     get '*page_path', to: 'pages#show', as: 'page'
   end
 end

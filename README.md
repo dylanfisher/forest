@@ -30,24 +30,7 @@ Run Forest install generator and follow post-install prompts
 $ rails g forest:install
 ```
 
-## Usage
-Forest runs as an engine. To get started using this gem, create a new rails app and add the forest gem to your gemfile.
-
-Mount forest in your routes.rb file
-
-```
-mount Forest::Engine, at: '/'
-```
-
-Install Forest's migrations
-
-```bash
-bin/rails railties:install:migrations
-```
-
-Delete `layouts/application.html.erb` to use Forest's layout.
-
-Update your ApplicationRecord to inherit from `Forest::ApplicationRecord`
+Update your ApplicationRecord to inherit from `Forest::ApplicationRecord`, or just delete the file.
 
 ```ruby
 class ApplicationRecord < Forest::ApplicationRecord
@@ -71,13 +54,6 @@ config.to_prepare do
     Rails.configuration.cache_classes ? require(c) : load(c)
   end
 end
-```
-
-Configure bootsnap if necessary by adding the following right underneath `require 'bundler/setup'`:
-
-```ruby
-# boot.rb
-require 'bootsnap/setup'
 ```
 
 For an example of a host app running Forest, view [github.com/dylanfisher/forest_blog](https://github.com/dylanfisher/forest_blog).
@@ -158,7 +134,7 @@ end
 
 Index your documents using the tasks in forest_elasticsearch_tasks.rake. To rebuild the search index, you'd run:
 
-`rake forest:elasticsearch:rebuild`
+`bin/rails forest:elasticsearch:rebuild`
 
 ## Primary Dependencies
 Forest relies heavily on the following gems, software and frameworks:
@@ -177,24 +153,22 @@ Forest relies heavily on the following gems, software and frameworks:
 
 ## TODO
 
-Priority
-- Maintain block position when validations fail
-
 Big Picture
-- [ ] add a documentation page directly within the forest cms with FAQ and basic overview of how to use the cms.
+- [ ] change references to model names and other hard coded names to use I18n
+- [ ] model resource_description should use I18n
+- [ ] add rake task to download database dumps from heroku and store in S3
 - [ ] add additional og tags http://ogp.me/
 - [ ] add schema.org microdata where appopriate, e.g. for navigation menus, headers, footers
 - [ ] is it better to namespace engine?
 - [ ] tests
 
 Admin
+- [ ] simpleMDE markdown editor has a bug where sometimes the text area gets messed up and needs to have the page resize functions run to work properly again.
+- [ ] fix user login page view when signing up for the first time and passwords don't match.
 - [ ] nested forms are cumbersome at laptop size. It should be easier to rearrange nested items.
 - [ ] add ability to insert nested form items in between other nested items.
 - [ ] do something more useful with the admin#show view
-- [ ] more robust filter pattern for index views, and ability to select by multiple filters + search,
-      and retain these filters when navigating between records
 - [ ] email confirmations for user related actions
-- [ ] add migrations to host app without running install:migrations command
 - [ ] versioning option for data associated pages, settings, menus, etc.
 - [ ] version diff UI like wordpress?
 - [ ] modal to create associated records directly from association page?
@@ -208,17 +182,20 @@ Generators
 
 Pages
 - [ ] proper drafting/publishing permissions for drafted/published pages
-- [ ] page groups / page heirarchy
-- [ ] show page hierarchy in select2 selection?
 - [ ] better page versioning, page history navigation, restore content blocks with page version
 
 Blocks
+- [ ] add a built-in column UI for selecting column width, column offset (and maybe also column alignment and column pull)
+- [ ] add a duplicate block button to make adding additional blocks of the same type quicker and easier
 - [ ] is it possible to add the ability to create blocks within nested forms?
 - [ ] minimum and maximum blocks per layout
 
 Media Gallery
+- [ ] test what happens when a user replaces a media library image by editing that image directly (does cache expire properly, does cloudfront get notified it's a new image, etc.)
+- [ ] better UI for displaying, uploading and selecting files (e.g. PDF). Add ability to filter media item chooser to file only, or video only, etc.
 - [ ] add ability to specify image format, perhaps with a just-in-time file processing like this example http://www.ryanalynporter.com/2012/06/07/resizing-thumbnails-on-demand-with-paperclip-and-rails/
 - [ ] when uploading video via drag and drop, the preview icon doesn't update properly after upload completes
+- [ ] add drag and drop upload to media item edit view
 - [ ] add direct to S3 file upload for large files like video, that otherwise look like they timeout on heroku
 - [ ] in the fileUpload progress bar, once the files have been uploaded, change the progress bar to indicate that the server is processing the images. Right now it looks like it just hangs on a 100% green bar.
 - [ ] use mini_magick or similar, more efficient image editor to process paperclip files
@@ -230,7 +207,6 @@ Sass
 - [ ] potentially speed up sass compilation by following pattern like this? http://blog.teamtreehouse.com/tale-front-end-sanity-beware-sass-import
 
 Settings
-- [ ] when updating featured image setting the home page cache didn't seem to get busted. Need to confirm this.
 - [ ] when a setting is referenced in production.rb precompiling assets fails
 - [ ] add documentation for how settings should be added. Right now they must be initialized from the i18n en:forest:settings yaml file.
 

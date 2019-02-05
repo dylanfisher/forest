@@ -10,6 +10,7 @@ App.MediaItemChooser = {
 
     $elements.each(function() {
       var $element = $(this);
+      var xhr;
 
       that.instances.push( $element );
 
@@ -34,8 +35,48 @@ App.MediaItemChooser = {
         })
         .on('shown.bs.modal', function() {
           $(document).trigger('forest:show-media-item-chooser');
+
+          var $modalBody = $element.find('.modal-body');
+          var lastSearchValue;
+          var $loadingIndicator = $('#media-item-chooser__modal-title__loading-indicator');
+
+          $(document).on('keydown.mediaItemModalSearch', '#media_item_modal_fuzzy_search', function(e) {
+            if ( e.which == 13 ) e.preventDefault();
+          });
+
+          $(document).on('change.mediaItemModalSearch keyup.mediaItemModalSearch', '#media_item_modal_fuzzy_search', $.debounce(300, function(e) {
+            var $input = $(this);
+            var searchValue = $input.val();
+
+            if ( searchValue == lastSearchValue ) {
+              return;
+            }
+
+            lastSearchValue = searchValue;
+
+            $loadingIndicator.html('<span class="glyphicon glyphicon-hourglass"></span> Loading...');
+
+            xhr = $.ajax({
+                url: '<%= Rails.application.routes.url_helpers.admin_media_items_path %>',
+                type: 'GET',
+                data: {
+                  fuzzy_search: searchValue
+                }
+              })
+              .done(function(data) {
+                $modalBody.html( $(data).find('.media-library') );
+                App.InfiniteLoader.initialize( $element.find('[data-infinite-load]'), { $scrollListener: $element } );
+              }).fail(function() {
+                var error = 'Unable to fetch media items index.';
+                console.warn(error);
+                $modalBody.html(error);
+              }).always(function() {
+                $loadingIndicator.empty();
+              });
+          }));
         })
         .on('hide.bs.modal', function() {
+          if ( xhr ) xhr.abort();
           that.destroyModal();
         })
         .on('hidden.bs.modal', function() {
@@ -48,6 +89,7 @@ App.MediaItemChooser = {
       App.InfiniteLoader.unbindScroll( this.instances[i] );
     }
     $('.media-item-chooser__button--active').removeClass('media-item-chooser__button--active');
+    $(document).off('change.mediaItemModalSearch keyup.mediaItemModalSearch keydown.mediaItemModalSearch');
   },
   createThumbnail: function(id, url) {
     return '<div class="media-item--grid col-xs-4 col-sm-3 col-md-2">' +
@@ -185,7 +227,7 @@ $(document).on('click', '.media-item-chooser__remove-image', function() {
   var $wrapper = $(this).closest('.image');
   var $image = $wrapper.find('.media-item-chooser__image');
   var $button = $wrapper.find('.media-item-chooser__button');
-  var $input = $( $button.attr('data-media-item-input') );
+  var $input = $wrapper.find( $button.attr('data-media-item-input') );
 
   $image.attr('src', '').attr('alt', '').addClass('hidden');
   $input.val('');

@@ -7,12 +7,12 @@
 //   <div class="sortable-field">
 //     <div class="sortable-field-set__handle"></div>
 //     <div class="sortable-field-set__position">
-//       <input type="hidden">
+//       <%= f.hidden_field :position %>
 //     </div>
 //   </div>
 // </div>
 
-$(document).on('turbolinks:load forest:block-slot-after-insert', function() {
+$(document).on('turbolinks:load cocoon:after-insert', function() {
   var $fieldSets = $('.sortable-field-set');
 
   $fieldSets.each(function() {
@@ -24,7 +24,10 @@ $(document).on('turbolinks:load forest:block-slot-after-insert', function() {
       // tolerance: 'pointer',
       placeholder: 'sortable-placeholder',
       handle: '.sortable-field-set__handle',
-      forcePlaceholderSize: true
+      forcePlaceholderSize: true,
+      start: function(e, ui) {
+        ui.placeholder.height( ui.item.outerHeight(true) );
+      }
     });
 
     calculatePositions( $fieldSet );

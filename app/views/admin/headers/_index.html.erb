@@ -6,8 +6,8 @@
 <%= admin_header_tag(records) do %>
   <div class="well">
     <div class="row">
-      <div class="admin-header__item-group col-sm-6">
-        <h1 class="admin-header__item"><%= model_names.plural.titleize %> <span class="badge"><%= number_with_delimiter records.total_count %></span></h1>
+      <div class="admin-header__item-group col-sm-8">
+        <h1 class="admin-header__item"><%= model_names.human.pluralize.titleize %> <span class="badge"><%= number_with_delimiter records.total_count %></span></h1>
         <%= form_tag send("admin_#{model_names.plural}_path"), class: 'form-inline admin-header__item', method: :get, enforce_utf8: false, data: { turboform: true } do %>
           <div class="form-group">
             <%= text_field_tag :fuzzy_search, params[:fuzzy_search], class: 'form-control', placeholder: 'Search', autofocus: (true if params[:fuzzy_search].present?), data: { turboform: true } %>
@@ -15,13 +15,13 @@
           </div>
         <% end %>
       </div>
-      <div class="col-sm-6 text-right">
+      <div class="col-sm-4 text-right">
         <div class="btn-group text-left">
           <% if content_for? :index_header_button_group %>
             <%= content_for :index_header_button_group %>
           <% else %>
             <% if try(:respond_to?, "new_admin_#{model_names.singular_route_key}_path") %>
-              <%= link_to "New #{model_names.singular.titleize}", send("new_admin_#{model_names.singular_route_key}_path"), class: 'btn btn-success' %>
+              <%= link_to "New #{model_names.human.titleize}", send("new_admin_#{model_names.singular_route_key}_path"), class: 'btn btn-success' %>
               <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="caret"></span>
                 <span class="sr-only">Toggle Dropdown</span>
@@ -38,6 +38,7 @@
           <% end %>
         </div>
       </div>
+      <%# TODO: this doesn't seem necessary %>
       <% if I18n.exists?("forest.admin.index.#{model_names.singular}.description", locale) %>
         <div class="col-sm-12">
           <p class="text-muted">

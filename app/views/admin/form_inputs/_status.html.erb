@@ -1,15 +1,18 @@
 <% if record.statusable? %>
-  <div class="status-scheduler">
+  <% date_label = local_assigns.fetch(:date_label, 'Published date') %>
+  <div class="status-scheduler form-group">
     <%= f.input :status, as: :select, collection: record.class.statuses_for_select.collect { |k, v| [k.titleize, k] }, include_blank: false %>
     <% if record.respond_to?(:published_date) %>
       <%= f.input :published_date,
                   as: :datepicker,
-                  hint: "Set the status of this record to \"scheduled\" and it will be hidden until the day of this published date.",
-                  input_html: { value: f.object.published_date.presence || Date.today } %>
+                  hint: "Set the date of this record to a future date and it will be hidden until this time.",
+                  input_html: { value: f.object.published_date.presence || Date.today },
+                  label: date_label %>
     <% elsif record.respond_to?(:scheduled_date) %>
       <%= f.input :scheduled_date,
                   as: :string,
-                  hint: "Set the status of this record to \"scheduled\" and it will be hidden until the day of this scheduled date.",
+                  hint: "Set the date of this record to a future date and it will be hidden until this time.",
+                  label: date_label,
                   wrapper_html: {
                     class: ('active' if record.scheduled?) } %>
     <% end %>

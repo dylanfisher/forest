@@ -1,6 +1,8 @@
+<% locals = { block_record: local_assigns.fetch(:block_record, nil) } %>
+
 <div class="block-slot nested-fields">
   <% collection = block_kinds.to_a
-                             .sort_by { |bk| bk.category }
+                             .sort_by { |bk| [bk.category, bk.name] }
                              .collect { |bk| [bk.to_label, bk.id, category: bk.category, data: { select2_response: bk.to_select2_response }] } %>
   <%= f.association :block_kind,
                     collection: collection,
@@ -33,7 +35,7 @@
 
           <div class="block-slot__inputs panel-body">
             <%= f.simple_fields_for :block, f.object.send(:build_block, klass) do |f| %>
-              <%= render "blocks/#{klass.model_name.singular}/edit", f: f %>
+              <%= render "blocks/#{klass.model_name.singular}/edit", f: f, **locals %>
             <% end %>
           </div>
         </div>

@@ -15,22 +15,42 @@
           <div class="form-inputs">
             <div class="row">
               <div class="col-sm-6">
-                <%- for attribute in attributes -%>
-                <%%= f.input :<%= attribute.name %> %>
-                <%- end -%>
+<% unless options.skip_sluggable? -%>
                 <%%= render 'admin/form_inputs/slug', f: f %>
+<% end -%>
+                <%- for attribute in attributes -%>
+                <%- if attribute.reference? -%>
+                  <%- if attribute.name =~ /media_item/ -%>
+                <%%= f.association :<%= attribute.name %>, as: :image %>
+                  <%- else -%>
+                <%%= f.association :<%= attribute.name %> %>
+                  <%- end -%>
+                <%- else -%>
+                  <%- if attribute.name =~ /date/ -%>
+                <%%= f.input :<%= attribute.name %>, as: :datepicker %>
+                  <%- elsif attribute.name =~ /text/ -%>
+                <%%= f.input :<%= attribute.name %>, markdown: true %>
+                  <%- else -%>
+                <%%= f.input :<%= attribute.name %> %>
+                  <%- end -%>
+                <%- end -%>
+                <%- end -%>
                 <%%= f.button :submit, class: 'btn-success' %>
               </div>
               <div class="col-sm-6">
+<% unless options.skip_statusable? -%>
                 <%%= render 'admin/form_inputs/status', f: f, record: @<%= singular_table_name %> %>
+<% end -%>
               </div>
             </div>
           </div>
         </div>
       </div>
+<% unless options.skip_blockable? -%>
       <%# Uncomment this if the record is blockable. Optionally pass the block_layout or block_kinds to the partial. %>
       <%%#= render 'admin/block_record/block_layout', f: f, block_layout: @block_layout, block_kinds: @block_kinds %>
       <%%#= f.button :submit, class: 'btn-success' %>
+<% end %>
     </div>
   </div>
 <%% end %>

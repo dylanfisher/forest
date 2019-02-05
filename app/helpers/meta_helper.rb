@@ -1,16 +1,17 @@
 module MetaHelper
   def meta_page_title
     @_meta_page_title ||= begin
-      title = [
-        page_title,
-        site_title
-      ].reject(&:blank?).join(divider)
+      title = []
+      title << page_title unless controller_name == 'home_pages'
+      title << site_title
+      title = title.reject(&:blank?).join(divider)
       stripdown(title).squish
     end
   end
 
   def page_title
     @_page_title ||= begin
+      return if @disable_page_title.present?
       title = [
         content_for(:page_title),
         @page_title,
@@ -91,7 +92,8 @@ module MetaHelper
   def page_featured_image_width
     @_page_featured_image_width ||= begin
       return unless page_featured_image.is_a?(Paperclip::Attachment)
-      page_featured_image.instance.try(:dimensions).try(:[], :width) ||
+      @page_featured_image_width ||
+        page_featured_image.instance.try(:dimensions).try(:[], :width) ||
         page_featured_image.instance.try(:attachment_width)
     end
   end
@@ -99,7 +101,8 @@ module MetaHelper
   def page_featured_image_height
     @_page_featured_image_height ||= begin
       return unless page_featured_image.is_a?(Paperclip::Attachment)
-      page_featured_image.instance.try(:dimensions).try(:[], :height) ||
+      @page_featured_image_height ||
+        page_featured_image.instance.try(:dimensions).try(:[], :height) ||
         page_featured_image.instance.try(:attachment_height)
     end
   end
@@ -114,7 +117,7 @@ module MetaHelper
   def page_featured_image_alt
     @_page_featured_image_alt ||= begin
       return unless page_featured_image.is_a?(Paperclip::Attachment)
-      page_featured_image.try(:alternative_text)
+      page_featured_image.try(:instance).try(:alternative_text)
     end
   end
 
@@ -184,7 +187,7 @@ module MetaHelper
       'website'
     end
 
-    def divider(spacer = ' – ')
+    def divider(spacer = ' - ')
       spacer
     end
 

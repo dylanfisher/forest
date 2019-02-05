@@ -1,7 +1,7 @@
 class Admin::ForestController < ApplicationController
   include Pundit
 
-  protect_from_forgery with: :exception
+  protect_from_forgery with: :exception, prepend: true
 
   layout 'admin'
 
@@ -78,7 +78,8 @@ class Admin::ForestController < ApplicationController
 
     def foreign_key_contraint(exception)
       if record
-        redirect_to edit_polymorphic_path([:admin, record]), flash: { error: ["This record can't be deleted because another record depends on it. First remove the association to the other record before deleting this one.", exception.message] }
+        statusable_message = record.try(:statusable?) ? ' Alternatively, you may want to set this record\'s status to hidden instead.' : ''
+        redirect_to edit_polymorphic_path([:admin, record]), flash: { error: ["This record can't be deleted because another record depends on it. First remove the association to the other record before deleting this one.#{statusable_message}", "<code>#{exception.message}</code>"] }
       else
         raise
       end

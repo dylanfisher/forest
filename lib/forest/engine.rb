@@ -27,6 +27,10 @@ module Forest
       )
     end
 
+    initializer 'forest.checking_migrations' do
+      Migrations.new(config, engine_name).check
+    end
+
     config.after_initialize do
       if database_exists?
         ActiveRecord::Base.connection_pool.with_connection do |c|

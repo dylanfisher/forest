@@ -24,7 +24,7 @@
             <% end %>
             <% if public_area? %>
               <p class="navbar-text">
-                <%= link_to "Edit #{@record.class.model_name.singular}", send("edit_#{@record.class.model_name.singular_route_key}_path", @record) %>
+                <%= link_to "Edit #{@record.class.model_name.human}", send("edit_#{@record.class.model_name.singular_route_key}_path", @record) %>
               </p>
             <% end %>
           </li>

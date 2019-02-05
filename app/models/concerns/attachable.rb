@@ -31,6 +31,7 @@ module Attachable
       scope :by_content_type, -> (content_type) { where(attachment_content_type: content_type) }
       scope :images, -> { where('attachment_content_type LIKE ?', '%image%') }
       scope :videos, -> { where('attachment_content_type LIKE ?', '%video%') }
+      scope :pdfs, -> { where('attachment_content_type LIKE ?', '%pdf%') }
 
       def large_attachment_url
         attachment.url(:large)
@@ -50,6 +51,29 @@ module Attachable
 
       def gif?
         attachment_content_type == 'image/gif'
+      end
+
+      def display_content_type
+        if image?
+          'image'
+        elsif video?
+          'video'
+        elsif file?
+          'file'
+        else
+          'media item'
+        end
+      end
+
+      def dimensions_at(size)
+        geometry = attachment.options[:styles][size].split('x')
+        w = geometry.first.to_f
+        ratio = dimensions[:width] / w
+
+        {
+          width: dimensions[:width] / ratio,
+          height: dimensions[:height] / ratio
+        }
       end
 
       private

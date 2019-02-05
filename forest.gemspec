@@ -26,6 +26,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'deep_cloneable'
   s.add_dependency 'devise'
   s.add_dependency 'has_scope'
+  s.add_dependency 'jbuilder'
   s.add_dependency 'jquery-rails'
   s.add_dependency 'jquery-fileupload-rails'
   s.add_dependency 'jquery-ui-rails'

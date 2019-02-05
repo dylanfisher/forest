@@ -24,7 +24,7 @@ App.FileUploader = {
 
       $fileupload.fileupload({
         autoUpload: true,
-        sequentialUploads: false,
+        sequentialUploads: true
       }).on('fileuploadstart', function (e) {
         $('#progress').removeClass('hidden').addClass('fade in');
       }).on('fileuploadprogressall', function (e, data) {
@@ -39,11 +39,19 @@ App.FileUploader = {
           // Media items
           var previewLink = $('.template-download .preview a').attr('href');
           var fileId = data.result.files[0].id;
+          var mediaItemName = data.result.files[0].name;
+          var fileName = data.result.files[0].file_name;
           var previewImageUrl = $('.template-download .preview img').attr('src');
-          previewHTML = '<div class="col-xs-4 col-sm-3 col-md-2">\
+          // This previewHTML needs to match the _media_item_grid_layout.html.erb partial
+          previewHTML = '<div class="media-item--grid col-xs-4 col-sm-3 col-md-2">\
                           <a class="media-library-link" href="' + previewLink + '" data-media-item-id="' + fileId + '" data-image-url="' + previewImageUrl + '" data-image-url-large="' + previewImageUrl + '">\
-                            <div class="media-library-image img-rounded" style="background-image: url(' + previewImageUrl + ')"></div>\
+                            <div class="media-library-image img-rounded" style="background-image: url(' + previewImageUrl + ')">\
+                              <div class="media-library-image__label small well" title="' + fileName + '">' + mediaItemName + '</div>\
+                            </div>\
                           </a>\
+                          <div class="media-item__buttons">\
+                            <div class="media-item__button media-item__buttons__edit glyphicon glyphicon-pencil" data-path="/admin/media-items/' + fileId + '/edit"></div>\
+                          </div>\
                         </div>';
 
           $('.template-download').remove();

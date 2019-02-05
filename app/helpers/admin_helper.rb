@@ -14,7 +14,7 @@ module AdminHelper
   end
 
   def table_thumbnail(image)
-    if image.attachment.present?
+    if image&.attachment.present?
       content_tag :div, class: 'table-thumbnail' do
         image_tag image.attachment.url(:thumb)
       end
@@ -23,6 +23,12 @@ module AdminHelper
 
   def table_color_representation(color)
     content_tag :div, '', class: 'table-color-representation', style: "background-color: #{color};"
+  end
+
+  def forest_date(datetime)
+    return if datetime.blank?
+    datetime_format = datetime.is_a?(Date) ? '%m&#8209;%d&#8209;%Y' : '%m&#8209;%d&#8209;%Y %l:%M&nbsp;%p'
+    datetime.strftime(datetime_format).html_safe
   end
 
   def admin_page_level_indicator(level)
@@ -58,7 +64,8 @@ module AdminHelper
   end
 
   def record_name(record)
-    record.try(:display_name).presence || record.try(:title).presence || record.try(:name).presence
+    return unless record.present?
+    record.try(:display_name).presence || record.try(:title).presence || record.try(:name).presence || "#{record.model_name.human} #{record.id}"
   end
 
   def admin_header_tag(record, &block)

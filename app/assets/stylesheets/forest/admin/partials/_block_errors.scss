@@ -1,0 +1,15 @@
+// Block errors
+
+.block-slot--has-error {
+  & > .panel {
+    border-color: #cb9492;
+  }
+
+  .block-slot__panel-heading {
+    color: $state-danger-text;
+
+    .text-muted {
+      color: $state-danger-text;
+    }
+  }
+}

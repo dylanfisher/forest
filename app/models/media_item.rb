@@ -11,8 +11,7 @@ class MediaItem < Forest::ApplicationRecord
 
   before_validation :set_default_metadata
 
-  after_save :expire_cache
-  after_destroy :expire_cache
+  after_commit :expire_cache
 
   has_many :pages, foreign_key: :featured_image_id
 
@@ -24,7 +23,7 @@ class MediaItem < Forest::ApplicationRecord
   scope :by_date, -> (date) {
     begin
       date = Date.parse(date)
-      where('created_at >= ? AND created_at <= ?', date.beginning_of_month, date.end_of_month)
+      where('media_items.created_at >= ? AND media_items.created_at <= ?', date.beginning_of_month, date.end_of_month)
     rescue ArgumentError => e
       date = nil
     end
@@ -87,6 +86,7 @@ class MediaItem < Forest::ApplicationRecord
     {
       'id': self.id,
       'name': read_attribute(:title),
+      'file_name': attachment_file_name,
       'size': attachment.size,
       'url': edit_admin_media_item_path(self),
       'thumbnail_url': attachment.url(:medium),
@@ -95,8 +95,13 @@ class MediaItem < Forest::ApplicationRecord
     }
   end
 
+  # Portrait images have a lower aspect ratio
+  def aspect_ratio
+    dimensions[:width].to_f / dimensions[:height].to_f
+  end
+
   def landscape?(ratio = 1)
-    dimensions[:width].to_f / dimensions[:height].to_f > ratio
+    aspect_ratio > ratio
   end
 
   def portrait?(ratio = 1)

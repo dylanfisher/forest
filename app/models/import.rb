@@ -25,7 +25,7 @@ class Import
                 header_converters: -> (f) { f.strip },
                 converters: -> (f) { f ? f.strip : nil } ) do |row|
       attrs = row.to_h.compact
-      klass.find_or_create_by(attrs)
+      klass.find_or_create_by!(attrs)
     end
   end
 

@@ -4,3 +4,9 @@
   right: 0;
   left: auto;
 }
+
+.modal-fluid {
+  @include breakpoint(sm) {
+    width: 75%;
+  }
+}

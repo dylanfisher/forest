@@ -27,6 +27,18 @@ class BaseBlock < Forest::ApplicationRecord
     true
   end
 
+  # Override to add css classes to a block's wrapper
+  def css_class
+  end
+
+  # Override to add css styles to a block's wrapper
+  def css_styles
+  end
+
+  # Override to add data attributes to a block's wrapper. Make sure this is a hash.
+  def data_attributes
+  end
+
   def display_icon
     self.class.display_icon
   end
@@ -39,12 +51,14 @@ class BaseBlock < Forest::ApplicationRecord
     "#{self.model_name.singular.dasherize}-#{self.id}"
   end
 
-  # TODO: association to represent this?
+  def block_kind
+    @block_kind ||= BlockKind.find_by_name(self.class.name)
+  end
+
   def block_record
     @block_record ||= block_slot.block_record
   end
 
-  # TODO: association to represent this?
   def block_record_id
     block_record.block_record.id
   end
@@ -66,15 +80,33 @@ class BaseBlock < Forest::ApplicationRecord
   end
 
   def last?
-    index == block_record.blocks(block_layout: block_layout).length - 1
+    index == blocks.length - 1
   end
 
   def first_of_kind?
-    blocks.first_of_kind(self.class.name) == self
+    blocks.first_of_kind(self.class) == self
   end
 
   def last_of_kind?
-    blocks.last_of_kind(self.class.name) == self
+    blocks.last_of_kind(self.class) == self
+  end
+
+  def even_of_kind?
+    blocks.kind(self.class).index(self).even?
+  end
+
+  def odd_of_kind?
+    blocks.kind(self.class).index(self).odd?
+  end
+
+  def previous
+    return nil if first?
+    blocks[index - 1]
+  end
+
+  def next
+    return nil if last?
+    blocks[index + 1]
   end
 
   def non_indexed_attributes

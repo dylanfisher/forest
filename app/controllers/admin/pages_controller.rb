@@ -8,9 +8,10 @@ class Admin::PagesController < Admin::ForestController
 
   def index
     if request.format.json?
-      @pages = apply_scopes(Page).by_title.where.not(id: params[:current_record]).page params[:page]
+      @pages = apply_scopes(Page).by_title.where.not(id: params[:current_record]).page(params[:page])
     else
-      @parent_pages = apply_scopes(Page).parent_pages.page params[:page]
+      # TODO: fuzzy searching doesn't work properly with page hierarchy
+      @parent_pages = apply_scopes(Page.includes(:immediate_children)).parent_pages.page(params[:page])
       @pages = apply_scopes(Page).by_title.page params[:page]
     end
 
@@ -106,7 +107,9 @@ class Admin::PagesController < Admin::ForestController
       # TODO: come up with a better pattern for adding additional params via the host app, rather than
       # just permitting all other column_names of the class.
       column_names = (@page.class.column_names.collect(&:to_sym) - page_attributes).reject { |a| [:id, :created_at, :updated_at].include?(a) }
-      permitted_attributes = page_attributes + column_names
+      # Attributes from store_accessors
+      stored_attributes = @page.class.stored_attributes.values.flatten
+      permitted_attributes = page_attributes + column_names + stored_attributes
       params.require(:page).permit(permitted_attributes)
     end
 

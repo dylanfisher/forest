@@ -3,6 +3,8 @@
 }
 
 .ui-sortable-helper {
+  width: 100%;
+
   .sortable-handle {
     background-color: darken($panel-default-heading-bg, 6.5%);
   }

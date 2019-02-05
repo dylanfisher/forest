@@ -1,8 +1,8 @@
 class ColorInput < SimpleForm::Inputs::Base
   def input(wrapper_options)
-    hex_code = object.try(attribute_name).presence || options.delete(:hex_code).presence || default_hex_code
+    hex_code = object.try(attribute_name).presence || options.delete(:hex_code).presence || options.delete(:default).presence || default_hex_code
     merged_input_options = merge_wrapper_options(input_html_options, wrapper_options)
-    merged_input_options.merge!(type: :color)
+    merged_input_options.merge!(type: :color, value: hex_code)
 
     content = ActiveSupport::SafeBuffer.new
     content << content_tag(:div, input_group(hex_code, merged_input_options), class: 'input-group')

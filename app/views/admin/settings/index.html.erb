@@ -26,8 +26,8 @@
           <td><%= setting.title %></td>
           <td><%= setting.slug %></td>
           <td><%= truncate admin_setting_value(setting) %></td>
-          <td><%= setting.created_at.to_formatted_s(:long) %></td>
-          <td><%= setting.updated_at.to_formatted_s(:long) %></td>
+          <td><%= forest_date setting.created_at %></td>
+          <td><%= forest_date setting.updated_at %></td>
           <td width="1"><%= link_to 'Edit', edit_admin_setting_path(setting), class: 'btn btn-xs btn-info forest-table__link', role: 'button' %></td>
         </tr>
       <% end %>
