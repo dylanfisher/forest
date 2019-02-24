@@ -85,6 +85,10 @@ class Forest::BlockGenerator < Rails::Generators::NamedBase
       pluralize_table_names? ? _table_name.pluralize : _table_name.singularize
     end
 
+    def block_record_type
+      escape_quotes (ENV['BLOCK_RECORD_TYPE'].presence || 'default')
+    end
+
     def block_category
       escape_quotes (ENV['BLOCK_CATEGORY'].presence || 'default')
     end
