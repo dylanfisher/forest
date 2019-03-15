@@ -11,6 +11,7 @@ class Admin::ForestController < ApplicationController
   before_action :set_admin_resources
 
   rescue_from ActiveRecord::InvalidForeignKey, with: :foreign_key_contraint
+  rescue_from ActiveRecord::RecordNotUnique, with: :record_not_unique
 
   # rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
@@ -80,6 +81,14 @@ class Admin::ForestController < ApplicationController
       if record
         statusable_message = record.try(:statusable?) ? ' Alternatively, you may want to set this record\'s status to hidden instead.' : ''
         redirect_to edit_polymorphic_path([:admin, record]), flash: { error: ["This record can't be deleted because another record depends on it. First remove the association to the other record before deleting this one.#{statusable_message}", "<code>#{exception.message}</code>"] }
+      else
+        raise
+      end
+    end
+
+    def record_not_unique(exception)
+      if record && record.try(:sluggable?)
+        redirect_to edit_polymorphic_path([:admin, record]), flash: { error: ["A record with this slug already exists. Please create a unique slug.", "<code>#{exception.message}</code>"] }
       else
         raise
       end
