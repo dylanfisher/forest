@@ -9,6 +9,14 @@ module Sluggable
 
     scope :by_slug, -> (orderer = :asc) { order(slug: orderer) }
 
+    def self.sluggable?
+      true
+    end
+
+    def sluggable?
+      true
+    end
+
     # Override this method to define which attribute the slug is created from, or
     # have this method return false to use a random slug
     def slug_attribute
@@ -34,6 +42,10 @@ module Sluggable
       end
 
       self.slug = slug_attr
+
+      if self.class.find_by_slug(slug_attr).present?
+        self.slug = "#{slug_attr}-#{SecureRandom.uuid}"
+      end
     end
 
     def generate_slug?
