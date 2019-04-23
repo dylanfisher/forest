@@ -2,8 +2,14 @@ module MetaHelper
   def meta_page_title
     @_meta_page_title ||= begin
       title = []
-      title << page_title unless controller_name == 'home_pages'
-      title << site_title
+
+      if record_to_build_from.try(:seo_title)
+        title << record_to_build_from.seo_title
+      else
+        title << page_title unless controller_name == 'home_pages'
+        title << site_title
+      end
+
       title = title.reject(&:blank?).join(divider)
       stripdown(title).squish
     end
