@@ -4,9 +4,6 @@ Rails.application.routes.draw do
   match '422', to: 'errors#unprocessable', via: :all
   match '500', to: 'errors#internal_server_error', via: :all
 
-  # Root
-  root to: 'public#index'
-
   # Admin Resources
   namespace :admin do
     get '/', to: 'dashboard#index'
