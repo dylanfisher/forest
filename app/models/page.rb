@@ -97,9 +97,11 @@ class Page < Forest::ApplicationRecord
     ((page_ancestors.length + 1).times.collect{}.join('&mdash; ') + title).as_json
   end
 
+  # Returns a collection of media items that represent the basic images on the page. Override this
+  # method in your host app if your pages often contain images stored under other attribute names.
   def typical_media_items
     media_item_ids = []
-    media_item_ids.concat(featured_image_id) if featured_image_id.present?
+    media_item_ids.push(featured_image_id) if featured_image_id.present?
     media_item_ids.concat(blocks.collect { |b| b.try(:media_item_id) }.reject(&:blank?))
 
     if media_item_ids.present?
