@@ -6,7 +6,7 @@ module MarkdownHelper
   end
 
   def stripdown(text)
-    stripper.render(text.to_s)
+    stripper.render(text.to_s).squish
   end
 
   private
