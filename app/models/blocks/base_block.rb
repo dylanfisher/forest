@@ -3,10 +3,12 @@ class BaseBlock < Forest::ApplicationRecord
 
   has_one :block_slot, class_name: 'BlockSlot', as: :block, dependent: :destroy
 
+  # Override to customize the display name of the block.
   def self.display_name
     'Base Block'
   end
 
+  # Override to add a Bootstrap 3 glyphicon next to the block's title.
   def self.display_icon
     'glyphicon glyphicon-tree-conifer'
   end
@@ -27,11 +29,11 @@ class BaseBlock < Forest::ApplicationRecord
     true
   end
 
-  # Override to add css classes to a block's wrapper
+  # Override to add css classes to a block's wrapper.
   def css_class
   end
 
-  # Override to add css styles to a block's wrapper
+  # Override to add css styles to a block's wrapper.
   def css_styles
   end
 
