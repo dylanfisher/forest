@@ -1,12 +1,8 @@
 class Admin::BlockLayoutsController < Admin::ForestController
-  before_action :set_block_layout, only: [:show, :edit, :update, :destroy]
+  before_action :set_block_layout, only: [:edit, :update]
 
   def index
     @block_layouts = apply_scopes(BlockLayout).by_id.page params[:page]
-  end
-
-  def show
-    authorize @block_layout
   end
 
   def new
@@ -39,16 +35,9 @@ class Admin::BlockLayoutsController < Admin::ForestController
     end
   end
 
-  def destroy
-    authorize @block_layout
-    @block_layout.destroy
-    redirect_to admin_block_layouts_url, notice: 'BlockLayout was successfully destroyed.'
-  end
-
   private
 
     def block_layout_params
-      # Add blockable params to the permitted attributes if this record is blockable `**BlockSlot.blockable_params`
       params.require(:block_layout).permit(:slug, :display_name, :description)
     end
 
