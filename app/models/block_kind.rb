@@ -12,6 +12,10 @@ class BlockKind < Forest::ApplicationRecord
     end
   end
 
+  def self.resource_description
+    "A block kind represents the different types of blocks that may be used to add content to a page."
+  end
+
   def block
     @block ||= self.name.constantize
   end

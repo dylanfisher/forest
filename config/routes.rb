@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   # Admin Resources
   namespace :admin do
     get '/', to: 'dashboard#index'
+    resources :block_kinds, only: [:index, :edit, :update], path: 'block-kinds'
     resources :block_layouts, except: [:destroy], path: 'block-layouts'
     resources :cache_purge, path: 'cache-purge', only: [:index]
     resources :imports, only: [:edit, :create]
