@@ -187,20 +187,12 @@ Blocks
 - [ ] minimum and maximum blocks per layout
 
 Media Gallery
-- [ ] add ability to specify image format, perhaps with a just-in-time file processing like this example http://www.ryanalynporter.com/2012/06/07/resizing-thumbnails-on-demand-with-paperclip-and-rails/
 - [ ] add drag and drop upload to media item edit view
 - [ ] add direct to S3 file upload for large files like video, that otherwise look like they timeout on heroku
 - [ ] use mini_magick or similar, more efficient image editor to process paperclip files
 - [ ] better media item upload in media_item#edit
 - [ ] crop tool and other enhancements
 - [ ] configure paperclip to generate optimized images so that google page speed test doesn't complain about the lack of savings.
-
-Sass
-- [ ] potentially speed up sass compilation by following pattern like this? http://blog.teamtreehouse.com/tale-front-end-sanity-beware-sass-import
-
-Settings
-- [ ] when a setting is referenced in production.rb precompiling assets fails
-- [ ] add documentation for how settings should be added. Right now they must be initialized from the i18n en:forest:settings yaml file.
 
 ## Contributing
 If you are interested in contributing to this project please [get in touch](mailto:hi@dylanfisher.com).
