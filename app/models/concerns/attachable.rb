@@ -21,6 +21,7 @@ module Attachable
       do_not_validate_attachment_file_type :attachment
 
       before_post_process :skip_for_non_images
+      before_post_process :rename_attachment
       after_post_process :extract_dimensions
       after_post_process :collect_garbage
 
@@ -76,12 +77,25 @@ module Attachable
         }
       end
 
+      def file_extension
+        File.extname(attachment_file_name).downcase
+      end
+
+      def display_file_name
+        attachment_file_name.sub(/(--\d*)?#{Regexp.quote(file_extension)}$/i, '')
+      end
+
       private
 
         def set_default_metadata
           if self.title.blank?
-            self.title = attachment_file_name.sub(/\.(jpg|jpeg|png|gif)$/i, '')
+            self.title = display_file_name
           end
+        end
+
+        # Append a timestamp to the end of the file name to avoid cache issues with a CDN, e.g. CloudFront.
+        def rename_attachment
+          self.attachment.instance_write(:file_name, "#{display_file_name}--#{Time.now.to_i}#{file_extension}")
         end
 
         def skip_for_non_images
