@@ -5,6 +5,7 @@ module SimpleForm
         @remote ||= begin
           remote_options = options[:remote].is_a?(Hash) ? options[:remote] : {}
           remote_options[:path] ||= template.polymorphic_path([:admin, reflection.klass])
+          remote_options[:path] << '.json' unless remote_options[:path].match(/\.json$/i)
 
           input_html_options[:data] ||= {}
           input_html_options[:data][:remote_path] = remote_options[:path]
