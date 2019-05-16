@@ -41,11 +41,17 @@ App.FileUploader = {
           var fileId = data.result.files[0].id;
           var mediaItemName = data.result.files[0].name;
           var fileName = data.result.files[0].file_name;
-          var previewImageUrl = $('.template-download .preview img').attr('src');
+          var isImage = data.result.files[0].is_image;
+          var glyphicon = data.result.files[0].glyphicon;
+          var previewImageUrl = isImage ? $('.template-download .preview img').attr('src') : '';
+          var fileIcon = '<span class="media-library-image--grid__icon glyphicon ' + glyphicon + '"></span>';
+
           // This previewHTML needs to match the _media_item_grid_layout.html.erb partial
+          // media-library-image--grid__icon glyphicon glyphicon-file
           previewHTML = '<div class="media-item--grid col-xs-4 col-sm-3 col-md-2">\
                           <a class="media-library-link" href="' + previewLink + '" data-media-item-id="' + fileId + '" data-image-url="' + previewImageUrl + '" data-image-url-large="' + previewImageUrl + '">\
                             <div class="media-library-image img-rounded" style="background-image: url(' + previewImageUrl + ')">\
+                              ' + (isImage ? '' : fileIcon) + ' \
                               <div class="media-library-image__label small well" title="' + fileName + '">' + mediaItemName + '</div>\
                             </div>\
                           </a>\

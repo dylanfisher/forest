@@ -187,13 +187,9 @@ Blocks
 - [ ] minimum and maximum blocks per layout
 
 Media Gallery
-- [ ] test what happens when a user replaces a media library image by editing that image directly (does cache expire properly, does cloudfront get notified it's a new image, etc.)
-- [ ] better UI for displaying, uploading and selecting files (e.g. PDF). Add ability to filter media item chooser to file only, or video only, etc.
 - [ ] add ability to specify image format, perhaps with a just-in-time file processing like this example http://www.ryanalynporter.com/2012/06/07/resizing-thumbnails-on-demand-with-paperclip-and-rails/
-- [ ] when uploading video via drag and drop, the preview icon doesn't update properly after upload completes
 - [ ] add drag and drop upload to media item edit view
 - [ ] add direct to S3 file upload for large files like video, that otherwise look like they timeout on heroku
-- [ ] in the fileUpload progress bar, once the files have been uploaded, change the progress bar to indicate that the server is processing the images. Right now it looks like it just hangs on a 100% green bar.
 - [ ] use mini_magick or similar, more efficient image editor to process paperclip files
 - [ ] better media item upload in media_item#edit
 - [ ] crop tool and other enhancements
