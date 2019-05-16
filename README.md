@@ -1,5 +1,5 @@
 # 🌲 Forest
-Forest is a Rails 5 CMS that makes creating and managing websites easy.
+Forest is a Rails CMS that makes creating and managing websites easy.
 It draws inspiration from Wordpress' dashboard and makes it easy to upload images,
 manage menus, create users with permissions, etc.
 
@@ -56,13 +56,15 @@ config.to_prepare do
 end
 ```
 
+Additional instructions and deployment suggestions are outlined in the [Wiki](https://github.com/dylanfisher/forest/wiki).
+
 For an example of a host app running Forest, view [github.com/dylanfisher/forest_blog](https://github.com/dylanfisher/forest_blog).
 
 ## Features
 Forest aims to include the following features out of the box.
 
 ### Pages
-Pages are versionable (coming soon), schedulable and draftable. Each page is composed of a series of blocks that
+Pages are schedulable and draftable. Each page is composed of a series of blocks that
 a user can use to create dynamic page layouts. Additional blocks are easy to develop using regular Ruby
 classes and methods. Forest doesn't use any custom DSL.
 
@@ -84,7 +86,6 @@ rails generate forest:block TitleAndTextBlock title:string content:text
 ```
 
 ## Custom SimpleForm inputs
-
 A number of custom SimpleForm inputs and components are baked into Forest: https://github.com/dylanfisher/forest/wiki/SimpleForm-inputs-&-components
 
 ## Video associations uploaded as Media Items
@@ -115,7 +116,6 @@ To test the errors in development, set the following config to false.
 
 ```ruby
 # development.rb
-
 config.consider_all_requests_local = false
 ```
 
@@ -177,15 +177,11 @@ Admin
 - [ ] add an option to repeater field to allow adjusting number of fields in each repeated set.
 - [ ] remove font-awesome dependency from simplemde markdown editor
 
-Generators
-- [ ] add ability to skip block_record creation when creating new scaffold that doesn't need to support blocks
-
 Pages
 - [ ] proper drafting/publishing permissions for drafted/published pages
 - [ ] better page versioning, page history navigation, restore content blocks with page version
 
 Blocks
-- [ ] add a built-in column UI for selecting column width, column offset (and maybe also column alignment and column pull)
 - [ ] add a duplicate block button to make adding additional blocks of the same type quicker and easier
 - [ ] is it possible to add the ability to create blocks within nested forms?
 - [ ] minimum and maximum blocks per layout
