@@ -102,10 +102,14 @@ class Page < Forest::ApplicationRecord
   def typical_media_items
     media_item_ids = []
     media_item_ids.push(featured_image_id) if featured_image_id.present?
-    media_item_ids.concat(blocks.collect { |b| b.try(:media_item_id) }.reject(&:blank?))
+
+    blocks.each do |b|
+      media_item_ids.push(b.media_item_id) if b.try(:media_item_id).present?
+      media_item_ids.concat(b.media_item_ids) if b.try(:media_item_ids).present?
+    end
 
     if media_item_ids.present?
-      MediaItem.where(id: media_item_ids)
+      MediaItem.where(id: media_item_ids.uniq)
     else
       MediaItem.none
     end
