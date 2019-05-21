@@ -9,6 +9,7 @@ module Blockable
 
     has_many :block_slots, -> { order(:position) },
              as: :block_record,
+             inverse_of: :block_record,
              foreign_key: 'block_record_id',
              dependent: :destroy
 

@@ -1,7 +1,11 @@
 class BaseBlock < Forest::ApplicationRecord
   self.abstract_class = true
 
-  has_one :block_slot, class_name: 'BlockSlot', as: :block, dependent: :destroy
+  has_one :block_slot,
+          as: :block,
+          inverse_of: :block,
+          class_name: 'BlockSlot',
+          dependent: :destroy
 
   # Override to customize the display name of the block.
   def self.display_name
