@@ -161,7 +161,7 @@ module MetaHelper
     @_meta_url ||= begin
       [
         content_for(:meta_url),
-        (request.base_url + request.path)
+        (request.base_url.force_encoding('utf-8') + request.path.force_encoding('utf-8'))
       ].reject(&:blank?).first
     end
   end

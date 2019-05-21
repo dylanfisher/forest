@@ -6,7 +6,7 @@ class PagesController < ForestController
       if Rails.configuration.consider_all_requests_local
         raise ActionController::RoutingError.new('Not Found')
       else
-        logger.error("[Forest][Error] 404 page not found. Looked for path \"#{request.fullpath}\"")
+        logger.error("[Forest][Error] 404 page not found. Looked for path \"#{request.fullpath.force_encoding('utf-8')}\"")
         @body_classes ||= []
         @body_classes << 'controller--errors action--not_found'
         @page_title = '404 - Not Found'
