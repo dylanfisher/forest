@@ -50,6 +50,7 @@ Rails.application.routes.draw do
   get '/wp-content/*all', to: redirect('/'), format: false
   get '/wp-admin/*all', to: redirect('/'), format: false
   get '/wp-login/*all', to: redirect('/'), format: false
+  get '/xmlrpc.php', to: redirect('/'), format: false
 
   scope constraints: lambda { |request|
     ['text/html', '*/*'].include?(request.format.to_s) &&
