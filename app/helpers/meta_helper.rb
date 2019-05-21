@@ -3,7 +3,7 @@ module MetaHelper
     @_meta_page_title ||= begin
       title = []
 
-      if record_to_build_from.try(:seo_title)
+      if record_to_build_from.try(:seo_title).present?
         title << record_to_build_from.seo_title
       else
         title << page_title unless controller_name == 'home_pages'
