@@ -92,7 +92,7 @@ class Admin::PagesController < Admin::ForestController
     end
 
     def set_page
-      @page = Page.find(params[:id])
+      @page = Page.includes(block_slots: [:block_kind, :block]).find(params[:id])
     end
 
     def set_block_layout
