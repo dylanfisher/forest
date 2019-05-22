@@ -18,7 +18,7 @@ class GalleryInput < SimpleForm::Inputs::CollectionSelectInput
 
     placeholder = options[:placeholder] || 'Click here to add images to this gallery.'
 
-    selected_images = template.render(partial: 'admin/media_items/media_item_grid_layout', collection: associated_records, as: :media_item)
+    selected_images = template.render(partial: 'admin/media_items/media_item_grid_layout', collection: associated_records, as: :media_item, cached: true)
 
     modal_data_attributes = {
       toggle: 'modal',
