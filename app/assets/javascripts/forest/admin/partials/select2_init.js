@@ -155,3 +155,11 @@ $(document).on('cocoon:after-insert', function(e, insertedItem) {
 
   App.Select2.initialize( $(insertedItem).find('select').filter(':visible') );
 });
+
+$(document).on('shown.bs.tab', function(e) {
+  var $tabContent = $( $(e.target).attr('href') );
+
+  if ( !$tabContent.length ) return;
+
+  App.Select2.add( $tabContent.find('select').filter(':visible') );
+});

@@ -53,3 +53,12 @@ App.pageLoad.push(function() {
   App.Datepicker.initialize( $('.form-group[class*="_scheduled_date"] input[name$="[scheduled_date]"]').filter(':visible') );
   App.Datepicker.initialize( $('.form-group [data-datepicker="true"]').filter(':visible') );
 });
+
+$(document).on('shown.bs.tab', function(e) {
+  var $tabContent = $( $(e.target).attr('href') );
+
+  if ( !$tabContent.length ) return;
+
+  App.Datepicker.initialize( $tabContent.find('[data-datepicker="true"]').filter(':visible') );
+});
+
