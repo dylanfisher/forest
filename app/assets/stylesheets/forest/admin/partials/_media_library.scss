@@ -16,6 +16,12 @@
   }
 }
 
+.controller--media_items.action--index {
+  .media-item__buttons__remove {
+    display: none;
+  }
+}
+
 .media-library-image-row {
   max-width: 100px;
 }

@@ -18,6 +18,6 @@
   <div class="media-item__buttons">
     <%= content_tag :div, '', class: 'media-item__button media-item__buttons__edit glyphicon glyphicon-pencil', data: { path: edit_admin_media_item_path(media_item) } %>
     <%# TODO: update delete icon to work in media library grid view? %>
-    <%= content_tag :div, '', class: 'media-item__button media-item__buttons__remove glyphicon glyphicon-remove' unless (controller_name == 'media_items' && action_name == 'index') %>
+    <%= content_tag :div, '', class: 'media-item__button media-item__buttons__remove glyphicon glyphicon-remove' %>
   </div>
 </div>
