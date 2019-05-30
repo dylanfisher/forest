@@ -4,6 +4,7 @@ class Setting < Forest::ApplicationRecord
   CACHE_KEY = 'forest_settings'
   APPLICATION_CACHE_KEY = 'forest_application_cache_key'
   DEFAULT_SETTINGS = %i(site_title description featured_image)
+  VALID_VALUE_TYPES = %w(text boolean image integer string)
 
   after_commit :touch_associations
   after_commit :expire_cache
@@ -30,7 +31,14 @@ class Setting < Forest::ApplicationRecord
     end
   end
 
-  # TODO: Update this to support description and boolean values
+  # Define setting values, value types, and descriptions in your i18n file using the following pattern:
+  # en:
+  #   forest:
+  #     settings:
+  #       banner_text:
+  #         forest_setting_value: true
+  #         forest_setting_value_type: boolean
+  #         forest_setting_description: 'Enable a site-wide banner'
   def self.initialize_from_i18n
     I18n.backend.send(:init_translations) unless I18n.backend.initialized?
     settings_from_i18n = I18n.backend.send(:translations).dig(:en, :forest, :settings).presence || {}
@@ -40,7 +48,7 @@ class Setting < Forest::ApplicationRecord
     Setting.all.reject { |setting|
       Array(Setting::DEFAULT_SETTINGS).concat(settings_from_i18n.keys).include?(setting.slug.to_sym)
     }.each { |setting|
-      if setting.updated_at == setting.created_at
+      if setting.has_not_been_updated?
         logger.info { "[Forest][Setting] Destroying obsolete setting for #{setting.slug}" }
         setting.destroy
       end
@@ -50,21 +58,45 @@ class Setting < Forest::ApplicationRecord
       k = setting[0].to_s
       v = setting[1]
 
+      if v.is_a?(Hash) && v.keys.include?(:forest_setting_value)
+        v = v[:forest_setting_value]
+        value_type_from_i18n = setting[1][:forest_setting_value_type] unless setting[1].try(:[], :forest_setting_value_type).nil?
+        description_from_i18n = setting[1][:forest_setting_description] unless setting[1].try(:[], :forest_setting_description).nil?
+
+        if VALID_VALUE_TYPES.none?(value_type_from_i18n)
+          logger.warn { "[Forest][Setting] Warning: invalid value type '#{value_type_from_i18n}' for #{setting}. Setting value type to text." }
+          value_type_from_i18n = 'text'
+        end
+      end
+
+      if value_type_from_i18n == 'boolean'
+        if [true, 'true'].any?(v)
+          v = 1
+        else
+          v = 0
+        end
+      end
+
       if [k, v].all?(&:present?)
         s = Setting.get(k)
+
         if s.blank?
           s = Setting.new(title: k.titleize, slug: k)
         end
 
         s.value = v
+        s.value_type = value_type_from_i18n unless value_type_from_i18n.nil?
+        s.description = description_from_i18n unless description_from_i18n.nil?
 
         if s.new_record?
           logger.info { "[Forest][Setting] Creating new setting for #{k}" }
           s.save
-        elsif s.updated_at == s.created_at
+        elsif s.has_not_been_updated?
           if s.changed?
             logger.info { "[Forest][Setting] Updating value for setting key #{k}" }
             s.update_columns(title: k.titleize, slug: k, value: v)
+            s.update_column(:value_type, value_type_from_i18n) unless value_type_from_i18n.nil?
+            s.update_column(:description, description_from_i18n) unless description_from_i18n.nil?
           end
         end
       else
@@ -81,6 +113,10 @@ class Setting < Forest::ApplicationRecord
 
   def slug_as_key?
     true
+  end
+
+  def has_not_been_updated?
+    updated_at == created_at
   end
 
   private
