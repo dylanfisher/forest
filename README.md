@@ -153,6 +153,9 @@ Forest relies heavily on the following gems, software and frameworks:
 
 ## TODO
 
+Better Documentation
+- [ ] document how to use `has_many_ordered` and how to make it work in more complex scenarios, e.g. `has_many_ordered :program_artists, through: :program_program_artists, has_many_options: { source: 'artist' }`
+
 Big Picture
 - [ ] change references to model names and other hard coded names to use I18n
 - [ ] model resource_description should use I18n

@@ -16,6 +16,7 @@
 //= require jquery-ui/widgets/datepicker
 //= require jquery-ui/widgets/draggable
 //= require jquery-ui/widgets/resizable
+//= require jquery-ui/widgets/slider
 //= require jquery-fileupload
 //= require jquery-fileupload/basic-plus
 //= require turbolinks

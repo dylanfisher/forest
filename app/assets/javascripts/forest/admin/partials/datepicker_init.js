@@ -19,8 +19,14 @@ App.Datepicker = {
 
     $elements.each(function() {
       var $el = $(this);
+      var showTimepicker = $el.attr('data-timepicker') == 'true';
+      var timezone = parseInt( $el.attr('data-timezone-utc-offset') ) / 60;
       var options = {
-        dateFormat: 'yy-mm-dd'
+        dateFormat: 'yy-mm-dd',
+        timeFormat: 'HH:mm:ss z',
+        timezone: timezone,
+        timeInput: true,
+        showTimepicker: showTimepicker
       };
 
       if ( $el.data('datepicker') && $el.data('datepicker')['input'] ) {
@@ -29,17 +35,17 @@ App.Datepicker = {
         that.instances.push( $el );
       }
 
-      $el.datepicker( options );
+      $el.datetimepicker( options );
 
-      if ( $el.hasClass('required') && $el.datepicker('getDate') == null ) {
-        $el.datepicker('setDate', defaultDate);
+      if ( $el.hasClass('required') && $el.datetimepicker('getDate') == null ) {
+        $el.datetimepicker('setDate', defaultDate);
       }
     });
   },
   teardown: function() {
     $.datepicker.dpDiv.remove();
     for ( var i = this.instances.length - 1; i >= 0; i-- ) {
-      $(this.instances[i]).datepicker('destroy');
+      $(this.instances[i]).datetimepicker('destroy');
     }
     this.instances = [];
   }

@@ -13,6 +13,7 @@
  *= require jquery-ui/datepicker
  *= require jquery-ui/draggable
  *= require jquery-ui/resizable
+ *= require jquery-ui/slider
  *= require jquery.fileupload
  *= require jquery.fileupload-ui
  *= require forest/admin/sprockets/main_bootstrap
