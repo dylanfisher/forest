@@ -15,4 +15,4 @@
 
 <%= render 'admin/dashboard/panel',
            title: 'Admin',
-           resources: @admin_resources.reject { |r| @_rendered_resources.include?(r) } %>
+           resources: @admin_resources - @_rendered_resources %>
