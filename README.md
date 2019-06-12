@@ -35,12 +35,7 @@ Springify your project, if you're into that sort of thing.
 $ bundle exec spring binstub --all
 ```
 
-Update your ApplicationRecord to inherit from `Forest::ApplicationRecord`, or just delete the file.
-
-```ruby
-class ApplicationRecord < Forest::ApplicationRecord
-end
-```
+Delete the ApplicationRecord file to inherit from Forest's ApplicationRecord.
 
 Add the blocks directory to Rails' autoload paths:
 
