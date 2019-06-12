@@ -32,7 +32,7 @@ $ rails g forest:install
 
 Springify your project, if you're into that sort of thing.
 ```bash
-bundle exec spring binstub --all
+$ bundle exec spring binstub --all
 ```
 
 Update your ApplicationRecord to inherit from `Forest::ApplicationRecord`, or just delete the file.
