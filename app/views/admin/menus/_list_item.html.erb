@@ -1,3 +1,4 @@
+<%# This HTML should match the HTML in menus/form.html.erb %>
 <%= content_tag :li,
   class: 'dd-item',
   data: {
@@ -10,9 +11,16 @@
     <div class="row">
       <div class="col-sm-4">
         <div class="form-group">
-          <div class="dd-input">
-            <input type="text" class="dd-input__input form-control" name="name" value="<%= list_item['name'] %>" placeholder="Navigation label">
-          </div>
+          <%= content_tag :div, class: "dd-input #{'dd-input--multiple-locales' if I18n.available_locales.length > 1}" do %>
+            <% I18n.available_locales.each do |locale| %>
+              <% name_attr_suffix = locale == I18n.default_locale ? '' : "_#{locale}" %>
+              <% name_attr = "name#{name_attr_suffix}" %>
+              <%= text_field_tag name_attr, list_item[name_attr], class: 'dd-input__input form-control', placeholder: "Navigation label #{I18n.available_locales.length > 1 ? locale.upcase : ''}" %>
+              <% if I18n.available_locales.length > 1 %>
+                <div class="dd-input__input__locale-label text-muted"><%= locale.upcase %></div>
+              <% end %>
+            <% end %>
+          <% end %>
         </div>
       </div>
       <div class="col-sm-4">

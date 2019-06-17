@@ -79,6 +79,19 @@ $item-space: 10px;
 //   padding: 0 10px 10px;
 // }
 
+.dd-input--multiple-locales {
+  .dd-input__input {
+    width: calc(100% - 60px;);
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+}
+
+.dd-input__input__locale-label {
+  display: inline-block;
+  margin-left: 10px;
+}
+
 .dd-input-expand,
 .dd-input-collapse {
   width: 0;
