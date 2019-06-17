@@ -17,8 +17,33 @@
                 <%= f.input :attachment, hint: 'Replace the file by uploading a new attachment.' %>
                 <%= f.input :title, placeholder: 'The title will be generated automatically from the file name if left blank.' %>
                 <%= render 'admin/form_inputs/slug', f: f %>
-                <%= f.input :alternative_text, hint: 'The alt attribute provides alternative information for an image if a user for some reason cannot view it (because of slow connection, an error in the src attribute, or if the user uses a screen reader).' %>
-                <%= f.input :caption, markdown: true %>
+
+                <% if I18n.available_locales.length > 1 %>
+                  <% I18n.available_locales.each do |locale| %>
+                    <div class="panel panel-default">
+                      <div class="panel-heading"><%= locale.upcase %> translation</div>
+                      <div class="panel-body">
+                        <% begin %>
+                          <% alt_text_attr = :"alternative_text#{('_' + locale.to_s) unless locale == I18n.default_locale}" %>
+                          <%= f.input alt_text_attr, hint: 'The alt attribute provides alternative information for an image if a user for some reason cannot view it (because of slow connection, an error in the src attribute, or if the user uses a screen reader).' %>
+                        <% rescue Exception => e %>
+                          <% logger.warn { e } %>
+                        <% end %>
+
+                        <% begin %>
+                          <% caption_attr = :"caption#{('_' + locale.to_s) unless locale == I18n.default_locale}" %>
+                          <%= f.input caption_attr, markdown: true %>
+                        <% rescue Exception => e %>
+                          <% logger.warn { e } %>
+                        <% end %>
+                      </div>
+                    </div>
+                  <% end %>
+                <% else %>
+                  <%= f.input :alternative_text, hint: 'The alt attribute provides alternative information for an image if a user for some reason cannot view it (because of slow connection, an error in the src attribute, or if the user uses a screen reader).' %>
+                  <%= f.input :caption, markdown: true %>
+                <% end %>
+
                 <%#= f.input :description %>
                 <%= f.button :submit, class: 'btn-success' %>
               </div>

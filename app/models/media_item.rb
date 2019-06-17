@@ -50,6 +50,16 @@ class MediaItem < Forest::ApplicationRecord
     Rails.cache.delete self::CONTENT_TYPE_CACHE_KEY
   end
 
+  def self.localizable_params
+    [:alternative_text, :caption]
+  end
+
+  def self.localized_params
+    ( Array(I18n.available_locales) - Array(I18n.default_locale) ).collect do |locale|
+      localizable_params.collect { |p| :"#{p}_#{locale}" }
+    end.flatten.reject(&:blank?)
+  end
+
   def generate_slug
     if self.slug.blank? || changed.include?('slug')
       if title.present?
