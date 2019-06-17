@@ -56,6 +56,11 @@ Rails.application.routes.draw do
     ['text/html', '*/*'].include?(request.format.to_s) &&
     (request.path =~ /^\/admin\//).nil?
   } do
-    get '*page_path', to: 'pages#show', as: 'page'
+    scope '(:locale)',
+          locale: /#{I18n.available_locales.join('|')}/,
+          defaults: {
+            locale: (I18n.locale == I18n.default_locale ? nil : I18n.locale) } do
+      get '*page_path', to: 'pages#show', as: 'page'
+    end
   end
 end
