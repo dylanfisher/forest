@@ -1,3 +1,5 @@
-$(document).on('cocoon:after-insert', '.cocoon, .sortable-field-set', function(e) {
-  $(document).trigger( 'forest:block-slot-after-insert', $(this) );
+$(document).on('cocoon:after-insert', function(e, $insertedItem) {
+  if ( $insertedItem.hasClass('block-slot-field-template-wrapper') ) return;
+
+  $(document).trigger( 'forest:block-slot-after-insert', $insertedItem );
 });
