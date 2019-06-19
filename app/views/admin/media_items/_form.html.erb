@@ -51,7 +51,18 @@
                 <% if @media_item.attachment.present? %>
                   <div class="form-group">
                     <% if @media_item.image? %>
-                      <%= image_tag @media_item.attachment.url(:medium) %>
+                      <% if @media_item.try(:point_of_interest_x).present? && @media_item.try(:point_of_interest_y).present? %>
+                        <label>Point of Interest</label>
+                        <div id="media-item__point-of-interest" class="media-item__point-of-interest">
+                          <%= content_tag :div, nil, id: 'media-item__point-of-interest__crosshair', class: 'media-item__point-of-interest__crosshair', style: "top: #{@media_item.point_of_interest_y}%; left: #{@media_item.point_of_interest_x}%;" %>
+                          <%= image_tag @media_item.attachment.url(:medium) %>
+                          <%= f.input :point_of_interest_x, as: :hidden %>
+                          <%= f.input :point_of_interest_y, as: :hidden %>
+                        </div>
+                        <p class="help-block">Click the image to change the point of interest of the image. The point of interest is used to determine where to crop the image in some contexts.</p>
+                      <% else %>
+                        <%= image_tag @media_item.attachment.url(:medium) %>
+                      <% end %>
                     <% elsif @media_item.video? %>
                       <%= video_tag @media_item.attachment.url, controls: true %>
                     <% else %>

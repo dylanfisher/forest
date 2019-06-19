@@ -1,0 +1,34 @@
+// Point of interest
+
+.media-item__point-of-interest {
+  position: relative;
+}
+
+.media-item__point-of-interest__crosshair {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  cursor: crosshair;
+  transform: translate(-50%, -50%);
+  user-select: none;
+
+  &:before,
+  &:after {
+    content: '';
+    position: absolute;
+    background-color: white;
+    box-shadow: 0 0 0 1px black;
+  }
+
+  &:before {
+    width: 40px;
+    height: 1px;
+    top: 50%;
+  }
+
+  &:after {
+    width: 1px;
+    height: 40px;
+    left: 50%;
+  }
+}
