@@ -157,6 +157,7 @@ Better Documentation
 - [ ] document how to use `has_many_ordered` and how to make it work in more complex scenarios, e.g. `has_many_ordered :program_artists, through: :program_program_artists, has_many_options: { source: 'artist' }`
 
 Big Picture
+- [ ] move admin helper methods to definition in Admin::ForestController to avoid helper methods on the frontend host app
 - [ ] change references to model names and other hard coded names to use I18n
 - [ ] model resource_description should use I18n
 - [ ] add rake task to download database dumps from heroku and store in S3

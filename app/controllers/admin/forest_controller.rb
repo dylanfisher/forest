@@ -13,6 +13,8 @@ class Admin::ForestController < ApplicationController
   rescue_from ActiveRecord::InvalidForeignKey, with: :foreign_key_contraint
   rescue_from ActiveRecord::RecordNotUnique, with: :record_not_unique
 
+  helper_method :localized_input
+
   # rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   has_scope :by_status
@@ -92,5 +94,23 @@ class Admin::ForestController < ApplicationController
       else
         raise
       end
+    end
+
+    def localized_input(form, attribute, options = {})
+      locale_count = I18n.available_locales.length
+
+      I18n.available_locales.collect do |locale|
+        if locale_count > 1
+          label = options.fetch(:label, attribute.to_s.humanize).sub(/ (#{I18n.available_locales.join('|')})$/i, '')
+          options.merge!(label: "#{label} #{locale.to_s.upcase}")
+        end
+
+        locale_suffix = locale == I18n.default_locale ? '' : "_#{locale}"
+        localized_attribute = "#{attribute}#{locale_suffix}"
+
+        if form.object.respond_to? localized_attribute
+          form.input localized_attribute, options
+        end
+      end.join.html_safe
     end
 end

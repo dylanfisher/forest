@@ -3,8 +3,8 @@ module MetaHelper
     @_meta_page_title ||= begin
       title = []
 
-      if record_to_build_from.try(:seo_title).present?
-        title << record_to_build_from.seo_title
+      if ft(record_to_build_from, :seo_title, call_method: :try).present?
+        title << ft(record_to_build_from, :seo_title)
       else
         title << page_title unless controller_name == 'home_pages'
         title << site_title
@@ -30,6 +30,7 @@ module MetaHelper
 
   def site_title
     @_site_title ||= begin
+      # TODO: add forest translation for description from settings
       title = Setting.for('site_title') || default_site_title
       stripdown(title).squish
     end
@@ -123,12 +124,15 @@ module MetaHelper
   def page_featured_image_alt
     @_page_featured_image_alt ||= begin
       return unless page_featured_image.is_a?(Paperclip::Attachment)
-      page_featured_image.try(:instance).try(:alternative_text)
+      if page_featured_image.try(:instance).present?
+        ft(page_featured_image.instance, :alternative_text, call_method: :try)
+      end
     end
   end
 
   def site_description
     @_site_description ||= begin
+      # TODO: add forest translation for description from settings
       (Setting.for('description') || default_site_description).try(:squish)
     end
   end
@@ -198,9 +202,9 @@ module MetaHelper
     end
 
     def build_page_title_from_record
-      record_to_build_from.try(:to_page_title) ||
-      record_to_build_from.try(:title) ||
-      record_to_build_from.try(:name)
+      ft(record_to_build_from, :to_page_title, call_method: :try) ||
+      ft(record_to_build_from, :title, call_method: :try) ||
+      ft(record_to_build_from, :name, call_method: :try)
     end
 
     def build_page_title_from_controller
@@ -213,8 +217,8 @@ module MetaHelper
 
     def build_page_description_from_record
       @_build_page_description_from_record ||= begin
-        description = record_to_build_from.try(:to_page_description) ||
-          record_to_build_from.try(:description)
+        description = ft(record_to_build_from, :to_page_description, call_method: :try) ||
+          ft(record_to_build_from, :description, call_method: :try)
         truncate(description, length: 240)
       end
     end
