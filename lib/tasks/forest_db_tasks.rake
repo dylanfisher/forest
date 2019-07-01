@@ -40,7 +40,13 @@ namespace :forest do
       timestamp = Time.now.to_i
 
       object_key = "forest/forest_db_dumps/#{app}_#{timestamp}.dump"
-      if s3_bucket.object(object_key).upload_file("#{Rails.root}/db/#{app}.dump")
+      filename = "#{Rails.root}/db/#{app}.dump"
+
+      unless File.file?(filename)
+        abort("[Forest] ✋ Error: Could not find database dump file #{filename}. Run `bin/rails forest:db:dump` to create a new dump, then re-run this command.")
+      end
+
+      if s3_bucket.object(object_key).upload_file(filename)
         s3.client.put_object_acl({
           acl: 'public-read',
           bucket: s3_bucket.name,
@@ -48,6 +54,7 @@ namespace :forest do
         })
 
         puts "[Forest] Careful! You just uploaded a publicly accessible db dump to the #{s3_bucket.name} bucket."
+        puts "[Forest] If this file wasn't the latest database dump, run `bin/rails forest:db:dump` to create a new dump."
         puts "[Forest] To import that db dump to Heroku, please run:"
 
         if aws_region == 'us-east-1'
@@ -57,10 +64,10 @@ namespace :forest do
         end
 
         puts "\n"
-        puts "[Forest] ** After importing to Heroku, run this command to delete the public db dump from Amazon S3. Don't leave the db dump publicly accessible! **"
+        puts "[Forest] ✋ ** After importing to Heroku, run this command to delete the public db dump from Amazon S3. Don't leave the db dump publicly accessible! **"
         puts "bin/rails forest:db:destroy_s3_dump object_key=#{object_key}"
       else
-        puts "[Forest] Error: unable to upload object to S3."
+        puts "[Forest] ✋ Error: unable to upload object to S3."
       end
     end
   end
