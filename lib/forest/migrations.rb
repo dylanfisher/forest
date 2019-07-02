@@ -24,7 +24,9 @@ module Forest
     #
     # Shouldn't run on test mode because migrations inside engine don't have
     # engine name on the file name
-    def check
+    def missing_migrations
+      missing_migrations = []
+
       if File.directory?(app_dir)
         engine_in_app = app_migrations.map do |file_name|
           name, engine = file_name.split('.', 2)
@@ -33,14 +35,18 @@ module Forest
         end.compact
 
         missing_migrations = engine_migrations.sort - engine_in_app.sort
-        unless missing_migrations.empty?
-          puts "[#{engine_display_name}] ✋ Warning: missing migrations."
-          missing_migrations.each do |migration|
-            puts "[#{engine_display_name}] -- #{migration} from #{engine_name} is missing."
-          end
-          puts "[#{engine_display_name}] -- Run `bundle exec rake railties:install:migrations` to get them.\n\n"
-          true
+      end
+
+      missing_migrations
+    end
+
+    def check
+      if missing_migrations.present?
+        puts "[#{engine_display_name}] ✋ Warning: missing migrations."
+        missing_migrations.each do |migration|
+          puts "[#{engine_display_name}] -- #{migration} from #{engine_name} is missing."
         end
+        puts "[#{engine_display_name}] -- Run `bundle exec rake railties:install:migrations` to get them.\n\n"
       end
     end
 
