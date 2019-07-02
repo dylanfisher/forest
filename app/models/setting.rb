@@ -77,7 +77,7 @@ class Setting < Forest::ApplicationRecord
     # Destroy any settings that are no longer in the i18n initialization or default settings array, and have not been updated.
     # This means any settings that are added directly from the database will be deleted.
     Setting.where(locale: locale).reject { |setting|
-      Array(Setting::DEFAULT_SETTINGS).concat(settings_from_i18n.keys).include?(setting.slug.to_sym)
+      Setting::DEFAULT_SETTINGS.include?(setting.slug.to_sym)
     }.each { |setting|
       if setting.has_not_been_updated?
         logger.info { "[Forest][Setting] Destroying obsolete setting for #{setting.slug}" }
@@ -109,7 +109,7 @@ class Setting < Forest::ApplicationRecord
       end
 
       if [k, v].all?(&:present?)
-        s = Setting.get(k, locale: locale)
+        s = Setting.get(k, locale: locale, fallback: false)
 
         if s.blank?
           s = Setting.new(title: k.titleize, slug: k, locale: locale)
