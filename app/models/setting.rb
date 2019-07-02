@@ -9,12 +9,28 @@ class Setting < Forest::ApplicationRecord
   after_commit :touch_associations
   after_commit :expire_cache
 
-  def self.for(key)
-    self.get(key).try(:value)
+  scope :by_locale, -> (locale) { where(locale: locale) }
+
+  def self.for(key, options = {})
+    options.reverse_merge!(locale: I18n.locale)
+    self.get(key, options).try(:value)
   end
 
-  def self.get(key)
-    self.settings.select { |setting| setting.slug == key.to_s }.first
+  def self.get(key, options = {})
+    options.reverse_merge!(locale: I18n.locale)
+
+    locale = options[:locale]
+    locale = locale.to_s if locale.is_a?(Symbol)
+
+    fallback = options.fetch(:fallback, true)
+
+    setting = self.settings.find { |s| s.slug == key.to_s && s.locale == locale }
+
+    if setting.blank? && fallback
+      setting = self.settings.find { |s| s.slug == key.to_s && s.locale == I18n.default_locale.to_s }
+    end
+
+    setting
   end
 
   def self.expire_cache!
@@ -41,11 +57,26 @@ class Setting < Forest::ApplicationRecord
   #         forest_setting_description: 'Enable a site-wide banner'
   def self.initialize_from_i18n
     I18n.backend.send(:init_translations) unless I18n.backend.initialized?
-    settings_from_i18n = I18n.backend.send(:translations).dig(:en, :forest, :settings).presence || {}
 
-    # Destroy any settings that are no longer in the i18n initialization or default settings array, and have matching updated and created at timestamps.
+    Setting.where(locale: nil).update_all(locale: I18n.default_locale)
+
+    I18n.available_locales.each do |locale|
+      create_translations_for_locale(locale)
+    end
+
+    expire_cache!
+  end
+
+  def self.resource_description
+    "Settings are where you define static values that are used throughout the site. For example the title of your website, the description, and other values."
+  end
+
+  def self.create_translations_for_locale(locale)
+    settings_from_i18n = I18n.backend.send(:translations).dig(locale, :forest, :settings).presence || {}
+
+    # Destroy any settings that are no longer in the i18n initialization or default settings array, and have not been updated.
     # This means any settings that are added directly from the database will be deleted.
-    Setting.all.reject { |setting|
+    Setting.where(locale: locale).reject { |setting|
       Array(Setting::DEFAULT_SETTINGS).concat(settings_from_i18n.keys).include?(setting.slug.to_sym)
     }.each { |setting|
       if setting.has_not_been_updated?
@@ -78,10 +109,10 @@ class Setting < Forest::ApplicationRecord
       end
 
       if [k, v].all?(&:present?)
-        s = Setting.get(k)
+        s = Setting.get(k, locale: locale)
 
         if s.blank?
-          s = Setting.new(title: k.titleize, slug: k)
+          s = Setting.new(title: k.titleize, slug: k, locale: locale)
         end
 
         s.value = v
@@ -103,12 +134,6 @@ class Setting < Forest::ApplicationRecord
         logger.warn { "[Forest][Setting] Warning: unable to create setting for #{setting}. Key or value is blank." }
       end
     end
-
-    expire_cache!
-  end
-
-  def self.resource_description
-    "Settings are where you define static values that are used throughout the site. For example the title of your website, the description, and other values."
   end
 
   def slug_as_key?

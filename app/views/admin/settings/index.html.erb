@@ -5,6 +5,17 @@
   </div>
 </div>
 
+<% if I18n.available_locales.length > 1 %>
+  <ul class="nav nav-tabs">
+    <% I18n.available_locales.collect(&:to_s).each_with_index do |locale, index| %>
+      <% active_class = 'active' if (params[:setting_locale] == locale) || (params[:setting_locale].blank? && index.zero?) %>
+      <%= content_tag :li, class: active_class do %>
+        <%= link_to locale.to_s.upcase, admin_settings_path(setting_locale: locale) %>
+      <% end %>
+    <% end %>
+  </ul>
+<% end %>
+
 <div class="table-responsive">
   <table class="forest-table table table-striped">
     <thead>
