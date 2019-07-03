@@ -3,8 +3,8 @@ module MetaHelper
     @_meta_page_title ||= begin
       title = []
 
-      if ft(record_to_build_from, :seo_title, call_method: :try).present?
-        title << ft(record_to_build_from, :seo_title)
+      if ft(record_to_build_from, :seo_title, call_method: :try, fallback: true).present?
+        title << ft(record_to_build_from, :seo_title, fallback: true)
       else
         title << page_title unless controller_name == 'home_pages'
         title << site_title
@@ -125,7 +125,7 @@ module MetaHelper
     @_page_featured_image_alt ||= begin
       return unless page_featured_image.is_a?(Paperclip::Attachment)
       if page_featured_image.try(:instance).present?
-        ft(page_featured_image.instance, :alternative_text, call_method: :try)
+        ft(page_featured_image.instance, :alternative_text, call_method: :try, fallback: true)
       end
     end
   end
@@ -202,9 +202,9 @@ module MetaHelper
     end
 
     def build_page_title_from_record
-      ft(record_to_build_from, :to_page_title, call_method: :try) ||
-      ft(record_to_build_from, :title, call_method: :try) ||
-      ft(record_to_build_from, :name, call_method: :try)
+      ft(record_to_build_from, :to_page_title, call_method: :try, fallback: true) ||
+      ft(record_to_build_from, :title, call_method: :try, fallback: true) ||
+      ft(record_to_build_from, :name, call_method: :try, fallback: true)
     end
 
     def build_page_title_from_controller
@@ -217,8 +217,8 @@ module MetaHelper
 
     def build_page_description_from_record
       @_build_page_description_from_record ||= begin
-        description = ft(record_to_build_from, :to_page_description, call_method: :try) ||
-          ft(record_to_build_from, :description, call_method: :try)
+        description = ft(record_to_build_from, :to_page_description, call_method: :try, fallback: true) ||
+          ft(record_to_build_from, :description, call_method: :try, fallback: true)
         truncate(description, length: 240)
       end
     end
