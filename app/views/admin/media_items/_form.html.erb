@@ -11,17 +11,7 @@
           </h3>
         </div>
         <div class="panel-body" data-collapse-body>
-          <% if I18n.available_locales.length > 1 %>
-            <ul class="nav nav-tabs">
-              <% I18n.available_locales.collect(&:to_s).each_with_index do |locale, index| %>
-                <% active_class = 'active' if index.zero? %>
-                <%= content_tag :li, class: active_class do %>
-                  <%= link_to locale.to_s.upcase, "#metadata-#{locale.to_s}", data: { toggle: 'tab' } %>
-                <% end %>
-              <% end %>
-            </ul>
-            <br>
-          <% end %>
+          <%= render 'admin/shared/localization/nav_tabs', tab_name: 'metadata' %>
 
           <div class="form-inputs">
             <div class="row">

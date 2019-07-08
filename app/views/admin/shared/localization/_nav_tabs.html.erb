@@ -1,0 +1,12 @@
+<% if I18n.available_locales.length > 1 %>
+  <% tab_name = local_assigns.fetch(:tab_name, 'localized-tab') %>
+  <ul class="nav nav-tabs">
+    <% I18n.available_locales.collect(&:to_s).each_with_index do |locale, index| %>
+      <% active_class = 'active' if index.zero? %>
+      <%= content_tag :li, class: active_class do %>
+        <%= link_to locale.to_s.upcase, "##{tab_name}-#{locale.to_s}", data: { toggle: 'tab' } %>
+      <% end %>
+    <% end %>
+  </ul>
+  <br>
+<% end %>
