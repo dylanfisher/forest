@@ -96,21 +96,16 @@ class Admin::ForestController < ApplicationController
       end
     end
 
-    def localized_input(form, attribute, options = {})
-      locale_count = I18n.available_locales.length
+    def localized_input(form, attribute, locale, options = {})
+      locale = locale.to_s
+      label = options.fetch(:label, attribute.to_s.humanize).sub(/ (#{locale})$/i, '')
+      options.merge!(label: "#{label} #{locale.to_s.upcase}") unless I18n.available_locales.length < 2
 
-      I18n.available_locales.collect do |locale|
-        if locale_count > 1
-          label = options.fetch(:label, attribute.to_s.humanize).sub(/ (#{I18n.available_locales.join('|')})$/i, '')
-          options.merge!(label: "#{label} #{locale.to_s.upcase}")
-        end
+      locale_suffix = locale == I18n.default_locale.to_s ? '' : "_#{locale}"
+      localized_attribute = "#{attribute}#{locale_suffix}"
 
-        locale_suffix = locale == I18n.default_locale ? '' : "_#{locale}"
-        localized_attribute = "#{attribute}#{locale_suffix}"
-
-        if form.object.respond_to? localized_attribute
-          form.input localized_attribute, options
-        end
-      end.join.html_safe
+      if form.object.respond_to? localized_attribute
+        form.input localized_attribute, options
+      end
     end
 end

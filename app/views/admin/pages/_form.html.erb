@@ -22,22 +22,40 @@
           </h3>
         </div>
         <div class="panel-body" data-collapse-body>
-          <div class="form-inputs">
-            <div class="row">
-              <div class="col-sm-6">
-                <%= localized_input f, :title %>
-                <%= render 'admin/form_inputs/slug', f: f %>
-                <%= f.association :parent_page, remote: { scope: :title_like, path: admin_pages_path(current_record: @page) } %>
-                <%= localized_input f, :seo_title, label: 'SEO Title', placeholder: 'Leave blank to use the page\'s title.' %>
-                <%= localized_input f, :description, label: 'SEO Description' %>
-                <%= f.button :submit, class: 'btn-success' %>
-              </div>
-              <div class="col-sm-6">
-                <%= render 'admin/form_inputs/status', f: f, record: @page %>
-                <%= f.input :redirect, hint: 'Add a relative path or full URL if you need to redirect this page to another URL.' %>
-                <%= f.association :featured_image, as: :image %>
-              </div>
-            </div>
+          <% if I18n.available_locales.length > 1 %>
+            <ul class="nav nav-tabs">
+              <% I18n.available_locales.collect(&:to_s).each_with_index do |locale, index| %>
+                <% active_class = 'active' if index.zero? %>
+                <%= content_tag :li, class: active_class do %>
+                  <%= link_to locale.to_s.upcase, "#page-metadata-#{locale.to_s}", data: { toggle: 'tab' } %>
+                <% end %>
+              <% end %>
+            </ul>
+            <br>
+          <% end %>
+
+          <div class="form-inputs tab-content">
+            <% I18n.available_locales.collect(&:to_s).each_with_index do |locale, index| %>
+              <%= content_tag :div, id: "page-metadata-#{locale.to_s}", class: "row tab-pane #{'active' if index.zero?}" do %>
+                <div class="col-sm-6">
+                  <%= localized_input f, :title, locale %>
+                  <% if index.zero? %>
+                    <%= render 'admin/form_inputs/slug', f: f %>
+                    <%= f.association :parent_page, remote: { scope: :title_like, path: admin_pages_path(current_record: @page) } %>
+                  <% end %>
+                  <%= localized_input f, :seo_title, locale, label: 'SEO Title', placeholder: 'Leave blank to use the page\'s title.' %>
+                  <%= localized_input f, :description, locale, label: 'SEO Description' %>
+                  <%= f.button :submit, class: 'btn-success' %>
+                </div>
+                <div class="col-sm-6">
+                  <% if index.zero? %>
+                    <%= render 'admin/form_inputs/status', f: f, record: @page %>
+                    <%= f.input :redirect, hint: 'Add a relative path or full URL if you need to redirect this page to another URL.' %>
+                    <%= f.association :featured_image, as: :image %>
+                  <% end %>
+                </div>
+              <% end %>
+            <% end %>
           </div>
         </div>
       </div>
