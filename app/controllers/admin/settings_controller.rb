@@ -1,7 +1,7 @@
 class Admin::SettingsController < Admin::ForestController
   before_action :set_setting, only: [:show, :edit, :update, :destroy]
 
-  has_scope :by_locale, default: I18n.locale.to_s, as: :setting_locale
+  has_scope :by_locale, default: I18n.default_locale.to_s, as: :setting_locale
 
   # GET /settings
   def index
