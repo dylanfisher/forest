@@ -16,8 +16,10 @@ class PagesController < ForestController
     authorize @page
 
     if @page.redirect.present?
-      return redirect_to @page.redirect
+      return redirect_to @page.redirect, status: 301
     end
+
+    ensure_localization
 
     @body_classes << "page--#{@page.slug}"
   end
@@ -35,5 +37,17 @@ class PagesController < ForestController
 
     def set_page
       @page = Page.find_by_path(params[:page_path].presence || 'home')
+    end
+
+    def ensure_localization
+      if I18n.available_locales.length > 1
+        unless request.path.match(/^\/(#{I18n.available_locales.join('|')})/i)
+          return redirect_to "/#{I18n.locale}/#{@page.path}", status: 301
+        end
+      else
+        if request.path.match(/^\/(#{I18n.available_locales.join('|')})/i)
+          return redirect_to "/#{@page.path}", status: 301
+        end
+      end
     end
 end
