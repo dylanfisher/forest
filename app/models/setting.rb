@@ -26,7 +26,7 @@ class Setting < Forest::ApplicationRecord
 
     setting = self.settings.find { |s| s.slug == key.to_s && s.locale == locale }
 
-    if setting.blank? && fallback
+    if setting.try(:value).blank? && fallback
       setting = self.settings.find { |s| s.slug == key.to_s && s.locale == I18n.default_locale.to_s }
     end
 
