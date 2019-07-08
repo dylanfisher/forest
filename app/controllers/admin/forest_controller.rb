@@ -99,7 +99,7 @@ class Admin::ForestController < ApplicationController
     def localized_input(form, attribute, locale, options = {})
       locale = locale.to_s
       label = options.fetch(:label, attribute.to_s.humanize).sub(/ (#{locale})$/i, '')
-      options.merge!(label: "#{label} #{locale.to_s.upcase}") unless I18n.available_locales.length < 2
+      options.merge!(label: "#{label} (#{locale.to_s.upcase})") unless I18n.available_locales.length < 2
 
       locale_suffix = locale == I18n.default_locale.to_s ? '' : "_#{locale}"
       localized_attribute = "#{attribute}#{locale_suffix}"

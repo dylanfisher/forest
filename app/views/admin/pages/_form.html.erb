@@ -27,7 +27,7 @@
               <% I18n.available_locales.collect(&:to_s).each_with_index do |locale, index| %>
                 <% active_class = 'active' if index.zero? %>
                 <%= content_tag :li, class: active_class do %>
-                  <%= link_to locale.to_s.upcase, "#page-metadata-#{locale.to_s}", data: { toggle: 'tab' } %>
+                  <%= link_to locale.to_s.upcase, "#metadata-#{locale.to_s}", data: { toggle: 'tab' } %>
                 <% end %>
               <% end %>
             </ul>
@@ -36,7 +36,7 @@
 
           <div class="form-inputs tab-content">
             <% I18n.available_locales.collect(&:to_s).each_with_index do |locale, index| %>
-              <%= content_tag :div, id: "page-metadata-#{locale.to_s}", class: "row tab-pane #{'active' if index.zero?}" do %>
+              <%= content_tag :div, id: "metadata-#{locale.to_s}", class: "row tab-pane #{'active' if index.zero?}" do %>
                 <div class="col-sm-6">
                   <%= localized_input f, :title, locale %>
                   <% if index.zero? %>

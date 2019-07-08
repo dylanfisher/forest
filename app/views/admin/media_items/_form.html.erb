@@ -11,40 +11,36 @@
           </h3>
         </div>
         <div class="panel-body" data-collapse-body>
+          <% if I18n.available_locales.length > 1 %>
+            <ul class="nav nav-tabs">
+              <% I18n.available_locales.collect(&:to_s).each_with_index do |locale, index| %>
+                <% active_class = 'active' if index.zero? %>
+                <%= content_tag :li, class: active_class do %>
+                  <%= link_to locale.to_s.upcase, "#metadata-#{locale.to_s}", data: { toggle: 'tab' } %>
+                <% end %>
+              <% end %>
+            </ul>
+            <br>
+          <% end %>
+
           <div class="form-inputs">
             <div class="row">
-              <div class="col-sm-6">
-                <%= f.input :attachment, hint: 'Replace the file by uploading a new attachment.' %>
-                <%= f.input :title, placeholder: 'The title will be generated automatically from the file name if left blank.' %>
-                <%= render 'admin/form_inputs/slug', f: f %>
+              <div class="col-sm-6 tab-content">
+                <% I18n.available_locales.collect(&:to_s).each_with_index do |locale, index| %>
+                  <%= content_tag :div, id: "metadata-#{locale.to_s}", class: "tab-pane #{'active' if index.zero?}" do %>
+                    <% locale_suffix = "_#{locale.to_s}" unless locale == I18n.default_locale.to_s %>
 
-                <% if I18n.available_locales.length > 1 %>
-                  <% I18n.available_locales.each do |locale| %>
-                    <div class="panel panel-default">
-                      <div class="panel-heading"><%= locale.upcase %> translation</div>
-                      <div class="panel-body">
-                        <% begin %>
-                          <% alt_text_attr = :"alternative_text#{('_' + locale.to_s) unless locale == I18n.default_locale}" %>
-                          <%= f.input alt_text_attr, hint: 'The alt attribute provides alternative information for an image if a user for some reason cannot view it (because of slow connection, an error in the src attribute, or if the user uses a screen reader).' %>
-                        <% rescue Exception => e %>
-                          <% logger.warn { e } %>
-                        <% end %>
+                    <% if index.zero? %>
+                      <%= f.input :attachment, hint: 'Replace the file by uploading a new attachment.' %>
+                      <%= f.input :title, placeholder: 'The title will be generated automatically from the file name if left blank.' %>
+                      <%= render 'admin/form_inputs/slug', f: f %>
+                    <% end %>
 
-                        <% begin %>
-                          <% caption_attr = :"caption#{('_' + locale.to_s) unless locale == I18n.default_locale}" %>
-                          <%= f.input caption_attr, markdown: true %>
-                        <% rescue Exception => e %>
-                          <% logger.warn { e } %>
-                        <% end %>
-                      </div>
-                    </div>
+                    <%= localized_input f, :alternative_text, locale, hint: 'The alt attribute provides alternative information for an image if a user for some reason cannot view it (because of slow connection, an error in the src attribute, or if the user uses a screen reader).' %>
+                    <%= localized_input f, :caption, locale, markdown: true %>
                   <% end %>
-                <% else %>
-                  <%= f.input :alternative_text, hint: 'The alt attribute provides alternative information for an image if a user for some reason cannot view it (because of slow connection, an error in the src attribute, or if the user uses a screen reader).' %>
-                  <%= f.input :caption, markdown: true %>
                 <% end %>
 
-                <%#= f.input :description %>
                 <%= f.button :submit, class: 'btn-success' %>
               </div>
               <div class="col-sm-6">
