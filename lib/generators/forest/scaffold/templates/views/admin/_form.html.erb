@@ -2,6 +2,9 @@
   <%%= f.error_notification %>
   <div class="row">
     <div class="col-sm-12">
+<%- if I18n.available_locales.length > 1 -%>
+      <%%= render 'admin/shared/localization/nav_tabs' %>
+<%- end -%>
       <div class="panel panel-default" data-collapse-parent>
         <div class="panel-heading">
           <h3 class="panel-title">
@@ -46,11 +49,11 @@
           </div>
         </div>
       </div>
-<% unless options.skip_blockable? -%>
-      <%# Uncomment this if the record is blockable. Optionally pass the block_layout or block_kinds to the partial. %>
+<%- unless options.skip_blockable? -%>
+      <%%# Uncomment the following partial if the record is blockable. Optionally pass the block_layout or block_kinds to the partial. %>
       <%%#= render 'admin/block_record/block_layout', f: f, block_layout: @block_layout, block_kinds: @block_kinds %>
       <%%#= f.button :submit, class: 'btn-success' %>
-<% end %>
+<%- end -%>
     </div>
   </div>
 <%% end %>

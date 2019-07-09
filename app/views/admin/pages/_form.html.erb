@@ -26,7 +26,7 @@
         <div class="panel-body" data-collapse-body>
           <div class="form-inputs tab-content">
             <% I18n.available_locales.collect(&:to_s).each_with_index do |locale, index| %>
-              <%= content_tag :div, class: "row tab-pane #{'active' if index.zero?} locale-panel", data: { locale: locale } do %>
+              <%= content_tag :div, class: "row locale-panel #{'display-none' unless index.zero?}", data: { locale: locale } do %>
                 <div class="col-sm-6">
                   <%= localized_input f, :title, locale %>
                   <% if index.zero? %>
