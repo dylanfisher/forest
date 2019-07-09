@@ -1,18 +1,6 @@
 // Block selector inputs
 
-$(document).on('turbolinks:load forest:block-slot-after-insert', function(e, blockSlot) {
-  var $blockSelectors;
-
-  if ( blockSlot ) {
-    $blockSelectors = $(blockSlot).find('.form-group.block_selector');
-  } else {
-    $blockSelectors = $('.form-group.block_selector');
-  }
-
-  if ( !$blockSelectors.length ) return;
-
-  var $blocks = $('.block-slot');
-
+(function() {
   var titleize = function(str) {
     // Replace dashes with spaces
     str = str.replace(/-/g, ' ');
@@ -23,39 +11,53 @@ $(document).on('turbolinks:load forest:block-slot-after-insert', function(e, blo
     return str;
   };
 
-  $blocks = $blocks.filter(function() {
-    var $block = $(this);
+  $(document).on('turbolinks:load forest:block-slot-after-insert', function(e, blockSlot) {
+    var $blockSelectors;
 
-    return $block.attr('id') && $block.attr('data-kind') != 'JumpLinkBlock';
-  });
+    if ( blockSlot ) {
+      $blockSelectors = $(blockSlot).find('.form-group.block_selector');
+    } else {
+      $blockSelectors = $('.form-group.block_selector');
+    }
 
-  $blockSelectors.each(function() {
-    var $blockSelector = $(this);
-    var $select = $blockSelector.find('select.block_selector');
-    var selectedValue = $select.attr('data-selected');
-    var optionArray = [];
+    if ( !$blockSelectors.length ) return;
 
-    $blocks.each(function() {
+    var $blocks = $('.block-slot');
+
+    $blocks = $blocks.filter(function() {
       var $block = $(this);
-      var blockID = $block.attr('id');
-      var blockName = titleize( blockID );
-      var option = new Option(blockName, blockID, false, false);
 
-      optionArray.push(option);
+      return $block.attr('id') && $block.attr('data-kind') != 'JumpLinkBlock';
     });
 
-    // Remove empty options from select
-    $select.find('option').filter(function() {
-      return !this.value || $.trim(this.value).length == 0 || $.trim(this.text).length == 0;
-    }).remove();
+    $blockSelectors.each(function() {
+      var $blockSelector = $(this);
+      var $select = $blockSelector.find('select.block_selector');
+      var selectedValue = $select.attr('data-selected');
+      var optionArray = [];
 
-    for ( var i = 0; i < optionArray.length; i++ ) {
-      $select.append( optionArray[i] ).trigger('change');
-    }
+      $blocks.each(function() {
+        var $block = $(this);
+        var blockID = $block.attr('id');
+        var blockName = titleize( blockID );
+        var option = new Option(blockName, blockID, false, false);
 
-    if ( selectedValue ) {
-      $select.val( selectedValue );
-      $select.trigger('change');
-    }
+        optionArray.push(option);
+      });
+
+      // Remove empty options from select
+      $select.find('option').filter(function() {
+        return !this.value || $.trim(this.value).length == 0 || $.trim(this.text).length == 0;
+      }).remove();
+
+      for ( var i = 0; i < optionArray.length; i++ ) {
+        $select.append( optionArray[i] ).trigger('change');
+      }
+
+      if ( selectedValue ) {
+        $select.val( selectedValue );
+        $select.trigger('change');
+      }
+    });
   });
-});
+})();

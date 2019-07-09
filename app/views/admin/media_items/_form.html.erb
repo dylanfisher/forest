@@ -4,6 +4,8 @@
   <div class="row">
     <div class="col-sm-12">
 
+      <%= render 'admin/shared/localization/nav_tabs' %>
+
       <div class="panel panel-default" data-collapse-parent>
         <div class="panel-heading">
           <h3 class="panel-title">
@@ -11,13 +13,11 @@
           </h3>
         </div>
         <div class="panel-body" data-collapse-body>
-          <%= render 'admin/shared/localization/nav_tabs', tab_name: 'metadata' %>
-
           <div class="form-inputs">
             <div class="row">
               <div class="col-sm-6 tab-content">
                 <% I18n.available_locales.collect(&:to_s).each_with_index do |locale, index| %>
-                  <%= content_tag :div, id: "metadata-#{locale.to_s}", class: "tab-pane #{'active' if index.zero?}" do %>
+                  <%= content_tag :div, id: "metadata-#{locale.to_s}", class: "tab-pane #{'active' if index.zero?} locale-panel", data: { locale: locale } do %>
                     <% locale_suffix = "_#{locale.to_s}" unless locale == I18n.default_locale.to_s %>
 
                     <% if index.zero? %>
