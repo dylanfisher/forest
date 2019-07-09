@@ -8,7 +8,7 @@ class Menu < Forest::ApplicationRecord
   validates :title, presence: true
 
   def self.for(slug)
-    self.menus.select { |menu| menu.slug == slug.to_s }.first
+    self.menus.find { |menu| menu.slug == slug.to_s }
   end
 
   def self.expire_cache!
