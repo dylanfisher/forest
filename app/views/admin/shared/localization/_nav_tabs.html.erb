@@ -7,7 +7,7 @@
     </div>
     <div class="panel-body">
       <ul class="nav nav-pills">
-        <% I18n.available_locales.collect(&:to_s).each_with_index do |locale, index| %>
+        <% I18n.available_locales.each_with_index do |locale, index| %>
           <% active_class = 'active' if index.zero? %>
           <%= content_tag :li, class: active_class do %>
             <%= link_to locale.to_s.upcase, "#locale-#{locale.to_s}", class: 'locale-tab', data: { locale: locale, toggle: 'tab' } %>
