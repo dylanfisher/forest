@@ -9,7 +9,9 @@ module Forest
         before_save :"remove_blank_#{attribute}"
 
         define_method(:"remove_blank_#{attribute}") do
-          self.send(attribute).reject! { |a| a[:key].blank? && a[:value].blank? }
+          if self.send(attribute).all? { |a| a[:key].blank? && a[:value].blank? }
+            self.send "#{attribute}=", []
+          end
         end
       end
     end
