@@ -58,7 +58,8 @@ class Setting < Forest::ApplicationRecord
   def self.initialize_from_i18n
     I18n.backend.send(:init_translations) unless I18n.backend.initialized?
 
-    Setting.where(locale: nil).update_all(locale: I18n.default_locale)
+    settings_without_locale = Setting.where(locale: nil)
+    settings_without_locale.update_all(locale: I18n.default_locale) if settings_without_locale.present?
 
     I18n.available_locales.each do |locale|
       create_translations_for_locale(locale)
