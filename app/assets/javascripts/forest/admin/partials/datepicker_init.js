@@ -26,7 +26,8 @@ App.Datepicker = {
         timeFormat: 'HH:mm:ss z',
         timezone: timezone,
         timeInput: true,
-        showTimepicker: showTimepicker
+        showTimepicker: showTimepicker,
+        showTimezone: false
       };
 
       if ( $el.data('datepicker') && $el.data('datepicker')['input'] ) {
