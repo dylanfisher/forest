@@ -90,6 +90,19 @@ First, run the block type generator. Make sure to restart your server when gener
 rails generate forest:block TitleAndTextBlock title:string content:text
 ```
 
+## Creating additional models backed by a CMS scaffold
+
+```
+rails generate forest:scaffold Project title:string media_item:references description:text
+
+# Optional arguments:
+# 
+# --skip_public
+# --skip_blockable
+# --skip_statusable
+# --skip_sluggable
+```
+
 ## Custom SimpleForm inputs
 A number of custom SimpleForm inputs and components are baked into Forest: https://github.com/dylanfisher/forest/wiki/SimpleForm-inputs-&-components
 
