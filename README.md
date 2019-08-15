@@ -37,6 +37,11 @@ $ bundle exec spring binstub --all
 
 Delete the ApplicationRecord file to inherit from Forest's ApplicationRecord.
 
+Define a `root_path` in your host app's routes file
+```ruby
+root to: 'home_pages#show'
+```
+
 Add the blocks directory to Rails' autoload paths:
 
 ```ruby
