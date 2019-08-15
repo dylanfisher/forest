@@ -37,6 +37,11 @@ $ bundle exec spring binstub --all
 
 Delete the ApplicationRecord file to inherit from Forest's ApplicationRecord.
 
+Define a `root_path` in your host app's routes file
+```ruby
+root to: 'pages#show' # or whatever makes sense for your home page controller
+```
+
 Add the blocks directory to Rails' autoload paths:
 
 ```ruby
@@ -84,6 +89,22 @@ First, run the block type generator. Make sure to restart your server when gener
 ```
 rails generate forest:block TitleAndTextBlock title:string content:text
 ```
+
+## Creating additional models backed by a CMS scaffold
+
+```
+rails generate forest:scaffold Project title:string media_item:references description:text
+```
+
+Optional arguments:
+ 
+`--skip_public` Don't create public controller actions and views
+
+`--skip_blockable` Don't add blockable associations
+
+`--skip_statusable` Don't add a status column to the model
+
+`--skip_sluggable` Don't assume this model needs a slug
 
 ## Custom SimpleForm inputs
 A number of custom SimpleForm inputs and components are baked into Forest: https://github.com/dylanfisher/forest/wiki/SimpleForm-inputs-&-components
