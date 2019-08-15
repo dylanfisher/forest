@@ -94,14 +94,17 @@ rails generate forest:block TitleAndTextBlock title:string content:text
 
 ```
 rails generate forest:scaffold Project title:string media_item:references description:text
-
-# Optional arguments:
-# 
-# --skip_public
-# --skip_blockable
-# --skip_statusable
-# --skip_sluggable
 ```
+
+Optional arguments:
+ 
+`--skip_public` Don't create public controller actions and views
+
+`--skip_blockable` Don't add blockable associations
+
+`--skip_statusable` Don't add a status column to the model
+
+`--skip_sluggable` Don't assume this model needs a slug
 
 ## Custom SimpleForm inputs
 A number of custom SimpleForm inputs and components are baked into Forest: https://github.com/dylanfisher/forest/wiki/SimpleForm-inputs-&-components
