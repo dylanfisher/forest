@@ -39,7 +39,7 @@ Delete the ApplicationRecord file to inherit from Forest's ApplicationRecord.
 
 Define a `root_path` in your host app's routes file
 ```ruby
-root to: 'home_pages#show'
+root to: 'pages#show' # or whatever makes sense for your home page controller
 ```
 
 Add the blocks directory to Rails' autoload paths:
