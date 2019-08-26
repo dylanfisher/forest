@@ -47,7 +47,8 @@ class Setting < Forest::ApplicationRecord
     end
   end
 
-  # Define setting values, value types, and descriptions in your i18n file using the following pattern:
+  # Define setting values, value types, and descriptions in your i18n file using the following pattern.
+  # Be careful with boolean values; these are saved to the database as a string, either "0" or "1"
   # en:
   #   forest:
   #     settings:
