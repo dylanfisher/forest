@@ -36,4 +36,16 @@ class ForestController < ApplicationController
       Setting.reset_method_cache!
       Translation.reset_method_cache!
     end
+
+    def page_path
+      if params[:page_path].present?
+        params[:page_path]
+      elsif ['/', '/home'].include?(request.path)
+        'home'
+      end
+    end
+
+    def set_page
+      @page = Page.find_by_path(page_path)
+    end
 end

@@ -35,11 +35,6 @@ class PagesController < ForestController
 
   private
 
-    def set_page
-      # TODO: don't default to finding page by 'home' path
-      @page = Page.find_by_path(params[:page_path].presence || 'home')
-    end
-
     def ensure_localization
       if I18n.available_locales.length > 1
         unless request.path.match(/^\/(#{I18n.available_locales.join('|')})/i)
