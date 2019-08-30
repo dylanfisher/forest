@@ -11,7 +11,7 @@ module MetaHelper
       end
 
       title = title.reject(&:blank?).join(divider)
-      stripdown(title).squish
+      sanitize stripdown(title).squish
     end
   end
 
@@ -24,7 +24,7 @@ module MetaHelper
         build_page_title_from_record,
         build_page_title_from_controller
       ].reject(&:blank?).first
-      stripdown(title).squish
+      sanitize stripdown(title).squish
     end
   end
 
@@ -32,7 +32,7 @@ module MetaHelper
     @_site_title ||= begin
       # TODO: add forest translation for description from settings
       title = Setting.for('site_title') || default_site_title
-      stripdown(title).squish
+      sanitize stripdown(title).squish
     end
   end
 
@@ -44,7 +44,7 @@ module MetaHelper
         build_page_description_from_record,
         site_description
       ].reject(&:blank?).first.try(:squish)
-      stripdown(description).squish
+      sanitize stripdown(description).squish
     end
   end
 
