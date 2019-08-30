@@ -2,13 +2,18 @@
 
 .media-item__point-of-interest {
   position: relative;
+  display: inline-block;
+  cursor: crosshair;
+}
+
+.media-item__point-of-interest__label {
+  display: block;
 }
 
 .media-item__point-of-interest__crosshair {
   position: absolute;
   width: 40px;
   height: 40px;
-  cursor: crosshair;
   transform: translate(-50%, -50%);
   user-select: none;
 

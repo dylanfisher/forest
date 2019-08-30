@@ -34,7 +34,7 @@
                   <div class="form-group">
                     <% if @media_item.image? %>
                       <% if @media_item.try(:point_of_interest_x).present? && @media_item.try(:point_of_interest_y).present? %>
-                        <label>Point of Interest</label>
+                        <label class="media-item__point-of-interest__label">Point of Interest</label>
                         <div id="media-item__point-of-interest" class="media-item__point-of-interest">
                           <%= content_tag :div, nil, id: 'media-item__point-of-interest__crosshair', class: 'media-item__point-of-interest__crosshair', style: "top: #{@media_item.point_of_interest_y}%; left: #{@media_item.point_of_interest_x}%;" %>
                           <%= image_tag @media_item.attachment.url(:medium) %>
