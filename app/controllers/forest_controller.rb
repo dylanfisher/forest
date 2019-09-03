@@ -37,10 +37,14 @@ class ForestController < ApplicationController
       Translation.reset_method_cache!
     end
 
+    def home_page_paths
+      ['/', '/home'].concat(I18n.available_locales.collect { |l| "/#{l}" })
+    end
+
     def page_path
       if params[:page_path].present?
         params[:page_path]
-      elsif ['/', '/home'].include?(request.path)
+      elsif home_page_paths.include?(request.path)
         'home'
       end
     end
