@@ -10,7 +10,7 @@ class PagesController < ForestController
         @body_classes ||= []
         @body_classes << 'controller--errors action--not_found'
         @page_title = '404 - Not Found'
-        return render 'errors/not_found'
+        return render 'errors/not_found', status: 404
       end
     end
     authorize @page
