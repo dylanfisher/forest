@@ -1,7 +1,7 @@
 $(document).on('change', '.status-scheduler select[name*="[status]"]', function(e) {
   var $select = $(this);
   var $wrapper = $select.closest('.status-scheduler');
-  var $datepicker = $wrapper.find('input[name$="[scheduled_date]"]');
+  var $datepicker = $wrapper.find('input[data-datepicker="true"]');
   var $datepickerWrapper = $wrapper.find('.form-group[class*="_scheduled_date"]');
   var value = $select.val();
 

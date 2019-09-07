@@ -11,7 +11,7 @@
                   label: date_label %>
     <% elsif record.respond_to?(:scheduled_date) %>
       <%= f.input :scheduled_date,
-                  as: :string,
+                  as: :datepicker,
                   hint: "Set the date of this record to a future date and it will be hidden until this time.",
                   label: date_label,
                   wrapper_html: {

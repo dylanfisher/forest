@@ -19,15 +19,28 @@ App.Datepicker = {
 
     $elements.each(function() {
       var $el = $(this);
+      var $altField = $el.closest('.datepicker').find('.datepicker-input__alt-format');
       var showTimepicker = $el.attr('data-timepicker') == 'true';
       var timezone = parseInt( $el.attr('data-timezone-utc-offset') ) / 60;
+      var displayTimeFormat = 'hh:mm tt';
       var options = {
-        dateFormat: 'yy-mm-dd',
-        timeFormat: 'HH:mm:ss z',
+        dateFormat: 'mm/dd/yy',
+        timeFormat: displayTimeFormat,
+        altFormat: 'yy-mm-dd',
+        altTimeFormat: 'HH:mm:ss',
+        pickerTimeFormat: displayTimeFormat,
+        altField: $altField,
+        altFieldTimeOnly: false,
         timezone: timezone,
         timeInput: true,
         showTimepicker: showTimepicker,
-        showTimezone: false
+        showTimezone: false,
+        showSecond: false,
+        onClose: function(dateText, inst) {
+          if ( !dateText || !$el.val() ) {
+            $altField.val('');
+          }
+        }
       };
 
       if ( $el.data('datepicker') && $el.data('datepicker')['input'] ) {
@@ -40,6 +53,8 @@ App.Datepicker = {
 
       if ( $el.hasClass('required') && $el.datetimepicker('getDate') == null ) {
         $el.datetimepicker('setDate', defaultDate);
+      } else {
+        $el.datetimepicker('setDate', $el.datetimepicker('getDate'));
       }
     });
   },
