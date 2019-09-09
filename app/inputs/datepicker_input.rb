@@ -9,7 +9,7 @@ class DatepickerInput < SimpleForm::Inputs::StringInput
     datepicker_options[:data][:blank] = options.delete(:blank)
 
     if column.type == :datetime
-      datepicker_options[:data][:timepicker] = true
+      datepicker_options[:data][:timepicker] = options.fetch(:timepicker, true)
       datepicker_options[:data][:timezone_utc_offset] = Time.zone.now.utc_offset
     end
 
