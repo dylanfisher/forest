@@ -24,7 +24,7 @@ module Blockable
     end
 
     def blocks(options = {})
-      block_layout = options.fetch(:block_layout, nil)
+      block_layout = options.fetch(:block_layout, BlockLayout.default_layout)
       block_layout_name = block_layout.try(:slug).try(:underscore).presence || 'default'
       block_type = options.fetch(:kind, nil)
 
