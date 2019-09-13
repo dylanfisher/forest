@@ -8,16 +8,20 @@ class DatepickerInput < SimpleForm::Inputs::StringInput
     datepicker_options[:data][:datepicker] = true
     datepicker_options[:data][:blank] = options.delete(:blank)
 
+    date_format = '%m/%d/%Y'
+
     if column.type == :datetime
       datepicker_options[:data][:timepicker] = options.fetch(:timepicker, true)
       datepicker_options[:data][:timezone_utc_offset] = Time.zone.now.utc_offset
+
+      date_format << ' %I:%M %P'
     end
 
     datepicker_options[:placeholder] = placeholder
     datepicker_options[:autocomplete] = 'off'
 
     # This needs to match the date format in datepicker_init.js
-    display_date_value = obj.send(attribute_name).present? ? obj.send(attribute_name).strftime('%m/%d/%Y %I:%M %P') : nil
+    display_date_value = obj.send(attribute_name).present? ? obj.send(attribute_name).strftime(date_format) : nil
 
     input_html_options[:class] << :"datepicker-input__alt-format"
     merged_input_options = merge_wrapper_options(input_html_options, wrapper_options)

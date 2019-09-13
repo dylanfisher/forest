@@ -8,7 +8,6 @@
                   as: :datepicker,
                   timepicker: false,
                   hint: "Set the date of this record to a future date and it will be hidden until the start of this date.",
-                  input_html: { value: f.object.published_date.presence || Date.today },
                   label: date_label %>
     <% elsif record.respond_to?(:scheduled_date) %>
       <%= f.input :scheduled_date,

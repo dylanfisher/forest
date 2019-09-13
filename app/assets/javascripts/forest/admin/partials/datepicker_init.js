@@ -39,6 +39,9 @@ App.Datepicker = {
         onClose: function(dateText, inst) {
           if ( !dateText || !$el.val() ) {
             $altField.val('');
+          } else {
+            // Manually set date on close due to buggy datetimepicker behavior when clicking "Now"
+            $el.datetimepicker('setDate', $el.datetimepicker('getDate'));
           }
         }
       };
