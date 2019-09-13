@@ -2,7 +2,7 @@
   <div class="alert alert-danger" role="alert">
     <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
     <span class="sr-only">Error:</span>
-    This <%= record.model_name.human %> is currently <strong><%= record.status %></strong> and is not visible to the public.
+    This <%= record.model_name.human %> is currently <strong><%= record.status.humanize(capitalize: false) %></strong> and is not visible to the public.
   </div>
 <% end %>
 
