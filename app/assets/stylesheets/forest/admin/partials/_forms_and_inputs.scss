@@ -2,6 +2,10 @@
   resize: none;
 }
 
+.well > .form-group:last-child {
+  margin-bottom: 0;
+}
+
 .form-group.color {
   .input-group {
     width: 100%;
