@@ -5,6 +5,7 @@
   <% classes << (block.first? ? 'block--first' : '') %>
   <% classes << (block.last? ? 'block--last' : '') %>
   <% classes << "block-category--#{block.class.kind.category.to_s.parameterize}" %>
+  <% classes << "block-record-type--#{block.class.kind.record_type.to_s.parameterize}" %>
   <% classes << block.try(:css_class) %>
 
   <% options = {} %>
