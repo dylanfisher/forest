@@ -97,12 +97,16 @@ class BaseBlock < Forest::ApplicationRecord
     blocks.last_of_kind(self.class) == self
   end
 
+  def index_of_kind
+    blocks.kind(self.class).index(self)
+  end
+
   def even_of_kind?
-    blocks.kind(self.class).index(self).even?
+    index_of_kind.even?
   end
 
   def odd_of_kind?
-    blocks.kind(self.class).index(self).odd?
+    index_of_kind.odd?
   end
 
   def previous
