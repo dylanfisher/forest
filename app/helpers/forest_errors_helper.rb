@@ -5,18 +5,10 @@ module ForestErrorsHelper
       if current_user&.admin?
         logger.error("[Forest] forest_admin_error")
         logger.error(error.message)
-        logger.error(error.backtrace.join("\n"))
-
-        error_messages = []
-        error_messages << "Error on #{Rails.application.class.parent.to_s.titleize}\n"
-        error_messages << "Path: #{request.fullpath.force_encoding('utf-8')}\n"
-        error_messages << "#{error.message}\n"
-        error_messages << error.backtrace.first(20).join("\n")
 
         visible_errors_for_admin = []
         visible_errors_for_admin << options.fetch(:message, "Warning: this code block has errors and is not visible to the public.\nYou are seeing this message because you are an admin.\n")
         visible_errors_for_admin << "#{error.message}\n"
-        visible_errors_for_admin << error.backtrace.join("\n")
 
         content_tag :pre, class: 'admin-error-message' do
           visible_errors_for_admin.join("\n").html_safe
