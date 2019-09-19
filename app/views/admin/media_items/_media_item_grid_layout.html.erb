@@ -1,4 +1,11 @@
-<div class="media-item--grid col-xs-4 col-sm-3 col-md-2">
+<% grid_size = local_assigns.fetch(:size, :default) %>
+<% if grid_size == :small %>
+  <% col_class = 'col-xs-4' %>
+<% else %>
+  <% col_class = 'col-xs-4 col-sm-3 col-md-2' %>
+<% end %>
+
+<%= content_tag :div, class: "media-item--grid #{col_class}" do %>
   <% attachment_or_placeholder_url = media_item.attachment.exists? ? media_item.attachment.url(:small) : '' %>
   <% attachment_or_placeholder_url_large = media_item.attachment.exists? ? media_item.attachment.url(:large) : '' %>
   <% content = capture do %>
@@ -20,4 +27,4 @@
     <%# TODO: update delete icon to work in media library grid view? %>
     <%= content_tag :div, '', class: 'media-item__button media-item__buttons__remove glyphicon glyphicon-remove' %>
   </div>
-</div>
+<% end %>
