@@ -43,7 +43,7 @@ class GalleryInput < SimpleForm::Inputs::CollectionSelectInput
 
     content << template.content_tag(:div,
                                     preview_html,
-                                    class: "media-gallery-preview-wrapper #{selected_images.present? ? 'media-gallery-preview-wrapper--has-images' : 'media-gallery-preview-wrapper--no-images'} well",
+                                    class: "media-gallery-preview-wrapper media-gallery-preview-wrapper--size-#{grid_size} #{selected_images.present? ? 'media-gallery-preview-wrapper--has-images' : 'media-gallery-preview-wrapper--no-images'} well",
                                     data: {
                                       **modal_data_attributes_for_preview})
 
