@@ -97,7 +97,7 @@ rails generate forest:scaffold Project title:string media_item:references descri
 ```
 
 Optional arguments:
- 
+
 `--skip_public` Don't create public controller actions and views
 
 `--skip_blockable` Don't add blockable associations
@@ -188,6 +188,7 @@ Big Picture
 - [ ] tests
 
 Admin
+- [ ] better pattern for defining custom status message via I18n
 - [ ] simpleMDE markdown editor has a bug where sometimes the text area gets messed up and needs to have the page resize functions run to work properly again.
 - [ ] fix user login page view when signing up for the first time and passwords don't match.
 - [ ] nested forms are cumbersome at laptop size. It should be easier to rearrange nested items.
