@@ -1,14 +1,7 @@
 <%# Make sure to update the media item preview in the following file when changing this partial.
     app/assets/javascripts/forest/admin/partials/media_item_chooser_modal.js.erb %>
 
-<% grid_size = local_assigns.fetch(:size, :default) %>
-<% if grid_size == :small %>
-  <% col_class = 'col-xs-4' %>
-<% else %>
-  <% col_class = 'col-xs-4 col-sm-3 col-md-2' %>
-<% end %>
-
-<%= content_tag :div, class: "media-item--grid #{col_class}" do %>
+<%= content_tag :div, class: "media-item--grid col-xs-4 col-sm-3 col-md-2" do %>
   <% attachment_or_placeholder_url = media_item.attachment.exists? ? media_item.attachment.url(:small) : '' %>
   <% attachment_or_placeholder_url_large = media_item.attachment.exists? ? media_item.attachment.url(:large) : '' %>
   <% content = capture do %>
