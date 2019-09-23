@@ -213,12 +213,6 @@ $(document).on('click.mediaItemChooser', '.media-item-chooser__select-button', f
       App.MediaItemChooser.preview.empty();
     }
 
-    if ( $gallery.find('.media-gallery-preview-wrapper--size-small').length ) {
-      $(thumbnails).each(function() {
-        $(this).removeClass('col-sm-3 col-md-2');
-      });
-    }
-
     App.MediaItemChooser.preview.append( thumbnails );
   }
 
