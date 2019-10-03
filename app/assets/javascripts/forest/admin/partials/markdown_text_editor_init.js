@@ -87,3 +87,7 @@ $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function(e) {
 
   App.MarkdownTextEditor.initialize( $tabContent.find('.markdown-editor').filter(':visible') );
 });
+
+$(document).on('app:show-collapsed-content', function(e, el) {
+  App.MarkdownTextEditor.initialize( $(el).find('.markdown-editor').filter(':visible') );
+});

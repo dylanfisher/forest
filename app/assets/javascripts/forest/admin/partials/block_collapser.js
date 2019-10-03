@@ -41,6 +41,8 @@ $(document).on('click', '[data-collapse-parent] [data-collapse-trigger]', functi
     $wrapper.removeClass('collapsed');
     $body.show();
     $icon.removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+
+    $(document).trigger('app:show-collapsed-content', $wrapper);
   } else {
     $wrapper.addClass('collapsed');
     $body.hide();
