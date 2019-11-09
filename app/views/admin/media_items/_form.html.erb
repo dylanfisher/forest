@@ -17,7 +17,7 @@
             <div class="row">
               <div class="col-sm-6 tab-content">
                 <%= f.input :attachment, hint: 'Replace the file by uploading a new attachment.' %>
-                <%= f.input :title, placeholder: 'The title will be generated automatically from the file name if left blank.' %>
+                <%= f.input :title, placeholder: 'The title will be generated automatically from the file name if left blank.', hint: 'The title is used to identify the image on the backend. It is not usually visible to the user, and typically you do not need to edit this field.' %>
                 <%= render 'admin/form_inputs/slug', f: f %>
 
                 <% I18n.available_locales.each_with_index do |locale, index| %>
