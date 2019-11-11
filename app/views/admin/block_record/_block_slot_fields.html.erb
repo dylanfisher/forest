@@ -3,7 +3,7 @@
 <% locals = { block_record: local_assigns.fetch(:block_record, nil) } %>
 
 <%= content_tag :div,
-                class: 'block-slot nested-fields',
+                class: "block-slot nested-fields #{'block-slot--has-error' if f.object.try(:block).try(:hidden?)}",
                 id: block_id,
                 data: {
                   kind: block_kind } do %>
