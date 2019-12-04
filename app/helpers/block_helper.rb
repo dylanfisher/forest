@@ -1,7 +1,7 @@
 module BlockHelper
 
   def render_blocks(record, options = {})
-    return if record.blank?
+    return if (record.blank? || !record.respond_to?(:blocks))
 
     begin
       block_layout = options[:block_layout].presence || BlockLayout.default_layout
