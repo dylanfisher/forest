@@ -24,6 +24,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'bootstrap-sass'
   s.add_dependency 'cocoon'
   s.add_dependency 'devise'
+  s.add_dependency 'deep_cloneable'
   s.add_dependency 'has_scope'
   s.add_dependency 'jbuilder'
   s.add_dependency 'jquery-rails'
