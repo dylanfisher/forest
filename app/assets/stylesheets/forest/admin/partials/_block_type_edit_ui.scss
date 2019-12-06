@@ -1,4 +1,5 @@
-.nested-fields {
+.nested-fields,
+[data-collapse-parent] {
   &.collapsed {
     .panel-body {
       display: none;
