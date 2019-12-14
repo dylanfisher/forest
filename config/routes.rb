@@ -35,10 +35,6 @@ Rails.application.routes.draw do
     get 'logout', to: 'devise/sessions#destroy'
   end
 
-  # Show
-  get 'user/:id', to: 'users#show', as: 'user'
-  get 'media/:id', to: 'media_items#show', as: 'media_item'
-
   get '/edit', to: 'pages#edit'
   get '*page_path/edit', to: 'pages#edit'
 
