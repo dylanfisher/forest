@@ -63,6 +63,7 @@ class Admin::ForestController < ApplicationController
         resource_name.sub(/^admin_/, '').classify.safe_constantize
       end.reject(&:blank?)
          .reject { |r| r.class == Module }
+         .select { |r| policy(r).dashboard? }
     end
 
     def admin_resource_names

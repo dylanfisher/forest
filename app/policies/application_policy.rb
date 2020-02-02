@@ -11,7 +11,11 @@ class ApplicationPolicy
   end
 
   def index?
-    admin? || editor? || contributor?
+    admin?
+  end
+
+  def dashboard?
+    admin?
   end
 
   def show?
