@@ -28,7 +28,7 @@
                 <%= f.button :submit, class: 'btn-success' %>
               </div>
               <div class="col-sm-6">
-                <%= f.association :user_groups %>
+                <%= f.association :user_groups, input_html: { disabled: !current_user.admin? } %>
               </div>
             </div>
           </div>
