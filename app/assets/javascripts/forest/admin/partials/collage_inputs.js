@@ -37,6 +37,8 @@
 
   var updateInputValues = function($item) {
     var $image = $item.find('.media-item-chooser__image');
+    var isTextBox = $item.hasClass('collage-input__item--text-box');
+    var $textBox = $item.find('.collage-input__input--text-box');
     var $canvas = $item.closest(collageCanvasSelector);
     var $collage = $canvas.closest('.collage');
     var $items = $canvas.find(collageItemSelector);
@@ -44,7 +46,16 @@
     var canvasHeight = $canvas.height();
     var imageWidth = $image.width();
     var imageHeight = $image.height();
+    var textBoxWidth = $textBox.width();
+    var textBoxHeight = $textBox.height();
     var itemPosition = $item.position();
+    var imageOrTextBoxWidth = imageWidth;
+    var imageOrTextBoxHeight = imageHeight;
+
+    if ( isTextBox ) {
+      imageOrTextBoxWidth = textBoxWidth;
+      imageOrTextBoxHeight = textBoxHeight;
+    }
 
     // Inputs
     var $inputLeft = $item.find('.collage-input__input--position-left');
@@ -52,14 +63,16 @@
     var $inputItemWidth = $item.find('.collage-input__input--item-width');
     var $inputItemHeight = $item.find('.collage-input__input--item-height');
 
-    $item.css({ width: '', height: '' });
+    if ( !isTextBox ) {
+      $item.css({ width: '', height: '' });
+    }
 
     updateZIndexes( $canvas );
 
     $inputLeft.val( itemPosition.left / canvasWidth * 100 );
     $inputTop.val( itemPosition.top / canvasHeight * 100 );
-    $inputItemWidth.val( imageWidth / canvasWidth * 100 );
-    $inputItemHeight.val( imageHeight / canvasHeight * 100 );
+    $inputItemWidth.val( imageOrTextBoxWidth / canvasWidth * 100 );
+    $inputItemHeight.val( imageOrTextBoxHeight / canvasHeight * 100 );
   };
 
   var setRelativeImageSizes = function($canvas) {
@@ -215,6 +228,8 @@
         $items.each(function() {
           var $item = $(this);
           var $image = $item.find('.media-item-chooser__image');
+          var isTextBox = $item.hasClass('collage-input__item--text-box');
+          var $textBox = $item.find('.collage-input__input--text-box');
           var $uiWrapper = $item.find('.ui-wrapper');
           var itemWidth = $item.width();
           var originalItemRatio = $item.attr('data-item-width-to-canvas-width-ratio');
@@ -222,7 +237,15 @@
           var imageWidth = $image.width();
           var imageHeight = $image.height();
           var imageRatio = imageHeight / imageWidth;
+          var textBoxWidth = $textBox.width();
+          var textBoxHeight = $textBox.height();
+          var textBoxRatio = textBoxHeight / textBoxWidth;
           var newHeight = newWidth * imageRatio;
+          var newTextBoxHeight = newWidth * textBoxRatio;
+
+          if ( isTextBox ) {
+            newHeight = newTextBoxHeight;
+          }
 
           $item.add($uiWrapper)
                .add($image)
@@ -238,6 +261,7 @@
 
   $(document).on('cocoon:after-insert', collageCanvasSelector, function(e, insertedItem) {
     var $item = $(insertedItem);
+    var isTextBox = $item.hasClass('collage-input__item--text-box');
     var $mediaGalleryChooserButton = $item.find('.media-item-chooser__button');
     var $collage = $item.closest('.collage');
     var $canvas = $collage.find(collageCanvasSelector);
@@ -278,6 +302,16 @@
 
       if ( $emptyCanvasMessage.length ) $emptyCanvasMessage.remove();
     });
+
+    if ( isTextBox ) {
+      $(document).trigger('forest:update-media-gallery-preview.collageInput', [$item]);
+    }
+  });
+
+  $(document).on('mouseup.collageInput', '.collage-input__input--text-box', function(e) {
+    var $item = $(this).closest('.collage-input__item');
+
+    updateInputValues($item);
   });
 
   $(document).on('click', collageItemSelector, function() {

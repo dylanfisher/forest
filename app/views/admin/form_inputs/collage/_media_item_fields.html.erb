@@ -23,7 +23,7 @@
   <%= f.hidden_field :id %>
 
   <% begin %>
-    <%# Add a partial named collage_fields to your block if you need to add additional fiels to the collage items %>
+    <%# Add a partial named collage_fields to your block if you need to add additional fields to the collage items %>
     <%= capture do %>
       <div class="collage-input__additional-fields">
         <%= render "blocks/#{obj.model_name.singular}/collage_fields", f: f %>

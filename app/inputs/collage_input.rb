@@ -9,6 +9,9 @@ class CollageInput < SimpleForm::Inputs::CollectionSelectInput
     obj = input_html_options.fetch :object, object
     input_html_options.merge! id: object_name.parameterize
 
+    include_text_box = options.delete(:text_box)
+    text_box_attr = options.delete(:text_box_attr) || :text
+
     associated_records = obj.send(reflection_or_attribute_name)
 
     if object.new_record?
@@ -20,7 +23,11 @@ class CollageInput < SimpleForm::Inputs::CollectionSelectInput
     cocoon_content = ActiveSupport::SafeBuffer.new
 
     @builder.simple_fields_for(reflection_or_attribute_name) do |f|
-      cocoon_content << template.render('admin/form_inputs/collage/media_item_fields', f: f, obj: obj)
+      if f.object.try(text_box_attr).present?
+        cocoon_content << template.render('admin/form_inputs/collage/text_box_fields', f: f, obj: obj, text_box_attr: text_box_attr)
+      else
+        cocoon_content << template.render('admin/form_inputs/collage/media_item_fields', f: f, obj: obj)
+      end
     end
 
     if associated_records.blank?
@@ -53,7 +60,26 @@ class CollageInput < SimpleForm::Inputs::CollectionSelectInput
                                                     association_insertion_node: "##{field_name}_preview",
                                                     association_insertion_method: 'append' })
 
-    content << template.content_tag(:div, cocoon_link, class: 'collage-input__cocoon-links links')
+    content << template.content_tag(:div, cocoon_link, class: 'collage-input__cocoon-links links inline-block')
+
+    if include_text_box
+      cocoon_text_box_link = template.link_to_add_association('Add text box item',
+                                                              @builder,
+                                                              reflection_or_attribute_name,
+                                                              class: 'collage-input__link-to-add-association btn btn-default',
+                                                              partial: 'admin/form_inputs/collage/text_box_fields',
+                                                              render_options: {
+                                                                locals: {
+                                                                  obj: obj,
+                                                                  text_box_attr: text_box_attr
+                                                                }
+                                                              },
+                                                              data: {
+                                                               association_insertion_node: "##{field_name}_preview",
+                                                               association_insertion_method: 'append' })
+
+      content << template.content_tag(:div, cocoon_text_box_link, class: 'collage-input__cocoon-links links inline-block', style: 'margin-left: 10px;')
+    end
 
     content << @builder.hidden_field(:collage_height_ratio, class: 'collage-input__input--height-ratio')
 

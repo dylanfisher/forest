@@ -76,6 +76,22 @@
   }
 }
 
+.collage-input__item--text-box {
+  .media-item__button {
+    position: absolute;
+    top: -4px;
+  }
+
+  label {
+    cursor: move;
+  }
+
+  .form-group.text,
+  textarea {
+    width: 100%;
+  }
+}
+
 .collage-input__item__image {
   max-width: 200px;
 }
