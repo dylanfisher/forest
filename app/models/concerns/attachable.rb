@@ -32,6 +32,7 @@ module Attachable
       scope :by_content_type, -> (content_type) { where(attachment_content_type: content_type) }
       scope :images, -> { where('attachment_content_type LIKE ?', '%image%') }
       scope :videos, -> { where('attachment_content_type LIKE ?', '%video%') }
+      scope :audio, -> { where('attachment_content_type LIKE ?', '%audio%') }
       scope :pdfs, -> { where('attachment_content_type LIKE ?', '%pdf%') }
 
       def large_attachment_url
@@ -44,6 +45,10 @@ module Attachable
 
       def video?
         (attachment_content_type =~ %r{^video\/}).present?
+      end
+
+      def audio?
+        (attachment_content_type =~ %r{^audio\/}).present?
       end
 
       def file?
