@@ -37,13 +37,17 @@ class PagesController < ForestController
 
     def ensure_localization
       if I18n.available_locales.length > 1
-        unless request.path.match(/^\/(#{I18n.available_locales.join('|')})/i)
+        unless request.path.match(available_locale_pattern)
           return redirect_to "/#{I18n.locale}/#{@page.path}", status: 301
         end
       else
-        if request.path.match(/^\/(#{I18n.available_locales.join('|')})/i)
+        if request.path.match(available_locale_pattern)
           return redirect_to "/#{@page.path}", status: 301
         end
       end
+    end
+
+    def available_locale_pattern
+      /^\/(#{I18n.available_locales.join('|')})(\/|$)/i
     end
 end
