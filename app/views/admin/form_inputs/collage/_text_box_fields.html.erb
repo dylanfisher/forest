@@ -10,7 +10,11 @@
 <% styles << "z-index: #{f.object.collage_z_index}" %>
 
 <%= content_tag :div, class: classes.join(' '), style: styles.join(';') do %>
-  <%= f.input text_box_attr, label: 'Text box item', input_html: { class: 'collage-input__input--text-box', rows: 6 } %>
+  <% I18n.available_locales.each_with_index do |locale, index| %>
+    <%= content_tag :div, class: "row locale-panel #{'display-none' unless index.zero?}", data: { locale: locale } do %>
+      <%= localized_input f, text_box_attr, locale, label: 'Text box item', input_html: { class: 'collage-input__input--text-box', rows: 6 } %>
+    <% end %>
+  <% end %>
 
   <%= f.hidden_field :collage_position_left, class: 'collage-input__input--position-left' %>
   <%= f.hidden_field :collage_position_top, class: 'collage-input__input--position-top' %>

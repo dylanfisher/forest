@@ -36,9 +36,9 @@
   };
 
   var updateInputValues = function($item) {
-    var $image = $item.find('.media-item-chooser__image');
+    var $image = $item.find('.media-item-chooser__image:visible');
     var isTextBox = $item.hasClass('collage-input__item--text-box');
-    var $textBox = $item.find('.collage-input__input--text-box');
+    var $textBox = $item.find('.collage-input__input--text-box:visible');
     var $canvas = $item.closest(collageCanvasSelector);
     var $collage = $canvas.closest('.collage');
     var $items = $canvas.find(collageItemSelector);
@@ -227,9 +227,9 @@
 
         $items.each(function() {
           var $item = $(this);
-          var $image = $item.find('.media-item-chooser__image');
+          var $image = $item.find('.media-item-chooser__image:visible');
           var isTextBox = $item.hasClass('collage-input__item--text-box');
-          var $textBox = $item.find('.collage-input__input--text-box');
+          var $textBox = $item.find('.collage-input__input--text-box:visible');
           var $uiWrapper = $item.find('.ui-wrapper');
           var itemWidth = $item.width();
           var originalItemRatio = $item.attr('data-item-width-to-canvas-width-ratio');
