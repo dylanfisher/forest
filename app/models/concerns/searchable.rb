@@ -25,7 +25,11 @@ module Searchable
   included do
     include Elasticsearch::Model
 
-    index_name SearchIndexManager::INDEX_NAME
+    if Elasticsearch::Rails::VERSION.to_i < 6
+      index_name SearchIndexManager::INDEX_NAME
+    else
+      index_name "#{SearchIndexManager::INDEX_NAME}_#{model_name.plural}"
+    end
 
     # TODO: as an improvement implement Asynchronous Callbacks
     # https://github.com/elastic/elasticsearch-rails/tree/master/elasticsearch-model#asynchronous-callbacks

@@ -17,30 +17,43 @@ class SearchIndexManager
     []
   end
 
+  def self.index_names
+    if Elasticsearch::Rails::VERSION.to_i < 6
+      [INDEX_NAME]
+    else
+      indexed_models.collect(&:index_name)
+    end
+  end
+
   def self.create_index(options = {})
     settings = indexed_models.map(&:settings).reduce({}, &:merge)
     mappings = indexed_models.map(&:mappings).reduce({}, &:merge)
 
-    if options[:force]
-      logger.debug { "[Forest] Deleting index #{INDEX_NAME}" }
-      delete_index!
-    end
+    delete_index! if options[:force]
 
-    logger.debug { "[Forest] Creating index #{INDEX_NAME} with configuration:" }
-    logger.debug { "[Forest] -- Settings #{settings.inspect}" }
-    logger.debug { "[Forest] -- Mappings #{mappings.inspect}" }
-    create index: INDEX_NAME, body: { settings: settings, mappings: mappings }
+    index_names.each do |index_name|
+      logger.debug { "[Forest] Creating index #{index_name} with configuration:" }
+      logger.debug { "[Forest] -- Settings #{settings.inspect}" }
+      logger.debug { "[Forest] -- Mappings #{mappings.inspect}" }
+      create index: index_name, body: { settings: settings, mappings: mappings }
+    end
   end
 
   def self.delete_index!
-    if exists? index: INDEX_NAME
-      delete index: INDEX_NAME
+    index_names.each do |index_name|
+      if exists? index: index_name
+        logger.debug { "[Forest] Deleting index #{index_name}" }
+        delete index: index_name
+      end
     end
   end
 
   def self.refresh_index
-    if exists? index: INDEX_NAME
-      refresh index: INDEX_NAME
+    index_names.each do |index_name|
+      if exists? index: index_name
+        logger.debug { "[Forest] Refreshing index #{index_name}" }
+        refresh index: index_name
+      end
     end
   end
 
