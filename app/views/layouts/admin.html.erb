@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <%= render 'layouts/shared_head' %>
-    <%= jquery_include_tag %>
-    <%= javascript_include_tag 'forest/application_admin' %>
-    <%= render 'admin/shared/admin_head_additions' %>
-    <meta name="turbolinks-cache-control" content="no-preview">
-    <%= stylesheet_link_tag 'forest/application_admin', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%#= render 'layouts/shared_head' %>
+    <%#= jquery_include_tag %>
+    <%#= javascript_include_tag 'forest/application_admin' %>
+    <%#= render 'admin/shared/admin_head_additions' %>
+    <%#= stylesheet_link_tag 'forest/application_admin', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= csp_meta_tag %>
+    <%#= stylesheet_pack_tag 'application' %>
+    <%= javascript_pack_tag 'application' %>
   </head>
   <body class="<%= @body_classes %> admin">
-    <%= render 'admin/navigation' %>
+    <%#= render 'admin/navigation' %>
     <%= render 'admin/flash_notifications' %>
     <div id="admin-container" class="container-fluid">
       <%= yield %>
     </div>
-    <%= render 'admin/media_items/modal' %>
   </body>
 </html>

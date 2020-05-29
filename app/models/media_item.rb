@@ -7,7 +7,7 @@ class MediaItem < Forest::ApplicationRecord
   DATE_FILTER_CACHE_KEY = 'forest_media_item_dates_for_filter'
   CONTENT_TYPE_CACHE_KEY = 'forest_media_item_content_types_for_filter'
 
-  validates_attachment_presence :attachment
+  # validates_attachment_presence :attachment
 
   before_validation :set_default_metadata
 

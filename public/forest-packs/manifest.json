@@ -1,0 +1,14 @@
+{
+  "application.js": "/forest-packs/js/application-e67ae4d960ded518af6c.js",
+  "application.js.map": "/forest-packs/js/application-e67ae4d960ded518af6c.js.map",
+  "entrypoints": {
+    "application": {
+      "js": [
+        "/forest-packs/js/application-e67ae4d960ded518af6c.js"
+      ],
+      "js.map": [
+        "/forest-packs/js/application-e67ae4d960ded518af6c.js.map"
+      ]
+    }
+  }
+}

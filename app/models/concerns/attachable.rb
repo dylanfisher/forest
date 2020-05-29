@@ -2,28 +2,28 @@ module Attachable
   extend ActiveSupport::Concern
 
   included do
-    has_attached_file :attachment,
-                        styles: {
-                          thumb: '200x200#',
-                          small: '600x600>',
-                          medium: '1200x1200>',
-                          large: '2000x2000>'
-                        },
-                        convert_options: {
-                          thumb:  lambda { |r| r.gif? ? '' : '-unsharp 0x1' },
-                          small:  lambda { |r| r.gif? ? '' : '-unsharp 0x1' },
-                          medium: lambda { |r| r.gif? ? '' : '-unsharp 1.5x1+0.7+0.02' },
-                          large:  lambda { |r| r.gif? ? '' : '-unsharp 1.5x1+0.7+0.02' },
-                          all:    lambda { |r| r.gif? ? '-strip -auto-orient -colorspace sRGB' : '-strip -auto-orient -quality 85 -colorspace sRGB -interlace Plane -sampling-factor 4:2:0' }
-                        },
-                        default_url: '/images/:style/missing.png'
+    # has_attached_file :attachment,
+    #                     styles: {
+    #                       thumb: '200x200#',
+    #                       small: '600x600>',
+    #                       medium: '1200x1200>',
+    #                       large: '2000x2000>'
+    #                     },
+    #                     convert_options: {
+    #                       thumb:  lambda { |r| r.gif? ? '' : '-unsharp 0x1' },
+    #                       small:  lambda { |r| r.gif? ? '' : '-unsharp 0x1' },
+    #                       medium: lambda { |r| r.gif? ? '' : '-unsharp 1.5x1+0.7+0.02' },
+    #                       large:  lambda { |r| r.gif? ? '' : '-unsharp 1.5x1+0.7+0.02' },
+    #                       all:    lambda { |r| r.gif? ? '-strip -auto-orient -colorspace sRGB' : '-strip -auto-orient -quality 85 -colorspace sRGB -interlace Plane -sampling-factor 4:2:0' }
+    #                     },
+    #                     default_url: '/images/:style/missing.png'
 
-      do_not_validate_attachment_file_type :attachment
+    #   do_not_validate_attachment_file_type :attachment
 
-      before_post_process :skip_for_non_images
-      before_post_process :rename_attachment
-      after_post_process :extract_dimensions
-      after_post_process :collect_garbage
+    #   before_post_process :skip_for_non_images
+    #   before_post_process :rename_attachment
+    #   after_post_process :extract_dimensions
+    #   after_post_process :collect_garbage
 
       serialize :dimensions
 

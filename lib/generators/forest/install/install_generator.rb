@@ -14,6 +14,12 @@ module Forest
       if ActiveRecord::Base.connection.table_exists? 'settings'
         puts "[Forest] -- Seeding database"
 
+        # Pages
+        puts "[Forest] ---- Creating default home page"
+        if Page.find_by_slug('home').blank?
+          Page.create(title: 'Home')
+        end
+
         # Settings
         puts "[Forest] ---- Creating default settings"
 
