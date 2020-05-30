@@ -1,7 +1,6 @@
 class MediaItem < Forest::ApplicationRecord
   include Rails.application.routes.url_helpers
   include Attachable
-  include Forest::CacheBuster
   include Sluggable
 
   DATE_FILTER_CACHE_KEY = 'forest_media_item_dates_for_filter'

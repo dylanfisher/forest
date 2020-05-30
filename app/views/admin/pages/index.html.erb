@@ -6,7 +6,7 @@
       title: 'All Statuses' %>
   <% end %>
 <% end %>
-<%= render 'admin/headers/index', records: @pages, model_name: 'Page', pagination_collection: @parent_pages %>
+<%= render 'admin/headers/index', records: @pages, model_name: 'Page', pagination_collection: @pagy_parent_pages %>
 
 <div class="table-responsive">
   <table class="forest-table table table-striped table-sm">
@@ -30,4 +30,4 @@
   </table>
 </div>
 
-<%= paginate @parent_pages %>
+<%= pagy_bootstrap_nav_js(@pagy).html_safe %>

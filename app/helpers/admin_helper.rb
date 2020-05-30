@@ -1,4 +1,6 @@
 module AdminHelper
+  include Pagy::Frontend
+
   def table_sorter(options = {})
     title = options.fetch :title
     path = options.fetch :path

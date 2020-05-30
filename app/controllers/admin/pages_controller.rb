@@ -8,11 +8,11 @@ class Admin::PagesController < Admin::ForestController
 
   def index
     if request.format.json?
-      @pages = apply_scopes(Page).by_title.where.not(id: params[:current_record]).page(params[:page])
+      @pagy, @pages = pagy apply_scopes(Page).by_title.where.not(id: params[:current_record])
     else
       # TODO: fuzzy searching doesn't work properly with page hierarchy
-      @parent_pages = apply_scopes(Page.includes(:immediate_children)).parent_pages.page(params[:page])
-      @pages = apply_scopes(Page).by_title.page params[:page]
+      @pagy_parent_pages, @parent_pages = pagy apply_scopes(Page.includes(:immediate_children)).parent_pages
+      @pagy, @pages = pagy apply_scopes(Page).by_title
     end
 
     authorize @pages

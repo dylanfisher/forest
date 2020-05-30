@@ -1,1 +1,25 @@
-@import "foundation.scss";
+// Core - fonts, variables, mixins, etc. These shouldn't output any CSS on their own.
+// @import "core/fonts";
+// @import "core/variables";
+// @import "core/mixins";
+
+// Vendor
+// @import "vendor/**/*";
+
+// Bootstrap 4 Grid
+// @import "bootstrap_v4/bootstrap-grid";
+
+// Base - basic foundation and structural styles
+// @import "base/normalize";
+// @import "base/typography";
+@import "base/foundation";
+// @import "base/helper_classes";
+
+// Partials - reusable partials and page elements
+@import "partials/pagy";
+
+// Blocks - styles that apply to specific blocks
+// @import "blocks/**/*";
+
+// Pages - styles that apply to specific pages
+// @import "pages/**/*";

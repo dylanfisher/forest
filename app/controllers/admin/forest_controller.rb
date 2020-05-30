@@ -1,6 +1,7 @@
 require 'webpacker/helper'
 
 class Admin::ForestController < ApplicationController
+  include Pagy::Backend
   include Pundit
   include ::Webpacker::Helper
 

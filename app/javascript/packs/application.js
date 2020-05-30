@@ -18,7 +18,11 @@
 import 'core-js/stable'
 import 'regenerator-runtime/runtime'
 
+// SCSS
 import 'bootstrap/scss/bootstrap.scss'
 import '../scss/application.scss'
+
+// JavaScripts
+import 'components/pagy'
 
 console.log('Hello World from Webpacker engine')
