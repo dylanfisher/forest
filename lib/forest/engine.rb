@@ -47,6 +47,11 @@ module Forest
       )
     end
 
+    config.app_middleware.use(
+      Rack::Static,
+      urls: ['/forest-packs'], root: 'forest/public'
+    )
+
     config.after_initialize do
       if database_exists?
         ActiveRecord::Base.connection_pool.with_connection do |c|
