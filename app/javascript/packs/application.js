@@ -18,6 +18,7 @@
 import 'core-js/stable'
 import 'regenerator-runtime/runtime'
 
-// import '../scss/application.scss'
+import 'bootstrap/scss/bootstrap.scss'
+import '../scss/application.scss'
 
 console.log('Hello World from Webpacker engine')

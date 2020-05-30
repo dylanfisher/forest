@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-100">
   <head>
     <%#= render 'layouts/shared_head' %>
     <%#= jquery_include_tag %>
@@ -10,11 +10,12 @@
     <%= stylesheet_pack_tag 'application' %>
     <%= javascript_pack_tag 'application' %>
   </head>
-  <body class="<%= @body_classes %> admin">
-    <%#= render 'admin/navigation' %>
+  <body class="<%= @body_classes %> admin d-flex flex-column h-100">
+    <%= render 'admin/navigation' %>
     <%= render 'admin/flash_notifications' %>
-    <div id="admin-container" class="container-fluid">
+    <main role="main" class="flex-shrink-0">
       <%= yield %>
-    </div>
+    </main>
+    <%= render 'admin/shared/footer' %>
   </body>
 </html>

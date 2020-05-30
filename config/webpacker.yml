@@ -58,7 +58,7 @@ development:
     port: 3036
     public: localhost:3036
     env_prefix: 'FOREST_WEBPACKER_DEV_SERVER'
-    hmr: false
+    hmr: true
     # Inline should be set to true if using HMR
     inline: true
     overlay: true

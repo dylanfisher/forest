@@ -1,7 +1,7 @@
 <%%= render 'admin/headers/index', records: @<%= plural_name %>, model_name: '<%= name %>' %>
 
 <div class="table-responsive">
-  <table class="forest-table table table-striped">
+  <table class="forest-table table table-striped table-sm">
     <thead>
       <tr>
         <%% if <%= name %>.statusable? %>
@@ -35,7 +35,7 @@
 <% end -%>
           <td><%%= forest_date <%= singular_name %>.created_at %></td>
           <td><%%= forest_date <%= singular_name %>.updated_at %></td>
-          <td width="1"><%%= link_to 'Edit', edit_admin_<%= singular_name %>_path(<%= singular_name %>), class: 'btn btn-xs btn-primary', role: 'button' %></td>
+          <td width="1"><%%= link_to 'Edit', edit_admin_<%= singular_name %>_path(<%= singular_name %>), class: 'btn btn-sm btn-primary', role: 'button' %></td>
           <td width="1">
             <%% if try('<%= singular_name %>_path', <%= singular_name %>) %>
               <%% if <%= singular_name %>.respond_to?(:to_friendly_param) %>
@@ -43,12 +43,12 @@
               <%% else %>
                 <%% param = <%= singular_name %> %>
               <%% end %>
-              <%%= link_to 'Show', <%= singular_name %>_path(param), class: 'btn btn-xs btn-info', role: 'button', data: { turbolinks: false } %>
+              <%%= link_to 'Show', <%= singular_name %>_path(param), class: 'btn btn-sm btn-primary', role: 'button', data: { turbolinks: false } %>
             <%% else %>
-              <%%= link_to 'Show', admin_<%= singular_name %>_path(<%= singular_name %>), class: 'btn btn-xs btn-info', role: 'button', data: { turbolinks: false } %>
+              <%%= link_to 'Show', admin_<%= singular_name %>_path(<%= singular_name %>), class: 'btn btn-sm btn-primary', role: 'button', data: { turbolinks: false } %>
             <%% end %>
           </td>
-          <td width="1"><%%= link_to 'Destroy', [:admin, <%= singular_name %>], method: :delete, class: 'btn btn-xs btn-danger', role: 'button', data: { confirm: 'Are you sure you want to destroy this <%= singular_name.titleize %>?' } %></td>
+          <td width="1"><%%= link_to 'Destroy', [:admin, <%= singular_name %>], method: :delete, class: 'btn btn-sm btn-danger', role: 'button', data: { confirm: 'Are you sure you want to destroy this <%= singular_name.titleize %>?' } %></td>
         </tr>
       <%% end %>
     </tbody>

@@ -1,15 +1,15 @@
 <div class="block-slot__buttons">
-  <button type="button" class="block-slot-field__button--low-priority btn btn-xs btn-default" data-block-add title="Add block">
+  <button type="button" class="block-slot-field__button--low-priority btn btn-sm btn-default" data-block-add title="Add block">
     <div class="glyphicon glyphicon-plus"></div>
   </button>
   <%= link_to_remove_association f,
-        class: 'block-slot-field__button--low-priority btn btn-xs btn-default',
+        class: 'block-slot-field__button--low-priority btn btn-sm btn-default',
         title: 'Remove block',
         data: {
           confirm: "Are you sure you want to remove this block?" } do %>
     <div class="glyphicon glyphicon-minus"></div>
   <% end %>
-  <button type="button" class="btn btn-xs btn-default" data-block-collapser title="Collapse block">
+  <button type="button" class="btn btn-sm btn-default" data-block-collapser title="Collapse block">
     <div class="collapsable-icon glyphicon glyphicon-chevron-up"></div>
   </button>
 </div>

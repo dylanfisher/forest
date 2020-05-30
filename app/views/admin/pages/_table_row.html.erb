@@ -6,9 +6,9 @@
   <td><%= admin_page_level_indicator level %><%= page.title %></td>
   <td><%= link_to page.path, page_path(page.to_friendly_param), data: { turbolinks: false } %></td>
   <td><%= forest_date page.updated_at %></td>
-  <td width="1"><%= link_to 'Edit', edit_admin_page_path(page), class: 'btn btn-xs btn-primary', role: 'button' %></td>
-  <td width="1"><%= link_to 'Show', page_path(page.to_friendly_param), class: 'btn btn-xs btn-info', role: 'button', data: { turbolinks: false } %></td>
-  <td width="1"><%= link_to 'Destroy', [:admin, page], method: :delete, class: 'btn btn-xs btn-danger', role: 'button', data: { confirm: 'Are you sure you want to destroy this record? This action is irreversible.' } %></td>
+  <td width="1"><%= link_to 'Edit', edit_admin_page_path(page), class: 'btn btn-sm btn-primary', role: 'button' %></td>
+  <td width="1"><%= link_to 'Show', page_path(page.to_friendly_param), class: 'btn btn-sm btn-primary', role: 'button', data: { turbolinks: false } %></td>
+  <td width="1"><%= link_to 'Destroy', [:admin, page], method: :delete, class: 'btn btn-sm btn-danger', role: 'button', data: { confirm: 'Are you sure you want to destroy this record? This action is irreversible.' } %></td>
 <% end %>
 
 <%= render partial: 'table_row', collection: page.immediate_children, locals: { level: level + 1 }, as: :page if page.immediate_children.present? %>

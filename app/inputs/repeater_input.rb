@@ -64,8 +64,8 @@ class RepeaterInput < SimpleForm::Inputs::TextInput
       controls = ActiveSupport::SafeBuffer.new
       controls << '<div class="repeater__controls">'.html_safe
       controls << '<div class="repeater__controls__buttons">'.html_safe
-      controls << content_tag(:div, '', class: 'repeater__controls__add-row-button repeater__controls__button btn btn-default btn-xs glyphicon glyphicon-plus')
-      controls << content_tag(:div, '', class: 'repeater__controls__remove-row-button repeater__controls__button btn btn-default btn-xs glyphicon glyphicon-minus')
+      controls << content_tag(:div, '', class: 'repeater__controls__add-row-button repeater__controls__button btn btn-default btn-sm glyphicon glyphicon-plus')
+      controls << content_tag(:div, '', class: 'repeater__controls__remove-row-button repeater__controls__button btn btn-default btn-sm glyphicon glyphicon-minus')
       controls << '</div>'.html_safe
       controls << '</div>'.html_safe
     end

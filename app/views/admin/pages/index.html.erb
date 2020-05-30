@@ -9,7 +9,7 @@
 <%= render 'admin/headers/index', records: @pages, model_name: 'Page', pagination_collection: @parent_pages %>
 
 <div class="table-responsive">
-  <table class="forest-table table table-striped">
+  <table class="forest-table table table-striped table-sm">
     <thead>
       <tr>
         <% if Page.statusable? %>
