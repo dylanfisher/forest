@@ -17,6 +17,10 @@
 
 import 'core-js/stable'
 import 'regenerator-runtime/runtime'
+import Rails from '@rails/ujs';
+
+// Bootstrap
+import 'bootstrap'
 
 // SCSS
 import 'bootstrap/scss/bootstrap.scss'
@@ -26,3 +30,5 @@ import '../scss/application.scss'
 import 'components/pagy'
 
 console.log('Hello World from Webpacker engine')
+
+Rails.start();

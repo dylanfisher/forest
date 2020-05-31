@@ -37,18 +37,6 @@ module AdminHelper
     (level + 1).times.collect{}.join('&mdash; ').html_safe
   end
 
-  def admin_navbar_class
-    return unless (@page && @page.statusable?)
-
-    # if @page.scheduled?
-    #   'bg-info'
-    # elsif !@page.published?
-    #   'bg-warning'
-    # end
-
-    !@page.published?
-  end
-
   def admin_navbar_active_class(nav_item_path)
     'active' if nav_item_path == request.path
   end
