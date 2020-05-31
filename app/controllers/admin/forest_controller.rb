@@ -1,4 +1,4 @@
-require 'webpacker/helper'
+# require 'webpacker/helper'
 
 class Admin::ForestController < ApplicationController
   include Pagy::Backend
@@ -17,7 +17,7 @@ class Admin::ForestController < ApplicationController
   rescue_from ActiveRecord::InvalidForeignKey, with: :foreign_key_contraint
   rescue_from ActiveRecord::RecordNotUnique, with: :record_not_unique
 
-  helper_method :localized_input
+  helper_method :localized_input, :current_webpacker_instance
 
   # rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
@@ -33,7 +33,6 @@ class Admin::ForestController < ApplicationController
   def current_webpacker_instance
     Forest.webpacker
   end
-  helper_method :current_webpacker_instance
 
   private
 

@@ -1,12 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-100">
   <head>
-    <%#= render 'layouts/shared_head' %>
-    <%#= stylesheet_link_tag 'forest/application_admin', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_pack_tag 'application' %>
+    <%= javascript_pack_tag 'application' %>
   </head>
-  <body class="<%= @body_classes.try(:join, ' ') %> devise">
-    <div id="admin-container" class="container-fluid">
+  <body class="<%= @body_classes %> devise d-flex flex-column h-100">
+    <%= render 'admin/flash_notifications' %>
+    <main role="main" class="flex-shrink-0">
       <%= yield %>
-    </div>
+    </main>
+    <%= render 'admin/shared/footer' %>
   </body>
 </html>
