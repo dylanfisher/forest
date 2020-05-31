@@ -14,7 +14,9 @@
     <%= render 'admin/navigation' %>
     <%= render 'admin/flash_notifications' %>
     <main role="main" class="flex-shrink-0">
-      <%= yield %>
+      <div class="container-fluid">
+        <%= yield %>
+      </div>
     </main>
     <%= render 'admin/shared/footer' %>
   </body>

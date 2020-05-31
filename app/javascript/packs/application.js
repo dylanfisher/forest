@@ -23,10 +23,13 @@ import Rails from '@rails/ujs';
 import 'bootstrap'
 
 // SCSS
-import 'bootstrap/scss/bootstrap.scss'
+import 'select2/dist/css/select2.css'
+import '@ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.css'
+import '../scss/bootstrap/custom.scss'
 import '../scss/application.scss'
 
 // JavaScripts
+import 'components/select2'
 import 'components/pagy'
 
 console.log('Hello World from Webpacker engine')

@@ -30,4 +30,4 @@
   </table>
 </div>
 
-<%= pagy_bootstrap_nav_js(@pagy).html_safe %>
+<%= pagy_bootstrap_nav_js(@pagy).html_safe if @pagy.pages > 1 %>

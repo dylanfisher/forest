@@ -5,7 +5,7 @@ class Admin::SettingsController < Admin::ForestController
 
   # GET /settings
   def index
-    @settings = apply_scopes(Setting.all).by_title.page params[:page]
+    @pagy, @settings = pagy apply_scopes(Setting.all).by_title
     authorize @settings
   end
 

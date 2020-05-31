@@ -1,0 +1,42 @@
+/////////////////////////////////////////////////////////////////////////
+//
+// APP VARIABLES
+//
+/////////////////////////////////////////////////////////////////////////
+
+// Colors
+$white: #FFFFFF;
+$black: #000000;
+
+// Color assignments
+
+// Transitions
+$tt: 0.2s;
+
+// Sizes
+$gutter: 15px;
+
+$site-max-width: 1400px;
+$site-padding-sm: 30px;
+
+$block-margin: 50px;
+$block-margin-sm: 80px;
+$large-block-margin: 80px;
+$large-block-margin-sm: 120px;
+
+// Breakpoints
+$screen-xs: 0;
+$screen-sm: 576px;
+$screen-md: 768px;
+$screen-lg: 992px;
+$screen-xl: 1200px;
+
+$grid-breakpoints: (
+  xs: $screen-xs,
+  sm: $screen-sm,
+  md: $screen-md,
+  lg: $screen-lg,
+  xl: $screen-xl
+);
+
+$vert-screen-sm: 600px;

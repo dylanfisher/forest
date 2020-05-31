@@ -1,7 +1,7 @@
 <div class="admin-header">
   <div class="well">
     <h1>Settings <span class="badge"><%= number_with_delimiter Setting.count %></span></h1>
-    <%= paginate @settings %>
+    <%= pagy_bootstrap_nav_js(@pagy).html_safe if @pagy.pages > 1 %>
   </div>
 </div>
 
@@ -46,4 +46,4 @@
   </table>
 </div>
 
-<%= paginate @settings %>
+<%= pagy_bootstrap_nav_js(@pagy).html_safe if @pagy.pages > 1 %>

@@ -7,7 +7,7 @@
   <div class="well">
     <div class="row">
       <div class="admin-header__item-group col-sm-8">
-        <h1 class="admin-header__item"><%= model_names.human.pluralize.titleize %> <span class="badge"><%= number_with_delimiter @pagy.count %></span></h1>
+        <h1 class="admin-header__item"><%= model_names.human.pluralize.titleize %></h1>
         <%= form_tag send("admin_#{model_names.plural}_path"), class: 'form-inline admin-header__item', method: :get, enforce_utf8: false, data: { turboform: true } do %>
           <div class="form-group">
             <%= text_field_tag :fuzzy_search, params[:fuzzy_search], class: 'form-control', placeholder: 'Search', autofocus: (true if params[:fuzzy_search].present?), data: { turboform: true } %>
@@ -51,10 +51,11 @@
           <%= content_for :index_header_body %>
         </div>
       <% end %>
-      <%# TODO: check if should paginate? e.g. kaminari's should_paginate helper %>
-      <div class="col-sm-12">
-        <%= pagy_bootstrap_nav_js(pagination_collection).html_safe %>
-      </div>
+      <% if @pagy.pages > 1 %>
+        <div class="col-sm-12">
+          <%= pagy_bootstrap_nav_js(pagination_collection).html_safe %>
+        </div>
+      <% end %>
     </div>
   </div>
 <% end %>
