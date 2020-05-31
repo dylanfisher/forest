@@ -30,7 +30,6 @@ module MetaHelper
 
   def site_title
     @_site_title ||= begin
-      # TODO: add forest translation for description from settings
       title = Setting.for('site_title') || default_site_title
       sanitize stripdown(title).squish
     end
@@ -132,7 +131,6 @@ module MetaHelper
 
   def site_description
     @_site_description ||= begin
-      # TODO: add forest translation for description from settings
       (Setting.for('description') || default_site_description).try(:squish)
     end
   end

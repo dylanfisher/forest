@@ -1,2 +1,0 @@
-class TranslationPolicy < BlockRecordPolicy
-end
