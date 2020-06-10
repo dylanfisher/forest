@@ -10,7 +10,7 @@ class Admin::ForestController < ApplicationController
   layout 'admin'
 
   before_action :authenticate_user!
-  before_action :set_body_classes, :set_page_title
+  before_action :set_html_classes, :set_page_title
   before_action :reset_class_method_cache
   before_action :set_admin_resources
 
@@ -36,7 +36,7 @@ class Admin::ForestController < ApplicationController
 
   private
 
-    def set_body_classes
+    def set_html_classes
       controller_heirarchy = self.class.name.split('::').reject(&:blank?)
       controller_heirarchy.pop if controller_heirarchy.length > 1
       controller_heirarchy = controller_heirarchy.collect { |a| "controller-class--#{a.underscore}" }.join(' ')
@@ -46,7 +46,7 @@ class Admin::ForestController < ApplicationController
       classes << "controller--#{controller_name}"
       classes << "action--#{action_name}"
 
-      @body_classes = classes.join ' '
+      @html_classes = classes.join ' '
     end
 
     def set_page_title

@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" class="h-100">
+<html lang="en" class="<%= @html_classes.try(:join, ' ') %> devise h-100">
   <head>
     <%= csp_meta_tag %>
     <%= stylesheet_pack_tag 'application' %>
     <%= javascript_pack_tag 'application' %>
   </head>
-  <body class="<%= @body_classes %> devise d-flex flex-column h-100">
+  <body class="d-flex flex-column h-100">
     <%= render 'admin/flash_notifications' %>
     <main role="main" class="flex-shrink-0">
       <%= yield %>

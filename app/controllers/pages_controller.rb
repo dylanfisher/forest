@@ -7,8 +7,8 @@ class PagesController < ForestController
         raise ActionController::RoutingError.new('Not Found')
       else
         logger.error("[Forest][Error] 404 page not found. Looked for path \"#{request.fullpath.force_encoding('utf-8')}\"")
-        @body_classes ||= []
-        @body_classes << 'controller--errors action--not_found'
+        @html_classes ||= []
+        @html_classes << 'controller--errors action--not_found'
         @page_title = '404 - Not Found'
         return render 'errors/not_found', status: 404
       end
@@ -21,7 +21,7 @@ class PagesController < ForestController
 
     ensure_localization
 
-    @body_classes << "page--#{@page.slug}"
+    @html_classes << "page--#{@page.slug}"
   end
 
   def edit

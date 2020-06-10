@@ -8,7 +8,7 @@ class ForestController < ApplicationController
 
   layout :layout_by_resource
 
-  before_action :set_body_classes
+  before_action :set_html_classes
   before_action :reset_class_method_cache
 
   helper_method :current_webpacker_instance
@@ -31,16 +31,16 @@ class ForestController < ApplicationController
       end
     end
 
-    def set_body_classes
+    def set_html_classes
       controller_heirarchy = self.class.name.split('::').reject(&:blank?)
       controller_heirarchy.pop
       controller_heirarchy = controller_heirarchy.collect { |a| "controller-class--#{a.underscore}" }.join(' ')
 
-      @body_classes ||= []
-      @body_classes << controller_heirarchy
-      @body_classes << "controller--#{controller_name}"
-      @body_classes << "action--#{action_name}"
-      @body_classes << 'current-user--admin' if current_user&.admin?
+      @html_classes ||= []
+      @html_classes << controller_heirarchy
+      @html_classes << "controller--#{controller_name}"
+      @html_classes << "action--#{action_name}"
+      @html_classes << 'current-user--admin' if current_user&.admin?
     end
 
     def reset_class_method_cache
