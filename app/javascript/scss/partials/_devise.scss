@@ -1,3 +1,12 @@
 .controller-class--devise {
-  // background-color: $gray-100;
+  body {
+    background-color: $light-gray;
+  }
+}
+
+.devise-card {
+  width: 100%;
+  max-width: 400px;
+  padding: $gutter;
+  margin: auto;
 }

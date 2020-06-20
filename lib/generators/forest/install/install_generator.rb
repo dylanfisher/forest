@@ -6,7 +6,6 @@ module Forest
       # TODO: the install generator should:
       #   - seed default settings
       #     - block kinds
-      #   - install forest's migrations, or prompt the user to do this
 
       puts "[Forest] Install Generator"
 
@@ -35,11 +34,6 @@ module Forest
           Setting.create(title: 'Featured Image', value: nil, value_type: 'image', description: "The featured image may be used when sharing the site on social media.")
         end
 
-        # TODO
-        # if Setting.find_by_title('Locales').blank?
-        #   Setting.create(title: 'Locales', value: [:en], value_type: 'array')
-        # end
-
         # User groups
         puts "[Forest] ---- Creating user groups"
 
@@ -57,17 +51,21 @@ module Forest
         puts "[Forest] 🌲  all done!"
         puts "[Forest]"
         puts "[Forest] Post-install"
+        puts "[Forest]"
 
         # Application config
         puts "[Forest] -- Add the following to application.rb"
         puts '[Forest] config.autoload_paths << "#{config.root}/app/models/blocks"'
+        puts "[Forest]"
 
         # Create your first block
         puts "[Forest] -- Create a Block by running this command:"
         puts '[Forest] rails g forest:block TextBlock text:text'
+        puts "[Forest]"
 
         # Visit the site and create an admin user
-        puts "[Forest] -- Visit the admin area of the website at localhost:3000/admin to create the admin user."
+        puts "[Forest] -- Generate an admin user with the following rake task:"
+        puts "[Forest] rails forest:install:admin email=admin@example.com"
       else
         puts "[Forest] -- ✋  Import Forest's migrations by running the following command."
         puts "[Forest] -- After installing migrations, run this generator again to seed the database."

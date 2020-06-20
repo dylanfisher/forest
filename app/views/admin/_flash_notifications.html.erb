@@ -1,20 +1,16 @@
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-sm-12">
-      <% flash.each do |key, value| %>
-        <% alert_type = key == 'error' ? 'danger' : 'info' %>
-        <%= content_tag :div, class: "alert alert-#{alert_type} alert-dismissible", role: 'alert' do %>
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <% if key == 'error' %>
-            <strong>Error: </strong>
-          <% end %>
-          <% if value.is_a?(Array) %>
-            <%= value.join('<br><br>').html_safe %>
-          <% else %>
-            <%= value %>
-          <% end %>
-        <% end %>
-      <% end %>
-    </div>
-  </div>
-</div>
+<% flash.each do |key, value| %>
+  <% alert_type = ['error', 'alert'].include?(key) ? 'danger' : 'info' %>
+  <%= content_tag :div, class: "alert alert-#{alert_type} alert-dismissible", role: 'alert' do %>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <% if key == 'error' %>
+      <strong>Error: </strong>
+    <% end %>
+    <% if value.is_a?(Array) %>
+      <%= value.join('<br><br>').html_safe %>
+    <% else %>
+      <%= value %>
+    <% end %>
+  <% end %>
+<% end %>

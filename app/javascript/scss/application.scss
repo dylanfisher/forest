@@ -4,7 +4,7 @@
 @import "core/mixins";
 
 // Vendor
-// @import "vendor/**/*";
+@import "vendor/select2-bootstrap4";
 
 // Bootstrap 4 Grid
 // @import "bootstrap_v4/bootstrap-grid";
@@ -16,6 +16,7 @@
 // @import "base/helper_classes";
 
 // Partials - reusable partials and page elements
+@import "partials/forms";
 @import "partials/devise";
 @import "partials/pagy";
 

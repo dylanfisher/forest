@@ -12,7 +12,13 @@
   </head>
   <body class="<%= @html_classes.try(:join, ' ') %> admin d-flex flex-column h-100">
     <%= render 'admin/navigation' %>
-    <%= render 'admin/flash_notifications' %>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <%= render 'admin/flash_notifications' %>
+        </div>
+      </div>
+    </div>
     <main role="main" class="flex-shrink-0">
       <div class="container-fluid">
         <%= yield %>

@@ -6,10 +6,7 @@
     <%= javascript_pack_tag 'application' %>
   </head>
   <body class="d-flex flex-column h-100">
-    <%= render 'admin/flash_notifications' %>
-    <main role="main" class="flex-shrink-0">
-      <%= yield %>
-    </main>
+    <%= yield %>
     <%= render 'admin/shared/footer' %>
   </body>
 </html>
