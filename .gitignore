@@ -38,6 +38,7 @@ test/dummy/tmp/
 
 /public/packs
 /public/packs-test
+/public/forest-packs
 /node_modules
 /yarn-error.log
 yarn-debug.log*
