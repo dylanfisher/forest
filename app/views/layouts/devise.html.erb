@@ -2,8 +2,8 @@
 <html lang="en" class="<%= @html_classes.try(:join, ' ') %> devise h-100">
   <head>
     <%= csp_meta_tag %>
-    <%= stylesheet_pack_tag 'application' %>
-    <%= javascript_pack_tag 'application' %>
+    <%= javascript_include_tag 'forest/application' %>
+    <%= stylesheet_link_tag 'forest/application', media: 'all' %>
   </head>
   <body class="d-flex flex-column h-100">
     <%= yield %>

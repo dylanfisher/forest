@@ -57,6 +57,12 @@ SimpleForm.setup do |config|
     b.optional :pattern
     b.optional :min_max
     b.optional :readonly
+
+    # Custom components
+    b.optional :markdown
+    b.optional :remote
+    b.optional :sortable
+
     b.use :label
     b.use :input, class: 'form-control', error_class: 'is-invalid', valid_class: 'is-valid'
     b.use :full_error, wrap_with: { tag: 'div', class: 'invalid-feedback' }

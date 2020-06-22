@@ -1,9 +1,6 @@
-# require 'webpacker/helper'
-
 class Admin::ForestController < ApplicationController
   include Pagy::Backend
   include Pundit
-  include ::Webpacker::Helper
 
   protect_from_forgery with: :exception, prepend: true
 
@@ -17,9 +14,9 @@ class Admin::ForestController < ApplicationController
   rescue_from ActiveRecord::InvalidForeignKey, with: :foreign_key_contraint
   rescue_from ActiveRecord::RecordNotUnique, with: :record_not_unique
 
-  helper_method :localized_input, :current_webpacker_instance
-
   # rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+
+  helper_method :localized_input
 
   has_scope :by_status
   has_scope :by_id
@@ -29,10 +26,6 @@ class Admin::ForestController < ApplicationController
   has_scope :by_updated_at
   has_scope :by_status
   has_scope :fuzzy_search
-
-  def current_webpacker_instance
-    Forest.webpacker
-  end
 
   private
 

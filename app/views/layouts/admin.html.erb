@@ -2,13 +2,10 @@
 <html lang="en" class="h-100">
   <head>
     <%#= render 'layouts/shared_head' %>
-    <%#= jquery_include_tag %>
-    <%#= javascript_include_tag 'forest/application_admin' %>
-    <%#= render 'admin/shared/admin_head_additions' %>
-    <%#= stylesheet_link_tag 'forest/application_admin', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= csp_meta_tag %>
-    <%= stylesheet_pack_tag 'application' %>
-    <%= javascript_pack_tag 'application' %>
+    <%= javascript_include_tag 'forest/application' %>
+    <%= stylesheet_link_tag 'forest/application', media: 'all' %>
+    <%#= render 'admin/shared/admin_head_additions' %>
   </head>
   <body class="<%= @html_classes.try(:join, ' ') %> admin d-flex flex-column h-100">
     <%= render 'admin/navigation' %>

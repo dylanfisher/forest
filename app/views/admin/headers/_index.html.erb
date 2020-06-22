@@ -53,7 +53,7 @@
       <% end %>
       <% if @pagy.pages > 1 %>
         <div class="col-sm-12">
-          <%= pagy_bootstrap_nav_js(pagination_collection).html_safe %>
+          <%= pagy_bootstrap_nav(pagination_collection).html_safe %>
         </div>
       <% end %>
     </div>

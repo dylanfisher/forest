@@ -34,7 +34,7 @@
                     <%= f.association :parent_page, remote: { scope: :title_like, path: admin_pages_path(current_record: @page) } %>
                   <% end %>
                   <%= localized_input f, :seo_title, locale, label: 'SEO Title', placeholder: 'Leave blank to use the page\'s title.' %>
-                  <%= localized_input f, :description, locale, label: 'SEO Description' %>
+                  <%= localized_input f, :description, locale, label: 'SEO Description', markdown: true %>
                   <%= f.button :submit, class: 'btn-success' %>
                 </div>
                 <div class="col-sm-6">

@@ -1,5 +1,3 @@
-require 'webpacker/helper'
-
 class ForestController < ApplicationController
   include Pundit
 
@@ -11,8 +9,6 @@ class ForestController < ApplicationController
   before_action :set_html_classes
   before_action :reset_class_method_cache
 
-  helper_method :current_webpacker_instance
-
   def after_sign_in_path_for(resource)
     main_app.admin_path
   end
@@ -21,14 +17,6 @@ class ForestController < ApplicationController
 
     def layout_by_resource
       devise_controller? ? 'devise' : 'application'
-    end
-
-    def current_webpacker_instance
-      if devise_controller?
-        Forest.webpacker
-      else
-        Webpacker.instance
-      end
     end
 
     def set_html_classes
