@@ -1,20 +1,6 @@
 // Set the default theme for all select2 widgets
-$.fn.select2.defaults.set('theme', 'bootstrap');
 
-App.teardown.push(function() {
-  $('select').each(function() {
-    var $select = $(this);
-    var $sortableList = $select.closest('.form-group.select').find('.is-ui-sortable');
-
-    if ( $sortableList.length ) {
-      $sortableList.sortable('destroy');
-    }
-
-    if ( $select.data('select2') ) {
-      $select.select2('destroy');
-    }
-  });
-});
+$.fn.select2.defaults.set('theme', 'bootstrap4');
 
 App.Select2 = {
   initialize: function($elements) {
@@ -132,7 +118,7 @@ App.Select2 = {
   }
 };
 
-App.pageLoad.push(function() {
+$(function() {
   App.Select2.initialize( $('select').filter(':visible') );
 });
 

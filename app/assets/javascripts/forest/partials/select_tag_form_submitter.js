@@ -9,7 +9,7 @@ $(document).on('submit', '.select-tag-form', function(e) {
   var separator = this.action.indexOf('?') == -1 ? '?' : '&';
   var url = [this.action, $(this).serialize()].join(separator);
 
-  Turbolinks.visit(url);
+  window.location = url;
 });
 
 // Remote selects

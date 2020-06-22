@@ -35,7 +35,7 @@ $(document).on('click', '.forest-table tbody tr', function(e) {
         window.open( url, '_blank' );
         window.focus();
       } else {
-        Turbolinks.visit(url);
+        window.location = url;
       }
     }
   }
