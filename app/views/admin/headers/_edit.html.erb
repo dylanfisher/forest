@@ -36,9 +36,9 @@
               <% logger.info { "[Forest] Admin edit header could not determine destroy path for #{record.model_name}." } %>
             <% end %>
             <% if Rails.application.routes.url_helpers.method_defined?("#{record.model_name.singular}_path", record.to_friendly_param) %>
-              <%= link_to "Show", send("#{record.model_name.singular}_path", record.to_friendly_param), title: "View this #{record.model_name.human}", class: 'btn btn-default', data: { turbolinks: false } %>
+              <%= link_to "Show", send("#{record.model_name.singular}_path", record.to_friendly_param), title: "View this #{record.model_name.human}", class: 'btn btn-default' %>
             <% elsif Rails.application.routes.url_helpers.method_defined?("admin_#{record.model_name.singular}_path", record) %>
-              <%= link_to "Show", send("admin_#{record.model_name.singular}_path", record), title: "View this #{record.model_name.human}", class: 'btn btn-default', data: { turbolinks: false } %>
+              <%= link_to "Show", send("admin_#{record.model_name.singular}_path", record), title: "View this #{record.model_name.human}", class: 'btn btn-default' %>
             <% end %>
           </div>
           <% if try(:respond_to?, "update_admin_#{record.model_name.singular}_path") %>

@@ -7,9 +7,5 @@ $(document).on('submit', 'form[data-turboform]', function(e) {
 
   window.location = (this.action + ( this.action.indexOf('?') == -1 ? '?' : '&' ) + $(this).serialize() );
 
-  $(document).one('turbolinks:before-cache.turboforms', function() {
-    $submit.prop('disabled', false);
-  });
-
   return false;
 });

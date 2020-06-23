@@ -1,5 +1,6 @@
 // Sortable galleries
 
+// TODO: ready function
 $(document).on('turbolinks:load forest:block-slot-after-insert', function() {
   var $galleries = $('.media-gallery-preview');
 
@@ -33,13 +34,4 @@ $(document).on('turbolinks:load forest:block-slot-after-insert', function() {
       $hiddenGallerySelect.find('option[value="' + itemId + '"]').appendTo( $hiddenGallerySelect );
     });
   }
-
-  $(document).one('turbolinks:before-cache.sortableGalleries', function() {
-    $galleries.each(function() {
-      var $gallery = $(this);
-
-      $gallery.off('sortupdate.sortable');
-      $gallery.sortable('destroy');
-    });
-  });
 });

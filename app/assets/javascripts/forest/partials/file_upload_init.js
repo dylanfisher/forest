@@ -5,10 +5,6 @@ App.FileUploader = {
 
     var that = this;
 
-    $(document).one('turbolinks:before-cache.FileUploader', function() {
-      that.teardown();
-    });
-
     $(document).on('dragover.FileUploader dragenter.FileUploader', function() {
       $('html').addClass('fileupload-dragover');
     });
@@ -95,14 +91,6 @@ App.FileUploader = {
         $('#progress').addClass('hidden').removeClass('fade in');
       });
     });
-  },
-  teardown: function() {
-    for ( var i = this.instances.length - 1; i >= 0; i-- ) {
-      this.instances[i].fileupload('destroy');
-    }
-    this.instances = [];
-    $('html').removeClass('fileupload-dragover');
-    $(document).off('dragover.FileUploader dragenter.FileUploader dragleave.FileUploader dragend.FileUploader drop.FileUploader');
   }
 };
 

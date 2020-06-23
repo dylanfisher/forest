@@ -34,6 +34,7 @@ $(document).on('click', '.repeater__controls__remove-row-button', function() {
   }
 });
 
+// TODO: ready function
 $(document).on('turbolinks:load forest:block-slot-after-insert', function() {
   var $elements = $('.repeater__group-wrapper');
 

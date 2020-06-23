@@ -11,6 +11,7 @@
     return str;
   };
 
+  // TODO: ready function
   $(document).on('turbolinks:load forest:block-slot-after-insert', function(e, blockSlot) {
     var $blockSelectors;
 

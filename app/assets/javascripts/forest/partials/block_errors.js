@@ -1,6 +1,6 @@
 // Block errors
 
-$(document).on('turbolinks:load', function() {
+App.pageLoad.push(function() {
   var $blocksWithErrors = $('.form-group.has-error');
 
   $blocksWithErrors.each(function() {

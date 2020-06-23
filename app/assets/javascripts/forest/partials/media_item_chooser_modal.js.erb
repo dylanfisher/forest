@@ -4,10 +4,6 @@ App.MediaItemChooser = {
   initialize: function($elements) {
     var that = this;
 
-    $(document).one('turbolinks:before-cache.mediaItemChooser', function() {
-      that.teardown();
-    });
-
     $elements.each(function() {
       var $element = $(this);
       var xhr;
@@ -117,14 +113,6 @@ App.MediaItemChooser = {
     for ( var i = 0; i < thumbnailIds.length; i++ ) {
       $input.append('<option value="' + thumbnailIds[i] + '" selected="selected">');
     }
-  },
-  teardown: function() {
-    this.destroyModal();
-    for ( var i = this.instances.length - 1; i >= 0; i-- ) {
-      this.instances[i].removeClass('fade').modal('hide');
-    }
-    this.instances = [];
-    $('.media-item-chooser__button--active').removeClass('media-item-chooser__button--active');
   }
 };
 

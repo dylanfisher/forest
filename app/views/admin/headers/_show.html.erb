@@ -17,7 +17,7 @@
               <%= link_to "All #{record.class.model_name.plural.titleize}", send("admin_#{record.class.model_name.route_key}_path"), class: 'btn btn-default' %>
               <%= link_to "New #{record.class.model_name.human}", send("new_admin_#{record.class.model_name.singular_route_key}_path"), class: 'btn btn-default' %>
               <% if respond_to? "#{record.class.model_name.singular_route_key}_path" %>
-                <%= link_to "View #{record.class.model_name.human}", send("#{record.class.model_name.singular_route_key}_path", record.to_friendly_param), class: 'btn btn-default', data: { turbolinks: false } %>
+                <%= link_to "View #{record.class.model_name.human}", send("#{record.class.model_name.singular_route_key}_path", record.to_friendly_param), class: 'btn btn-default' %>
               <% else %>
                 <%= link_to "View #{record.class.model_name.human}", send("admin_#{record.class.model_name.singular_route_key}_path", record), class: 'btn btn-default' %>
               <% end %>

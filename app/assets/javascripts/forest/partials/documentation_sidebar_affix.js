@@ -1,6 +1,6 @@
 // Documentation sidebar affix
 
-$(document).on('turbolinks:load', function() {
+App.pageLoad.push(function() {
   var $documentationWrapper = $('#documentation-wrapper');
 
   if ( !$documentationWrapper.length ) return;
@@ -13,10 +13,5 @@ $(document).on('turbolinks:load', function() {
         return $documentationWrapper.offset().top - 15;
       }
     }
-  });
-
-  $(document).one('turbolinks:before-cache', function() {
-    $documentationWrapper = null;
-    $sidebar = null;
   });
 });

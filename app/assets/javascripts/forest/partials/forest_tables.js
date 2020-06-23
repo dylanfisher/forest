@@ -4,10 +4,6 @@ $(document).on('mouseenter', '.forest-table tbody tr', function() {
   var $row = $(this);
 
   $row.addClass('active');
-
-  $(document).one('turbolinks:before-cache.forestTables', function() {
-    $row.removeClass('active');
-  });
 });
 
 $(document).on('mouseleave', '.forest-table tbody tr', function() {

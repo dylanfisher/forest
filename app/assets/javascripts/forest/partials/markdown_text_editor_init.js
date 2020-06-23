@@ -3,10 +3,6 @@ App.MarkdownTextEditor = {
   initialize: function($textAreas) {
     var that = this;
 
-    $(document).one('turbolinks:before-cache.markdownTextEditor', function() {
-      that.teardown();
-    });
-
     $textAreas.each(function() {
       var $textArea = $(this);
       var placeholder = $textArea.attr('placeholder');

@@ -1,5 +1,3 @@
-// TODO: Implement teardown method for turbolinks:before-cache
-
 App.NestableMenus = {};
 
 App.pageLoad.push(function() {

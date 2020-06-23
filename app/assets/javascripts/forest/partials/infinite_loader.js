@@ -7,10 +7,6 @@ App.InfiniteLoader = {
     $scrollListener = options.$scrollListener ? options.$scrollListener : $(window);
     this.scrollListeners.push($scrollListener);
 
-    $(document).one('turbolinks:before-cache.infiniteLoader', function() {
-      that.teardown();
-    });
-
     $elements.each(function(index) {
       var $element = $(this);
       var $nextPageLink = $element.find('[rel="next"]');
@@ -22,7 +18,7 @@ App.InfiniteLoader = {
         var nextPageLinkOffset = $nextPageLink.position().top;
         var scrollOffsetPoint = App.windowHeight * 2;
 
-        $(window).on('resize.infiniteLoader', function() {
+        App.pageResize.push(function() {
           scrollOffsetPoint = App.windowHeight * 2;
         });
 

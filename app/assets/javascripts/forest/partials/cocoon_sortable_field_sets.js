@@ -12,6 +12,7 @@
 //   </div>
 // </div>
 
+// TODO: ready function
 $(document).on('turbolinks:load cocoon:after-insert', function() {
   var $fieldSets = $('.sortable-field-set');
 
@@ -34,11 +35,6 @@ $(document).on('turbolinks:load cocoon:after-insert', function() {
 
     $fieldSet.on('sortupdate.sortableFieldSets', function() {
       calculatePositions( $fieldSet );
-    });
-
-    $(document).one('turbolinks:before-cache', function() {
-      $fieldSet.off('sortupdate.sortableFieldSets');
-      $fieldSet.sortable('destroy');
     });
   });
 

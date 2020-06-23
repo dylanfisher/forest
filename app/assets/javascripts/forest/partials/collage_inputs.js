@@ -171,6 +171,7 @@
     }
   };
 
+  // TODO: ready function
   $(document).on('turbolinks:load forest:block-slot-after-insert', function() {
     var $canvases = $('.collage-input__canvas:not(.pre-initialized)');
 
@@ -200,20 +201,10 @@
         setRelativeImageSizes($canvas);
 
         $canvas.addClass('initialized');
-
-        $(document).one('turbolinks:before-cache', function() {
-          $items.draggable('destroy');
-          $images.resizable('destroy');
-        });
-      });
-
-      $(document).one('turbolinks:before-cache', function() {
-        $canvas.resizable('destroy')
-               .removeClass('pre-initialized');
       });
     });
 
-    $(window).on('resize.collageInput', $.debounce(250, function() {
+    App.pageResize.push($.debounce(250, function() {
       if ( uiInteractionInProgress ) return;
 
       $canvases.each(function() {
@@ -253,10 +244,6 @@
         });
       });
     }));
-
-    $(document).one('turbolinks:before-cache', function() {
-      $(window).off('resize.collageInput');
-    });
   });
 
   $(document).on('cocoon:after-insert', collageCanvasSelector, function(e, insertedItem) {
@@ -291,11 +278,6 @@
         $newImage.resizable('option', 'containment', canvasId);
 
         updateInputValues($newItem);
-
-        $(document).one('turbolinks:before-cache', function() {
-          $newItem.draggable('destroy');
-          $newImage.resizable('destroy');
-        });
       });
 
       $mediaGalleryChooserButton.remove();

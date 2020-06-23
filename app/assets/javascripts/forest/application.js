@@ -22,6 +22,6 @@
 //= require cocoon
 //= require ./lib/jquery_plugins
 //= require_tree ./vendor
-//= require forest/main
+//= require ./main
 //= require_tree ./partials
-//= require forest/application_admin_from_host_app
+//= require ./application_admin_from_host_app

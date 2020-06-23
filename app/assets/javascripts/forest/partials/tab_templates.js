@@ -34,7 +34,7 @@
     });
   };
 
-  $(document).on('turbolinks:load', function() {
+  App.pageLoad.push(function() {
     index = 0;
 
     $('.has-tab-template').each(function() {

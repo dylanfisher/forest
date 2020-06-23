@@ -1,6 +1,6 @@
 // Multi checkbox selector
 
-$(document).on('turbolinks:load', function() {
+App.pageLoad.push(function() {
   var $parentElements = $('.multi-checkbox-parent');
 
   $parentElements.each(function() {
