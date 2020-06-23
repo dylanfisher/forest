@@ -23,10 +23,6 @@ module AdminHelper
     end
   end
 
-  def table_color_representation(color)
-    content_tag :div, '', class: 'table-color-representation', style: "background-color: #{color};"
-  end
-
   def forest_date(datetime)
     return if datetime.blank?
     datetime_format = datetime.is_a?(Date) ? '%m&#8209;%d&#8209;%Y' : '%m&#8209;%d&#8209;%Y %l:%M&nbsp;%p'
