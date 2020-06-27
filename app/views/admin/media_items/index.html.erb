@@ -34,10 +34,10 @@
         <option value="delete">Delete Permanently</option>
       </select>
 
-      <%= submit_tag 'Apply', class: 'btn btn-default', data: { confirm: 'Are you sure you want to apply this bulk action?' } %>
+      <%= submit_tag 'Apply', class: 'btn btn-outline-secondary', data: { confirm: 'Are you sure you want to apply this bulk action?' } %>
 
       <br>
-      <%= paginate @media_items %>
+      <%= pagy_bootstrap_nav(@pagy).html_safe if @pagy.pages > 1 %>
 
       <table class="table table-striped table-sm multi-checkbox-parent">
         <thead>
@@ -55,4 +55,4 @@
   <% end %>
 </div>
 
-<%= paginate @media_items if @layout == :list %>
+<%= pagy_bootstrap_nav(@pagy).html_safe if (@layout == :list && @pagy.pages > 1) %>

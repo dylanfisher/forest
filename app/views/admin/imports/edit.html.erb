@@ -1,4 +1,4 @@
-<div class="admin-header">
+<div class="admin-header mt-3">
   <div class="well">
     <div class="row">
       <div class="col-sm-9">
@@ -9,7 +9,7 @@
       </div>
       <div class="col-sm-3 text-right">
         <div class="btn-group">
-        <%= link_to "All #{@import.model_name.plural.titleize}", send("admin_#{@import.model_name.route_key}_path"), class: 'btn btn-default' %>
+        <%= link_to "All #{@import.model_name.plural.titleize}", send("admin_#{@import.model_name.route_key}_path"), class: 'btn btn-outline-secondary' %>
         </div>
       </div>
     </div>
@@ -24,7 +24,7 @@
     <p class="text-muted">Download the CSV template and format your import to match the following template. Save the file as a CSV and and upload in the form.
     Leave columns blank if you do not have data for it available or it doesn't make sense to import.</p>
     <p class="text-muted">Not all resources are able to be imported by default. If you need a more custom import please request this.</p>
-    <table class="table table-condensed table-bordered">
+    <table class="table table-sm table-bordered">
       <thead>
         <tr>
           <% @import.csv_columns.each do |column| %>
@@ -39,7 +39,7 @@
       </tbody>
     </table>
 
-    <%= link_to 'Download CSV template', edit_admin_import_path(@import, format: :csv), class: 'btn btn-default', download: '' %>
+    <%= link_to 'Download CSV template', edit_admin_import_path(@import, format: :csv), class: 'btn btn-outline-secondary', download: '' %>
   </div>
 </div>
 

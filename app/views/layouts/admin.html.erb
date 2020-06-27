@@ -3,19 +3,22 @@
   <head>
     <%#= render 'layouts/shared_head' %>
     <%= csp_meta_tag %>
+    <%= csrf_meta_tags %>
     <%= javascript_include_tag 'forest/application' %>
     <%= stylesheet_link_tag 'forest/application', media: 'all' %>
     <%#= render 'admin/shared/admin_head_additions' %>
   </head>
   <body class="<%= @html_classes.try(:join, ' ') %> admin d-flex flex-column h-100">
     <%= render 'admin/navigation' %>
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-12">
-          <%= render 'admin/flash_notifications' %>
+    <% if flash.present? %>
+      <div class="container-fluid mt-3">
+        <div class="row">
+          <div class="col-12">
+            <%= render 'admin/flash_notifications' %>
+          </div>
         </div>
       </div>
-    </div>
+    <% end %>
     <main role="main" class="flex-shrink-0">
       <div class="container-fluid">
         <%= yield %>

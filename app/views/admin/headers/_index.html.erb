@@ -11,7 +11,7 @@
         <%= form_tag send("admin_#{model_names.plural}_path"), class: 'form-inline admin-header__item', method: :get, enforce_utf8: false, data: { turboform: true } do %>
           <div class="form-group">
             <%= text_field_tag :fuzzy_search, params[:fuzzy_search], class: 'form-control', placeholder: 'Search', autofocus: (true if params[:fuzzy_search].present?), data: { turboform: true } %>
-            <%= submit_tag 'Submit', name: nil, class: 'btn btn-default' %>
+            <%= submit_tag 'Submit', name: nil, class: 'btn btn-outline-secondary' %>
           </div>
         <% end %>
       </div>
@@ -22,18 +22,15 @@
           <% else %>
             <% if try(:respond_to?, "new_admin_#{model_names.singular_route_key}_path") %>
               <%= link_to "New #{model_names.human.titleize}", send("new_admin_#{model_names.singular_route_key}_path"), class: 'btn btn-success' %>
-              <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="caret"></span>
+              <button type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="sr-only">Toggle Dropdown</span>
               </button>
-              <ul class="dropdown-menu dropdown-menu--right">
-                <li>
-                  <%= link_to edit_admin_import_path(model_names.singular) do %>
-                    <span class="glyphicon glyphicon-import"></span>
-                    Bulk import
-                  <% end %>
-                </li>
-              </ul>
+              <div class="dropdown-menu dropdown-menu-right">
+                <%= link_to edit_admin_import_path(model_names.singular), class: 'dropdown-item' do %>
+                  <span class="glyphicon glyphicon-import"></span>
+                  Bulk import
+                <% end %>
+              </div>
             <% end %>
           <% end %>
         </div>

@@ -28,4 +28,4 @@
   </table>
 </div>
 
-<%= paginate @block_kinds %>
+<%= pagy_bootstrap_nav(@pagy).html_safe if @pagy.pages > 1 %>

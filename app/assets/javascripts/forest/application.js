@@ -18,6 +18,7 @@
 //= require jquery-ui/widgets/draggable
 //= require jquery-ui/widgets/resizable
 //= require jquery-ui/widgets/slider
+//= require popper
 //= require bootstrap-sprockets
 //= require cocoon
 //= require ./lib/jquery_plugins

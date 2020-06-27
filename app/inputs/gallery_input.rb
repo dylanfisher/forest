@@ -49,7 +49,7 @@ class GalleryInput < SimpleForm::Inputs::CollectionSelectInput
 
     content << template.content_tag(:button, 'Choose Images',
                   type: 'button',
-                  class: "media-item-chooser__button btn btn-default",
+                  class: "media-item-chooser__button btn btn-outline-secondary",
                   data: {
                     **modal_data_attributes
                   })

@@ -8,7 +8,7 @@ class RepeaterInput < SimpleForm::Inputs::TextInput
     content << '<div class="repeater__group-wrapper">'.html_safe
     content << repeater_group_fields(options)
     content << '</div>'.html_safe
-    content << content_tag(:div, "Add #{attribute_name.to_s.humanize.singularize.downcase}", class: 'repeater__add-item-button btn btn-default')
+    content << content_tag(:div, "Add #{attribute_name.to_s.humanize.singularize.downcase}", class: 'repeater__add-item-button btn btn-outline-secondary')
     content << content_tag(:div, nil, class: 'repeater__template', data: { template: repeater_group_fields(options.merge(as_template: true)) })
     content
   end
@@ -64,8 +64,8 @@ class RepeaterInput < SimpleForm::Inputs::TextInput
       controls = ActiveSupport::SafeBuffer.new
       controls << '<div class="repeater__controls">'.html_safe
       controls << '<div class="repeater__controls__buttons">'.html_safe
-      controls << content_tag(:div, '', class: 'repeater__controls__add-row-button repeater__controls__button btn btn-default btn-sm glyphicon glyphicon-plus')
-      controls << content_tag(:div, '', class: 'repeater__controls__remove-row-button repeater__controls__button btn btn-default btn-sm glyphicon glyphicon-minus')
+      controls << content_tag(:div, '', class: 'repeater__controls__add-row-button repeater__controls__button btn btn-outline-secondary btn-sm glyphicon glyphicon-plus')
+      controls << content_tag(:div, '', class: 'repeater__controls__remove-row-button repeater__controls__button btn btn-outline-secondary btn-sm glyphicon glyphicon-minus')
       controls << '</div>'.html_safe
       controls << '</div>'.html_safe
     end

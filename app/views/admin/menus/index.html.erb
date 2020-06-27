@@ -17,13 +17,17 @@
           <td><%= menu.title %></td>
           <td><%= menu.slug %></td>
           <td><%= Menu.for(menu.slug).render %></td>
-          <td width="1"><%= link_to 'Edit', edit_admin_menu_path(menu), class: 'btn btn-sm btn-primary', role: 'button' %></td>
-          <td width="1"><%= link_to 'Show', [:admin, menu], class: 'btn btn-sm btn-primary', role: 'button' %></td>
-          <td width="1"><%= link_to 'Destroy', [:admin, menu], method: :delete, class: 'btn btn-sm btn-danger', role: 'button', data: { confirm: 'Are you sure?' } %></td>
+          <td width="3">
+            <div class="btn-group">
+              <%= link_to 'Edit', edit_admin_menu_path(menu), class: 'btn btn-sm btn-outline-primary', role: 'button' %>
+              <%= link_to 'Show', [:admin, menu], class: 'btn btn-sm btn-outline-primary', role: 'button' %>
+              <%= link_to 'Destroy', [:admin, menu], method: :delete, class: 'btn btn-sm btn-outline-danger', role: 'button', data: { confirm: 'Are you sure?' } %>
+            </div>
+          </td>
         </tr>
       <% end %>
     </tbody>
   </table>
 </div>
 
-<%= paginate @menus %>
+<%= pagy_bootstrap_nav(@pagy).html_safe if @pagy.pages > 1 %>

@@ -2,7 +2,7 @@ class Admin::BlockKindsController < Admin::ForestController
   before_action :set_block_kind, only: [:edit, :update]
 
   def index
-    @block_kinds = apply_scopes(BlockKind).by_id.page params[:page]
+    @pagy, @block_kinds = pagy apply_scopes(BlockKind).by_id
   end
 
   def edit

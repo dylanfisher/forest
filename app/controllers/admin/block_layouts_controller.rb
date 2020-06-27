@@ -2,7 +2,7 @@ class Admin::BlockLayoutsController < Admin::ForestController
   before_action :set_block_layout, only: [:edit, :update]
 
   def index
-    @block_layouts = apply_scopes(BlockLayout).by_id.page params[:page]
+    @pagy, @block_layouts = pagy apply_scopes(BlockLayout).by_id
   end
 
   def new

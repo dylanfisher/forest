@@ -56,19 +56,19 @@ class ImageInput < SimpleForm::Inputs::StringInput
 
     buttons << template.content_tag(:button, button_title,
                   type: 'button',
-                  class: "media-item-chooser__button btn btn-default #{path_class}",
+                  class: "media-item-chooser__button btn btn-outline-secondary #{path_class}",
                   data: {
                     **modal_data_attributes
                   })
 
     buttons << template.content_tag(:button, "Remove #{media_item_type}",
                   type: 'button',
-                  class: "media-item-chooser__remove-image btn btn-default #{'hidden' unless image_object.present?}")
+                  class: "media-item-chooser__remove-image btn btn-outline-secondary #{'hidden' unless image_object.present?}")
 
     if image_object.try(:id).present?
       buttons << template.link_to("Edit #{media_item_type}",
                     template.edit_admin_media_item_path(id: image_object.id),
-                    class: "media-item-chooser__edit-image btn btn-default",
+                    class: "media-item-chooser__edit-image btn btn-outline-secondary",
                     target: '_blank')
     end
 

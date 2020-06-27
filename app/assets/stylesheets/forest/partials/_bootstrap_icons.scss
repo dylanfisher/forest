@@ -1,0 +1,25 @@
+// Bootstrap icons
+
+.glyphicon-chevron-up {
+  &:before {
+    display: inline-block;
+    content: "";
+    background-image: image-url('bootstrap/chevron-expand.svg');
+    background-repeat: no-repeat;
+    background-size: 1rem 1rem;
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
+.glyphicon-chevron-down {
+  &:before {
+    display: inline-block;
+    content: "";
+    background-image: image-url('bootstrap/chevron-contract.svg');
+    background-repeat: no-repeat;
+    background-size: 1rem 1rem;
+    width: 1rem;
+    height: 1rem;
+  }
+}

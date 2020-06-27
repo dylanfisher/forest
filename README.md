@@ -165,7 +165,7 @@ Forest relies heavily on the following gems, software and frameworks:
 - devise
 - has_scope
 - jquery
-- kaminari
+- pagy
 - paperclip
 - postgres
 - pundit

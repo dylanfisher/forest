@@ -56,7 +56,7 @@ module AdminHelper
 
   def admin_header_tag(record, &block)
     record = record.first if record.respond_to?(:join)
-    content_tag :div, capture(&block), class: "admin-header", data: {
+    content_tag :div, capture(&block), class: "admin-header mt-3", data: {
       record_type: record&.class&.model_name&.singular,
       record_id: record.try(:id)
     }
