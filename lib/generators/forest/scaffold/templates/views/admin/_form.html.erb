@@ -1,22 +1,17 @@
 <%%= simple_form_for([:admin, @<%= singular_table_name %>]) do |f| %>
   <%%= f.error_notification %>
-  <div class="row">
-    <div class="col-sm-12">
+  <div class="row small-gutters">
+    <%%= render 'admin/shared/edit/sidebar', f: f, record: @<%= singular_table_name %> %>
+
+    <div class="col-md-9">
 <%- if I18n.available_locales.length > 1 -%>
       <%%= render 'admin/shared/localization/nav_tabs' %>
 <%- end -%>
-      <div class="panel panel-default" data-collapse-parent>
-        <div class="panel-heading">
-          <h3 class="panel-title">
-            Metadata
-            <button type="button" class="btn btn-outline-secondary btn-sm pull-right" data-collapse-trigger>
-              <div class="collapsable-icon glyphicon glyphicon-chevron-up"></div>
-            </button>
-          </h3>
-        </div>
-        <div class="panel-body" data-collapse-body>
+      <div class="card" data-collapse-parent>
+        <h1 class="h3 card-header"><%%= record_name(@<%= singular_table_name %>) %> <small class="text-muted-light small" title="<%%= @<%= singular_table_name %>.model_name.singular %> ID <%%= @<%= singular_table_name %>.id %>"><%%= @<%= singular_table_name %>.id %></small></h1>
+        <div class="card-body" data-collapse-body>
           <div class="form-inputs">
-            <div class="row">
+            <div class="row small-gutters">
               <div class="col-sm-6">
 <% unless options.skip_sluggable? -%>
                 <%%= render 'admin/form_inputs/slug', f: f %>
@@ -38,7 +33,7 @@
                   <%- end -%>
                 <%- end -%>
                 <%- end -%>
-                <%%= f.button :submit, class: 'btn-success' %>
+                <%%= f.button :submit, class: 'btn-success d-md-none' %>
               </div>
               <div class="col-sm-6">
 <% unless options.skip_statusable? -%>
@@ -52,7 +47,6 @@
 <%- unless options.skip_blockable? -%>
       <%%# Uncomment the following partial if the record is blockable. Optionally pass the block_layout or block_kinds to the partial. %>
       <%%#= render 'admin/block_record/block_layout', f: f, block_layout: @block_layout, block_kinds: @block_kinds %>
-      <%%#= f.button :submit, class: 'btn-success' %>
 <%- end -%>
     </div>
   </div>

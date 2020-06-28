@@ -18,11 +18,13 @@
           <td><%= forest_date user_group.created_at %></td>
           <td><%= forest_date user_group.updated_at %></td>
           <td width="1">
-            <div class="btn-group">
-              <%= link_to 'Edit', edit_admin_user_group_path(user_group), class: 'btn btn-outline-sm btn-primary', role: 'button' %>
-              <%= link_to 'Show', [:admin, user_group], class: 'btn btn-sm btn-outline-primary', role: 'button' %>
-              <%= link_to 'Destroy', [:admin, user_group], method: :delete, class: 'btn btn-sm btn-outline-danger', role: 'button', data: { confirm: 'Are you sure?' } %>
-            </div>
+            <%= link_to 'Edit', edit_admin_user_group_path(user_group), class: 'btn btn-xs btn-primary', role: 'button' %>
+          </td>
+          <td width="1">
+            <%= link_to 'Show', [:admin, user_group], class: 'btn btn-xs btn-info', role: 'button' %>
+          </td>
+          <td width="1">
+            <%= link_to 'Destroy', [:admin, user_group], method: :delete, class: 'btn btn-xs btn-danger', role: 'button', data: { confirm: 'Are you sure?' } %>
           </td>
         </tr>
       <% end %>

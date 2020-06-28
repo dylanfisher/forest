@@ -19,7 +19,7 @@ $(document).on('click', '.forest-table tbody tr', function(e) {
     var $button = $row.find('a.forest-table__link:first');
 
     if ( !$button.length ) {
-      $button = $row.find('a.btn-outline-secondary, a.btn-primary').first();
+      $button = $row.find('a.btn:first');
     }
 
     var url = $button.attr('href');

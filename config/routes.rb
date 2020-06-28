@@ -11,18 +11,18 @@ Rails.application.routes.draw do
     resources :block_layouts, except: [:destroy, :show], path: 'block-layouts'
     resources :cache_purge, path: 'cache-purge', only: [:index]
     resources :imports, only: [:edit, :create]
-    resources :media_items, path: 'media-items' do
+    resources :media_items, except: [:show], path: 'media-items' do
       collection do
         post 'update_multiple'
       end
     end
-    resources :menus
-    resources :pages
-    resources :settings, except: [:destroy]
-    resources :users do
+    resources :menus, except: [:show]
+    resources :pages, except: [:show]
+    resources :settings, except: [:show, :destroy]
+    resources :users, except: [:show] do
       get 'reset_password'
     end
-    resources :user_groups, except: [:destroy], path: 'user-groups'
+    resources :user_groups, except: [:show, :destroy], path: 'user-groups'
     get 'documentation', to: 'documentation#index'
   end
 

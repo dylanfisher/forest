@@ -1,11 +1,21 @@
 <%= simple_form_for([:admin, @user_group]) do |f| %>
   <%= f.error_notification %>
 
-  <div class="form-inputs">
-    <%= f.input :name %>
-  </div>
-
-  <div class="form-actions">
-    <%= f.button :submit %>
+  <div class="row small-gutters">
+    <%= render 'admin/shared/edit/sidebar', f: f, record: @user_group %>
+    <div class="col-md-9">
+      <div class="card">
+        <h1 class="h3 card-header"><%= record_name(@user_group) %> <small class="text-muted-light small" title="<%= @user_group.model_name.singular %> ID <%= @user_group.id %>"><%= @user_group.id %></small></h1>
+        <div class="card-body">
+          <div class="form-inputs">
+            <div class="row">
+              <div class="col-sm-6">
+                <%= f.input :name %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 <% end %>

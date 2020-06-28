@@ -11,7 +11,7 @@
   <body class="<%= @html_classes.try(:join, ' ') %> admin d-flex flex-column h-100">
     <%= render 'admin/navigation' %>
     <% if flash.present? %>
-      <div class="container-fluid mt-3">
+      <div class="container-fluid">
         <div class="row">
           <div class="col-12">
             <%= render 'admin/flash_notifications' %>
@@ -19,7 +19,7 @@
         </div>
       </div>
     <% end %>
-    <main role="main" class="flex-shrink-0">
+    <main role="main" class="flex-shrink-0 mt-3">
       <div class="container-fluid">
         <%= yield %>
       </div>

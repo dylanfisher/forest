@@ -1,16 +1,12 @@
 <%= simple_form_for([:admin, @user]) do |f| %>
   <%= f.error_notification %>
 
-  <div class="row">
-    <div class="col-sm-12">
-
-      <div class="panel panel-default" data-collapse-parent>
-        <div class="panel-heading">
-          <h3 class="panel-title">
-            Metadata
-          </h3>
-        </div>
-        <div class="panel-body" data-collapse-body>
+  <div class="row small-gutters">
+    <%= render 'admin/shared/edit/sidebar', f: f, record: @user %>
+    <div class="col-md-9">
+      <div class="card">
+        <h1 class="h3 card-header"><%= record_name(@user) %> <small class="text-muted-light small" title="<%= @user.model_name.singular %> ID <%= @user.id %>"><%= @user.id %></small></h1>
+        <div class="card-body">
           <div class="form-inputs">
             <div class="row">
               <div class="col-sm-6">
@@ -24,7 +20,6 @@
                     <%= link_to "Send password reset link to this user's email.", admin_user_reset_password_path(@user) %>
                   </div>
                 <% end %>
-
                 <%= f.button :submit, class: 'btn-success' %>
               </div>
               <div class="col-sm-6">
@@ -34,8 +29,6 @@
           </div>
         </div>
       </div>
-
     </div>
   </div>
-
 <% end %>

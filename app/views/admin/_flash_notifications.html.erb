@@ -1,6 +1,6 @@
 <% flash.each do |key, value| %>
   <% alert_type = ['error', 'alert'].include?(key) ? 'danger' : 'info' %>
-  <%= content_tag :div, class: "alert alert-#{alert_type} alert-dismissible mb-0", role: 'alert' do %>
+  <%= content_tag :div, class: "alert alert-#{alert_type} alert-dismissible mb-0 mt-3", role: 'alert' do %>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>

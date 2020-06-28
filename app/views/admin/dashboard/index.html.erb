@@ -1,9 +1,7 @@
-<div class="mt-3">
-  <% @_rendered_resources = [] %>
-  <%= render 'admin/dashboard/panel',
-             title: 'Content',
-             resources: [Page, MediaItem] %>
-  <%= render 'admin/dashboard/panel',
-             title: 'Admin',
-             resources: @admin_resources - @_rendered_resources %>
-</div>
+<% @_rendered_resources = [] %>
+<%= render 'admin/dashboard/panel',
+           title: 'Content',
+           resources: [Page, MediaItem] %>
+<%= render 'admin/dashboard/panel',
+           title: 'Admin',
+           resources: @admin_resources - @_rendered_resources %>

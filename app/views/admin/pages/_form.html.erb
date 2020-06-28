@@ -1,8 +1,10 @@
 <%= simple_form_for([:admin, @page]) do |f| %>
   <%= f.error_notification %>
 
-  <div class="row">
-    <div class="col-sm-12">
+  <div class="row small-gutters">
+    <%= render 'admin/shared/edit/sidebar', f: f, record: @page %>
+
+    <div class="col-md-9">
 
       <% if @page.redirect.present? %>
         <div class="alert alert-danger" role="alert">
@@ -14,19 +16,13 @@
 
       <%= render 'admin/shared/localization/nav_tabs' %>
 
-      <div class="panel panel-default" data-collapse-parent>
-        <div class="panel-heading">
-          <h3 class="panel-title">
-            Metadata
-            <button type="button" class="btn btn-outline-secondary btn-sm pull-right" data-collapse-trigger>
-              <div class="collapsable-icon glyphicon glyphicon-chevron-up"></div>
-            </button>
-          </h3>
-        </div>
-        <div class="panel-body" data-collapse-body>
+      <div class="card">
+        <h1 class="h3 card-header"><%= record_name(@page) %> <small class="text-muted-light small" title="<%= @page.model_name.singular %> ID <%= @page.id %>"><%= @page.id %></small></h1>
+
+        <div class="card-body">
           <div class="form-inputs tab-content">
             <% I18n.available_locales.each_with_index do |locale, index| %>
-              <%= content_tag :div, class: "row locale-panel #{'display-none' unless index.zero?}", data: { locale: locale } do %>
+              <%= content_tag :div, class: "row small-gutters locale-panel #{'display-none' unless index.zero?}", data: { locale: locale } do %>
                 <div class="col-sm-6">
                   <%= localized_input f, :title, locale %>
                   <% if index.zero? %>
@@ -35,7 +31,6 @@
                   <% end %>
                   <%= localized_input f, :seo_title, locale, label: 'SEO Title', placeholder: 'Leave blank to use the page\'s title.' %>
                   <%= localized_input f, :description, locale, label: 'SEO Description', markdown: true %>
-                  <%= f.button :submit, class: 'btn-success' %>
                 </div>
                 <div class="col-sm-6">
                   <% if index.zero? %>
@@ -46,6 +41,7 @@
                 </div>
               <% end %>
             <% end %>
+            <%= f.button :submit, class: 'btn-success d-md-none' %>
           </div>
         </div>
       </div>
@@ -53,8 +49,6 @@
       <%= render 'admin/pages/additional_inputs', f: f %>
 
       <%= render 'admin/block_record/block_layout', f: f, block_layout: @block_layout, block_kinds: @block_kinds %>
-
-      <%= f.button :submit, class: 'btn-success' %>
     </div>
   </div>
 <% end %>

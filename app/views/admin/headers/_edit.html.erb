@@ -6,59 +6,15 @@
   </div>
 <% end %>
 
-<%= admin_header_tag(record) do %>
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h3 class="panel-title">
-        <%= record.model_name.human.titleize %> <%= record.id %>
-      </h3>
-    </div>
-    <div class="panel-body">
-      <div class="row">
-        <div class="col-sm-8">
-          <h1>
-            <%= record_name record %>
-          </h1>
-        </div>
-        <div class="col-sm-4 text-right">
-          <div class="btn-group">
-            <% if try(:respond_to?, "new_admin_#{record.model_name.singular}_path") %>
-              <%= link_to "New", send("new_admin_#{record.model_name.singular}_path"), title: "Create a new #{record.model_name.human}", class: 'btn btn-outline-primary' %>
-            <% end %>
-            <%= link_to "All", send("admin_#{record.model_name.plural}_path"), title: "View all #{record.model_name.plural.titleize}", class: 'btn btn-outline-primary' %>
-            <% record_namespaces = record.model_name.collection.split('/') %>
-            <% record_namespaces = record_namespaces.take(record_namespaces.length - 1) %>
-            <% begin %>
-              <% if Rails.application.routes.recognize_path send("admin_#{record.model_name.singular}_path", record), method: :delete %>
-                <%= link_to "Destroy", [:admin, *record_namespaces, record].reject(&:blank?), method: :delete, title: "Destroy this #{record.model_name.human}", data: { confirm: "Are you sure you want to destroy this #{record.model_name.human}?" }, class: 'btn btn-outline-primary' %>
-              <% end %>
-            <% rescue Exception => e %>
-              <% logger.info { "[Forest] Admin edit header could not determine destroy path for #{record.model_name}." } %>
-            <% end %>
-            <% if Rails.application.routes.url_helpers.method_defined?("#{record.model_name.singular}_path", record.to_friendly_param) %>
-              <%= link_to "Show", send("#{record.model_name.singular}_path", record.to_friendly_param), title: "View this #{record.model_name.human}", class: 'btn btn-outline-primary' %>
-            <% elsif Rails.application.routes.url_helpers.method_defined?("admin_#{record.model_name.singular}_path", record) %>
-              <%= link_to "Show", send("admin_#{record.model_name.singular}_path", record), title: "View this #{record.model_name.human}", class: 'btn btn-outline-primary' %>
-            <% end %>
-          </div>
-          <% if try(:respond_to?, "update_admin_#{record.model_name.singular}_path") %>
-            <div class="btn btn-success update-record-button">Update <%= record.model_name.human %></div>
-          <% end %>
-        </div>
-      </div>
-      <% if record.try(:draft?) %>
-        <div class="row">
-          <br>
-          <div class="col-sm-6">
-            <p class="text-muted">
-              <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-              This <%= record.model_name.human %> is in Draft mode. You can make edits and update the <%= record.model_name.human %> and the changes will not be visible to the public.
-              You can preview the draft, and when you are ready to make the changes live, switch the status back to published.
-            </p>
-          </div>
-        </div>
-      <% end %>
+<% if record.try(:draft?) %>
+  <div class="row">
+    <br>
+    <div class="col-sm-6">
+      <p class="text-muted">
+        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+        This <%= record.model_name.human %> is in Draft mode. You can make edits and update the <%= record.model_name.human %> and the changes will not be visible to the public.
+        You can preview the draft, and when you are ready to make the changes live, switch the status back to published.
+      </p>
     </div>
   </div>
-  <div class="btn btn-success update-record-button fixed-update-record-button" id="fixed-update-record-button">Update <%= record.model_name.human %></div>
 <% end %>
