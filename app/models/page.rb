@@ -6,9 +6,7 @@ class Page < Forest::ApplicationRecord
   before_validation :generate_slug
   before_validation :generate_path, if: :hierarchy_changed?
 
-  after_save :touch_associated_pages, if: :hierarchy_changed?
   after_save :expire_menu_cache
-  after_save :touch_self
 
   after_destroy :remove_page_hierarchy!
 
@@ -88,9 +86,7 @@ class Page < Forest::ApplicationRecord
   end
 
   def remove_page_hierarchy!
-    pages_to_touch = Page.where(id: [self.id, *self.page_descendents.collect(&:id)])
-    self.immediate_children.update_all(parent_page_id: nil)
-    pages_to_touch.update_all(updated_at: DateTime.now)
+    self.immediate_children.update(parent_page_id: nil)
   end
 
   def select2_format
@@ -117,10 +113,6 @@ class Page < Forest::ApplicationRecord
 
   private
 
-    def touch_associated_pages
-      Page.where(id: all_associated_pages.collect(&:id)).update_all(updated_at: DateTime.now)
-    end
-
     def current_or_previous_changes
       self.changed.presence || self.previous_changes.keys
     end
@@ -146,9 +138,5 @@ class Page < Forest::ApplicationRecord
 
     def expire_menu_cache
       Menu.expire_cache!
-    end
-
-    def touch_self
-      self.touch unless self.new_record?
     end
 end

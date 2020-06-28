@@ -65,6 +65,8 @@ App.Select2 = {
             },
             processResults: function (data, params) {
               params.page = params.page || 1;
+              console.log('params', params);
+              console.log('data', data);
               return {
                 results: data.items,
                 pagination: {
@@ -118,7 +120,7 @@ App.Select2 = {
   }
 };
 
-$(function() {
+App.pageLoad.push(function() {
   App.Select2.initialize( $('select').filter(':visible') );
 });
 

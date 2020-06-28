@@ -37,7 +37,7 @@
       <%= submit_tag 'Apply', class: 'btn btn-outline-secondary', data: { confirm: 'Are you sure you want to apply this bulk action?' } %>
 
       <br>
-      <%= pagy_bootstrap_nav(@pagy).html_safe if @pagy.pages > 1 %>
+      <%= pagy_bootstrap_nav_js(@pagy).html_safe if @pagy.pages > 1 %>
 
       <table class="table table-striped table-sm multi-checkbox-parent">
         <thead>
@@ -55,4 +55,4 @@
   <% end %>
 </div>
 
-<%= pagy_bootstrap_nav(@pagy).html_safe if (@layout == :list && @pagy.pages > 1) %>
+<%= pagy_bootstrap_nav_js(@pagy).html_safe if (@layout == :list && @pagy.pages > 1) %>

@@ -14,7 +14,7 @@ App.MarkdownTextEditor = {
       $textArea.data('forest') || $textArea.data('forest', {});
       $textArea.data('forest', { markdownInitialized: true });
 
-      var editor = new SimpleMDE({
+      var editor = new EasyMDE({
         element: this,
         placeholder: placeholder,
         spellChecker: false,

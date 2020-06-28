@@ -22,3 +22,7 @@
 .select .select2-container {
   width: 100% !important;
 }
+
+.select2-dropdown {
+  z-index: 1010;
+}

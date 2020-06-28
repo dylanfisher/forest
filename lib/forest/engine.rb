@@ -11,6 +11,8 @@ module Forest
   class Engine < ::Rails::Engine
     config.autoload_paths << "#{config.root}/app/models/blocks"
 
+    config.assets.paths << Pagy.root.join('javascripts')
+
     initializer :assets, group: :all do
       Rails.application.config.assets.precompile += %w(
         forest/application.css

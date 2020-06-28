@@ -21,6 +21,7 @@
 //= require popper
 //= require bootstrap-sprockets
 //= require cocoon
+//= require pagy
 //= require ./lib/jquery_plugins
 //= require_tree ./vendor
 //= require ./main

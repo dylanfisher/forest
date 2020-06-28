@@ -1,0 +1,46 @@
+// Easy MDE Markdown
+
+
+// Font awesome icon overrides
+.editor-toolbar {
+  .fa {
+    &:before {
+      display: inline-block;
+      content: "";
+      background-repeat: no-repeat;
+      background-size: 1.2rem 1.2rem;
+      width: 1.2rem;
+      height: 1.2rem;
+      vertical-align: top;
+    }
+  }
+
+  .fa-bold:before {
+    background-image: image-url('bootstrap/type-bold.svg');
+  }
+
+  .fa-italic:before {
+    background-image: image-url('bootstrap/type-italic.svg');
+  }
+
+  .fa-header:before {
+    background-image: image-url('bootstrap/type-h1.svg');
+  }
+
+  .fa-list-ul:before {
+    background-image: image-url('bootstrap/list-ul.svg');
+  }
+
+  .fa-list-ol:before {
+    background-image: image-url('bootstrap/list-ol.svg');
+  }
+
+  .fa-link:before {
+    background-image: image-url('bootstrap/link.svg');
+  }
+
+  .fa-question-circle:before {
+    background-image: image-url('bootstrap/question-circle.svg');
+  }
+
+}
