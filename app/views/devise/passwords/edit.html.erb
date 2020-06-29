@@ -1,6 +1,10 @@
 <div class="devise-card">
   <h1 class="h2 text-center mb-3">Change your password</h1>
-  <%= render 'admin/flash_notifications' %>
+  <% if flash.present? %>
+    <div class="mb-3">
+      <%= render 'admin/flash_notifications' %>
+    </div>
+  <% end %>
   <%= simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
     <%= f.error_notification %>
     <%= f.input :reset_password_token, as: :hidden %>

@@ -73,11 +73,4 @@ module AdminHelper
       default_url
     end
   end
-
-  def forest_recognize_path(*args)
-    return if args.none?
-    Rails.application.routes.recognize_path(*args)
-  rescue ActionController::RoutingError
-    # Not recognized
-  end
 end

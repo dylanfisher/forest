@@ -1,6 +1,10 @@
 <div class="devise-card">
   <h1 class="h2 text-center mb-3">Resend unlock instructions</h1>
-  <%= render 'admin/flash_notifications' %>
+  <% if flash.present? %>
+    <div class="mb-3">
+      <%= render 'admin/flash_notifications' %>
+    </div>
+  <% end %>
   <%= simple_form_for(resource, as: resource_name, url: unlock_path(resource_name), html: { method: :post }) do |f| %>
     <%= f.error_notification %>
     <%= f.full_error :unlock_token %>

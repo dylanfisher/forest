@@ -11,7 +11,7 @@
         <% if Rails.application.routes.recognize_path send("admin_#{record.model_name.singular}_path", record), method: :delete %>
           <%= link_to "Destroy", [:admin, *record_namespaces, record].reject(&:blank?), method: :delete, title: "Destroy this #{record.model_name.human}", data: { confirm: "Are you sure you want to destroy this #{record.model_name.human}?" }, class: 'btn btn-outline-secondary' %>
         <% end %>
-      <% rescue ActionController::UrlGenerationError => e %>
+      <% rescue Exception => e %>
       <% end %>
       <% begin %>
         <% if Rails.application.routes.url_helpers.method_defined?("#{record.model_name.singular}_path", record.to_friendly_param) %>
@@ -19,7 +19,7 @@
         <% elsif Rails.application.routes.url_helpers.method_defined?("admin_#{record.model_name.singular}_path", record) %>
           <%= link_to "Show", send("admin_#{record.model_name.singular}_path", record), title: "View this #{record.model_name.human}", class: 'btn btn-outline-secondary' %>
         <% end %>
-      <% rescue ActionController::UrlGenerationError => e %>
+      <% rescue Exception => e %>
       <% end %>
     </div>
     <div class="mt-3 d-none d-md-block">
