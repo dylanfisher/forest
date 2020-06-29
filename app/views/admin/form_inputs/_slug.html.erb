@@ -1,7 +1,7 @@
 <% options = {} %>
 <% options.merge!({ as: :hidden }) if local_assigns.fetch(:hidden, false).present? %>
 <%= f.input :slug,
-            placeholder: 'Leave this blank. The slug will be generated automatically from the title.',
+            placeholder: 'Leave blank to automatically generate a slug from the title.',
             required: false,
             wrapper_class: 'form-group slug-attribute-wrapper',
             **options,

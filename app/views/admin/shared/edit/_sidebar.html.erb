@@ -11,24 +11,26 @@
         <% if Rails.application.routes.recognize_path send("admin_#{record.model_name.singular}_path", record), method: :delete %>
           <%= link_to "Destroy", [:admin, *record_namespaces, record].reject(&:blank?), method: :delete, title: "Destroy this #{record.model_name.human}", data: { confirm: "Are you sure you want to destroy this #{record.model_name.human}?" }, class: 'btn btn-outline-secondary' %>
         <% end %>
-      <% rescue Exception => e %>
-        <% logger.info { "[Forest] Admin edit header could not determine destroy path for #{record.model_name}." } %>
+      <% rescue ActionController::UrlGenerationError => e %>
       <% end %>
-      <% if Rails.application.routes.url_helpers.method_defined?("#{record.model_name.singular}_path", record.to_friendly_param) %>
-        <%= link_to "Show", send("#{record.model_name.singular}_path", record.to_friendly_param), title: "View this #{record.model_name.human}", class: 'btn btn-outline-secondary' %>
-      <% elsif Rails.application.routes.url_helpers.method_defined?("admin_#{record.model_name.singular}_path", record) %>
-        <%= link_to "Show", send("admin_#{record.model_name.singular}_path", record), title: "View this #{record.model_name.human}", class: 'btn btn-outline-secondary' %>
+      <% begin %>
+        <% if Rails.application.routes.url_helpers.method_defined?("#{record.model_name.singular}_path", record.to_friendly_param) %>
+          <%= link_to "Show", send("#{record.model_name.singular}_path", record.to_friendly_param), title: "View this #{record.model_name.human}", class: 'btn btn-outline-secondary' %>
+        <% elsif Rails.application.routes.url_helpers.method_defined?("admin_#{record.model_name.singular}_path", record) %>
+          <%= link_to "Show", send("admin_#{record.model_name.singular}_path", record), title: "View this #{record.model_name.human}", class: 'btn btn-outline-secondary' %>
+        <% end %>
+      <% rescue ActionController::UrlGenerationError => e %>
       <% end %>
     </div>
-
     <div class="mt-3 d-none d-md-block">
       <%= f.button :submit, class: 'btn-success' %>
     </div>
-
     <div class="mt-3">
-      <div class="small">
-        Record ID <span class="text-muted"><%= record.id %></span>
-      </div>
+      <% unless record.new_record? %>
+        <div class="small">
+          Record ID <span class="text-muted"><%= record.id %></span>
+        </div>
+      <% end %>
       <% if record.try(:updated_at).present? %>
         <div class="small">
           Updated at <span class="text-muted"><%= forest_date record.updated_at %></span>

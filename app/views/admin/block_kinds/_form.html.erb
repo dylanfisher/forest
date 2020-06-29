@@ -1,34 +1,24 @@
 <%= simple_form_for([:admin, @block_kind]) do |f| %>
   <%= f.error_notification %>
-
-  <div class="row">
-    <div class="col-sm-12">
-
-      <div class="panel panel-default" data-collapse-parent>
-        <div class="panel-heading">
-          <h3 class="panel-title">
-            Metadata
-            <button type="button" class="btn btn-outline-secondary btn-sm pull-right" data-collapse-trigger>
-              <div class="collapsable-icon glyphicon glyphicon-chevron-up"></div>
-            </button>
-          </h3>
-        </div>
-        <div class="panel-body" data-collapse-body>
-          <div class="form-inputs">
-            <div class="row">
-              <div class="col-sm-6">
-                <%= f.input :name, readonly: true %>
-                <%= f.input :description %>
-                <%= f.input :category %>
-                <%= f.input :record_type, readonly: true %>
-                <%= f.button :submit, class: 'btn-success' %>
+  <div class="row small-gutters">
+    <%= render 'admin/shared/edit/sidebar', f: f, record: @block_kind %>
+    <div class="col-md-9">
+      <div class="card">
+        <h1 class="h2 card-header"><%= record_name(@block_kind) %></h1>
+          <div class="card-body">
+            <div class="form-inputs">
+              <div class="row">
+                <div class="col-md-6">
+                  <%= f.input :name, readonly: true %>
+                  <%= f.input :category %>
+                  <%= f.input :record_type, readonly: true %>
+                  <%= f.button :submit, class: 'btn-success' %>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-
-      <%#= f.button :submit, class: 'btn-success' %>
     </div>
   </div>
 <% end %>

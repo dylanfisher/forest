@@ -2,57 +2,46 @@
 <% model_names = model.model_name %>
 <% should_paginate = local_assigns.fetch :paginate, true %>
 <% pagination_collection = local_assigns.fetch :pagination_collection, records %>
-
+<%= render 'admin/shared/breadcrumbs' %>
 <%= admin_header_tag(records) do %>
-  <div class="well">
-    <div class="row">
-      <div class="admin-header__item-group col-sm-8">
-        <h1 class="admin-header__item"><%= model_names.human.pluralize.titleize %></h1>
-        <%= form_tag send("admin_#{model_names.plural}_path"), class: 'form-inline admin-header__item', method: :get, enforce_utf8: false, data: { turboform: true } do %>
-          <div class="form-group">
-            <%= text_field_tag :fuzzy_search, params[:fuzzy_search], class: 'form-control', placeholder: 'Search', autofocus: (true if params[:fuzzy_search].present?), data: { turboform: true } %>
-            <%= submit_tag 'Submit', name: nil, class: 'btn btn-outline-secondary' %>
+  <div class="card">
+    <h1 class="card-header h2 d-flex">
+      <%= model_names.human.pluralize.titleize %>
+      <div class="btn-group text-left ml-auto">
+        <% if content_for? :index_header_button_group %>
+          <%= content_for :index_header_button_group %>
+        <% else %>
+          <% if try(:respond_to?, "new_admin_#{model_names.singular_route_key}_path") %>
+            <%= link_to "New #{model_names.human.titleize}", send("new_admin_#{model_names.singular_route_key}_path"), class: 'btn btn-outline-primary' %>
+            <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <%= link_to edit_admin_import_path(model_names.singular), class: 'dropdown-item' do %>
+                <span class="glyphicon glyphicon-import"></span>
+                Bulk import
+              <% end %>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </h1>
+    <%= content_tag :div, class: "card-body #{'pb-1' if @pagy.pages > 1}" do %>
+      <div class="row small-gutters">
+        <div class="col-12">
+          <%= form_tag send("admin_#{model_names.plural}_path"), class: 'form-inline', method: :get, enforce_utf8: false, data: { turboform: true } do %>
+            <div class="form-group">
+              <%= text_field_tag :fuzzy_search, params[:fuzzy_search], class: 'form-control', placeholder: 'Search', autofocus: (true if params[:fuzzy_search].present?), data: { turboform: true } %>
+              <%= submit_tag 'Submit', name: nil, class: 'btn btn-outline-secondary' %>
+            </div>
+          <% end %>
+        </div>
+        <% if @pagy.pages > 1 %>
+          <div class="col-md-12 mt-3">
+            <%= pagy_bootstrap_nav_js(pagination_collection).html_safe %>
           </div>
         <% end %>
       </div>
-      <div class="col-sm-4 text-right">
-        <div class="btn-group text-left">
-          <% if content_for? :index_header_button_group %>
-            <%= content_for :index_header_button_group %>
-          <% else %>
-            <% if try(:respond_to?, "new_admin_#{model_names.singular_route_key}_path") %>
-              <%= link_to "New #{model_names.human.titleize}", send("new_admin_#{model_names.singular_route_key}_path"), class: 'btn btn-success' %>
-              <button type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="sr-only">Toggle Dropdown</span>
-              </button>
-              <div class="dropdown-menu dropdown-menu-right">
-                <%= link_to edit_admin_import_path(model_names.singular), class: 'dropdown-item' do %>
-                  <span class="glyphicon glyphicon-import"></span>
-                  Bulk import
-                <% end %>
-              </div>
-            <% end %>
-          <% end %>
-        </div>
-      </div>
-      <%# TODO: this doesn't seem necessary %>
-      <% if I18n.exists?("forest.admin.index.#{model_names.singular}.description", locale) %>
-        <div class="col-sm-12">
-          <p class="text-muted">
-            <%= t(:description, scope: [:forest, :admin, :index, model_names.singular]) %>
-          </p>
-        </div>
-      <% end %>
-      <% if content_for? :index_header_body %>
-        <div class="admin-header__body col-sm-12">
-          <%= content_for :index_header_body %>
-        </div>
-      <% end %>
-      <% if @pagy.pages > 1 %>
-        <div class="col-sm-12">
-          <%= pagy_bootstrap_nav_js(pagination_collection).html_safe %>
-        </div>
-      <% end %>
-    </div>
+    <% end %>
   </div>
 <% end %>

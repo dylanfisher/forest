@@ -2,17 +2,16 @@
   <%%= f.error_notification %>
   <div class="row small-gutters">
     <%%= render 'admin/shared/edit/sidebar', f: f, record: @<%= singular_table_name %> %>
-
     <div class="col-md-9">
 <%- if I18n.available_locales.length > 1 -%>
       <%%= render 'admin/shared/localization/nav_tabs' %>
 <%- end -%>
       <div class="card" data-collapse-parent>
-        <h1 class="h3 card-header"><%%= record_name(@<%= singular_table_name %>) %></h1>
+        <h1 class="h2 card-header"><%%= record_name(@<%= singular_table_name %>) %></h1>
         <div class="card-body" data-collapse-body>
           <div class="form-inputs">
             <div class="row small-gutters">
-              <div class="col-sm-6">
+              <div class="col-md-6">
 <% unless options.skip_sluggable? -%>
                 <%%= render 'admin/form_inputs/slug', f: f %>
 <% end -%>
@@ -35,7 +34,7 @@
                 <%- end -%>
                 <%%= f.button :submit, class: 'btn-success d-md-none' %>
               </div>
-              <div class="col-sm-6">
+              <div class="col-md-6">
 <% unless options.skip_statusable? -%>
                 <%%= render 'admin/form_inputs/status', f: f, record: @<%= singular_table_name %> %>
 <% end -%>

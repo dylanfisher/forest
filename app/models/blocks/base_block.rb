@@ -21,6 +21,10 @@ class BaseBlock < Forest::ApplicationRecord
     BlockKind.find_by_name(name)
   end
 
+  def self.description
+    nil
+  end
+
   def display_name
     self.class.display_name
   end

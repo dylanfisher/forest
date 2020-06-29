@@ -32,6 +32,10 @@ class BlockKind < Forest::ApplicationRecord
     block.display_icon
   end
 
+  def description
+    block.description
+  end
+
   def to_select2_response
     r = ''
     r << '<div>'

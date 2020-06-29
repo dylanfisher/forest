@@ -1,7 +1,13 @@
-<% @_rendered_resources = [] %>
-<%= render 'admin/dashboard/panel',
-           title: 'Content',
-           resources: [Page, MediaItem] %>
-<%= render 'admin/dashboard/panel',
-           title: 'Admin',
-           resources: @admin_resources - @_rendered_resources %>
+<%= render 'admin/shared/breadcrumbs' %>
+<div class="card">
+  <h1 class="card-header h2">Forest</h1>
+  <div class="card-body pb-0">
+    <% @_rendered_resources = [] %>
+    <%= render 'admin/dashboard/panel',
+               title: 'Content',
+               resources: [Page, MediaItem] %>
+    <%= render 'admin/dashboard/panel',
+               title: 'Admin',
+               resources: @admin_resources - @_rendered_resources %>
+  </div>
+</div>

@@ -1,11 +1,8 @@
 <%= simple_form_for([:admin, @media_item]) do |f| %>
   <%= f.error_notification %>
-
   <div class="row">
     <div class="col-sm-12">
-
       <%= render 'admin/shared/localization/nav_tabs' %>
-
       <div class="panel panel-default" data-collapse-parent>
         <div class="panel-heading">
           <h3 class="panel-title">
@@ -15,21 +12,19 @@
         <div class="panel-body" data-collapse-body>
           <div class="form-inputs">
             <div class="row">
-              <div class="col-sm-6 tab-content">
+              <div class="col-md-6 tab-content">
                 <%= f.input :attachment, hint: 'Replace the file by uploading a new attachment.' %>
                 <%= f.input :title, placeholder: 'The title will be generated automatically from the file name if left blank.', hint: 'The title is used to identify the image on the backend. It is not usually visible to the user, and typically you do not need to edit this field.' %>
                 <%= render 'admin/form_inputs/slug', f: f %>
-
                 <% I18n.available_locales.each_with_index do |locale, index| %>
                   <%= content_tag :div, class: "locale-panel #{'display-none' unless index.zero?}", data: { locale: locale } do %>
                     <%= localized_input f, :alternative_text, locale, hint: 'The alt attribute provides alternative information for an image if a user for some reason cannot view it (because of slow connection, an error in the src attribute, or if the user uses a screen reader).' %>
                     <%= localized_input f, :caption, locale, markdown: true %>
                   <% end %>
                 <% end %>
-
                 <%= f.button :submit, class: 'btn-success' %>
               </div>
-              <div class="col-sm-6">
+              <div class="col-md-6">
                 <% if @media_item.attachment.present? %>
                   <div class="form-group">
                     <% if @media_item.image? %>
@@ -66,7 +61,6 @@
           </div>
         </div>
       </div>
-
     </div>
   </div>
 <% end %>

@@ -7,7 +7,6 @@
   <% end %>
 <% end %>
 <%= render 'admin/headers/index', records: @pages, model_name: 'Page', pagination_collection: @pagy_parent_pages %>
-
 <div class="table-responsive">
   <table class="forest-table table table-striped table-sm">
     <thead>
@@ -23,11 +22,9 @@
         <th colspan="3"></th>
       </tr>
     </thead>
-
     <tbody>
       <%= render partial: 'table_row', collection: @parent_pages, locals: { level: 0 }, as: :page %>
     </tbody>
   </table>
 </div>
-
-<%= pagy_bootstrap_nav_js(@pagy).html_safe if @pagy.pages > 1 %>
+<%= render 'admin/footers/index' %>

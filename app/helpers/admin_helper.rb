@@ -51,7 +51,11 @@ module AdminHelper
 
   def record_name(record)
     return unless record.present?
-    record.try(:display_name).presence || record.try(:title).presence || record.try(:name).presence || "#{record.model_name.human} #{record.id}"
+    if record.new_record?
+      "New #{record.model_name.human}"
+    else
+      record.try(:display_name).presence || record.try(:title).presence || record.try(:name).presence || "#{record.model_name.human} #{record.id}"
+    end
   end
 
   def admin_header_tag(record, &block)
@@ -68,5 +72,12 @@ module AdminHelper
     else
       default_url
     end
+  end
+
+  def forest_recognize_path(*args)
+    return if args.none?
+    Rails.application.routes.recognize_path(*args)
+  rescue ActionController::RoutingError
+    # Not recognized
   end
 end

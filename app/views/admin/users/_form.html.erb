@@ -1,15 +1,14 @@
 <%= simple_form_for([:admin, @user]) do |f| %>
   <%= f.error_notification %>
-
   <div class="row small-gutters">
     <%= render 'admin/shared/edit/sidebar', f: f, record: @user %>
     <div class="col-md-9">
       <div class="card">
-        <h1 class="h3 card-header"><%= record_name(@user) %></h1>
+        <h1 class="h2 card-header"><%= record_name(@user) %></h1>
         <div class="card-body">
           <div class="form-inputs">
             <div class="row">
-              <div class="col-sm-6">
+              <div class="col-md-6">
                 <%= f.input :email, required: true, autofocus: true %>
                 <%= f.input :first_name %>
                 <%= f.input :last_name %>
@@ -22,7 +21,7 @@
                 <% end %>
                 <%= f.button :submit, class: 'btn-success' %>
               </div>
-              <div class="col-sm-6">
+              <div class="col-md-6">
                 <%= f.association :user_groups, input_html: { disabled: !current_user.admin? } %>
               </div>
             </div>
