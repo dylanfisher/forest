@@ -3,9 +3,9 @@
   max-width: 100%;
 }
 
-.select2-container--bootstrap .select2-results__option--highlighted[aria-selected] {
+.select2-container--bootstrap4 .select2-results__option--highlighted[aria-selected], {
   .text-muted {
-    color: #fff;
+    color: #fff !important;
   }
 }
 

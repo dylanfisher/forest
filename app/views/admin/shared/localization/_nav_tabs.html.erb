@@ -1,11 +1,9 @@
 <% if I18n.available_locales.length > 1 %>
-  <div id="locale-selection" class="locale-selection panel panel-default">
-    <div class="panel-heading">
-      <h3 class="panel-title">
-        Language
-      </h3>
-    </div>
-    <div class="panel-body">
+  <div id="locale-selection" class="locale-selection card">
+    <h3 class="card-header">
+      Language
+    </h3>
+    <div class="card-body">
       <ul class="nav nav-pills">
         <% I18n.available_locales.each_with_index do |locale, index| %>
           <% active_class = 'active' if index.zero? %>

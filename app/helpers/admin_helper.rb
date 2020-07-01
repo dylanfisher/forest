@@ -73,4 +73,8 @@ module AdminHelper
       default_url
     end
   end
+
+  def bootstrap_icon(icon_name)
+    "<svg class='bi' style='width: 1.3em; height: 1.3em;' fill='currentColor'><use xlink:href='#{asset_path('bootstrap-icons.svg')}##{icon_name}'/></svg>".html_safe
+  end
 end

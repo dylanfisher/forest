@@ -180,7 +180,7 @@ Version 2
 - [ ] change references to model names and other hard coded names to use I18n
 - [ ] model resource_description should use I18n
 - [ ] better pattern for defining custom status message via I18n
-- [ ] duplicate records
+- [ ] add method to duplicate records
 - [ ] versioning option for data associated pages, settings, menus, etc. Version diffing ala wordpress.
 - [ ] better page versioning, page history navigation, restore content blocks with page version
 - [ ] email confirmations for user related actions
@@ -192,6 +192,7 @@ Version 2
 Blocks
 - [ ] refactor block partial to use helper for possible performance gains
 - [ ] add a duplicate block button to make adding additional blocks of the same type quicker and easier
+- [ ] add ability to drag certain content types, e.g. media items, between blocks
 - [ ] minimum and maximum blocks per layout
 
 Media Gallery

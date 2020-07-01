@@ -34,17 +34,26 @@ $(document).on('click', '.repeater__controls__remove-row-button', function() {
   }
 });
 
-// TODO: ready function
-$(document).on('turbolinks:load forest:block-slot-after-insert', function() {
-  var $elements = $('.repeater__group-wrapper');
+(function() {
+  var init = function() {
+    var $elements = $('.repeater__group-wrapper');
 
-  $elements.each(function() {
-    var $element = $(this);
+    $elements.each(function() {
+      var $element = $(this);
 
-    $element.sortable({
-      items: '.repeater__group',
-      containment: $element,
-      tolerance: 'pointer'
+      $element.sortable({
+        items: '.repeater__group',
+        containment: $element,
+        tolerance: 'pointer'
+      });
     });
+  };
+
+  App.pageLoad.push(function() {
+    init();
   });
-});
+
+  $(document).on('forest:block-slot-after-insert', function() {
+    init();
+  });
+})();

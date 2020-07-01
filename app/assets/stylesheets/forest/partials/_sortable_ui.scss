@@ -1,0 +1,17 @@
+// Sortable UI
+
+.sortable-handle {
+  cursor: move;
+}
+
+.ui-sortable-helper {
+  width: 100%;
+
+  .sortable-handle {
+    background-color: darken(#F7F7F7, 6.5%);
+  }
+}
+
+.ui-sortable-placeholder {
+  margin-bottom: 18px;
+}

@@ -1,21 +1,25 @@
-<%- if attributes.present? -%>
-  <%- attributes.each do |attribute| -%>
-    <%- if attribute.reference? -%>
-      <%- if attribute.name =~ /media_item/ -%>
-<%%= f.association :<%= attribute.name %>, as: :image %>
-      <%- else -%>
-<%%= f.association :<%= attribute.name %> %>
+<div class="row">
+  <div class="col">
+    <%- if attributes.present? -%>
+      <%- attributes.each do |attribute| -%>
+        <%- if attribute.reference? -%>
+          <%- if attribute.name =~ /media_item/ -%>
+    <%%= f.association :<%= attribute.name %>, as: :image %>
+          <%- else -%>
+    <%%= f.association :<%= attribute.name %> %>
+          <%- end -%>
+        <%- else -%>
+          <%- if attribute.name =~ /date/ -%>
+    <%%= f.input :<%= attribute.name %>, as: :datepicker %>
+          <%- elsif attribute.name =~ /text/ -%>
+    <%%= f.input :<%= attribute.name %>, markdown: true %>
+          <%- else -%>
+    <%%= f.input :<%= attribute.name %> %>
+          <%- end -%>
+        <%- end -%>
       <%- end -%>
     <%- else -%>
-      <%- if attribute.name =~ /date/ -%>
-<%%= f.input :<%= attribute.name %>, as: :datepicker %>
-      <%- elsif attribute.name =~ /text/ -%>
-<%%= f.input :<%= attribute.name %>, markdown: true %>
-      <%- else -%>
-<%%= f.input :<%= attribute.name %> %>
-      <%- end -%>
+    <%%#= f.input :attribute_name %>
     <%- end -%>
-  <%- end -%>
-<%- else -%>
-<%%#= f.input :attribute_name %>
-<%- end -%>
+  </div>
+</div>

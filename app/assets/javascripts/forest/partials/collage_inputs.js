@@ -1,4 +1,5 @@
 // Collage inputs
+// TODO: refactor
 
 (function() {
   var collageCanvasSelector = '.collage-input__canvas';
@@ -171,8 +172,7 @@
     }
   };
 
-  // TODO: ready function
-  $(document).on('turbolinks:load forest:block-slot-after-insert', function() {
+  var init = function() {
     var $canvases = $('.collage-input__canvas:not(.pre-initialized)');
 
     if ( !$canvases.length ) return;
@@ -244,6 +244,14 @@
         });
       });
     }));
+  };
+
+  App.pageLoad.push(function() {
+    init();
+  });
+
+  $(document).on('forest:block-slot-after-insert', function() {
+    init();
   });
 
   $(document).on('cocoon:after-insert', collageCanvasSelector, function(e, insertedItem) {

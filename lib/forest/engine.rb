@@ -18,17 +18,13 @@ module Forest
         forest/application.css
         forest/bootstrap.css
         forest/application.js
+        bootstrap-icons.svg
       )
     end
 
     initializer 'forest.checking_migrations' do
       Migrations.new(config, engine_name).check
     end
-
-    config.app_middleware.use(
-      Rack::Static,
-      urls: ['/forest-packs'], root: 'forest/public'
-    )
 
     config.after_initialize do
       if database_exists?

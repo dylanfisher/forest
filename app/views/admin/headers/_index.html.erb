@@ -26,22 +26,18 @@
         <% end %>
       </div>
     </h1>
-    <%= content_tag :div, class: "card-body #{'pb-1' if @pagy.pages > 1}" do %>
-      <div class="row small-gutters">
-        <div class="col-12">
-          <%= form_tag send("admin_#{model_names.plural}_path"), class: 'form-inline', method: :get, enforce_utf8: false, data: { turboform: true } do %>
-            <div class="form-group">
-              <%= text_field_tag :fuzzy_search, params[:fuzzy_search], class: 'form-control', placeholder: 'Search', autofocus: (true if params[:fuzzy_search].present?), data: { turboform: true } %>
-              <%= submit_tag 'Submit', name: nil, class: 'btn btn-outline-secondary' %>
-            </div>
-          <% end %>
-        </div>
-        <% if @pagy.pages > 1 %>
-          <div class="col-md-12 mt-3">
-            <%= pagy_bootstrap_nav_js(pagination_collection).html_safe %>
+    <div class="card-body">
+      <div class="d-flex align-items-baseline">
+        <%= form_tag send("admin_#{model_names.plural}_path"), class: 'form-inline mr-auto', method: :get, enforce_utf8: false do %>
+          <div class="form-group">
+            <%= text_field_tag :fuzzy_search, params[:fuzzy_search], class: 'form-control mr-2', placeholder: 'Search', autofocus: (true if params[:fuzzy_search].present?) %>
+            <%= submit_tag "Search #{model_names.human.pluralize.titleize}", name: nil, class: 'btn btn-outline-secondary' %>
           </div>
         <% end %>
+        <% if @pagy.pages > 1 %>
+          <%= pagy_bootstrap_nav_js(@pagy).html_safe %>
+        <% end %>
       </div>
-    <% end %>
+    </div>
   </div>
 <% end %>

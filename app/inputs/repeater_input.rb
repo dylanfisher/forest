@@ -19,8 +19,8 @@ class RepeaterInput < SimpleForm::Inputs::TextInput
       repeater_group_fields = ActiveSupport::SafeBuffer.new
       repeatable_records = object.send(attribute_name)
       if options[:as_template]
-        repeater_group_fields << '<div class="repeater__group panel panel-default">'.html_safe
-        repeater_group_fields << '<div class="repeater__group__body panel-body">'.html_safe
+        repeater_group_fields << '<div class="repeater__group card">'.html_safe
+        repeater_group_fields << '<div class="repeater__group__body card-body">'.html_safe
         repeater_group_fields << key_input unless options[:values_only]
         repeater_group_fields << value_input
         repeater_group_fields << '</div>'.html_safe
@@ -28,8 +28,8 @@ class RepeaterInput < SimpleForm::Inputs::TextInput
         repeater_group_fields << '</div>'.html_safe
       elsif repeatable_records.try(:present?)
         repeatable_records&.each do |row|
-          repeater_group_fields << '<div class="repeater__group panel panel-default">'.html_safe
-          repeater_group_fields << '<div class="repeater__group__body panel-body">'.html_safe
+          repeater_group_fields << '<div class="repeater__group card">'.html_safe
+          repeater_group_fields << '<div class="repeater__group__body card-body">'.html_safe
           repeater_group_fields << key_input(row[:key]) unless options[:values_only]
           repeater_group_fields << value_input(row[:value])
           repeater_group_fields << '</div>'.html_safe

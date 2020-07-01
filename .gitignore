@@ -36,9 +36,6 @@ test/dummy/db/*.sqlite3-journal
 test/dummy/log/*.log
 test/dummy/tmp/
 
-/public/packs
-/public/packs-test
-/public/forest-packs
 /node_modules
 /yarn-error.log
 yarn-debug.log*

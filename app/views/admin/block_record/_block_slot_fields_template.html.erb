@@ -1,3 +1,5 @@
+<%# Make sure this file matches the structure of the _block_slot_fields.html.erb file %>
+
 <% locals = { block_record: local_assigns.fetch(:block_record, nil) } %>
 
 <div class="block-slot-field-template-wrapper block-slot nested-fields">
@@ -20,20 +22,21 @@
                       data: {
                         block_kind_id: block_kind.id } do %>
 
-        <div class="panel panel-default">
-          <div class="block-slot__panel-heading panel-heading sortable-handle" data-block-type-header>
-            <div class="block-type-header-title">
-              <%= content_tag :div, '', class: "nested-fields__panel-display-icon #{klass.display_icon}" %>
-              <%= klass.display_name %>
+        <div class="card">
+          <div class="card-header sortable-handle">
+            <div class="block-type-header-title d-flex">
+              <%= content_tag :div, klass.display_icon, class: 'mr-2' %>
+              <div class="mr-2">
+                <%= klass.display_name %>
+              </div>
               <span class="text-muted">
                 <small><%= block_kind.description %></small>
               </span>
+              <%= render 'admin/block_record/block_slot_field_buttons', f: f %>
             </div>
-
-            <%= render 'admin/block_record/block_slot_field_buttons', f: f %>
           </div>
 
-          <div class="block-slot__inputs panel-body">
+          <div class="block-slot__inputs card-body pb-1">
             <%= f.simple_fields_for :block, f.object.send(:build_block, klass) do |f| %>
               <%= render "blocks/#{klass.model_name.singular}/edit", f: f, **locals %>
             <% end %>

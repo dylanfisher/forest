@@ -20,6 +20,7 @@ App.MarkdownTextEditor = {
         spellChecker: false,
         status: false,
         autoDownloadFontAwesome: false,
+        minHeight: '200px',
         toolbar: [
           'bold',
           'italic',

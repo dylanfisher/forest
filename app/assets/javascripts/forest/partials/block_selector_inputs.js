@@ -11,8 +11,7 @@
     return str;
   };
 
-  // TODO: ready function
-  $(document).on('turbolinks:load forest:block-slot-after-insert', function(e, blockSlot) {
+  var init = function(blockSlot) {
     var $blockSelectors;
 
     if ( blockSlot ) {
@@ -60,5 +59,14 @@
         $select.trigger('change');
       }
     });
+  };
+
+  App.pageLoad.push(function() {
+    init();
+  });
+
+  // TODO: ready function
+  $(document).on('forest:block-slot-after-insert', function(e, blockSlot) {
+    init(blockSlot);
   });
 })();

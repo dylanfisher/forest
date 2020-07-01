@@ -1,0 +1,19 @@
+// Blocks
+
+.block-kind__select2-response__icon {
+  line-height: 1.4;
+  vertical-align: top;
+}
+
+.nested-fields,
+[data-collapse-parent] {
+  &.collapsed {
+    .panel-body {
+      display: none;
+    }
+  }
+}
+
+.block-slot-field-template {
+  display: none;
+}

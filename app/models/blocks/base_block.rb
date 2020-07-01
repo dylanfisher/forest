@@ -12,9 +12,15 @@ class BaseBlock < Forest::ApplicationRecord
     'Base Block'
   end
 
-  # Override to add a Bootstrap 3 glyphicon next to the block's title.
+  # Override to change the method of determining the display icon for the block. The default display method is Bootstrap 4's icon system
   def self.display_icon
-    'glyphicon glyphicon-tree-conifer'
+    "<svg class='bi' style='width: 1.3em; height: 1.3em;' fill='currentColor'><use xlink:href='#{ActionController::Base.helpers.asset_path('bootstrap-icons.svg')}##{display_icon_name}'/></svg>".html_safe
+  end
+
+  # Override to add a Bootstrap 4 icon next to the block's title.
+  # https://icons.getbootstrap.com/
+  def self.display_icon_name
+    'square'
   end
 
   def self.kind
@@ -51,6 +57,10 @@ class BaseBlock < Forest::ApplicationRecord
 
   def display_icon
     self.class.display_icon
+  end
+
+  def display_icon_name
+    self.class.display_icon_name
   end
 
   def permitted_params
