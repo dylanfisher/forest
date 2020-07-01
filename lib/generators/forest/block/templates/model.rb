@@ -18,27 +18,27 @@ class <%= class_name %> < BaseBlock
 
 <% if class_name.match(/image/i) -%>
   def self.display_icon_name
-    'glyphicon glyphicon-picture'
+    'image<%= 's' if class_name.match(/gallery/i) -%>'
   end
 <% elsif class_name.match(/video/i) -%>
   def self.display_icon_name
-    'glyphicon glyphicon-play'
+    'play'
   end
 <% elsif class_name.match(/title/i) -%>
   def self.display_icon_name
-    'glyphicon glyphicon-font'
+    'type-h1'
   end
 <% elsif class_name.match(/text/i) -%>
   def self.display_icon_name
-    'glyphicon glyphicon-align-left'
+    'justify-left'
   end
 <% elsif class_name.match(/accordion/i) -%>
   def self.display_icon_name
-    'glyphicon glyphicon-th-list'
+    'list'
   end
 <% else -%>
   # def self.display_icon_name
-  #   'glyphicon glyphicon-align-left'
+  #   'Replace with a relevant bootstrap icon name https://icons.getbootstrap.com/'
   # end
 <% end -%>
 end
