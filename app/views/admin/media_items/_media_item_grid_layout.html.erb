@@ -2,21 +2,28 @@
     app/assets/javascripts/forest/admin/partials/media_item_chooser_modal.js.erb %>
 
 <%= content_tag :div, class: "media-item--grid col-xs-4 col-sm-3 col-md-2" do %>
-  <% attachment_or_placeholder_url = media_item.attachment.exists? ? media_item.attachment.url(:small) : '' %>
-  <% attachment_or_placeholder_url_large = media_item.attachment.exists? ? media_item.attachment.url(:large) : '' %>
+  <%# TODO: file url at proper size %>
+  <% attachment_or_placeholder_url = media_item.attachment.exists? ? media_item.attachment.url : '' %>
+  <% attachment_or_placeholder_url_large = media_item.attachment.exists? ? media_item.attachment.url : '' %>
   <% content = capture do %>
-    <% if media_item.file? %>
-      <%= content_tag :span, '', class: "media-library-image--grid__icon glyphicon #{media_item.glyphicon}" %>
+    <%# TODO: %>
+    <% if false %>
+      <% if media_item.file? %>
+        <%= content_tag :span, '', class: "media-library-image--grid__icon glyphicon #{media_item.glyphicon}" %>
+      <% end %>
     <% end %>
-    <%= content_tag :div, media_item.title, class: "media-library-image__label small well", title: media_item.attachment_file_name %>
+    <%# TODO: attachment file name %>
+    <% if false %>
+      <%= content_tag :div, media_item.title, class: "media-library-image__label small well", title: media_item.attachment_file_name %>
+    <% end %>
   <% end %>
   <%= link_to edit_admin_media_item_path(media_item),
-              class: "media-library-link #{media_item.file? ? 'media-library-link--file' : 'media-library-link--image'}",
+              class: "media-library-link #{media_item.try(:file?) ? 'media-library-link--file' : 'media-library-link--image'}",
               data: {
                 media_item_id: media_item.id,
-                image_url: (image_url(attachment_or_placeholder_url) if media_item.image?),
-                image_url_large: (image_url(attachment_or_placeholder_url_large) if media_item.image?) } do %>
-    <%= content_tag :div, content, class: "media-library-image img-rounded #{'media-library-image--file' if media_item.file?}", style: "background-image: url(#{image_url(attachment_or_placeholder_url) if media_item.image?})" %>
+                image_url: (image_url(attachment_or_placeholder_url) if media_item.try(:image?)),
+                image_url_large: (image_url(attachment_or_placeholder_url_large) if media_item.try(:image?)) } do %>
+    <%= content_tag :div, content, class: "media-library-image img-rounded #{'media-library-image--file' if media_item.try(:file?)}", style: "background-image: url(#{image_url(attachment_or_placeholder_url) if media_item.try(:image?)})" %>
   <% end %>
   <div class="media-item__buttons">
     <%= content_tag :div, '', class: 'media-item__button media-item__buttons__edit glyphicon glyphicon-pencil', data: { path: edit_admin_media_item_path(media_item) } %>

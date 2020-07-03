@@ -166,10 +166,10 @@ Forest relies heavily on the following gems, software and frameworks:
 - has_scope
 - jquery
 - pagy
-- paperclip
 - postgres
 - pundit
 - redcarpet
+- shrine
 - simpleform
 
 ## TODO

@@ -4,3 +4,9 @@
   height: $header-height;
   min-height: $header-height;
 }
+
+img,
+video,
+iframe {
+  max-width: 100%;
+}

@@ -8,14 +8,15 @@
   <% end %>
 
   <%= dropdown_select_form url: admin_media_items_path(current_scopes.except(:by_date)), id: 'by_date', select_options: MediaItem.dates_for_filter, title: 'All Dates' %>
-  <%= dropdown_select_form url: admin_media_items_path(current_scopes.except(:by_content_type)), id: 'by_content_type', select_options: MediaItem.content_types_for_filter, title: 'All Content Types' %>
+  <%# TODO %>
+  <%#= dropdown_select_form url: admin_media_items_path(current_scopes.except(:by_content_type)), id: 'by_content_type', select_options: MediaItem.content_types_for_filter, title: 'All Content Types' %>
 <% end %>
 
 <%= render 'admin/headers/index', records: @media_items, model_name: 'MediaItem', paginate: false %>
 
 <%= info_message 'Drag and drop images or files to upload multiple items at once.' %>
 
-<%= render 'admin/file_upload', klass: MediaItem, association: :attachment %>
+<%= render 'admin/file_upload', klass: MediaItem, association: :attachment, multi_upload: true %>
 
 <div class="media-library">
   <% if @layout == :grid %>
@@ -24,7 +25,8 @@
         <div class="col-sm-12 text-center">No results</div>
       <% else %>
         <%= render partial: 'media_item_grid_layout', collection: @media_items, as: :media_item, cached: true %>
-        <%= link_to_next_page @media_items, 'Next page', class: 'infinite-load__next-page-link' %>
+        <%# TODO: %>
+        <%#= link_to_next_page @media_items, 'Next page', class: 'infinite-load__next-page-link' %>
       <% end %>
     </div>
   <% else %>

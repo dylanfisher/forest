@@ -170,11 +170,11 @@ namespace :forest do
     end
 
     def aws_region
-      @aws_region ||= ENV['AWS_REGION'].presence || Rails.application.credentials&.dig(:aws, :aws_region)
+      @aws_region ||= ENV['AWS_REGION'].presence || Rails.application.credentials&.dig(:s3, :region)
     end
 
     def s3_bucket_name
-      @s3_bucket_name ||= ENV['S3_BUCKET_NAME'].presence || Rails.application.credentials&.dig(:aws, :s3_bucket_name)
+      @s3_bucket_name ||= ENV['S3_BUCKET_NAME'].presence || Rails.application.credentials&.dig(:s3, :bucket)
     end
 
     def database_name

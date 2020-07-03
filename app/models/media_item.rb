@@ -1,18 +1,18 @@
 class MediaItem < Forest::ApplicationRecord
+  include FileUploader::Attachment(:attachment)
   include Rails.application.routes.url_helpers
-  include Attachable
+  # include Attachable
   include Sluggable
 
   DATE_FILTER_CACHE_KEY = 'forest_media_item_dates_for_filter'
   CONTENT_TYPE_CACHE_KEY = 'forest_media_item_content_types_for_filter'
 
-  # validates_attachment_presence :attachment
-
-  before_validation :set_default_metadata
-
-  after_commit :expire_cache
+  # TODO
+  # after_commit :expire_cache
 
   has_many :pages, foreign_key: :featured_image_id
+
+  validates_presence_of :attachment
 
   enum media_item_status: {
     not_hidden: 0,
@@ -60,51 +60,53 @@ class MediaItem < Forest::ApplicationRecord
   end
 
   def generate_slug
-    if self.slug.blank? || changed.include?('slug')
-      if title.present?
-        slug_attribute = title
-      elsif attachment_file_name.present?
-        slug_attribute = attachment_file_name
-      else
-        slug_attribute = SecureRandom.uuid
-      end
+    # TODO
+    SecureRandom.uuid
+    # if self.slug.blank? || changed.include?('slug')
+    #   if title.present?
+    #     slug_attribute = title
+    #   elsif attachment_file_name.present?
+    #     slug_attribute = attachment_file_name
+    #   else
+    #     slug_attribute = SecureRandom.uuid
+    #   end
 
-      slug_attribute = slug_attribute.parameterize
+    #   slug_attribute = slug_attribute.parameterize
 
-      if MediaItem.where(slug: slug_attribute).present?
-        slug_attribute = slug_attribute + '-' + SecureRandom.uuid
-      end
+    #   if MediaItem.where(slug: slug_attribute).present?
+    #     slug_attribute = slug_attribute + '-' + SecureRandom.uuid
+    #   end
 
-      self.slug = slug_attribute
-    end
+    #   self.slug = slug_attribute
+    # end
   end
 
   def glyphicon
-    if image?
-      'glyphicon-picture'
-    elsif video?
-      'glyphicon-play'
-    elsif attachment_content_type == 'application/zip'
-      'glyphicon-folder-close'
-    else
-      'glyphicon-file'
-    end
+    # if image?
+    #   'glyphicon-picture'
+    # elsif video?
+    #   'glyphicon-play'
+    # elsif attachment_content_type == 'application/zip'
+    #   'glyphicon-folder-close'
+    # else
+    #   'glyphicon-file'
+    # end
   end
 
-  def to_jq_upload
-    {
-      'id': self.id,
-      'name': read_attribute(:title),
-      'file_name': attachment_file_name,
-      'is_image': image?,
-      'glyphicon': glyphicon,
-      'size': attachment.size,
-      'url': edit_admin_media_item_path(self),
-      'thumbnail_url': attachment.url(:medium),
-      'delete_url': admin_media_item_path(id: id),
-      'delete_type': 'DELETE'
-    }
-  end
+  # def to_jq_upload
+  #   {
+  #     'id': self.id,
+  #     'name': read_attribute(:title),
+  #     'file_name': attachment_file_name,
+  #     'is_image': image?,
+  #     'glyphicon': glyphicon,
+  #     'size': attachment.size,
+  #     'url': edit_admin_media_item_path(self),
+  #     'thumbnail_url': attachment.url(:medium),
+  #     'delete_url': admin_media_item_path(id: id),
+  #     'delete_type': 'DELETE'
+  #   }
+  # end
 
   # Portrait images have a lower aspect ratio
   def aspect_ratio
@@ -120,12 +122,16 @@ class MediaItem < Forest::ApplicationRecord
   end
 
   def to_select2_response
-    img_tag = "<img src='#{attachment.url(:thumb)}' style='height: 50px;'> " if image? && attachment.present?
+    # TODO
+    img_tag = ''
+    # img_tag = "<img src='#{attachment.url(:thumb)}' style='height: 50px;'> " if image? && attachment.present?
     "#{img_tag}<span class='select2-response__id'>#{id}</span> #{to_label}"
   end
 
   def to_select2_selection
-    img_tag = "<img src='#{attachment.url(:thumb)}' style='height: 20px; display: inline-block; vertical-align: top;'> " if image? && attachment.present?
+    # TODO
+    img_tag = ''
+    # img_tag = "<img src='#{attachment.url(:thumb)}' style='height: 20px; display: inline-block; vertical-align: top;'> " if image? && attachment.present?
     "#{img_tag}<span class='select2-response__id'>#{id}</span> #{to_label}"
   end
 

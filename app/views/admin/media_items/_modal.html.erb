@@ -33,7 +33,8 @@
                                            remote_response_target: '.media-library' %>
                 </div>
                 <div class="col-sm-4">
-                  <%= dropdown_select_form url: admin_media_items_path,
+                  <%# TODO %>
+                  <%#= dropdown_select_form url: admin_media_items_path,
                                            id: 'by_content_type',
                                            select_options: MediaItem.content_types_for_filter,
                                            title: 'All Content Types',

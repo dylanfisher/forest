@@ -11,7 +11,14 @@
           <div class="form-inputs">
             <div class="row">
               <div class="col-md-6 tab-content">
-                <%= f.input :attachment, hint: 'Replace the file by uploading a new attachment.' %>
+                <%#= f.input :attachment, hint: 'Replace the file by uploading a new attachment.', input_html: { class: 'upload-data' } %>
+                <%#= f.hidden_field :attachment, value: @media_item.cached_attachment_data, class: 'upload-data' %>
+
+                <div class="file-upload">
+                  <%= f.hidden_field :attachment, value: @media_item.cached_attachment_data, class: 'file-upload__data' %>
+                  <%= f.file_field :attachment, class: 'file-upload__file' %>
+                </div>
+
                 <%= f.input :title, placeholder: 'The title will be generated automatically from the file name if left blank.', hint: 'The title is used to identify the image on the backend. It is not usually visible to the user, and typically you do not need to edit this field.' %>
                 <%= render 'admin/form_inputs/slug', f: f %>
                 <% I18n.available_locales.each_with_index do |locale, index| %>
@@ -25,32 +32,41 @@
               <div class="col-md-6">
                 <% if @media_item.attachment.present? %>
                   <div class="form-group">
-                    <% if @media_item.image? %>
-                      <% if @media_item.try(:point_of_interest_x).present? && @media_item.try(:point_of_interest_y).present? %>
-                        <label class="media-item__point-of-interest__label">Point of Interest</label>
-                        <div id="media-item__point-of-interest" class="media-item__point-of-interest">
-                          <%= content_tag :div, nil, id: 'media-item__point-of-interest__crosshair', class: 'media-item__point-of-interest__crosshair', style: "top: #{@media_item.point_of_interest_y}%; left: #{@media_item.point_of_interest_x}%;" %>
+                    <%# TODO: %>
+                    <div class="upload-preview">
+                      <%= image_tag @media_item.attachment_url %>
+                    </div>
+
+                    <%# TODO: %>
+                    <% if false %>
+                      <% if @media_item.image? %>
+                        <% if @media_item.try(:point_of_interest_x).present? && @media_item.try(:point_of_interest_y).present? %>
+                          <label class="media-item__point-of-interest__label">Point of Interest</label>
+                          <div id="media-item__point-of-interest" class="media-item__point-of-interest">
+                            <%= content_tag :div, nil, id: 'media-item__point-of-interest__crosshair', class: 'media-item__point-of-interest__crosshair', style: "top: #{@media_item.point_of_interest_y}%; left: #{@media_item.point_of_interest_x}%;" %>
+                            <%= image_tag @media_item.attachment.url(:medium) %>
+                            <%= f.input :point_of_interest_x, as: :hidden %>
+                            <%= f.input :point_of_interest_y, as: :hidden %>
+                          </div>
+                          <p class="help-block">Click the image to change the point of interest of the image. The point of interest is used to determine where to crop the image in some contexts.</p>
+                        <% else %>
                           <%= image_tag @media_item.attachment.url(:medium) %>
-                          <%= f.input :point_of_interest_x, as: :hidden %>
-                          <%= f.input :point_of_interest_y, as: :hidden %>
-                        </div>
-                        <p class="help-block">Click the image to change the point of interest of the image. The point of interest is used to determine where to crop the image in some contexts.</p>
+                        <% end %>
+                      <% elsif @media_item.video? %>
+                        <%= video_tag @media_item.attachment.url, controls: true %>
                       <% else %>
-                        <%= image_tag @media_item.attachment.url(:medium) %>
-                      <% end %>
-                    <% elsif @media_item.video? %>
-                      <%= video_tag @media_item.attachment.url, controls: true %>
-                    <% else %>
-                      <%= link_to media_item.attachment.url, class: 'blank-link', target: '_blank' do %>
-                        <%= content_tag :div, class: 'media-item-file img-rounded', title: 'Open file' do %>
-                          <%= content_tag :span, '', class: "media-library-image--grid__icon glyphicon #{media_item.glyphicon}" %>
-                          <%= content_tag :div, media_item.attachment_file_name, class: "media-library-image__label small well" %>
+                        <%= link_to media_item.attachment.url, class: 'blank-link', target: '_blank' do %>
+                          <%= content_tag :div, class: 'media-item-file img-rounded', title: 'Open file' do %>
+                            <%= content_tag :span, '', class: "media-library-image--grid__icon glyphicon #{media_item.glyphicon}" %>
+                            <%= content_tag :div, media_item.attachment_file_name, class: "media-library-image__label small well" %>
+                          <% end %>
                         <% end %>
                       <% end %>
                     <% end %>
                   </div>
                   <div class="form-group">
                     <label class="control-label">Attachment URL</label>
+                    <%# TODO: attachment URL needs to be public cloudfront URL %>
                     <textarea class="form-control not-resizable" type="text" readonly><%= @media_item.attachment.url %></textarea>
                   </div>
                 <% end %>
