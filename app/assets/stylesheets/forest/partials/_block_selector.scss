@@ -1,0 +1,27 @@
+// Block selector
+
+.block-kind-selector {
+  .select2-results__options--nested {
+    display: flex;
+    flex-wrap: wrap;
+
+    & > .select2-results__option {
+      border-radius: calc(0.25rem - 1px);
+      background: #f7f7f7;
+      border: 1px solid #dfdfdf;
+      margin: 5px;
+      width: calc(33.33% - 10px);
+    }
+
+    & > .select2-results__option--highlighted,
+    & > .select2-results__option--highlighted.select2-results__option[aria-selected=true] {
+      border-color: #0059b8;
+    }
+  }
+}
+
+.page_block_slots_block_kind {
+  & > .grouped_select {
+    display: none;
+  }
+}

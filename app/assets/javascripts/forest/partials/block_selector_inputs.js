@@ -65,7 +65,6 @@
     init();
   });
 
-  // TODO: ready function
   $(document).on('forest:block-slot-after-insert', function(e, blockSlot) {
     init(blockSlot);
   });

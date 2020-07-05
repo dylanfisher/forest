@@ -1,5 +1,3 @@
-// TODO: ready function
-
 (function() {
   var init = function() {
     var $blockSlotWrapper = $('.block_slots');
@@ -12,10 +10,8 @@
       handle: '.sortable-handle:not(button), .sortable-handle:not(a)',
       placeholder: 'ui-state-highlight',
       forcePlaceholderSize: true,
-      tolerance: 'pointer',
-      containment: 'parent',
       start: function(e, ui) {
-        ui.placeholder.height( ui.item.outerHeight(true) );
+        ui.placeholder.height( ui.item.outerHeight(true) - 4 );
       }
     });
 

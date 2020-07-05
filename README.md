@@ -199,6 +199,7 @@ Media Gallery
 - [ ] replace paperclip with AWS lambda serverless image solution
 - [ ] add drag and drop upload to media item edit view
 - [ ] add direct to S3 file upload for large files like video, that otherwise look like they timeout on heroku
+- [ ] ability to categorize media items on the backend, e.g. different directories of images
 
 ## Contributing
 If you are interested in contributing to this project please [get in touch](mailto:hi@dylanfisher.com).

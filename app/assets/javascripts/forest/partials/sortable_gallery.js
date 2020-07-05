@@ -1,7 +1,5 @@
 // Sortable galleries
 
-// TODO: ready function
-
 (function() {
   var init = function() {
     var $galleries = $('.media-gallery-preview');
