@@ -187,6 +187,7 @@ Version 2
 - [ ] more robust and flexible permissions system via pundit
 - [ ] replace glyphicon with bootstrap 4 icons
 - [ ] tests
+- [ ] streamlined javascript event triggers namespaced to forest, e.g. `forest:block-slot-after-insert`
 - [ ] resolve all TODOs
 
 Blocks

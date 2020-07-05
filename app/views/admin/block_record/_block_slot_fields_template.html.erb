@@ -4,7 +4,7 @@
 
 <div class="block-slot-field-template-wrapper block-slot nested-fields">
   <% collection = block_kinds.to_a
-                             .sort_by { |bk| [bk.category, bk.name] }
+                             .sort_by { |bk| [bk.category.downcase, bk.name.downcase] }
                              .collect { |bk| [bk.to_label, bk.id, category: bk.category, data: { select2_response: bk.to_select2_response }] } %>
   <%= f.association :block_kind,
                     collection: collection,

@@ -3,7 +3,9 @@ App.blockKindSelector = {};
 App.blockKindSelector.select2 = function($select) {
   var selectOptions = {
     placeholder: 'Select a block',
+    containerCssClass: 'block-kind-selector-container',
     dropdownCssClass: 'block-kind-selector',
+    dropdownParent: $select.parent(),
     escapeMarkup: function (markup) {
       return markup;
     },
