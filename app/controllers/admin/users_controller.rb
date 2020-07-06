@@ -76,19 +76,20 @@ class Admin::UsersController < Admin::ForestController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_user
-      @user = User.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def user_params
-      params.require(:user).permit(:email, :first_name, :last_name, :password, :password_confirmation, *admin_user_params)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_user
+    @user = User.find(params[:id])
+  end
 
-    def admin_user_params
-      _admin_user_params = []
-      _admin_user_params.concat([user_group_ids: []]) if current_user.admin?
-      _admin_user_params
-    end
+  # Only allow a trusted parameter "white list" through.
+  def user_params
+    params.require(:user).permit(:email, :first_name, :last_name, :password, :password_confirmation, *admin_user_params)
+  end
+
+  def admin_user_params
+    _admin_user_params = []
+    _admin_user_params.concat([user_group_ids: []]) if current_user.admin?
+    _admin_user_params
+  end
 end

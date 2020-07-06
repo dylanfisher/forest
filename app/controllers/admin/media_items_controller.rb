@@ -12,7 +12,7 @@ class Admin::MediaItemsController < Admin::ForestController
 
   # GET /media_items
   def index
-    @pagy, @media_items = pagy(apply_scopes(MediaItem.all).by_id.not_hidden, items: 36)
+    @pagy, @media_items = pagy(apply_scopes(MediaItem.all).by_id.is_not_hidden, items: 36)
     authorize @media_items
 
     if params[:layout].blank? || params[:layout] != 'list'
@@ -91,19 +91,20 @@ class Admin::MediaItemsController < Admin::ForestController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_media_item
-      @media_item = MediaItem.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def media_item_params
-      params.require(:media_item).permit(:title, :slug, :caption, :alternative_text, :description, :attachment, :selected, :point_of_interest_x, :point_of_interest_y, *MediaItem.localized_params)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_media_item
+    @media_item = MediaItem.find(params[:id])
+  end
 
-    def set_s3_direct_post
-      if defined? S3_BUCKET
-        @s3_direct_post = S3_BUCKET.presigned_post(key: "uploads/#{SecureRandom.uuid}/${filename}", success_action_status: '201', acl: 'public-read')
-      end
+  # Only allow a trusted parameter "white list" through.
+  def media_item_params
+    params.require(:media_item).permit(:title, :slug, :caption, :alternative_text, :description, :attachment, :selected, :point_of_interest_x, :point_of_interest_y, *MediaItem.localized_params)
+  end
+
+  def set_s3_direct_post
+    if defined? S3_BUCKET
+      @s3_direct_post = S3_BUCKET.presigned_post(key: "uploads/#{SecureRandom.uuid}/${filename}", success_action_status: '201', acl: 'public-read')
     end
+  end
 end

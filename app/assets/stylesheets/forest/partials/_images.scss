@@ -1,0 +1,30 @@
+// Images
+
+.background-image {
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+.background-image-contain {
+  background-size: contain;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-color: transparent;
+}
+
+.landscape-image {
+  padding-bottom: 56.25%;
+}
+
+.landscape-image-tall {
+  padding-bottom: 68%;
+}
+
+.portrait-image {
+  padding-bottom: 133.33%;
+}
+
+.square-image {
+  padding-bottom: 100%;
+}

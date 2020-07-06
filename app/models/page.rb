@@ -1,7 +1,6 @@
 class Page < Forest::ApplicationRecord
   include Blockable
   include Statusable
-  # include Versionable
 
   before_validation :generate_slug
   before_validation :generate_path, if: :hierarchy_changed?
@@ -113,30 +112,30 @@ class Page < Forest::ApplicationRecord
 
   private
 
-    def current_or_previous_changes
-      self.changed.presence || self.previous_changes.keys
-    end
+  def current_or_previous_changes
+    self.changed.presence || self.previous_changes.keys
+  end
 
-    def hierarchy_changed?
-      (current_or_previous_changes & %w(parent_page_id slug)).any?
-    end
+  def hierarchy_changed?
+    (current_or_previous_changes & %w(parent_page_id slug)).any?
+  end
 
-    def generate_path
-      if page_ancestors.any?
-        generated_path = "#{page_ancestors.reverse.collect(&:slug).join('/')}/#{self.slug}"
-      else
-        generated_path = self.slug
-      end
-      self.path = generated_path
+  def generate_path
+    if page_ancestors.any?
+      generated_path = "#{page_ancestors.reverse.collect(&:slug).join('/')}/#{self.slug}"
+    else
+      generated_path = self.slug
     end
+    self.path = generated_path
+  end
 
-    def parent_page_is_not_self
-      if parent_page == self
-        errors.add :parent_page, "a parent page can't be assigned to itself."
-      end
+  def parent_page_is_not_self
+    if parent_page == self
+      errors.add :parent_page, "a parent page can't be assigned to itself."
     end
+  end
 
-    def expire_menu_cache
-      Menu.expire_cache!
-    end
+  def expire_menu_cache
+    Menu.expire_cache!
+  end
 end

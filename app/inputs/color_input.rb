@@ -12,19 +12,19 @@ class ColorInput < SimpleForm::Inputs::Base
 
   private
 
-    def input_group(hex_code, merged_input_options)
-      "#{@builder.text_field(attribute_name, merged_input_options)}#{input_group_addon(hex_code)}".html_safe
-    end
+  def input_group(hex_code, merged_input_options)
+    "#{@builder.text_field(attribute_name, merged_input_options)}#{input_group_addon(hex_code)}".html_safe
+  end
 
-    def default_help_text
-      content_tag :p, 'Click to select a color, or enter a 6 digit hex code in the box.', class: 'help-block'
-    end
+  def default_help_text
+    content_tag :p, 'Click to select a color, or enter a 6 digit hex code in the box.', class: 'help-block'
+  end
 
-    def input_group_addon(hex_code)
-      "<input value='#{hex_code}' type='text' maxlength='7' name='color-input-hex-tracker' class='color-input__hex-tracker input-group-addon'>".html_safe
-    end
+  def input_group_addon(hex_code)
+    "<input value='#{hex_code}' type='text' maxlength='7' name='color-input-hex-tracker' class='color-input__hex-tracker input-group-addon'>".html_safe
+  end
 
-    def default_hex_code
-      '#000000'
-    end
+  def default_hex_code
+    '#000000'
+  end
 end

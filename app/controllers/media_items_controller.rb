@@ -6,7 +6,7 @@ class MediaItemsController < ForestController
 
   private
 
-    def set_media_item
-      @media_item = MediaItem.find_by_slug(params[:id])
-    end
+  def set_media_item
+    @media_item = MediaItem.find_by_slug(params[:id])
+  end
 end

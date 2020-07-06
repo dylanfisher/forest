@@ -49,15 +49,6 @@ module Forest
       false
     end
 
-    # Versionable default
-    def self.versionable
-      false
-    end
-
-    def versionable
-      false
-    end
-
     def self.expire_cache_key
       Rails.cache.delete cache_key_name
     end

@@ -55,13 +55,14 @@ class Admin::SettingsController < Admin::ForestController
   # end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_setting
-      @setting = Setting.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def setting_params
-      params.require(:setting).permit(:value, :title, :slug, :value_type)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_setting
+    @setting = Setting.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def setting_params
+    params.require(:setting).permit(:value, :title, :slug, :value_type)
+  end
 end

@@ -61,40 +61,36 @@ module Searchable
         logger.warn { "[Forest][Searchable] Failed to delete document #{self.class} #{self.id} #{e.inspect}" }
       end
     end
+  end
 
-    def self.searchable?
+  class_methods do
+    def searchable?
       true
     end
 
     # Override this in your host app with the scope method to use when importing elasticsearch documents. This
     # should probably match the conditions of the indexable_for_elasticsearch? method.
-    def self.elasticsearch_import_model_scope
-      if self.respond_to?(:statusable?)
+    def elasticsearch_import_model_scope
+      if respond_to?(:statusable?)
         :published
       end
     end
 
-    def self.elasticsearch(query)
+    def elasticsearch(query)
       __elasticsearch__.search(query)
     end
 
-    def self.non_indexed_attributes
+    def non_indexed_attributes
       %W(id slug path status scheduled_date created_at updated_at featured_image_id parent_page_id redirect)
     end
-    def non_indexed_attributes
-      self.class.non_indexed_attributes
-    end
 
-    def self.indexed_attributes
+    def indexed_attributes
       columns.select { |c| %i(text string).include?(c.type) }
              .collect(&:name)
              .reject { |c| c =~ /_url$/ } - non_indexed_attributes
     end
-    def indexed_attributes
-      self.class.indexed_attributes
-    end
 
-    def self.indexed_associations
+    def indexed_associations
       if self.try(:blockable?)
         {
           block_slots: {
@@ -111,9 +107,6 @@ module Searchable
         }
       end
     end
-    def indexed_associations
-      self.class.indexed_associations
-    end
 
     # def self.fields_to_search
     #   indexed_attributes.collect { |a|
@@ -122,7 +115,7 @@ module Searchable
     # end
 
     # Override in your host app model to specify field search and match behavior
-    def self.elasticsearch_query(query)
+    def elasticsearch_query(query)
       {
         query: {
           match: {
@@ -142,7 +135,7 @@ module Searchable
       }
     end
 
-    def self.sanitize_query(query)
+    def sanitize_query(query)
       return if query.blank?
       memo_key = "@_sanitize_query_#{query.parameterize.underscore}"
       return instance_variable_get(memo_key) if instance_variable_defined?(memo_key)
@@ -167,38 +160,50 @@ module Searchable
         query
       end
     end
+  end
 
-    def searchable?
+  def searchable?
+    true
+  end
+
+  # Override this method if you need to customize the logic that determines
+  # if a record is published, or should be indexed for the public.
+  def indexable_for_elasticsearch?
+    if self.respond_to?(:statusable?)
+      self.try(:published?)
+    else
       true
     end
+  end
 
-    # Override this method if you need to customize the logic that determines
-    # if a record is published, or should be indexed for the public.
-    def indexable_for_elasticsearch?
-      if self.respond_to?(:statusable?)
-        self.try(:published?)
-      else
-        true
-      end
-    end
+  def non_indexed_attributes
+    self.class.non_indexed_attributes
+  end
 
-    def as_indexed_json(options={})
-      self.as_json({
-        only: indexed_attributes,
-        include: indexed_associations
-      })
-    end
+  def indexed_attributes
+    self.class.indexed_attributes
+  end
+
+  def indexed_associations
+    self.class.indexed_associations
+  end
+
+  def as_indexed_json(options={})
+    self.as_json({
+      only: indexed_attributes,
+      include: indexed_associations
+    })
   end
 
   private
 
-    def index_elasticsearch_document
-      logger.debug { '[Forest][Searchable] Indexing document' }
-      __elasticsearch__.index_document
-    end
+  def index_elasticsearch_document
+    logger.debug { '[Forest][Searchable] Indexing document' }
+    __elasticsearch__.index_document
+  end
 
-    def delete_elasticsearch_document
-      logger.debug { '[Forest][Searchable] Deleting document' }
-      __elasticsearch__.delete_document ignore: 404
-    end
+  def delete_elasticsearch_document
+    logger.debug { '[Forest][Searchable] Deleting document' }
+    __elasticsearch__.delete_document ignore: 404
+  end
 end

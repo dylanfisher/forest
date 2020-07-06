@@ -1,7 +1,7 @@
 class MediaItem < Forest::ApplicationRecord
   include FileUploader::Attachment(:attachment)
   include Rails.application.routes.url_helpers
-  # include Attachable
+  include Attachable
   include Sluggable
 
   DATE_FILTER_CACHE_KEY = 'forest_media_item_dates_for_filter'
@@ -15,7 +15,7 @@ class MediaItem < Forest::ApplicationRecord
   validates_presence_of :attachment
 
   enum media_item_status: {
-    not_hidden: 0,
+    is_not_hidden: 0,
     hidden: 1
   }
 
@@ -137,15 +137,15 @@ class MediaItem < Forest::ApplicationRecord
 
   private
 
-    def self.grouped_by_year_month
-      self.select("DISTINCT ON (DATE_TRUNC('month', media_items.created_at)) *")
-    end
+  def self.grouped_by_year_month
+    self.select("DISTINCT ON (DATE_TRUNC('month', media_items.created_at)) *")
+  end
 
-    def self.grouped_by_content_type
-      self.select("DISTINCT ON (media_items.attachment_content_type) *")
-    end
+  def self.grouped_by_content_type
+    self.select("DISTINCT ON (media_items.attachment_content_type) *")
+  end
 
-    def expire_cache
-      self.class.expire_cache!
-    end
+  def expire_cache
+    self.class.expire_cache!
+  end
 end

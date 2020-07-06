@@ -21,11 +21,11 @@ class Admin::BlockKindsController < Admin::ForestController
 
   private
 
-    def block_kind_params
-      params.require(:block_kind).permit(:description, :category)
-    end
+  def block_kind_params
+    params.require(:block_kind).permit(:description, :category)
+  end
 
-    def set_block_kind
-      @block_kind = BlockKind.find(params[:id])
-    end
+  def set_block_kind
+    @block_kind = BlockKind.find(params[:id])
+  end
 end

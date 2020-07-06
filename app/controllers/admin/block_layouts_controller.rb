@@ -37,11 +37,11 @@ class Admin::BlockLayoutsController < Admin::ForestController
 
   private
 
-    def block_layout_params
-      params.require(:block_layout).permit(:slug, :display_name, :description)
-    end
+  def block_layout_params
+    params.require(:block_layout).permit(:slug, :display_name, :description)
+  end
 
-    def set_block_layout
-      @block_layout = BlockLayout.find(params[:id])
-    end
+  def set_block_layout
+    @block_layout = BlockLayout.find(params[:id])
+  end
 end

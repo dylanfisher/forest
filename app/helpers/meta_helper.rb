@@ -183,58 +183,58 @@ module MetaHelper
 
   private
 
-    def default_site_title
-      'Forest CMS'
-    end
+  def default_site_title
+    'Forest CMS'
+  end
 
-    def default_site_description
-      'This site was built with Forest, a Ruby on Rails CMS.'
-    end
+  def default_site_description
+    'This site was built with Forest, a Ruby on Rails CMS.'
+  end
 
-    def default_meta_type
-      'website'
-    end
+  def default_meta_type
+    'website'
+  end
 
-    def divider(spacer = ' - ')
-      spacer
-    end
+  def divider(spacer = ' - ')
+    spacer
+  end
 
-    def build_page_title_from_record
-      ft(record_to_build_from, :to_page_title, call_method: :try, fallback: true) ||
-      ft(record_to_build_from, :title, call_method: :try, fallback: true) ||
-      ft(record_to_build_from, :name, call_method: :try, fallback: true)
-    end
+  def build_page_title_from_record
+    ft(record_to_build_from, :to_page_title, call_method: :try, fallback: true) ||
+    ft(record_to_build_from, :title, call_method: :try, fallback: true) ||
+    ft(record_to_build_from, :name, call_method: :try, fallback: true)
+  end
 
-    def build_page_title_from_controller
-      if controller_name == 'home_pages'
-        'Home'
-      else
-        controller_name.titleize
-      end
+  def build_page_title_from_controller
+    if controller_name == 'home_pages'
+      'Home'
+    else
+      controller_name.titleize
     end
+  end
 
-    def build_page_description_from_record
-      @_build_page_description_from_record ||= begin
-        description = ft(record_to_build_from, :to_page_description, call_method: :try, fallback: true) ||
-          ft(record_to_build_from, :description, call_method: :try, fallback: true)
-        truncate(description, length: 240)
-      end
+  def build_page_description_from_record
+    @_build_page_description_from_record ||= begin
+      description = ft(record_to_build_from, :to_page_description, call_method: :try, fallback: true) ||
+        ft(record_to_build_from, :description, call_method: :try, fallback: true)
+      truncate(description, length: 240)
     end
+  end
 
-    def build_page_featured_image_from_record
-      @_build_page_featured_image_from_record ||= begin
-        record_to_build_from.try(:featured_image).presence ||
-          record_to_build_from.try(:media_item).presence ||
-          record_to_build_from.try(:blockable_metadata).try(:[], 'featured_image_url').presence
-      end
+  def build_page_featured_image_from_record
+    @_build_page_featured_image_from_record ||= begin
+      record_to_build_from.try(:featured_image).presence ||
+        record_to_build_from.try(:media_item).presence ||
+        record_to_build_from.try(:blockable_metadata).try(:[], 'featured_image_url').presence
     end
+  end
 
-    def record_to_build_from(record = nil)
-      @_record_to_build_from ||= begin
-        record.presence ||
-          @page.presence ||
-          @record.presence ||
-          instance_variable_get("@#{controller_name.singularize}").presence
-      end
+  def record_to_build_from(record = nil)
+    @_record_to_build_from ||= begin
+      record.presence ||
+        @page.presence ||
+        @record.presence ||
+        instance_variable_get("@#{controller_name.singularize}").presence
     end
+  end
 end

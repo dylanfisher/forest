@@ -150,34 +150,34 @@ namespace :forest do
 
   private
 
-    def with_config
-      yield Rails.application.class.parent_name.underscore,
-        database_name,
-        ActiveRecord::Base.connection_config[:username]
-    end
+  def with_config
+    yield Rails.application.class.parent_name.underscore,
+      database_name,
+      ActiveRecord::Base.connection_config[:username]
+  end
 
-    def s3
-      @s3 ||= Aws::S3::Resource.new(region: aws_region)
-    end
+  def s3
+    @s3 ||= Aws::S3::Resource.new(region: aws_region)
+  end
 
-    def s3_bucket
-      @s3_bucket ||= s3.bucket(s3_bucket_name)
-    end
+  def s3_bucket
+    @s3_bucket ||= s3.bucket(s3_bucket_name)
+  end
 
-    def check_for_s3_env_variables!
-      abort('[Forest] Error: Please specify an AWS_REGION environment variable') if aws_region.blank?
-      abort('[Forest] Error: Please specify an S3_BUCKET_NAME environment variable') if s3_bucket_name.blank?
-    end
+  def check_for_s3_env_variables!
+    abort('[Forest] Error: Please specify an AWS_REGION environment variable') if aws_region.blank?
+    abort('[Forest] Error: Please specify an S3_BUCKET_NAME environment variable') if s3_bucket_name.blank?
+  end
 
-    def aws_region
-      @aws_region ||= ENV['AWS_REGION'].presence || Rails.application.credentials&.dig(:s3, :region)
-    end
+  def aws_region
+    @aws_region ||= ENV['AWS_REGION'].presence || Rails.application.credentials&.dig(:s3, :region)
+  end
 
-    def s3_bucket_name
-      @s3_bucket_name ||= ENV['S3_BUCKET_NAME'].presence || Rails.application.credentials&.dig(:s3, :bucket)
-    end
+  def s3_bucket_name
+    @s3_bucket_name ||= ENV['S3_BUCKET_NAME'].presence || Rails.application.credentials&.dig(:s3, :bucket)
+  end
 
-    def database_name
-      @database_name ||= ActiveRecord::Base.connection_config[:database]
-    end
+  def database_name
+    @database_name ||= ActiveRecord::Base.connection_config[:database]
+  end
 end

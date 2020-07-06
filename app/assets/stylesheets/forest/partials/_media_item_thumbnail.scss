@@ -1,0 +1,19 @@
+// Media Item Thumbnail
+
+.media-item-thumbnail__image {
+  position: relative;
+}
+
+.media-item-thumbnail__label {
+  padding: 5px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background: white;
+  margin-bottom: 0;
+  width: 100%;
+  text-align: center;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}

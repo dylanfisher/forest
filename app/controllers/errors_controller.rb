@@ -18,9 +18,9 @@ class ErrorsController < ForestController
 
   private
 
-    def filter_by_request_type
-      if %i(html json).none?(request.format.symbol)
-        render status: 404
-      end
+  def filter_by_request_type
+    if %i(html json).none?(request.format.symbol)
+      render status: 404
     end
+  end
 end

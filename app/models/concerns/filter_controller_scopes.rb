@@ -1,6 +1,7 @@
 module FilterControllerScopes
   extend ActiveSupport::Concern
 
+  # TODO: is this module even a good practice?
   included do
     has_scope :by_id
     has_scope :by_title
