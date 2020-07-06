@@ -18,6 +18,7 @@ PATH
       redcarpet
       shrine (~> 3.0)
       simple_form
+      uppy-s3_multipart (~> 0.3)
 
 GEM
   remote: https://rubygems.org/
@@ -192,6 +193,8 @@ GEM
     responders (3.0.1)
       actionpack (>= 5.0)
       railties (>= 5.0)
+    roda (3.33.0)
+      rack
     sassc (2.4.0)
       ffi (~> 1.9)
     sassc-rails (2.1.2)
@@ -218,6 +221,10 @@ GEM
     tilt (2.0.10)
     tzinfo (1.2.7)
       thread_safe (~> 0.1)
+    uppy-s3_multipart (0.3.4)
+      aws-sdk-s3 (~> 1.0)
+      content_disposition (~> 1.0)
+      roda (>= 2.27, < 4)
     warden (1.2.8)
       rack (>= 2.0.6)
     websocket-driver (0.7.2)

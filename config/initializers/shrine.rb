@@ -4,21 +4,12 @@ require 'shrine/storage/s3'
 s3_options = Rails.application.credentials.s3
 
 Shrine.storages = {
-  cache: Shrine::Storage::S3.new(prefix: 'cache', **s3_options),
-  store: Shrine::Storage::S3.new(prefix: 'media', **s3_options),
+  cache: Shrine::Storage::S3.new(prefix: 'cache', public: true, **s3_options),
+  store: Shrine::Storage::S3.new(prefix: 'media', public: true, **s3_options),
 }
 
 Shrine.plugin :activerecord           # load Active Record integration
 Shrine.plugin :cached_attachment_data # for retaining cached file on form redisplays
 Shrine.plugin :restore_cached_data    # refresh metadata for cached files
-Shrine.plugin :presign_endpoint, presign_options: -> (request) {
-  # Uppy will send the "filename" and "type" query parameters
-  filename = request.params["filename"]
-  type     = request.params["type"]
-
-  {
-    content_disposition:    ContentDisposition.inline(filename), # set download filename
-    content_type:           type,                                # set content type (defaults to "application/octet-stream")
-    content_length_range:   0..(10*1024*1024),                   # limit upload size to 10 MB
-  }
-}
+Shrine.plugin :uppy_s3_multipart      # enable S3 multipart upload for Uppy https://github.com/janko/uppy-s3_multipart
+Shrine.plugin :url_options, store: { host: Rails.application.credentials.asset_host } if Rails.application.credentials.asset_host.present?

@@ -15,19 +15,25 @@
         autoProceed: true,
       })
       .use(Uppy.FileInput, {
-        target: formGroup
+        target: formGroup,
+        locale: {
+          strings: {
+            chooseFiles: 'Choose file'
+          }
+        }
       })
       .use(Uppy.Informer, {
         target: formGroup,
       })
-      .use(Uppy.ProgressBar, {
-        target: imagePreview.parentNode,
+      .use(Uppy.StatusBar, {
+        target: $fileUpload[0],
+        showProgressDetails: true
       })
       .use(Uppy.ThumbnailGenerator, {
         thumbnailWidth: 600,
       })
-      .use(Uppy.AwsS3, {
-        companionUrl: '/', // will call the presign endpoint on `/s3/params`
+      uppy.use(Uppy.AwsS3Multipart, {
+        companionUrl: '/',
       });
 
     uppy.on('thumbnail:generated', function(file, preview) {
@@ -37,15 +43,15 @@
 
     uppy.on('upload-success', function(file, response) {
       // construct uploaded file data in the format that Shrine expects
-      var uploadedFileData = {
-        id: file.meta['key'].match(/^cache\/(.+)/)[1], // object key without prefix
+      var uploadedFileData = JSON.stringify({
+        id: response.uploadURL.match(/\/cache\/([^\?]+)/)[1], // extract key without prefix
         storage: 'cache',
         metadata: {
-          size: file.size,
-          filename: file.name,
+          size:      file.size,
+          filename:  file.name,
           mime_type: file.type,
         }
-      }
+      });
 
       // set hidden field value to the uploaded file data so that it's submitted
       // with the form as the attachment

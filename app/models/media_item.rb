@@ -61,7 +61,7 @@ class MediaItem < Forest::ApplicationRecord
 
   def generate_slug
     # TODO
-    SecureRandom.uuid
+    self.slug = SecureRandom.uuid
     # if self.slug.blank? || changed.include?('slug')
     #   if title.present?
     #     slug_attribute = title

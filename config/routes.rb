@@ -26,8 +26,8 @@ Rails.application.routes.draw do
     get 'documentation', to: 'documentation#index'
   end
 
-  # Shrine direct S3 upload
-  mount Shrine.presign_endpoint(:cache) => '/s3/params'
+  # Shrine direct S3 multipart upload
+  mount Shrine.uppy_s3_multipart(:cache) => '/s3/multipart'
 
   # Devise
   devise_for :users, class_name: 'User', module: :devise
