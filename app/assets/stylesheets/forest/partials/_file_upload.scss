@@ -1,8 +1,9 @@
 // File upload
 
-// TODO: scope to .upload-preview or relevant upload class
-img[src=""] {
-  visibility: hidden;
+.upload-preview {
+  img[src=""] {
+    visibility: hidden;
+  }
 }
 
 .uppy-FileInput-btn {
@@ -38,4 +39,33 @@ img[src=""] {
     background-color: #0062cc;
     border-color: #005cbf;
   }
+}
+
+// Informer file upload notifications
+
+.file-upload-notifications {
+  position: relative;
+}
+
+.uppy-Informer {
+  transition: none !important;
+  transform: none !important;
+  position: static;
+  text-align: left;
+
+  &[aria-hidden="true"] {
+    position: absolute;
+  }
+}
+
+.uppy-Informer p {
+  max-width: 100%;
+  font-size: 1em;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  color: #856404;
+  background-color: #fff3cd;
+  border-color: #ffeeba;
 }

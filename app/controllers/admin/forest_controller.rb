@@ -84,7 +84,13 @@ class Admin::ForestController < ApplicationController
     def foreign_key_contraint(exception)
       if record
         statusable_message = record.try(:statusable?) ? ' Alternatively, you may want to set this record\'s status to hidden instead.' : ''
-        redirect_to edit_polymorphic_path([:admin, record]), flash: { error: ["This record can't be deleted because another record depends on it. First remove the association to the other record before deleting this one.#{statusable_message}", "<code>#{exception.message}</code>"] }
+        error_messages = ["This record can't be deleted because another record depends on it. First remove the association to the other record before deleting this one.#{statusable_message}", "<code>#{exception.message}</code>"]
+        if record.new_record?
+          error_messages.each { |e| record.errors.add(:base, e) }
+          return render :new
+        else
+          return redirect_to edit_polymorphic_path([:admin, record]), flash: { error: error_messages }
+        end
       else
         raise
       end
@@ -92,7 +98,13 @@ class Admin::ForestController < ApplicationController
 
     def record_not_unique(exception)
       if record && record.try(:sluggable?)
-        redirect_to edit_polymorphic_path([:admin, record]), flash: { error: ["A record with this slug already exists. Please create a unique slug.", "<code>#{exception.message}</code>"] }
+        error_messages = ["A record with this slug already exists. Please create a unique slug.", "<code>#{exception.message}</code>"]
+        if record.new_record?
+          error_messages.each { |e| record.errors.add(:base, e) }
+          return render :new
+        else
+          return redirect_to edit_polymorphic_path([:admin, record]), flash: { error: error_messages }
+        end
       else
         raise
       end

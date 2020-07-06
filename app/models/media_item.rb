@@ -60,22 +60,22 @@ class MediaItem < Forest::ApplicationRecord
   end
 
   def generate_slug
-    # TODO
-    self.slug = SecureRandom.uuid
     # if self.slug.blank? || changed.include?('slug')
-    #   if title.present?
-    #     slug_attribute = title
-    #   elsif attachment_file_name.present?
-    #     slug_attribute = attachment_file_name
-    #   else
-    #     slug_attribute = SecureRandom.uuid
-    #   end
+    #   # TODO
+    #   slug_attribute = SecureRandom.uuid
+    #   # if title.present?
+    #   #   slug_attribute = title
+    #   # elsif attachment_file_name.present?
+    #   #   slug_attribute = attachment_file_name
+    #   # else
+    #   #   slug_attribute = SecureRandom.uuid
+    #   # end
 
     #   slug_attribute = slug_attribute.parameterize
 
-    #   if MediaItem.where(slug: slug_attribute).present?
-    #     slug_attribute = slug_attribute + '-' + SecureRandom.uuid
-    #   end
+    #   # if MediaItem.where(slug: slug_attribute).present?
+    #   #   slug_attribute = slug_attribute + '-' + SecureRandom.uuid
+    #   # end
 
     #   self.slug = slug_attribute
     # end
