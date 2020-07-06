@@ -59,7 +59,8 @@
 }
 
 .uppy-Informer p {
-  max-width: 100%;
+  width: 100%;
+  max-width: calc(100% - #{$gutter * 2}) !important;
   font-size: 1em;
   padding: 0.75rem 1.25rem;
   margin-bottom: 1rem;
@@ -68,4 +69,12 @@
   color: #856404;
   background-color: #fff3cd;
   border-color: #ffeeba;
+}
+
+.uppy-Dashboard-progressindicators {
+  .uppy-Informer p {
+    margin-top: $gutter;
+    margin-left: $gutter;
+    margin-right: $gutter;
+  }
 }

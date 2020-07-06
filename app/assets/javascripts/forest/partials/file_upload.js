@@ -14,6 +14,48 @@
     $inputs.prop('disabled', false);
   };
 
+  var generateFileData = function(file, response, options) {
+    options = options ? options : {};
+
+    return JSON.stringify({
+             id: response.uploadURL.match(/\/cache\/([^\?]+)/)[1], // extract key without prefix
+             storage: 'cache',
+             metadata: {
+               size:      file.size,
+               filename:  file.name,
+               mime_type: file.type,
+             }
+           });
+  };
+
+  var generateFileDataForAjaxPost = function(file, response) {
+    return {
+             attachment: generateFileData(file, response)
+           };
+  };
+
+  var createMediaItemFromUploadedFileData = function($fileUpload, uploadedFileData, uppy) {
+    var url = $fileUpload.attr('data-media-item-url');
+    var $mediaLibary = $('#media-library-infinite-load');
+    console.log('uploadedFileData', uploadedFileData);
+
+    $.ajax({
+      method: 'POST',
+      url: url,
+      dataType: 'json',
+      data: {
+        media_item: uploadedFileData
+      }
+    })
+    .done(function(data) {
+      $mediaLibary.prepend(data['attachmentPartial']);
+    })
+    .fail(function(data) {
+      console.warn('Media item failed to create', data);
+      uppy.info( ('Error uploading file: ' + data), 'error' );
+    });
+  };
+
   var singleFileUpload = function($fileUpload) {
     var $form = $fileUpload.closest('form');
     var $wrapper = $fileUpload.closest('.file-upload-wrapper');
@@ -61,58 +103,58 @@
 
     uppy.on('upload-success', function(file, response) {
       // construct uploaded file data in the format that Shrine expects
-      var uploadedFileData = JSON.stringify({
-        id: response.uploadURL.match(/\/cache\/([^\?]+)/)[1], // extract key without prefix
-        storage: 'cache',
-        metadata: {
-          size:      file.size,
-          filename:  file.name,
-          mime_type: file.type,
-        }
-      });
+      var uploadedFileData = generateFileData(file, response);
 
-      uppy.info('File uploaded. Press the Update Media item button to save the record.', 'success');
+      uppy.info('File uploaded. Press the Update Media item button to save the record.', 'success', 600000);
 
       // set hidden field value to the uploaded file data so that it's submitted
       // with the form as the attachment
-      hiddenInput.value = JSON.stringify(uploadedFileData);
+      hiddenInput.value = uploadedFileData;
 
       enableForm($form);
     });
   };
 
+  var initializeUppyDashboardModal = function(uppy, $fileUpload) {
+    $(document).on('dragenter.uppyDashboardModal', function(e) {
+      $(document).off('dragenter.uppyDashboardModal');
+      uppy.getPlugin('Dashboard').openModal();
+      e.preventDefault();
+    });
+  };
+
   var multiFileUpload = function($fileUpload) {
-    // TODO:
-    // var uppy = Uppy.Core({
-    //     autoProceed: true,
-    //   })
-    //   .use(Uppy.Dashboard, {
-    //     target: $fileUpload[0],
-    //     inline: true,
-    //     height: 300,
-    //     hideProgressAfterFinish: true
-    //   })
-    //   // .use(Uppy.FileInput, {
-    //   //   target: formGroup,
-    //   //   locale: {
-    //   //     strings: {
-    //   //       chooseFiles: 'Choose file'
-    //   //     }
-    //   //   }
-    //   // })
-    //   .use(Uppy.Informer, {
-    //     target: formGroup,
-    //   })
-    //   // .use(Uppy.StatusBar, {
-    //   //   target: $fileUpload[0],
-    //   //   showProgressDetails: true
-    //   // })
-    //   .use(Uppy.ThumbnailGenerator, {
-    //     thumbnailWidth: 600,
-    //   })
-    //   uppy.use(Uppy.AwsS3Multipart, {
-    //     companionUrl: '/',
-    //   });
+    var uppy = Uppy.Core({
+        autoProceed: true,
+      })
+      .use(Uppy.Dashboard, {
+        inline: false,
+        proudlyDisplayPoweredByUppy: false,
+        closeModalOnClickOutside: true,
+        // height: 300,
+        // width: '100%',
+        // hideProgressAfterFinish: true
+      })
+      .use(Uppy.ThumbnailGenerator, {
+        thumbnailWidth: 600,
+      })
+      uppy.use(Uppy.AwsS3Multipart, {
+        companionUrl: '/',
+      });
+
+    initializeUppyDashboardModal(uppy, $fileUpload);
+
+    uppy.on('dashboard:modal-closed', function() {
+      console.log('dashboard:modal-closed');
+      initializeUppyDashboardModal(uppy, $fileUpload);
+    });
+
+    uppy.on('upload-success', function(file, response) {
+      // construct uploaded file data in the format that Shrine expects
+      var uploadedFileData = generateFileDataForAjaxPost(file, response);
+
+      createMediaItemFromUploadedFileData($fileUpload, uploadedFileData, uppy);
+    });
   };
 
   App.pageLoad.push(function() {
@@ -120,8 +162,10 @@
       singleFileUpload( $(this) );
     });
 
-    $('.file-multi-upload').each(function() {
-      multiFileUpload( $(this) );
-    });
+    var $multiFileUpload = $('#multi-file-upload');
+
+    if ( $multiFileUpload.length ) {
+      multiFileUpload( $multiFileUpload );
+    }
   });
 })();

@@ -44,6 +44,7 @@ module Attachable
   end
 
   def attachment_file_name
+    # binding.pry if attachment_data.blank? || attachment_data['metadata'].blank?
     attachment_data['metadata']['filename']
   end
 

@@ -1,13 +1,15 @@
 <div class="admin-header">
-  <div class="well">
-    <div class="row">
-      <div class="col-sm-9">
-        <h1 class="h2"><%= @import.model_name.human %> Import</h1>
-        <p class="text-muted">Upload a CSV file matching the template below to bulk import records</p>
-      </div>
-      <div class="col-sm-3 text-right">
-        <div class="btn-group">
-        <%= link_to "All #{@import.model_name.plural.titleize}", send("admin_#{@import.model_name.route_key}_path"), class: 'btn btn-outline-secondary' %>
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-sm-9">
+          <h1 class="h2"><%= @import.model_name.human %> Import</h1>
+          <p class="text-muted">Upload a CSV file matching the template below to bulk import records</p>
+        </div>
+        <div class="col-sm-3 text-right">
+          <div class="btn-group">
+          <%= link_to "All #{@import.model_name.plural.titleize}", send("admin_#{@import.model_name.route_key}_path"), class: 'btn btn-outline-secondary' %>
+          </div>
         </div>
       </div>
     </div>

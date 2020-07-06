@@ -60,25 +60,23 @@ class MediaItem < Forest::ApplicationRecord
   end
 
   def generate_slug
-    # if self.slug.blank? || changed.include?('slug')
-    #   # TODO
-    #   slug_attribute = SecureRandom.uuid
-    #   # if title.present?
-    #   #   slug_attribute = title
-    #   # elsif attachment_file_name.present?
-    #   #   slug_attribute = attachment_file_name
-    #   # else
-    #   #   slug_attribute = SecureRandom.uuid
-    #   # end
+    if self.slug.blank? || changed.include?('slug')
+      if title.present?
+        slug_attribute = title
+      elsif attachment_file_name.present?
+        slug_attribute = attachment_file_name
+      else
+        slug_attribute = SecureRandom.uuid
+      end
 
-    #   slug_attribute = slug_attribute.parameterize
+      slug_attribute = slug_attribute.parameterize
 
-    #   # if MediaItem.where(slug: slug_attribute).present?
-    #   #   slug_attribute = slug_attribute + '-' + SecureRandom.uuid
-    #   # end
+      if MediaItem.where(slug: slug_attribute).present?
+        slug_attribute = slug_attribute + '-' + SecureRandom.uuid
+      end
 
-    #   self.slug = slug_attribute
-    # end
+      self.slug = slug_attribute
+    end
   end
 
   def glyphicon
@@ -92,21 +90,6 @@ class MediaItem < Forest::ApplicationRecord
     #   'glyphicon-file'
     # end
   end
-
-  # def to_jq_upload
-  #   {
-  #     'id': self.id,
-  #     'name': read_attribute(:title),
-  #     'file_name': attachment_file_name,
-  #     'is_image': image?,
-  #     'glyphicon': glyphicon,
-  #     'size': attachment.size,
-  #     'url': edit_admin_media_item_path(self),
-  #     'thumbnail_url': attachment.url(:medium),
-  #     'delete_url': admin_media_item_path(id: id),
-  #     'delete_type': 'DELETE'
-  #   }
-  # end
 
   # Portrait images have a lower aspect ratio
   def aspect_ratio

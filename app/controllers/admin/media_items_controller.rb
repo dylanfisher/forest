@@ -47,8 +47,10 @@ class Admin::MediaItemsController < Admin::ForestController
     respond_to do |format|
       if @media_item.save
         format.html { redirect_to edit_admin_media_item_path(@media_item), notice: 'Media item was successfully created.' }
-        # TODO: to_jq_upload
-        format.json { render json: { files: [@media_item.to_jq_upload]}, status: :created, location: [:admin, @media_item] }
+        format.json {
+          html_content = render_to_string(partial: 'admin/media_items/media_item_grid_layout', locals: { media_item: @media_item }, layout: false, formats: [:html])
+          render json: { attachmentPartial: html_content }
+        }
       else
         format.html { render :new }
         format.json { render json: @media_item.errors, status: :unprocessable_entity }
