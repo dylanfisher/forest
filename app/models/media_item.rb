@@ -1,7 +1,5 @@
 class MediaItem < Forest::ApplicationRecord
   include FileUploader::Attachment(:attachment)
-  include Rails.application.routes.url_helpers
-  include Attachable
   include Sluggable
 
   DATE_FILTER_CACHE_KEY = 'forest_media_item_dates_for_filter'
@@ -14,12 +12,21 @@ class MediaItem < Forest::ApplicationRecord
 
   validates_presence_of :attachment
 
+  before_save :set_default_metadata
+  # before_save :create_derivatives
+
   enum media_item_status: {
     is_not_hidden: 0,
     hidden: 1
   }
 
+  scope :by_content_type, -> (content_type) { where(attachment_content_type: content_type) }
+  scope :images, -> { where('attachment_content_type LIKE ?', '%image%') }
+  scope :videos, -> { where('attachment_content_type LIKE ?', '%video%') }
+  scope :audio, -> { where('attachment_content_type LIKE ?', '%audio%') }
+  scope :pdfs, -> { where('attachment_content_type LIKE ?', '%pdf%') }
   scope :by_date, -> (date) {
+    # TODO: why this rescue block?
     begin
       date = Date.parse(date)
       where('media_items.created_at >= ? AND media_items.created_at <= ?', date.beginning_of_month, date.end_of_month)
@@ -91,6 +98,56 @@ class MediaItem < Forest::ApplicationRecord
     # end
   end
 
+  def file_extension
+    File.extname(attachment_file_name).downcase
+  end
+
+  def display_file_name
+    attachment_file_name.sub(/(--\d*)?#{Regexp.quote(file_extension)}$/i, '')
+  end
+
+  def attachment_content_type
+    attachment_data['metadata']['mime_type']
+  end
+
+  def attachment_file_name
+    # binding.pry if attachment_data.blank? || attachment_data['metadata'].blank?
+    attachment_data['metadata']['filename']
+  end
+
+  def image?
+    (attachment_content_type =~ %r{^(image|(x-)?application)/(bmp|gif|jpeg|jpg|pjpeg|png|x-png)$}).present?
+  end
+
+  def video?
+    (attachment_content_type =~ %r{^video\/}).present?
+  end
+
+  def audio?
+    (attachment_content_type =~ %r{^audio\/}).present?
+  end
+
+  def file?
+    !image?
+  end
+
+  def gif?
+    attachment_content_type == 'image/gif'
+  end
+
+  def display_content_type
+    if image?
+      'image'
+    elsif video?
+      'video'
+    elsif file?
+      'file'
+    else
+      'media item'
+    end
+  end
+
+  # TODO: re-implement dimensions with Shrine
   # Portrait images have a lower aspect ratio
   def aspect_ratio
     dimensions[:width].to_f / dimensions[:height].to_f
@@ -118,6 +175,11 @@ class MediaItem < Forest::ApplicationRecord
     "#{img_tag}<span class='select2-response__id'>#{id}</span> #{to_label}"
   end
 
+  # def create_derivatives
+  #   # Create Shrine derivatives using the FileUploader class
+  #   attachment_derivatives! if attachment_changed? && valid?
+  # end
+
   private
 
   def self.grouped_by_year_month
@@ -126,6 +188,12 @@ class MediaItem < Forest::ApplicationRecord
 
   def self.grouped_by_content_type
     self.select("DISTINCT ON (media_items.attachment_content_type) *")
+  end
+
+  def set_default_metadata
+    if self.title.blank?
+      self.title = display_file_name
+    end
   end
 
   def expire_cache
