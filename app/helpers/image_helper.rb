@@ -20,9 +20,9 @@ module ImageHelper
     # TODO: DF 08/04/17 - return a missing image if media item is blank?
     # return if media_item.blank?
     css_class = options.fetch :class, nil
-    image_set_tag media_item.attachment.url(:small), {
-        media_item.attachment.url(:medium) => '1200w',
-        media_item.attachment.url(:large) => '2000w'
+    image_set_tag media_item.attachment_url(:small), {
+        media_item.attachment_url(:medium) => '1200w',
+        media_item.attachment_url(:large) => '2000w'
       },
       options.merge(
         sizes: options.fetch(:sizes, '100vw'),
@@ -45,7 +45,7 @@ module ImageHelper
   # Prevent images from thrashing your page's layout with the image_jump_fix helper.
   #
   # <%= image_jump_fix block.media_item do %>
-  #   <%= image_tag block.media_item.attachment.url(:medium) %>
+  #   <%= image_tag block.media_item.attachment_url(:medium) %>
   # <% end %>
   def image_jump_fix(media_item, options = {})
     width = media_item.try(:dimensions).try(:[], :width) || media_item.try(:attachment_width)

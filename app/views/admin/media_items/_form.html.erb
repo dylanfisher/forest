@@ -42,7 +42,7 @@
                   <%# TODO: %>
                   <div class="file-upload-notifications"></div>
                   <div class="upload-preview">
-                    <%= image_tag @media_item.attachment_url.presence || uri_image_placeholder %>
+                    <%= image_tag @media_item.attachment_url(:medium).presence || uri_image_placeholder %>
                   </div>
 
                   <%# TODO: %>
@@ -52,13 +52,13 @@
                         <label class="media-item__point-of-interest__label">Point of Interest</label>
                         <div id="media-item__point-of-interest" class="media-item__point-of-interest">
                           <%= content_tag :div, nil, id: 'media-item__point-of-interest__crosshair', class: 'media-item__point-of-interest__crosshair', style: "top: #{@media_item.point_of_interest_y}%; left: #{@media_item.point_of_interest_x}%;" %>
-                          <%= image_tag @media_item.attachment.url(:medium) %>
+                          <%= image_tag @media_item.attachment_url(:medium) %>
                           <%= f.input :point_of_interest_x, as: :hidden %>
                           <%= f.input :point_of_interest_y, as: :hidden %>
                         </div>
                         <p class="help-block">Click the image to change the point of interest of the image. The point of interest is used to determine where to crop the image in some contexts.</p>
                       <% else %>
-                        <%= image_tag @media_item.attachment.url(:medium) %>
+                        <%= image_tag @media_item.attachment_url(:medium) %>
                       <% end %>
                     <% elsif @media_item.video? %>
                       <%= video_tag @media_item.attachment.url, controls: true %>
@@ -76,7 +76,11 @@
                   <div class="form-group">
                     <label class="control-label">Attachment URL</label>
                     <%# TODO: attachment URL needs to be public cloudfront URL %>
-                    <textarea class="form-control not-resizable" type="text" readonly><%= @media_item.attachment.url %></textarea>
+                    <% if @media_item.image? %>
+                      <textarea class="form-control not-resizable" type="text" readonly><%= @media_item.attachment_url(:large) %></textarea>
+                    <% else %>
+                      <textarea class="form-control not-resizable" type="text" readonly><%= @media_item.attachment_url %></textarea>
+                    <% end %>
                   </div>
                 <% end %>
               </div>

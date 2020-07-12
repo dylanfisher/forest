@@ -3,7 +3,7 @@
   <td>
     <div class="row">
       <div class="media-library-image-row col-xs-4 col-sm-2">
-        <% attachment_or_placeholder_url = media_item.attachment.exists? ? media_item.attachment.url(:thumb) : '' %>
+        <% attachment_or_placeholder_url = media_item.attachment.exists? ? media_item.attachment_url(:thumb) : '' %>
         <% content = capture do %>
           <% if media_item.file? %>
             <%= content_tag :span, '', class: "media-library-image--list__icon glyphicon #{media_item.glyphicon}" %>

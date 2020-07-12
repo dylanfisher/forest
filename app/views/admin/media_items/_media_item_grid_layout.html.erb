@@ -3,8 +3,13 @@
 
 <%= content_tag :div, class: "media-item-thumbnail col-xs-4 col-sm-3 col-md-2" do %>
   <%# TODO: file url at proper size %>
-  <% attachment_or_placeholder_url = media_item.attachment.exists? ? media_item.attachment_derivatives[:medium].url : '' %>
-  <% attachment_or_placeholder_url_large = media_item.attachment.exists? ? media_item.attachment_derivatives[:large].url : '' %>
+  <%# TODO: file placeholder %>
+  <% if media_item.image? %>
+    <% attachment_or_placeholder_url = media_item.attachment.present? ? media_item.attachment_url(:small) : '#TODO' %>
+    <% attachment_or_placeholder_url_large = media_item.attachment.present? ? media_item.attachment_url(:medium) : '#TODO' %>
+  <% else %>
+    <% attachment_or_placeholder_url = media_item.attachment.present? ? media_item.attachment_url : '#TODO' %>
+  <% end %>
   <% content = capture do %>
     <% if media_item.file? %>
       <%= content_tag :span, '', class: "media-item-thumbnail__icon glyphicon #{media_item.glyphicon}" %>
@@ -17,7 +22,7 @@
                 media_item_id: media_item.id,
                 image_url: (image_url(attachment_or_placeholder_url) if media_item.try(:image?)),
                 image_url_large: (image_url(attachment_or_placeholder_url_large) if media_item.try(:image?)) } do %>
-    <%= content_tag :div, content, class: "media-item-thumbnail__image background-image square-image rounded-lg #{'media-item-thumbnail__image--file' if media_item.try(:file?)}", style: "background-image: url(#{image_url(attachment_or_placeholder_url) if media_item.try(:image?)})" %>
+    <%= content_tag :div, content, class: "media-item-thumbnail__image background-image square-image rounded-lg #{'media-item-thumbnail__image--file' if media_item.try(:file?)}", style: "background-image: url(#{attachment_or_placeholder_url})" %>
   <% end %>
   <div class="media-item-thumbnail__buttons">
     <%= content_tag :div, '', class: 'media-item-thumbnail__button media-item-thumbnail__button__edit glyphicon glyphicon-pencil', data: { path: edit_admin_media_item_path(media_item) } %>

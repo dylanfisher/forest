@@ -28,7 +28,7 @@
       <% if @media_items.blank? %>
         <div class="col-sm-12 text-center">No results</div>
       <% else %>
-        <%= render partial: 'media_item_grid_layout', collection: @media_items, as: :media_item, cached: true %>
+        <%= render partial: 'admin/media_items/media_item_grid_layout', collection: @media_items, as: :media_item, cached: true %>
         <%# TODO: %>
         <%#= link_to_next_page @media_items, 'Next page', class: 'infinite-load__next-page-link' %>
       <% end %>

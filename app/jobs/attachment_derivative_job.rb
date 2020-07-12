@@ -1,4 +1,4 @@
-class PromoteJob < ApplicationJob
+class AttachmentDerivativeJob < ApplicationJob
   # https://shrinerb.com/docs/plugins/backgrounding
 
   def perform(attacher_class, record_class, record_id, name, file_data)

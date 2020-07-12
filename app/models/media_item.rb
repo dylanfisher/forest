@@ -164,20 +164,24 @@ class MediaItem < Forest::ApplicationRecord
   def to_select2_response
     # TODO
     img_tag = ''
-    # img_tag = "<img src='#{attachment.url(:thumb)}' style='height: 50px;'> " if image? && attachment.present?
+    # img_tag = "<img src='#{attachment_url(:thumb)}' style='height: 50px;'> " if image? && attachment.present?
     "#{img_tag}<span class='select2-response__id'>#{id}</span> #{to_label}"
   end
 
   def to_select2_selection
     # TODO
     img_tag = ''
-    # img_tag = "<img src='#{attachment.url(:thumb)}' style='height: 20px; display: inline-block; vertical-align: top;'> " if image? && attachment.present?
+    # img_tag = "<img src='#{attachment_url(:thumb)}' style='height: 20px; display: inline-block; vertical-align: top;'> " if image? && attachment.present?
     "#{img_tag}<span class='select2-response__id'>#{id}</span> #{to_label}"
   end
 
   # def create_derivatives
   #   # Create Shrine derivatives using the FileUploader class
-  #   attachment_derivatives! if attachment_changed? && valid?
+  #   # attachment_derivatives! if attachment_changed? && valid?
+
+  #   return unless (valid? && attachment.image?) && (attachment_changed? || attachment_derivatives.blank?)
+
+  #   AttachmentDerivativeJob.perform_later(attachment_attacher.class.name, attachment_attacher.record.class.name, attachment_attacher.record.id, attachment_attacher.name, attachment_attacher.file_data)
   # end
 
   private
