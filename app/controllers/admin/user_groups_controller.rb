@@ -11,11 +11,6 @@ class Admin::UserGroupsController < Admin::ForestController
     authorize @user_groups
   end
 
-  # GET /user_groups/1
-  def show
-    authorize @user_group
-  end
-
   # GET /user_groups/new
   def new
     @user_group = UserGroup.new

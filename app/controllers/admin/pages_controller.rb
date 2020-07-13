@@ -19,14 +19,6 @@ class Admin::PagesController < Admin::ForestController
     respond_to :html, :json
   end
 
-  # def show
-  #   unless @page
-  #     raise ActionController::RoutingError.new('Not Found')
-  #   end
-  #   authorize @page
-  #   redirect_to edit_admin_page_path(@page)
-  # end
-
   def new
     @page = Page.new
     authorize @page

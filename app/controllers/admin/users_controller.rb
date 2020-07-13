@@ -13,11 +13,6 @@ class Admin::UsersController < Admin::ForestController
     authorize @users
   end
 
-  # GET /users/1
-  def show
-    authorize @user
-  end
-
   # GET /users/new
   def new
     @user = User.new
