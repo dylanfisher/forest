@@ -14,9 +14,7 @@
     $inputs.prop('disabled', false);
   };
 
-  var generateFileData = function(file, response, options) {
-    options = options ? options : {};
-
+  var generateFileData = function(file, response) {
     return JSON.stringify({
              id: response.uploadURL.match(/\/cache\/([^\?]+)/)[1], // extract key without prefix
              storage: 'cache',
@@ -37,7 +35,6 @@
   var createMediaItemFromUploadedFileData = function($fileUpload, uploadedFileData, uppy) {
     var url = $fileUpload.attr('data-media-item-url');
     var $mediaLibary = $('#media-library-infinite-load');
-    console.log('uploadedFileData', uploadedFileData);
 
     $.ajax({
       method: 'POST',
@@ -145,7 +142,6 @@
     initializeUppyDashboardModal(uppy, $fileUpload);
 
     uppy.on('dashboard:modal-closed', function() {
-      console.log('dashboard:modal-closed');
       initializeUppyDashboardModal(uppy, $fileUpload);
     });
 

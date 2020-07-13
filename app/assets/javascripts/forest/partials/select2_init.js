@@ -65,8 +65,6 @@ App.Select2 = {
             },
             processResults: function (data, params) {
               params.page = params.page || 1;
-              console.log('params', params);
-              console.log('data', data);
               return {
                 results: data.items,
                 pagination: {

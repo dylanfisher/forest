@@ -13,7 +13,6 @@ class MediaItem < Forest::ApplicationRecord
   validates_presence_of :attachment
 
   before_save :set_default_metadata
-  # before_save :create_derivatives
 
   enum media_item_status: {
     is_not_hidden: 0,
@@ -111,7 +110,6 @@ class MediaItem < Forest::ApplicationRecord
   end
 
   def attachment_file_name
-    # binding.pry if attachment_data.blank? || attachment_data['metadata'].blank?
     attachment_data['metadata']['filename']
   end
 
@@ -174,15 +172,6 @@ class MediaItem < Forest::ApplicationRecord
     # img_tag = "<img src='#{attachment_url(:thumb)}' style='height: 20px; display: inline-block; vertical-align: top;'> " if image? && attachment.present?
     "#{img_tag}<span class='select2-response__id'>#{id}</span> #{to_label}"
   end
-
-  # def create_derivatives
-  #   # Create Shrine derivatives using the FileUploader class
-  #   # attachment_derivatives! if attachment_changed? && valid?
-
-  #   return unless (valid? && attachment.image?) && (attachment_changed? || attachment_derivatives.blank?)
-
-  #   AttachmentDerivativeJob.perform_later(attachment_attacher.class.name, attachment_attacher.record.class.name, attachment_attacher.record.id, attachment_attacher.name, attachment_attacher.file_data)
-  # end
 
   private
 
