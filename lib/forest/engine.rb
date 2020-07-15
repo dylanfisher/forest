@@ -26,6 +26,10 @@ module Forest
       Migrations.new(config, engine_name).check
     end
 
+    config.before_configuration do
+      require 'forest/shrine'
+    end
+
     config.after_initialize do
       if database_exists?
         ActiveRecord::Base.connection_pool.with_connection do |c|
