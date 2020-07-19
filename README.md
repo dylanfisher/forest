@@ -188,6 +188,8 @@ Version 2
 - [ ] replace glyphicon with bootstrap 4 icons
 - [ ] tests
 - [ ] streamlined javascript event triggers namespaced to forest, e.g. `forest:block-slot-after-insert`
+- [ ] potentially refactor how settings are stored, how a setting's value type is inferred, how they are imported, and potentially add a reference to other models so that a model's settings can be displayed when editing a record.
+- [ ] add description to settings admin index view
 - [ ] resolve all TODOs
 
 Blocks
