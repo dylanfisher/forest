@@ -4,10 +4,12 @@ require 'shrine/storage/s3'
 
 s3_options = Rails.application.credentials.s3
 
-Shrine.storages = {
-  cache: Shrine::Storage::S3.new(prefix: 'cache', public: true, **s3_options),
-  store: Shrine::Storage::S3.new(prefix: 'media', public: true, **s3_options),
-}
+if s3_options
+  Shrine.storages = {
+    cache: Shrine::Storage::S3.new(prefix: 'cache', public: true, **s3_options),
+    store: Shrine::Storage::S3.new(prefix: 'media', public: true, **s3_options),
+  }
+end
 
 Shrine.plugin :activerecord           # Load Active Record integration
 Shrine.plugin :cached_attachment_data # For retaining cached file on form redisplays
