@@ -60,7 +60,7 @@ module Blockable
   # when querying information about a record that may come from the reord's blocks.
   def set_blockable_metadata
     if self.respond_to?(:blockable_metadata)
-      self.blockable_metadata['featured_image_url'] = featured_image_from_blocks.try(:attachment).try(:url, :large)
+      self.blockable_metadata['featured_image_url'] = featured_image_from_blocks.try(:attachment_url, :large)
       self.update_column(:blockable_metadata, self.blockable_metadata)
     end
   end

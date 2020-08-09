@@ -21,13 +21,12 @@
 
       $fieldSet.sortable({
         items: '> .sortable-field',
-        containment: $fieldSet,
         // tolerance: 'pointer',
-        placeholder: 'sortable-placeholder',
+        placeholder: 'ui-state-highlight',
         handle: '.sortable-field-set__handle',
         forcePlaceholderSize: true,
         start: function(e, ui) {
-          ui.placeholder.height( ui.item.outerHeight(true) );
+          ui.placeholder.height( ui.item.outerHeight() - 4 );
         }
       });
 

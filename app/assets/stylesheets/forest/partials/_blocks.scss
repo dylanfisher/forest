@@ -18,6 +18,10 @@
   }
 }
 
+.nested-fields {
+  margin-bottom: map-get($spacers, 3);
+}
+
 .block-slot-field-template {
   display: none;
 }

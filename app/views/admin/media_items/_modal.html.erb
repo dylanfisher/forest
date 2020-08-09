@@ -1,6 +1,6 @@
 <% cache ['modal', MediaItem.cache_key], expires_in: 4.weeks do %>
-  <div class="modal fade media-item-chooser" id="media-item-chooser" tabindex="-1" role="dialog" aria-labelledby="mediaItemChooser">
-    <div class="modal-dialog modal-fluid" role="document">
+  <div class="modal media-item-chooser" id="media-item-chooser" tabindex="-1" role="dialog" aria-labelledby="mediaItemChooser" data-media-items-path="<%= admin_media_items_path %>">
+    <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -43,9 +43,6 @@
                                            remote_response_target: '.media-library' %>
                 </div>
               </div>
-            </div>
-            <div class="col-sm-2 text-right">
-              <button type="button" class="media-item-chooser__select-button btn btn-primary">Select</button>
             </div>
           </div>
         </div>

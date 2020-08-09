@@ -6,6 +6,7 @@ App.MediaItemChooser = {
 
     $elements.each(function() {
       var $element = $(this);
+      var ajaxUrl = $element.attr('data-media-items-path');
       var xhr;
 
       that.instances.push( $element );
@@ -17,8 +18,7 @@ App.MediaItemChooser = {
           if ( $modalBody.find('.media-library').length ) {
             App.InfiniteLoader.initialize( $element.find('[data-infinite-load]'), { $scrollListener: $element } );
           } else {
-            // TODO: add a js.erb file to handle ajax routes?
-            $.ajax('<%= Rails.application.routes.url_helpers.admin_media_items_path %>')
+            $.ajax(ajaxUrl)
               .done(function(data) {
                 $modalBody.html( $(data).find('.media-library') );
                 App.InfiniteLoader.initialize( $element.find('[data-infinite-load]'), { $scrollListener: $element } );
@@ -53,7 +53,7 @@ App.MediaItemChooser = {
             $loadingIndicator.html('<span class="glyphicon glyphicon-hourglass"></span> Loading...');
 
             xhr = $.ajax({
-                url: '<%= Rails.application.routes.url_helpers.admin_media_items_path %>',
+                url: ajaxUrl,
                 type: 'GET',
                 data: {
                   fuzzy_search: searchValue
@@ -88,8 +88,8 @@ App.MediaItemChooser = {
     $(document).off('change.mediaItemModalSearch keyup.mediaItemModalSearch keydown.mediaItemModalSearch');
   },
   createThumbnail: function(id, url) {
-    return '<div class="media-item--grid col-xs-4 col-sm-3 col-md-2">' +
-            '<div class="media-library-image img-rounded " style="background-image: url(' + url + ')" data-media-item-id="' + id + '" data-media-item-url="' + url + '"></div>' +
+    return '<div class="rounded col-xs-4 col-sm-3 col-md-2">' +
+            '<div class="media-library-image rounded " style="background-image: url(' + url + ')" data-media-item-id="' + id + '" data-media-item-url="' + url + '"></div>' +
             '<div class="media-item__buttons">' +
               '<div class="media-item__button media-item__buttons__remove glyphicon glyphicon-remove"></div>' +
             '</div>' +
@@ -144,6 +144,10 @@ $(document).on('click', '.media-item-chooser .media-library-link', function(e) {
   var value = App.MediaItemChooser.toPath ? imageUrl : id;
   var $removeButton = $(this).closest('.image').find('.media-item-chooser__remove-image');
 
+  if ( !$removeButton.length ) {
+    $removeButton = App.MediaItemChooser.scope.closest('.image').find('.media-item-chooser__remove-image');
+  }
+
   if ( App.MediaItemChooser.inputSelector ) {
     if ( App.MediaItemChooser.toPath ) {
       App.MediaItemChooser.input = App.MediaItemChooser.scope.closest('.image-to-path-wrapper').find( App.MediaItemChooser.inputSelector );
@@ -160,8 +164,8 @@ $(document).on('click', '.media-item-chooser .media-library-link', function(e) {
       App.MediaItemChooser.input.val( value );
 
       if ( App.MediaItemChooser.preview.length )  {
-        App.MediaItemChooser.preview.removeClass('hidden').attr('src', imageUrl);
-        $removeButton.removeClass('hidden');
+        App.MediaItemChooser.preview.removeClass('d-none').attr('src', imageUrl);
+        $removeButton.removeClass('d-none');
       }
 
       $(this).closest('.modal').modal('hide');
@@ -217,14 +221,14 @@ $(document).on('click', '.media-item-chooser__remove-image', function() {
   var $button = $wrapper.find('.media-item-chooser__button');
   var $input = $wrapper.find( $button.attr('data-media-item-input') );
 
-  $image.attr('src', '').attr('alt', '').addClass('hidden');
+  $image.attr('src', '').attr('alt', '').addClass('d-none');
   $input.val('');
-  $(this).addClass('hidden');
+  $(this).addClass('d-none');
 });
 
 $(document).on('click', '#admin-container .media-item__buttons__remove', function() {
   var $gallery = $(this).closest('.gallery, .collage');
-  var $mediaItem = $(this).closest('.media-item--grid');
+  var $mediaItem = $(this).closest('.rounded');
 
   $mediaItem.remove();
 

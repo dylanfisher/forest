@@ -39,10 +39,24 @@
                 </div>
 
                 <div class="form-group">
-                  <%# TODO: %>
                   <div class="file-upload-notifications"></div>
                   <div class="upload-preview">
-                    <%= image_tag @media_item.attachment_url(:medium).presence || uri_image_placeholder %>
+                    <% if @media_item.try(:image?) && @media_item.try(:point_of_interest_x).present? && @media_item.try(:point_of_interest_y).present? %>
+                      <label class="media-item__point-of-interest__label">Point of Interest</label>
+                      <div id="media-item__point-of-interest" class="media-item__point-of-interest">
+                        <%= content_tag :div, nil, id: 'media-item__point-of-interest__crosshair', class: 'media-item__point-of-interest__crosshair', style: "top: #{@media_item.point_of_interest_y}%; left: #{@media_item.point_of_interest_x}%;" %>
+                        <%= image_tag @media_item.attachment_url(:medium) %>
+                        <%= f.input :point_of_interest_x, as: :hidden %>
+                        <%= f.input :point_of_interest_y, as: :hidden %>
+                      </div>
+                      <small class="form-text text-muted">Click the image to change the point of interest of the image. The point of interest is used to determine where to crop the image in some contexts.</small>
+                    <% elsif @media_item.try(:video?) %>
+                      <%= video_tag @media_item.attachment_url, controls: true %>
+                    <% else %>
+                      <%= link_to @media_item.attachment_url(:large), class: 'blank-link', target: '_blank' do %>
+                        <%= image_tag @media_item.attachment_url(:medium).presence || uri_image_placeholder %>
+                      <% end %>
+                    <% end %>
                   </div>
 
                   <%# TODO: %>
@@ -64,22 +78,30 @@
                       <%= video_tag @media_item.attachment.url, controls: true %>
                     <% else %>
                       <%= link_to media_item.attachment.url, class: 'blank-link', target: '_blank' do %>
-                        <%= content_tag :div, class: 'media-item-file img-rounded', title: 'Open file' do %>
+                        <%= content_tag :div, class: 'media-item-file rounded', title: 'Open file' do %>
                           <%= content_tag :span, '', class: "media-library-image--grid__icon glyphicon #{media_item.glyphicon}" %>
                           <%= content_tag :div, media_item.attachment_file_name, class: "media-library-image__label small well" %>
                         <% end %>
                       <% end %>
                     <% end %>
                   <% end %>
+
                 </div>
                 <% if @media_item.attachment.present? %>
                   <div class="form-group">
-                    <label class="control-label">Attachment URL</label>
+                    <label class="control-label">Attachment URLs:</label>
                     <%# TODO: attachment URL needs to be public cloudfront URL %>
                     <% if @media_item.image? %>
-                      <textarea class="form-control not-resizable" type="text" readonly><%= @media_item.attachment_url(:large) %></textarea>
+                      <ul>
+                        <li><%= link_to 'Original', @media_item.attachment_url, target: '_blank' %></li>
+                        <li><%= link_to 'Large', @media_item.attachment_url(:large), target: '_blank' %></li>
+                        <li><%= link_to 'Medium', @media_item.attachment_url(:medium), target: '_blank' %></li>
+                        <li><%= link_to 'Small', @media_item.attachment_url(:small), target: '_blank' %></li>
+                      </ul>
                     <% else %>
-                      <textarea class="form-control not-resizable" type="text" readonly><%= @media_item.attachment_url %></textarea>
+                      <ul>
+                        <li><%= link_to 'Original', @media_item.attachment_url %></li>
+                      </ul>
                     <% end %>
                   </div>
                 <% end %>

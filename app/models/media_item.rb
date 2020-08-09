@@ -19,11 +19,10 @@ class MediaItem < Forest::ApplicationRecord
     hidden: 1
   }
 
-  scope :by_content_type, -> (content_type) { where(attachment_content_type: content_type) }
-  scope :images, -> { where('attachment_content_type LIKE ?', '%image%') }
-  scope :videos, -> { where('attachment_content_type LIKE ?', '%video%') }
-  scope :audio, -> { where('attachment_content_type LIKE ?', '%audio%') }
-  scope :pdfs, -> { where('attachment_content_type LIKE ?', '%pdf%') }
+  scope :images, -> { where("media_items.attachment_data -> 'metadata' -> 'mime_type' <@ ?", Rack::Mime::MIME_TYPES.select { |k, v| v =~ /^image\// }.values.to_json) }
+  scope :videos, -> { where("media_items.attachment_data -> 'metadata' -> 'mime_type' <@ ?", Rack::Mime::MIME_TYPES.select { |k, v| v =~ /^video\// }.values.to_json) }
+  scope :audio, -> { where("media_items.attachment_data -> 'metadata' -> 'mime_type' <@ ?", Rack::Mime::MIME_TYPES.select { |k, v| v =~ /^audio\// }.values.to_json) }
+  scope :pdfs, -> { where("media_items.attachment_data -> 'metadata' -> 'mime_type' <@ ?", Rack::Mime::MIME_TYPES.select { |k, v| v =~ /application\/pdf/ }.values.to_json) }
   scope :by_date, -> (date) {
     # TODO: why this rescue block?
     begin
@@ -180,6 +179,7 @@ class MediaItem < Forest::ApplicationRecord
   end
 
   def self.grouped_by_content_type
+    # TODO: jsonb suppoer for attachment_content_type
     self.select("DISTINCT ON (media_items.attachment_content_type) *")
   end
 

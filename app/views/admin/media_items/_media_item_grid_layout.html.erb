@@ -1,32 +1,42 @@
 <%# Make sure to update the media item preview in the following file when changing this partial.
     app/assets/javascripts/forest/admin/partials/media_item_chooser_modal.js.erb %>
 
-<%= content_tag :div, class: "media-item-thumbnail col-xs-4 col-sm-3 col-md-2" do %>
+<%= content_tag :div, class: "media-item--grid mb-3 col-xs-4 col-sm-3 col-md-2" do %>
   <%# TODO: file url at proper size %>
   <%# TODO: file placeholder %>
   <% if media_item.image? %>
     <% attachment_or_placeholder_url = media_item.attachment.present? ? media_item.attachment_url(:small) : '#TODO' %>
     <% attachment_or_placeholder_url_large = media_item.attachment.present? ? media_item.attachment_url(:medium) : '#TODO' %>
+
+    <% if media_item.try(:point_of_interest_x).present? && media_item.try(:point_of_interest_y).present? %>
+      <% point_of_interest_x = media_item.point_of_interest_x %>
+      <% point_of_interest_y = media_item.point_of_interest_y %>
+      <% css_style = "background-position: #{point_of_interest_x}% #{point_of_interest_y}%;" %>
+    <% end %>
   <% else %>
     <% attachment_or_placeholder_url = media_item.attachment.present? ? media_item.attachment_url : '#TODO' %>
   <% end %>
+
   <% content = capture do %>
     <% if media_item.file? %>
-      <%= content_tag :span, '', class: "media-item-thumbnail__icon glyphicon #{media_item.glyphicon}" %>
+      <%= content_tag :span, '', class: "media-item--grid__icon glyphicon #{media_item.glyphicon}" %>
     <% end %>
-    <%= content_tag :div, media_item.title, class: "media-item-thumbnail__label small card", title: media_item.attachment_file_name %>
+    <%= content_tag :div, media_item.title, class: "media-item--grid__label small card", title: media_item.attachment_file_name %>
   <% end %>
   <%= link_to edit_admin_media_item_path(media_item),
-              class: 'blank-link',
+              class: 'media-library-link blank-link',
               data: {
                 media_item_id: media_item.id,
                 image_url: (image_url(attachment_or_placeholder_url) if media_item.try(:image?)),
                 image_url_large: (image_url(attachment_or_placeholder_url_large) if media_item.try(:image?)) } do %>
-    <%= content_tag :div, content, class: "media-item-thumbnail__image background-image square-image rounded-lg #{'media-item-thumbnail__image--file' if media_item.try(:file?)}", style: "background-image: url(#{attachment_or_placeholder_url})" %>
+    <%= content_tag :div,
+                    content,
+                    class: "media-item--grid__image background-image square-image rounded-lg #{'media-item--grid__image--file' if media_item.try(:file?)}",
+                    style: "background-image: url(#{attachment_or_placeholder_url}); #{css_style}" %>
   <% end %>
-  <div class="media-item-thumbnail__buttons">
-    <%= content_tag :div, '', class: 'media-item-thumbnail__button media-item-thumbnail__button__edit glyphicon glyphicon-pencil', data: { path: edit_admin_media_item_path(media_item) } %>
+  <div class="media-item--grid__buttons">
+    <%= content_tag :div, '', class: 'media-item--grid__button media-item--grid__button__edit glyphicon glyphicon-pencil', data: { path: edit_admin_media_item_path(media_item) } %>
     <%# TODO: update delete icon to work in media library grid view? %>
-    <%= content_tag :div, '', class: 'media-item-thumbnail__button media-item-thumbnail__button__remove glyphicon glyphicon-remove' %>
+    <%= content_tag :div, '', class: 'media-item--grid__button media-item--grid__button__remove glyphicon glyphicon-remove' %>
   </div>
 <% end %>
