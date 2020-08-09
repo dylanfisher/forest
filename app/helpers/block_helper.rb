@@ -14,7 +14,13 @@ module BlockHelper
 
       if collection.present?
         content_tag :div, class: "blocks block-layout--#{block_layout.slug}" do
-          render partial: 'blocks/show', collection: collection, as: 'block'
+          collection.each do |block|
+            begin
+              concat render 'blocks/show', block: block
+            rescue Exception => e
+              forest_admin_error(e)
+            end
+          end
         end
       end
     rescue Exception => e
