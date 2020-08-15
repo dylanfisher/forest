@@ -158,7 +158,7 @@
       singleFileUpload( $(this) );
     });
 
-    var $multiFileUpload = $('#multi-file-upload');
+    var $multiFileUpload = $('.multi-file-upload');
 
     if ( $multiFileUpload.length ) {
       multiFileUpload( $multiFileUpload );

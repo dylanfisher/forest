@@ -39,9 +39,12 @@ App.Select2 = {
       var allowClear = $select.find('option:first:empty').length;
       var placeholder = $select.attr('placeholder');
       placeholder = (placeholder == 'false' ? false : (placeholder || ''));
+      var $modal = $select.closest('.modal');
+      var dropdownParent = $modal.length ? $modal : undefined;
       var selectOptions = {
         allowClear: allowClear,
-        placeholder: placeholder
+        placeholder: placeholder,
+        dropdownParent: dropdownParent
       };
 
       if ( remotePath && remotePath.length ) {

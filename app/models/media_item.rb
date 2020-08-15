@@ -5,8 +5,7 @@ class MediaItem < Forest::ApplicationRecord
   DATE_FILTER_CACHE_KEY = 'forest_media_item_dates_for_filter'
   CONTENT_TYPE_CACHE_KEY = 'forest_media_item_content_types_for_filter'
 
-  # TODO
-  # after_commit :expire_cache
+  after_commit :expire_cache
 
   has_many :pages, foreign_key: :featured_image_id
 
@@ -19,10 +18,11 @@ class MediaItem < Forest::ApplicationRecord
     hidden: 1
   }
 
-  scope :images, -> { where("media_items.attachment_data -> 'metadata' -> 'mime_type' <@ ?", Rack::Mime::MIME_TYPES.select { |k, v| v =~ /^image\// }.values.to_json) }
-  scope :videos, -> { where("media_items.attachment_data -> 'metadata' -> 'mime_type' <@ ?", Rack::Mime::MIME_TYPES.select { |k, v| v =~ /^video\// }.values.to_json) }
-  scope :audio, -> { where("media_items.attachment_data -> 'metadata' -> 'mime_type' <@ ?", Rack::Mime::MIME_TYPES.select { |k, v| v =~ /^audio\// }.values.to_json) }
-  scope :pdfs, -> { where("media_items.attachment_data -> 'metadata' -> 'mime_type' <@ ?", Rack::Mime::MIME_TYPES.select { |k, v| v =~ /application\/pdf/ }.values.to_json) }
+  scope :by_content_type, -> (content_type) { where(attachment_content_type: content_type) }
+  scope :images, -> { where('attachment_content_type LIKE ?', '%image%') }
+  scope :videos, -> { where('attachment_content_type LIKE ?', '%video%') }
+  scope :audio, -> { where('attachment_content_type LIKE ?', '%audio%') }
+  scope :pdfs, -> { where('attachment_content_type LIKE ?', '%pdf%') }
   scope :by_date, -> (date) {
     # TODO: why this rescue block?
     begin
@@ -129,7 +129,7 @@ class MediaItem < Forest::ApplicationRecord
     attachment_file_name.sub(/(--\d*)?#{Regexp.quote(file_extension)}$/i, '')
   end
 
-  def attachment_content_type
+  def get_attachment_content_type
     attachment_data['metadata']['mime_type'] if attachment_data.present?
   end
 
@@ -210,7 +210,6 @@ class MediaItem < Forest::ApplicationRecord
   end
 
   def self.grouped_by_content_type
-    # TODO: jsonb suppoer for attachment_content_type
     self.select("DISTINCT ON (media_items.attachment_content_type) *")
   end
 
@@ -218,6 +217,8 @@ class MediaItem < Forest::ApplicationRecord
     if self.title.blank?
       self.title = display_file_name
     end
+
+    self.attachment_content_type = get_attachment_content_type
   end
 
   def expire_cache

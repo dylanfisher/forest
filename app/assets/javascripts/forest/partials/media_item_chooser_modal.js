@@ -1,3 +1,5 @@
+$.fn.modal.Constructor.prototype._enforceFocus = function() {};
+
 // TODO: refactor this whole file
 App.MediaItemChooser = {
   instances: [],

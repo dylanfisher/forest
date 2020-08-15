@@ -19,8 +19,7 @@
 </div>
 
 <%#= render 'admin/file_upload', klass: MediaItem, association: :attachment, multi_upload: true %>
-<%= content_tag :div, nil, id: 'multi-file-upload', data: { media_item_url: admin_media_items_path } %>
-<div class="multi-file-upload"></div>
+<%= content_tag :div, nil, class: 'multi-file-upload', data: { media_item_url: admin_media_items_path } %>
 
 <div class="media-library">
   <% if @layout == :grid %>
