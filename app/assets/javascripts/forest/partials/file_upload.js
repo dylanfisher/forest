@@ -2,6 +2,8 @@
 // https://github.com/shrinerb/shrine/wiki/Adding-Direct-S3-Uploads#aws-s3-setup
 
 (function() {
+  var multiFileUploadUppy;
+
   var disableForm = function($form) {
     var $inputs = $form.find('input[type="submit"]');
 
@@ -139,6 +141,8 @@
         companionUrl: '/',
       });
 
+    multiFileUploadUppy = uppy;
+
     initializeUppyDashboardModal(uppy, $fileUpload);
 
     uppy.on('dashboard:modal-closed', function() {
@@ -153,15 +157,38 @@
     });
   };
 
+  var initializeMultiFileUpload = function($multiFileUpload) {
+    if ( $multiFileUpload.length ) {
+      multiFileUpload( $multiFileUpload );
+    }
+  };
+
+  var destroyMultiFileUpload = function($multiFileUpload) {
+    if ( multiFileUploadUppy ) multiFileUploadUppy.close();
+    $(document).off('dragenter.uppyDashboardModal');
+  };
+
   App.pageLoad.push(function() {
     $('.file-upload').each(function() {
       singleFileUpload( $(this) );
     });
 
-    var $multiFileUpload = $('.multi-file-upload');
+    initializeMultiFileUpload( $('.multi-file-upload').filter(':visible') );
+  });
 
-    if ( $multiFileUpload.length ) {
-      multiFileUpload( $multiFileUpload );
+  $(document).on('show.bs.modal', function(e) {
+    var $modal = $(e.target);
+
+    if ( $modal.attr('id') == 'media-item-chooser' ) {
+      initializeMultiFileUpload( $('#media-item-chooser .multi-file-upload') );
+    }
+  });
+
+  $(document).on('hide.bs.modal', function(e) {
+    var $modal = $(e.target);
+
+    if ( $modal.attr('id') == 'media-item-chooser' ) {
+      destroyMultiFileUpload( $('#media-item-chooser .multi-file-upload') );
     }
   });
 })();
