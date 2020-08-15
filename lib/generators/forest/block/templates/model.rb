@@ -13,7 +13,7 @@ class <%= class_name %> < BaseBlock
   end
 
   # def self.description
-  #   'Replace with a succinct description of what the block does'
+  #   'Replace with a succinct description of what the block does.'
   # end
 
 <% if class_name.match(/image/i) -%>

@@ -18,6 +18,7 @@ Shrine.plugin :infer_extension
 Shrine.plugin :instrumentation
 Shrine.plugin :pretty_location
 Shrine.plugin :remote_url, max_size: 40*1024*1024 # ~40mb
+Shrine.plugin :refresh_metadata
 Shrine.plugin :restore_cached_data    # Refresh metadata for cached files
 Shrine.plugin :type_predicates
 Shrine.plugin :uppy_s3_multipart      # Enable S3 multipart upload for Uppy https://github.com/janko/uppy-s3_multipart

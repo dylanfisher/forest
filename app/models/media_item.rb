@@ -64,6 +64,31 @@ class MediaItem < Forest::ApplicationRecord
     end.flatten.reject(&:blank?)
   end
 
+  def self.reprocess_all!
+    # Reprocessing all derivatives
+    # https://shrinerb.com/docs/changing-derivatives#reprocessing-all-derivatives
+
+    MediaItem.find_each do |media_item|
+      attacher = media_item.attachment_attacher
+
+      next unless attacher.stored? && media_item.image?
+
+      old_derivatives = attacher.derivatives
+
+      attacher.set_derivatives({})                    # clear derivatives
+      attacher.create_derivatives                     # reprocess derivatives
+
+      begin
+        attacher.atomic_persist                       # persist changes if attachment has not changed in the meantime
+        attacher.delete_derivatives(old_derivatives)  # delete old derivatives
+      rescue Shrine::AttachmentChanged,               # attachment has changed
+             ActiveRecord::RecordNotFound             # record has been deleted
+        attacher.delete_derivatives                   # delete now orphaned derivatives
+      end
+    end
+
+  end
+
   def generate_slug
     if self.slug.blank? || changed.include?('slug')
       if title.present?
@@ -105,11 +130,11 @@ class MediaItem < Forest::ApplicationRecord
   end
 
   def attachment_content_type
-    attachment_data['metadata']['mime_type']
+    attachment_data['metadata']['mime_type'] if attachment_data.present?
   end
 
   def attachment_file_name
-    attachment_data['metadata']['filename']
+    attachment_data['metadata']['filename'] if attachment_data.present?
   end
 
   def image?
@@ -144,7 +169,13 @@ class MediaItem < Forest::ApplicationRecord
     end
   end
 
-  # TODO: re-implement dimensions with Shrine
+  def dimensions
+    {
+      width: (attachment.width.presence || attachment_derivatives[:large].try(:width)),
+      height: (attachment.height.presence || attachment_derivatives[:large].try(:height))
+    }
+  end
+
   # Portrait images have a lower aspect ratio
   def aspect_ratio
     dimensions[:width].to_f / dimensions[:height].to_f

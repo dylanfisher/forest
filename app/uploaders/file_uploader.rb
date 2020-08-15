@@ -1,6 +1,7 @@
 class FileUploader < Shrine
   plugin :derivatives
   plugin :default_url
+  plugin :store_dimensions
 
   # TODO: images returned by Shrine.remote_url have file extension set as .jpeg, not .jpg, which is annoying
 
