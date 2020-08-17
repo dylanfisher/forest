@@ -1,5 +1,4 @@
 module BlockHelper
-
   def render_blocks(record, options = {})
     return if (record.blank? || !record.respond_to?(:blocks))
 
@@ -27,5 +26,4 @@ module BlockHelper
       forest_admin_error(e)
     end
   end
-
 end

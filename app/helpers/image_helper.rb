@@ -1,7 +1,7 @@
 module ImageHelper
   # Embed an SVG file inline, allowing it to be styled with CSS.
-  def embedded_svg(filename, options={})
-    file = File.read(Rails.root.join('app', 'assets', 'images', 'svg', "#{filename}.svg"))
+  def embedded_svg(filename, options = {})
+    file = File.read(Rails.root.join('app', 'assets', 'images', filename))
     doc = Nokogiri::HTML::DocumentFragment.parse file
     svg = doc.at_css 'svg'
     if options[:class].present?
