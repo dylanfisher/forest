@@ -13,6 +13,7 @@ class PagesController < ForestController
         return render 'errors/not_found', status: 404
       end
     end
+
     authorize @page
 
     if @page.redirect.present?

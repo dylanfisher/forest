@@ -90,10 +90,10 @@ App.MediaItemChooser = {
     $(document).off('change.mediaItemModalSearch keyup.mediaItemModalSearch keydown.mediaItemModalSearch');
   },
   createThumbnail: function(id, url) {
-    return '<div class="rounded col-xs-4 col-sm-3 col-md-2">' +
-            '<div class="media-library-image rounded " style="background-image: url(' + url + ')" data-media-item-id="' + id + '" data-media-item-url="' + url + '"></div>' +
-            '<div class="media-item__buttons">' +
-              '<div class="media-item__button media-item__buttons__remove glyphicon glyphicon-remove"></div>' +
+    return '<div class="media-item--grid mb-3 col-xs-4 col-sm-3 col-md-2">' +
+            '<div class="media-item--grid__image background-image square-image rounded-lg " style="background-image: url(' + url + ')" data-media-item-id="' + id + '" data-media-item-url="' + url + '"></div>' +
+            '<div class="media-item--grid__buttons">' +
+              '<div class="media-item__button media-item--grid__button__remove glyphicon glyphicon-remove"></div>' +
             '</div>' +
           '</div>';
   },
@@ -228,9 +228,9 @@ $(document).on('click', '.media-item-chooser__remove-image', function() {
   $(this).addClass('d-none');
 });
 
-$(document).on('click', '#admin-container .media-item__buttons__remove', function() {
+$(document).on('click', '.media-item--grid__button__remove', function() {
   var $gallery = $(this).closest('.gallery, .collage');
-  var $mediaItem = $(this).closest('.rounded');
+  var $mediaItem = $(this).closest('.media-item--grid');
 
   $mediaItem.remove();
 
@@ -241,7 +241,7 @@ $(document).on('click', '.media-gallery-preview', function(e) {
   e.preventDefault();
 });
 
-$(document).on('click', '#admin-container .media-item__button[data-path]', function() {
+$(document).on('click', '.media-item__button[data-path]', function() {
   var url = $(this).attr('data-path');
 
   window.open( url, '_blank' );

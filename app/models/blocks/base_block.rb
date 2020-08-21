@@ -36,8 +36,12 @@ class BaseBlock < Forest::ApplicationRecord
     self.class.display_name
   end
 
+  def display?
+    true
+  end
+
   def hidden?
-    false
+    !display?
   end
 
   def block?

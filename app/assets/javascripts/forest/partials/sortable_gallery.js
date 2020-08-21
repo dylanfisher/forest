@@ -13,7 +13,8 @@
         items: '.media-item--grid',
         containment: $gallery,
         tolerance: 'pointer',
-        placeholder: 'sortable-placeholder col-xs-4 col-sm-3 col-md-2'
+        placeholder: 'ui-state-highlight col-xs-4 col-sm-3 col-md-2',
+        scroll: false
       });
 
       if ( $hiddenGallerySelect.length ) {

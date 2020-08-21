@@ -35,8 +35,8 @@
                     style: "background-image: url(#{attachment_or_placeholder_url}); #{css_style}" %>
   <% end %>
   <div class="media-item--grid__buttons">
-    <%= content_tag :div, '', class: 'media-item--grid__button media-item--grid__button__edit glyphicon glyphicon-pencil', data: { path: edit_admin_media_item_path(media_item) } %>
+    <%= content_tag :div, '', class: 'media-item__button media-item--grid__button media-item--grid__button__edit glyphicon glyphicon-pencil', data: { path: edit_admin_media_item_path(media_item) } %>
     <%# TODO: update delete icon to work in media library grid view? %>
-    <%= content_tag :div, '', class: 'media-item--grid__button media-item--grid__button__remove glyphicon glyphicon-remove' %>
+    <%= content_tag :div, '', class: 'media-item__button media-item--grid__button media-item--grid__button__remove glyphicon glyphicon-remove' %>
   </div>
 <% end %>
