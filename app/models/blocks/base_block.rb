@@ -14,8 +14,7 @@ class BaseBlock < Forest::ApplicationRecord
 
   # Override to change the method of determining the display icon for the block. The default display method is Bootstrap 4's icon system
   def self.display_icon
-    path = Rails.env.development? ? ActionController::Base.helpers.asset_path('bootstrap-icons.svg') : '/public/bootstrap-icons.svg'
-    "<svg class='bi' style='width: 1.3em; height: 1.3em;' fill='currentColor'><use xlink:href='#{path}##{display_icon_name}'/></svg>".html_safe
+    ActionController::Base.helpers.image_tag("bootstrap/#{display_icon_name}.svg")
   end
 
   # Override to add a Bootstrap 4 icon next to the block's title.

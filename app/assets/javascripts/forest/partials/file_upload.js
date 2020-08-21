@@ -130,6 +130,7 @@
         inline: false,
         proudlyDisplayPoweredByUppy: false,
         closeModalOnClickOutside: true,
+        showLinkToFileUploadResult: false,
         // height: 300,
         // width: '100%',
         // hideProgressAfterFinish: true

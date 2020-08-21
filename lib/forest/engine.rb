@@ -20,8 +20,9 @@ module Forest
         forest/application.js
         bootstrap-icons.svg
       )
-    end
 
+      Rails.application.config.assets.precompile.concat Dir.glob(Forest::Engine.root.join('app', 'assets', 'images', 'bootstrap', '*.svg'))
+    end
     initializer 'forest.checking_migrations' do
       Migrations.new(config, engine_name).check
     end

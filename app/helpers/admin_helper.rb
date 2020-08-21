@@ -75,7 +75,6 @@ module AdminHelper
   end
 
   def bootstrap_icon(icon_name)
-    path = Rails.env.development? ? asset_path('bootstrap-icons.svg') : '/public/bootstrap-icons.svg'
-    "<svg class='bi' style='width: 1.3em; height: 1.3em;' fill='currentColor'><use xlink:href='#{path}##{icon_name}'/></svg>".html_safe
+    image_tag("bootstrap/#{icon_name}.svg")
   end
 end

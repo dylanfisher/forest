@@ -11,7 +11,7 @@
       placeholder: 'ui-state-highlight',
       forcePlaceholderSize: true,
       start: function(e, ui) {
-        ui.placeholder.height( ui.item.outerHeight(true) - 4 );
+        ui.placeholder.height( ui.item.outerHeight() - 4 );
       }
     });
 
