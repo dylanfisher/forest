@@ -18,7 +18,6 @@ module Forest
         forest/application.css
         forest/bootstrap.css
         forest/application.js
-        bootstrap-icons.svg
       )
 
       Rails.application.config.assets.precompile.concat Dir.glob(Forest::Engine.root.join('app', 'assets', 'images', 'bootstrap', '*.svg'))
