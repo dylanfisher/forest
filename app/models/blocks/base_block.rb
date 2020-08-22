@@ -1,6 +1,8 @@
 class BaseBlock < Forest::ApplicationRecord
   self.abstract_class = true
 
+  attr_accessor :rendered
+
   has_one :block_slot,
           as: :block,
           inverse_of: :block,
@@ -36,7 +38,7 @@ class BaseBlock < Forest::ApplicationRecord
   end
 
   def display?
-    true
+    true unless rendered
   end
 
   def hidden?
