@@ -1,7 +1,6 @@
 <% model = model_name.constantize %>
 <% model_names = model.model_name %>
 <% should_paginate = local_assigns.fetch :paginate, true %>
-<% pagination_collection = local_assigns.fetch :pagination_collection, records %>
 <%= render 'admin/shared/breadcrumbs' %>
 <%= admin_header_tag(records) do %>
   <div class="card">

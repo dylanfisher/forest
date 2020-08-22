@@ -22,6 +22,7 @@
                   <% if index.zero? %>
                     <%= render 'admin/form_inputs/slug', f: f %>
                     <%= f.association :parent_page, remote: { scope: :title_like, path: admin_pages_path(current_record: @page) } %>
+                    <%= f.input :path, as: :string, disabled: true, placeholder: 'Generated automatically from the slug and parent page.', input_html: { value: (f.object.try(:path).present? ? "/#{f.object.path}" : nil) } %>
                   <% end %>
                   <%= localized_input f, :seo_title, locale, label: 'SEO Title', placeholder: 'Leave blank to use the page\'s title.' %>
                   <%= localized_input f, :description, locale, label: 'SEO Description' %>

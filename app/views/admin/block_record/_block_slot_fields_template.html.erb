@@ -2,6 +2,9 @@
 
 <% locals = { block_record: local_assigns.fetch(:block_record, nil) } %>
 
+<%# TODO: it would be a big performance win if we could cache the block slot field templates... %>
+<%# cache ['block_slot_fields_template', expires_in: 4.weeks] do %>
+
 <div class="block-slot-field-template-wrapper block-slot nested-fields">
   <% collection = block_kinds.to_a
                              .sort_by { |bk| [bk.category.downcase, bk.name.downcase] }
