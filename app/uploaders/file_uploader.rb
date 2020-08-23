@@ -1,4 +1,5 @@
 class FileUploader < Shrine
+  plugin :backgrounding
   plugin :derivatives
   plugin :default_url
   plugin :store_dimensions
@@ -90,5 +91,9 @@ class FileUploader < Shrine
 
   Attacher.derivatives :file do |original|
     {}
+  end
+
+  Attacher.destroy_block do
+    AttachmentDestroyJob.perform_later(self.class.name, data)
   end
 end

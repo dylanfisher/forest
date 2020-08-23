@@ -1,5 +1,11 @@
 // Media Item Thumbnail
 
+.media-library {
+  .media-item--grid__button__remove {
+    display: none;
+  }
+}
+
 .media-item--grid__image {
   position: relative;
   background-color: $light-gray;
