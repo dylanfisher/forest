@@ -7,10 +7,24 @@ module Forest
     after_commit :expire_application_cache_key
     after_commit :expire_cache_key
 
-    scope :by_id, -> (orderer = :desc) { order(id: orderer) }
-    scope :by_title, -> (orderer = :asc) { order(title: orderer, id: :desc) }
-    scope :by_created_at, -> (orderer = :desc) { order(created_at: orderer, id: orderer) }
-    scope :by_updated_at, -> (orderer = :desc) { order(updated_at: orderer, id: orderer) }
+    scope :by_id, -> (orderer = :desc) {
+      orderer = %i(asc desc).include?(orderer.to_sym) ? orderer : :desc
+      order(id: orderer)
+    }
+    scope :by_title, -> (orderer = :asc) {
+      orderer = %i(asc desc).include?(orderer.to_sym) ? orderer : :desc
+      order(title: orderer, id: :desc)
+    }
+    scope :by_created_at, -> (orderer = :desc) {
+      orderer = %i(asc desc).include?(orderer.to_sym) ? orderer : :desc
+      order(created_at: orderer,
+            id: orderer)
+    }
+    scope :by_updated_at, -> (orderer = :desc) {
+      orderer = %i(asc desc).include?(orderer.to_sym) ? orderer : :desc
+      order(updated_at: orderer,
+            id: orderer)
+    }
     scope :fuzzy_search, -> (query) {
       columns_to_search = self.columns
                               .select { |x| [:string, :text].include?(x.type) }

@@ -9,7 +9,6 @@
     background-position: center center;
     width: 1.2rem;
     height: 1.2rem;
-    background-color: $white;
   }
 }
 
@@ -58,5 +57,11 @@
 .glyphicon-file {
   &:before {
     background-image: image-url('bootstrap/file.svg');
+  }
+}
+
+.glyphicon-exclamation-sign {
+  &:before {
+    background-image: image-url('bootstrap/exclamation-diamond.svg');
   }
 }

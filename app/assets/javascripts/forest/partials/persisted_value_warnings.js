@@ -11,10 +11,6 @@
     if ( !persistedValue ) return;
 
     var value = $input.val();
-    var $label = $wrapper.find('.control-label');
-
-    if ( !$label.length ) return;
-
     var $warning = $wrapper.find('.persisted-value-warning');
     var warningMessageOverride = $input.attr('data-persisted-value-warning');
 
@@ -28,7 +24,7 @@
       if ( $warning.length ) {
         $warning.html(warningMessage);
       } else {
-        $label.before('<div class="alert alert-warning persisted-value-warning" role="alert">' + warningMessage + '</div>');
+        $input.after('<div class="alert alert-warning persisted-value-warning my-3" role="alert">' + warningMessage + '</div>');
       }
     } else {
       $warning.remove();

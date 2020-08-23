@@ -35,19 +35,21 @@
 <% end -%>
           <td><%%= forest_date <%= singular_name %>.created_at %></td>
           <td><%%= forest_date <%= singular_name %>.updated_at %></td>
-          <td width="<%%= try('<%= singular_name %>_path', <%= singular_name %>) ? '3' : '2' %>">
-            <div class="btn-group">
-              <%%= link_to 'Edit', edit_admin_<%= singular_name %>_path(<%= singular_name %>), class: 'btn btn-xs btn-primary', role: 'button' %>
-              <%% if try('<%= singular_name %>_path', <%= singular_name %>) %>
-                <%% if <%= singular_name %>.respond_to?(:to_friendly_param) %>
-                  <%% param = <%= singular_name %>.to_friendly_param %>
-                <%% else %>
-                  <%% param = <%= singular_name %> %>
-                <%% end %>
-                <%%= link_to 'Show', <%= singular_name %>_path(param), class: 'btn btn-xs btn-info', role: 'button', data: { turbolinks: false } %>
-              <%% end %>
-              <%%= link_to 'Destroy', [:admin, <%= singular_name %>], method: :delete, class: 'btn btn-xs btn-danger', role: 'button', data: { confirm: 'Are you sure you want to destroy this <%= singular_name.titleize %>?' } %>
-            </div>
+          <td width="1">
+            <%%= link_to 'Edit', edit_admin_<%= singular_name %>_path(<%= singular_name %>), class: 'btn btn-xs btn-primary', role: 'button' %>
+          </td>
+          <%% if try('<%= singular_name %>_path', <%= singular_name %>) %>
+            <%% if <%= singular_name %>.respond_to?(:to_friendly_param) %>
+              <%% param = <%= singular_name %>.to_friendly_param %>
+            <%% else %>
+              <%% param = <%= singular_name %> %>
+            <%% end %>
+            <td width="1">
+              <%%= link_to 'Show', <%= singular_name %>_path(param), class: 'btn btn-xs btn-info', role: 'button', data: { turbolinks: false } %>
+            </td>
+          <%% end %>
+          <td width="1">
+            <%%= link_to 'Destroy', [:admin, <%= singular_name %>], method: :delete, class: 'btn btn-xs btn-danger', role: 'button', data: { confirm: 'Are you sure you want to destroy this <%= singular_name.titleize %>?' } %>
           </td>
         </tr>
       <%% end %>
@@ -55,4 +57,4 @@
   </table>
 </div>
 
-<%= pagy_bootstrap_nav_js(@pagy).html_safe if @pagy.pages > 1 %>
+<%%= pagy_bootstrap_nav_js(@pagy).html_safe if @pagy.pages > 1 %>
