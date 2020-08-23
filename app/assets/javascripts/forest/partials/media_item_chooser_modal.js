@@ -91,7 +91,7 @@ App.MediaItemChooser = {
   },
   createThumbnail: function(id, url) {
     return '<div class="media-item--grid mb-3 col-xs-4 col-sm-3 col-md-2">' +
-            '<div class="media-item--grid__image background-image square-image rounded-lg " style="background-image: url(' + url + ')" data-media-item-id="' + id + '" data-media-item-url="' + url + '"></div>' +
+            '<div class="media-item--grid__image background-image-contain square-image rounded-lg " style="background-image: url(' + url + ')" data-media-item-id="' + id + '" data-media-item-url="' + url + '"></div>' +
             '<div class="media-item--grid__buttons">' +
               '<div class="media-item__button media-item--grid__button__remove glyphicon glyphicon-remove"></div>' +
             '</div>' +

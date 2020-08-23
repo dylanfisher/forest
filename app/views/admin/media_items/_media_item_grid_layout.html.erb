@@ -19,7 +19,7 @@
 
   <% content = capture do %>
     <% if media_item.file? %>
-      <%= content_tag :span, '', class: "media-item--grid__icon glyphicon #{media_item.glyphicon}" %>
+      <%= content_tag :span, '', class: "media-item--grid__icon glyphicon glyphicon-#{media_item.glyphicon}" %>
     <% end %>
     <%= content_tag :div, media_item.title, class: "media-item--grid__label small card", title: media_item.attachment_file_name %>
   <% end %>
@@ -31,7 +31,7 @@
                 image_url_large: (image_url(attachment_or_placeholder_url_large) if media_item.try(:image?)) } do %>
     <%= content_tag :div,
                     content,
-                    class: "media-item--grid__image background-image square-image rounded-lg #{'media-item--grid__image--file' if media_item.try(:file?)}",
+                    class: "media-item--grid__image background-image-contain square-image rounded-lg #{'media-item--grid__image--file' if media_item.try(:file?)}",
                     style: "background-image: url(#{attachment_or_placeholder_url}); #{css_style}" %>
   <% end %>
   <div class="media-item--grid__buttons">

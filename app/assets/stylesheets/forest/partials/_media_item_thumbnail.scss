@@ -2,6 +2,8 @@
 
 .media-item--grid__image {
   position: relative;
+  background-color: $light-gray;
+  background-position: 50% calc(50% - 14px) !important;
 }
 
 .media-item--grid__label {
@@ -96,5 +98,20 @@
 .media-gallery-preview {
   .media-library-link {
     cursor: move;
+  }
+}
+
+.media-item--grid__icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, calc(-50% - 14px));
+  opacity: 0.5;
+
+  &:before {
+    width: 60px;
+    height: 60px;
+    background-size: contain;
+    background-color: transparent;
   }
 }

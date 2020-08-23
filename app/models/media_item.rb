@@ -117,7 +117,7 @@ class MediaItem < Forest::ApplicationRecord
     elsif attachment_content_type == 'application/zip'
       'file-richtext'
     else
-      'file'
+      'file-richtext'
     end
   end
 
