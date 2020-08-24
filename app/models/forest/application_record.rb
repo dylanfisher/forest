@@ -90,9 +90,9 @@ module Forest
 
     def to_select2_response
       if respond_to?(:media_item) && media_item.try(:attachment_url, :thumb).present?
-        img_tag = "<img src='#{media_item.attachment_url(:thumb)}' style='height: 20px; display: inline-block; vertical-align: top;'> "
+        img_tag = "<img src='#{media_item.attachment_url(:thumb)}' style='height: 20px; margin-right: 5px;'> "
       end
-      "#{img_tag}<span class='select2-response__id'>#{id}</span> #{to_label}"
+      "#{img_tag}<span class='select2-response__id' style='margin-right: 5px;'>#{id}</span> #{to_label}"
     end
 
     def to_select2_selection

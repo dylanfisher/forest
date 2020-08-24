@@ -26,3 +26,8 @@
 .select2-dropdown {
   z-index: 1010;
 }
+
+.select2-container .select2-selection--single .select2-selection__rendered {
+  display: flex;
+  align-items: center;
+}

@@ -3,7 +3,7 @@ class Admin::<%= plural_name.camelize %>Controller < Admin::ForestController
   before_action :set_<%= singular_name %>, only: [:show, :edit, :update, :destroy]
 
   def index
-    @pagy, @<%= plural_name %> = pagy apply_scopes(<%= name %>).by_id
+    @pagy, @<%= plural_name %> = pagy apply_scopes(<%= name %>.by_id)
   end
 
   def show
