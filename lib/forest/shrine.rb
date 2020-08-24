@@ -15,7 +15,7 @@ Shrine.plugin :activerecord           # Load Active Record integration
 Shrine.plugin :cached_attachment_data # For retaining cached file on form redisplays
 Shrine.plugin :determine_mime_type
 Shrine.plugin :infer_extension
-Shrine.plugin :instrumentation
+Shrine.plugin :instrumentation if (Rails.env.development? || Rails.application.config.log_level == :debug)
 Shrine.plugin :pretty_location
 Shrine.plugin :remote_url, max_size: 40*1024*1024 # ~40mb
 Shrine.plugin :refresh_metadata
