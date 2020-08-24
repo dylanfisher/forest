@@ -91,7 +91,7 @@ App.pageLoad.push(function() {
 
       $inputs.attr('disabled', 'disabled');
 
-      $template.hide();
+      $template.remove();
     });
   }
 
