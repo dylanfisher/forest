@@ -14,7 +14,7 @@
       <div class="block-type-header-title d-flex">
         <% if f.object.block_kind %>
           <%= content_tag :div, f.object.block_kind.name.constantize.display_icon, class: 'mr-2' %>
-          <div class="mr-2">
+          <div class="mr-2 flex-shrink-0">
             <%= f.object.block.try(:display_name) %>
           </div>
           <span class="text-muted">
