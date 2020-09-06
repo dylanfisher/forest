@@ -7,6 +7,10 @@
 .block-kind__select2-response__icon {
   line-height: 1.4;
   vertical-align: top;
+
+  .select2-results__option--highlighted & {
+    filter: invert(1);
+  }
 }
 
 .nested-fields,
