@@ -5,6 +5,8 @@ App.pageLoad.push(function() {
 
   if ( !$nestable.length ) return;
 
+  var $menuStructure = $('#menu_structure');
+
   $nestable.nestable();
 
   App.NestableMenus.getSerializedJSON = function() {
@@ -19,14 +21,14 @@ App.pageLoad.push(function() {
         var inputName = $thisInput.attr('name');
         var inputValue = $thisInput.val();
 
-        $thisInput.closest('.dd-item').data(inputName, inputValue);
+        $thisInput.closest('.dd-item').data(inputName, inputValue.trim());
       });
     });
 
     return window.JSON.stringify( $nestable.nestable( 'serialize' ) );
   }
 
-  $('#menu_structure').val( App.NestableMenus.getSerializedJSON() );
+  $menuStructure.val( App.NestableMenus.getSerializedJSON() );
 
   $nestable.on('change', function() {
     if ( $(this).closest('#dd-primary').length ) {
@@ -34,7 +36,6 @@ App.pageLoad.push(function() {
 
       $selects.each(function() {
         var $select = $(this);
-
         var $parent = $select.closest('.dd-input');
         var $hiddenInput = $parent.find('.dd-input__input-for-select');
         var value = $select.find(':selected').val();
@@ -42,7 +43,7 @@ App.pageLoad.push(function() {
         $hiddenInput.val(value);
       });
 
-      $('#menu_structure').val( App.NestableMenus.getSerializedJSON() );
+      $menuStructure.val( App.NestableMenus.getSerializedJSON() );
     }
   });
 });
