@@ -42,7 +42,7 @@ class ForestController < ApplicationController
 
   def page_path
     if params[:page_path].present?
-      params[:page_path]
+      params[:page_path].sub(/^\//, '')
     elsif home_page_paths.include?(request.path)
       'home'
     end
