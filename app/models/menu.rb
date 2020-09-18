@@ -54,7 +54,14 @@ class Menu < Forest::ApplicationRecord
     end
 
     def relative_link?(resource)
-      URI(resource).relative?
+      begin
+        URI(resource).relative?
+      rescue URI::InvalidURIError => e
+        logger.error("[Forest][AdminError] #{e.class}")
+        logger.error(e.message)
+        logger.error(e.backtrace.first(10).join("\n"))
+        false
+      end
     end
 
     def create_nokogiri_children(menu_item, node)
