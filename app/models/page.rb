@@ -5,6 +5,7 @@ class Page < Forest::ApplicationRecord
   before_validation :generate_slug
   before_validation :generate_path, if: :hierarchy_changed?
 
+  after_save :generate_descendent_paths, if: :hierarchy_changed?
   after_save :expire_menu_cache
 
   after_destroy :remove_page_hierarchy!
@@ -30,16 +31,32 @@ class Page < Forest::ApplicationRecord
     "Pages offer a flexible and modular way to present information."
   end
 
-  def generate_slug
-    self.slug = title.parameterize if self.slug.blank?
-  end
-
   def to_friendly_param
     path
   end
 
+  def generate_slug
+    self.slug = title.parameterize if self.slug.blank?
+  end
+
+  def generate_path
+    if page_ancestors.any?
+      generated_path = "#{page_ancestors.reverse.collect(&:slug).join('/')}/#{self.slug}"
+    else
+      generated_path = self.slug
+    end
+    self.path = generated_path
+  end
+
+  def generate_descendent_paths
+    page_descendents.each do |page_descendent|
+      page_descendent.generate_path
+      page_descendent.save
+    end
+  end
+
   def page_ancestors
-    # TODO: these recursive function aren't performant and should be cached in the view
+    # Note: these recursive function aren't performant and should be cached in the view
     @_page_ancestors ||= begin
       ancestors ||= []
       page = self
@@ -54,7 +71,7 @@ class Page < Forest::ApplicationRecord
   end
 
   def page_descendents
-    # TODO: these recursive function aren't performant and should be cached in the view
+    # Note: these recursive function aren't performant and should be cached in the view
     @_page_descendents ||= begin
       descendents = []
       children = self.immediate_children
@@ -118,15 +135,6 @@ class Page < Forest::ApplicationRecord
 
   def hierarchy_changed?
     (current_or_previous_changes & %w(parent_page_id slug)).any?
-  end
-
-  def generate_path
-    if page_ancestors.any?
-      generated_path = "#{page_ancestors.reverse.collect(&:slug).join('/')}/#{self.slug}"
-    else
-      generated_path = self.slug
-    end
-    self.path = generated_path
   end
 
   def parent_page_is_not_self
