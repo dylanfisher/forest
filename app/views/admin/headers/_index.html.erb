@@ -1,6 +1,5 @@
 <% model = model_name.constantize %>
 <% model_names = model.model_name %>
-<% should_paginate = local_assigns.fetch :paginate, true %>
 <%= render 'admin/shared/breadcrumbs' %>
 <%= admin_header_tag(records) do %>
   <div class="card">
@@ -31,6 +30,7 @@
           <div class="form-group">
             <%= text_field_tag :fuzzy_search, params[:fuzzy_search], class: 'form-control mr-2', placeholder: 'Search', autofocus: (true if params[:fuzzy_search].present?) %>
             <%= submit_tag "Search #{model_names.human.pluralize.titleize}", name: nil, class: 'btn btn-outline-secondary' %>
+            <%= content_for :index_header_body if content_for? :index_header_body %>
           </div>
         <% end %>
         <% if @pagy.pages > 1 %>

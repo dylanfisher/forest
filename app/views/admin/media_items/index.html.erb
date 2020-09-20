@@ -1,15 +1,23 @@
 <% content_for :index_header_body do %>
-  <%= link_to admin_media_items_path(layout: :list), class: 'btn btn-link btn-md' do %>
-    <span class="glyphicon glyphicon-th-list"></span>
+  <% if false %>
+    <%# TODO: list view? %>
+    <%= link_to admin_media_items_path(layout: :list), class: 'btn btn-link btn-md' do %>
+      <span class="glyphicon glyphicon-th-list"></span>
+    <% end %>
+
+    <%= link_to admin_media_items_path(layout: :grid), class: 'btn btn-link btn-md' do %>
+      <span class="glyphicon glyphicon-th-large"></span>
+    <% end %>
   <% end %>
 
-  <%= link_to admin_media_items_path(layout: :grid), class: 'btn btn-link btn-md' do %>
-    <span class="glyphicon glyphicon-th-large"></span>
-  <% end %>
-
-  <%= dropdown_select_form url: admin_media_items_path(current_scopes.except(:by_date)), id: 'by_date', select_options: MediaItem.dates_for_filter, title: 'All Dates' %>
-  <%# TODO %>
-  <%#= dropdown_select_form url: admin_media_items_path(current_scopes.except(:by_content_type)), id: 'by_content_type', select_options: MediaItem.content_types_for_filter, title: 'All Content Types' %>
+  <div class="row small-gutters ml-2">
+    <div class="col">
+      <%= dropdown_select_form url: admin_media_items_path(current_scopes.except(:by_date)), id: 'by_date', select_options: MediaItem.dates_for_filter, title: 'All Dates' %>
+    </div>
+    <div class="col">
+      <%= dropdown_select_form url: admin_media_items_path(current_scopes.except(:by_content_type)), id: 'by_content_type', select_options: MediaItem.content_types_for_filter, title: 'All Content Types' %>
+    </div>
+  </div>
 <% end %>
 
 <%= render 'admin/headers/index', records: @media_items, model_name: 'MediaItem', paginate: false %>
