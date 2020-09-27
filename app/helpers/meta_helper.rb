@@ -80,13 +80,8 @@ module MetaHelper
           url = page_featured_image
         end
 
-        if page_featured_image.is_a?(Paperclip::Attachment)
-          if page_featured_image.options[:styles].keys.include?(:large)
-            style = :large
-          else
-            style = page_featured_image.options[:styles].keys.last
-          end
-          url = page_featured_image.url(style)
+        if page_featured_image.is_a?(FileUploader::UploadedFile)
+          url = page_featured_image.attachment_url(:large)
         end
 
         url
@@ -97,32 +92,32 @@ module MetaHelper
 
   def page_featured_image_width
     @_page_featured_image_width ||= begin
-      return unless page_featured_image.is_a?(Paperclip::Attachment)
+      return unless page_featured_image.is_a?(FileUploader::UploadedFile)
       @page_featured_image_width ||
         page_featured_image.instance.try(:dimensions).try(:[], :width) ||
-        page_featured_image.instance.try(:attachment_width)
+        page_featured_image.instance.try(:width)
     end
   end
 
   def page_featured_image_height
     @_page_featured_image_height ||= begin
-      return unless page_featured_image.is_a?(Paperclip::Attachment)
+      return unless page_featured_image.is_a?(FileUploader::UploadedFile)
       @page_featured_image_height ||
         page_featured_image.instance.try(:dimensions).try(:[], :height) ||
-        page_featured_image.instance.try(:attachment_height)
+        page_featured_image.instance.try(:height)
     end
   end
 
   def page_featured_image_type
     @_page_featured_image_type ||= begin
-      return unless page_featured_image.is_a?(Paperclip::Attachment)
+      return unless page_featured_image.is_a?(FileUploader::UploadedFile)
       page_featured_image.try(:attachment_content_type)
     end
   end
 
   def page_featured_image_alt
     @_page_featured_image_alt ||= begin
-      return unless page_featured_image.is_a?(Paperclip::Attachment)
+      return unless page_featured_image.is_a?(FileUploader::UploadedFile)
       if page_featured_image.try(:instance).present?
         ft(page_featured_image.instance, :alternative_text, call_method: :try, fallback: true)
       end

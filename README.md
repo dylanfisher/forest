@@ -199,7 +199,6 @@ Blocks
 - [ ] minimum and maximum blocks per layout
 
 Media Gallery
-- [ ] replace paperclip with AWS lambda serverless image solution
 - [ ] search and replace all legacy references of attachment with new attachment_url method e.g. search for `.attachment.`
 - [ ] add drag and drop upload to media item edit view
 - [ ] add direct to S3 file upload for large files like video, that otherwise look like they timeout on heroku
