@@ -1,9 +1,11 @@
 <% content_for :index_header_body do %>
   <% if Page.statusable? %>
-    <%= dropdown_select_form url: admin_pages_path(current_scopes.except(:by_status)),
-      id: 'by_status',
-      select_options: Page.statuses.keys.to_a.collect{ |x| [x.titleize, x] },
-      title: 'All Statuses' %>
+    <div class="col-auto pl-2">
+      <%= dropdown_select_form url: admin_pages_path(current_scopes.except(:by_status)),
+        id: 'by_status',
+        select_options: Page.statuses.keys.to_a.collect{ |x| [x.titleize, x] },
+        title: 'All Statuses' %>
+    </div>
   <% end %>
 <% end %>
 <%= render 'admin/headers/index', records: @parent_pages, model_name: 'Page' %>

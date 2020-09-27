@@ -4,6 +4,7 @@ class Admin::PagesController < Admin::ForestController
   before_action :set_block_kinds, only: [:create, :edit, :new]
 
   has_scope :by_parent_page
+  has_scope :by_status
   has_scope :title_like
 
   def index
@@ -12,6 +13,7 @@ class Admin::PagesController < Admin::ForestController
       authorize @pages
     else
       # TODO: fuzzy searching doesn't work properly with page hierarchy
+      # TODO: by_status scope doesn't work when filtering to parent_pages
       @pagy, @parent_pages = pagy apply_scopes(Page.includes(:immediate_children)).parent_pages
       authorize @parent_pages
     end

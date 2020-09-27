@@ -26,8 +26,8 @@
     </h1>
     <div class="card-body">
       <div class="d-flex align-items-baseline">
-        <%= form_tag send("admin_#{model_names.plural}_path"), class: 'form-inline mr-auto', method: :get, enforce_utf8: false do %>
-          <div class="form-group">
+        <%= form_tag send("admin_#{model_names.plural}_path"), class: 'form-inline mr-auto w-100', method: :get, enforce_utf8: false do %>
+          <div class="form-group w-100">
             <%= text_field_tag :fuzzy_search, params[:fuzzy_search], class: 'form-control mr-2', placeholder: 'Search', autofocus: (true if params[:fuzzy_search].present?) %>
             <%= submit_tag "Search #{model_names.human.pluralize.titleize}", name: nil, class: 'btn btn-outline-secondary' %>
             <%= content_for :index_header_body if content_for? :index_header_body %>
