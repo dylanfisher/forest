@@ -58,18 +58,12 @@ module MetaHelper
 
   def page_featured_image
     @_page_featured_image ||= begin
-      image = [
+      [
         content_for(:page_featured_image),
         @page_featured_image,
         build_page_featured_image_from_record,
         site_featured_image
       ].reject(&:blank?).first
-
-      if image.respond_to?(:attachment)
-        image = image.attachment
-      end
-
-      image
     end
   end
 
@@ -80,7 +74,7 @@ module MetaHelper
           url = page_featured_image
         end
 
-        if page_featured_image.is_a?(FileUploader::UploadedFile)
+        if page_featured_image.is_a?(MediaItem)
           url = page_featured_image.attachment_url(:large)
         end
 
@@ -92,34 +86,34 @@ module MetaHelper
 
   def page_featured_image_width
     @_page_featured_image_width ||= begin
-      return unless page_featured_image.is_a?(FileUploader::UploadedFile)
+      return unless page_featured_image.is_a?(MediaItem)
       @page_featured_image_width ||
-        page_featured_image.instance.try(:dimensions).try(:[], :width) ||
-        page_featured_image.instance.try(:width)
+        page_featured_image.try(:dimensions).try(:[], :width) ||
+        page_featured_image.try(:width)
     end
   end
 
   def page_featured_image_height
     @_page_featured_image_height ||= begin
-      return unless page_featured_image.is_a?(FileUploader::UploadedFile)
+      return unless page_featured_image.is_a?(MediaItem)
       @page_featured_image_height ||
-        page_featured_image.instance.try(:dimensions).try(:[], :height) ||
-        page_featured_image.instance.try(:height)
+        page_featured_image.try(:dimensions).try(:[], :height) ||
+        page_featured_image.try(:height)
     end
   end
 
   def page_featured_image_type
     @_page_featured_image_type ||= begin
-      return unless page_featured_image.is_a?(FileUploader::UploadedFile)
+      return unless page_featured_image.is_a?(MediaItem)
       page_featured_image.try(:attachment_content_type)
     end
   end
 
   def page_featured_image_alt
     @_page_featured_image_alt ||= begin
-      return unless page_featured_image.is_a?(FileUploader::UploadedFile)
-      if page_featured_image.try(:instance).present?
-        ft(page_featured_image.instance, :alternative_text, call_method: :try, fallback: true)
+      return unless page_featured_image.is_a?(MediaItem)
+      if page_featured_image.present?
+        ft(page_featured_image, :alternative_text, call_method: :try, fallback: true)
       end
     end
   end
