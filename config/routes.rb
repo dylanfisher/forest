@@ -27,7 +27,11 @@ Rails.application.routes.draw do
   end
 
   # Shrine direct S3 multipart upload
-  mount Shrine.uppy_s3_multipart(:cache) => '/s3/multipart'
+  begin
+    mount Shrine.uppy_s3_multipart(:cache) => '/s3/multipart'
+  rescue Shrine::Error => e
+    puts "[Forest][Error] Shrine cache must be configured. Define S3 options in Rails credentials file." if Rails.env.development?
+  end
 
   # Devise
   devise_for :users, class_name: 'User', module: :devise

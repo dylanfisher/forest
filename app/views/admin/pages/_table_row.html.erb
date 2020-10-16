@@ -4,7 +4,7 @@
   <% end %>
   <td><%= page.id %></td>
   <td><%= admin_page_level_indicator level %><%= page.title %></td>
-  <td><%= content_tag :input, nil, value: "/#{page.path}", readonly: true, class: 'form-control' %></td>
+  <td><%= content_tag :input, nil, value: "/#{page.path}", readonly: true, class: 'form-control form-control-sm' %></td>
   <td><%= forest_date page.updated_at %></td>
   <td width="1">
     <%= link_to 'Edit', edit_admin_page_path(page), class: 'btn btn-xs btn-primary', role: 'button' %>
@@ -17,4 +17,4 @@
   </td>
 <% end %>
 
-<%= render partial: 'table_row', collection: page.immediate_children, locals: { level: level + 1 }, as: :page if page.immediate_children.present? %>
+<%= render partial: 'admin/pages/table_row', collection: page.immediate_children, locals: { level: level + 1 }, as: :page if page.immediate_children.present? %>

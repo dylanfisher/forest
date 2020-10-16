@@ -1,9 +1,11 @@
-<h4>Header</h4>
-<p>Find me in /app/views/shared/_header.html.erb</p>
+<header>
+  <h4>Header</h4>
+  <p>Find me in /app/views/shared/_header.html.erb</p>
 
-<% if Menu.for('main-menu').present? %>
-  <strong><%= Menu.for('main-menu').title %></strong>
-  <%= render 'shared/menu', menu: Menu.for('main-menu') %>
-<% end %>
+  <% if Menu.for('main-menu').present? %>
+    <strong><%= Menu.for('main-menu').title %></strong>
+    <%= render 'shared/menu', menu: Menu.for('main-menu') %>
+  <% end %>
 
-<hr>
+  <hr>
+</header>

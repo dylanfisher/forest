@@ -1,5 +1,5 @@
 <% cache ['modal', MediaItem.cache_key], expires_in: 4.weeks do %>
-  <div class="modal media-item-chooser" id="media-item-chooser" tabindex="-1" role="dialog" aria-labelledby="mediaItemChooser" data-media-items-path="<%= admin_media_items_path %>">
+  <div class="modal media-item-chooser" id="media-item-chooser" tabindex="-1" role="dialog" aria-labelledby="mediaItemChooser" data-media-items-path="<%= admin_media_items_path %>" style="display: none;">
     <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
       <div class="modal-content">
         <div class="modal-header flex-column">
