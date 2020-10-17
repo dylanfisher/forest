@@ -1,6 +1,6 @@
 // Default selects
 $(document).on('change', '.select-tag--default', function() {
-  $(this).closest('.select-tag-form').submit();
+  $(this).closest('form').submit();
 });
 
 $(document).on('submit', '.select-tag-form', function(e) {

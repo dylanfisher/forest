@@ -14,7 +14,11 @@ class Admin::PagesController < Admin::ForestController
     else
       # TODO: fuzzy searching doesn't work properly with page hierarchy
       # TODO: by_status scope doesn't work when filtering to parent_pages
-      @pagy, @parent_pages = pagy apply_scopes(Page.includes(:immediate_children)).parent_pages
+      if params[:fuzzy_search].present? || params[:by_status].present?
+        @pagy, @parent_pages = pagy apply_scopes(Page.all)
+      else
+        @pagy, @parent_pages = pagy apply_scopes(Page.includes(:immediate_children)).parent_pages
+      end
       authorize @parent_pages
     end
 

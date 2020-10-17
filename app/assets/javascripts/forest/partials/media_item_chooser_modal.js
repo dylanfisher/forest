@@ -135,7 +135,7 @@ $(document).on('click', '[data-media-item-input]', function() {
 $(document).on('click', '.media-item-chooser .media-library-link', function(e) {
   e.preventDefault();
 
-  var $wrapper = $('.media-item-chooser__button--active').closest('.image-to-path-wrapper');
+  var $wrapper = $('.media-item-chooser__button--active').closest('.media-item-chooser-to-path');
 
   if ( !$wrapper.length ) {
     $wrapper = $('.media-item-chooser__button--active').closest('.image');
@@ -152,7 +152,7 @@ $(document).on('click', '.media-item-chooser .media-library-link', function(e) {
 
   if ( App.MediaItemChooser.inputSelector ) {
     if ( App.MediaItemChooser.toPath ) {
-      App.MediaItemChooser.input = App.MediaItemChooser.scope.closest('.image-to-path-wrapper').find( App.MediaItemChooser.inputSelector );
+      App.MediaItemChooser.input = App.MediaItemChooser.scope.closest('.media-item-to-path-parent').find( App.MediaItemChooser.inputSelector );
     } else {
       App.MediaItemChooser.input = App.MediaItemChooser.scope.closest('.gallery, .image, .collage').find( App.MediaItemChooser.inputSelector );
     }
@@ -222,10 +222,15 @@ $(document).on('click', '.media-item-chooser__remove-image', function() {
   var $image = $wrapper.find('.media-item-chooser__image');
   var $button = $wrapper.find('.media-item-chooser__button');
   var $input = $wrapper.find( $button.attr('data-media-item-input') );
+  var $toPathInput = $wrapper.closest('.media-item-to-path-parent').find('.media-item-to-path-target');
 
   $image.attr('src', '').attr('alt', '').addClass('d-none');
   $input.val('');
   $(this).addClass('d-none');
+
+  if ( $toPathInput.length ) {
+    $toPathInput.val('');
+  }
 });
 
 $(document).on('click', '.media-item--grid__button__remove', function() {
