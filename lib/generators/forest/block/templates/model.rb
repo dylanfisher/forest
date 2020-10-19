@@ -36,9 +36,14 @@ class <%= class_name %> < BaseBlock
   def self.display_icon_name
     'list'
   end
+<% elsif class_name.match(/link/i) -%>
+  def self.display_icon_name
+    'link'
+  end
 <% else -%>
   # def self.display_icon_name
-  #   'Replace with a relevant bootstrap icon name https://icons.getbootstrap.com/'
+  #   # Replace with a relevant bootstrap icon name https://icons.getbootstrap.com/
+  #   'icon-name'
   # end
 <% end -%>
 end
