@@ -43,7 +43,7 @@ class ImageInput < SimpleForm::Inputs::StringInput
                     data: {
                       **modal_data_attributes
                     })
-      content << template.text_field_tag('File URL', image_object.try(attachment_url), readonly: true, class: 'form-control string')
+      content << template.text_field_tag('File URL', image_object.try(:attachment_url), readonly: true, class: 'form-control string')
       content << template.tag(:br)
     else
       content << template.image_tag((img_src || ''),
