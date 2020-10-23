@@ -3,6 +3,9 @@ class PagesController < ForestController
 
   def show
     unless @page
+
+      check_for_redirect!
+
       if Rails.configuration.consider_all_requests_local
         raise ActionController::RoutingError.new('Not Found')
       else

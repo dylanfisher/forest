@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     end
     resources :menus, except: [:show]
     resources :pages, except: [:show]
+    resources :redirects, except: [:show]
     resources :settings, except: [:show, :destroy]
     resources :users, except: [:show] do
       get 'reset_password'

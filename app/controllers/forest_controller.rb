@@ -51,4 +51,10 @@ class ForestController < ApplicationController
   def set_page
     @page = Page.find_by_path(page_path)
   end
+
+  def check_for_redirect!
+    if redirect = Redirect.published.find_by_from_path("/#{page_path}")
+      return redirect_to redirect.to_path, status: 301
+    end
+  end
 end
