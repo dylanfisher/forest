@@ -6,3 +6,22 @@
     color: inherit;
   }
 }
+
+.form-group-invalid {
+  .invalid-feedback {
+    display: block;
+  }
+
+  label {
+    color: $red;
+  }
+
+  .btn {
+    color: $red;
+    border-color: $red;
+
+    &:hover {
+      color: $white;
+    }
+  }
+}
