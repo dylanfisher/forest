@@ -52,9 +52,10 @@ class ForestController < ApplicationController
     @page = Page.find_by_path(page_path)
   end
 
+  # Make sure to return after calling this method, e.g. `check_for_redirect! and return` to avoid double render errors
   def check_for_redirect!
     if redirect = Redirect.published.find_by_from_path("/#{page_path}")
-      return redirect_to redirect.to_path, status: 301
+      redirect_to redirect.to_path, params: { page_path: redirect.to_path }, status: 301
     end
   end
 end
