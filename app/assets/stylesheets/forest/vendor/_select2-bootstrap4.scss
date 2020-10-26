@@ -57,7 +57,9 @@
     margin-right: 5px;
     padding: 0 5px;
     float: left;
-    border: 1px solid transparent; }
+    border: 1px solid transparent;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px; }
     .select2-container--bootstrap4 .select2-selection--multiple .select2-selection__choice__remove:hover {
       color: #343a40; }
   .select2-container--bootstrap4 .select2-selection--multiple .select2-selection__clear {
