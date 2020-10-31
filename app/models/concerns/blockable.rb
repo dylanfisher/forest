@@ -45,7 +45,7 @@ module Blockable
   end
 
   def featured_image_from_blocks
-    blocks.find { |b| b.try(:media_item).present? }.try(:media_item)
+    blocks.find { |b| b.try(:media_item).present? && b.media_item.image? }.try(:media_item)
   end
 
   private
