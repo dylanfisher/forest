@@ -1,6 +1,6 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <% num_parts_to_reject = %w(show edit).include?(action_name) ? 2 : 1 %>
+    <% num_parts_to_reject = %w(show edit new).include?(action_name) ? 2 : 1 %>
     <% path_parts = request.path.split('/').reject(&:blank?) %>
     <% path_parts.each_with_index do |path_part, index| %>
       <% path_part_name = path_part == 'admin' ? 'dashboard' : path_part %>
