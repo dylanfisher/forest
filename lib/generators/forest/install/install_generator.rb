@@ -53,11 +53,6 @@ module Forest
         puts "[Forest] Post-install"
         puts "[Forest]"
 
-        # Application config
-        puts "[Forest] -- Add the following to application.rb"
-        puts '[Forest] config.autoload_paths << "#{config.root}/app/models/blocks"'
-        puts "[Forest]"
-
         # Create your first block
         puts "[Forest] -- Create a Block by running this command:"
         puts '[Forest] rails g forest:block TextBlock text:text'
