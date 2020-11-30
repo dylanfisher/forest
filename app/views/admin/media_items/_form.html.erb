@@ -70,7 +70,7 @@
                           <%= f.input :point_of_interest_x, as: :hidden %>
                           <%= f.input :point_of_interest_y, as: :hidden %>
                         </div>
-                        <p class="help-block">Click the image to change the point of interest of the image. The point of interest is used to determine where to crop the image in some contexts.</p>
+                        <p class="form-text text-muted">Click the image to change the point of interest of the image. The point of interest is used to determine where to crop the image in some contexts.</p>
                       <% else %>
                         <%= image_tag @media_item.attachment_url(:medium) %>
                       <% end %>

@@ -46,7 +46,7 @@
     <%= simple_form_for 'import', url: admin_imports_path, html: { multipart: true } do |f| %>
       <div class="form-group">
         <%= f.input :file, as: :file, label: 'CSV File input', input_html: { accept: '.csv' } %>
-        <p class="help-block">Upload your CSV file matching the template here.</p>
+        <p class="form-text text-muted">Upload your CSV file matching the template here.</p>
       </div>
       <%= f.input :model_name, value: @import.model_name.name, as: :hidden %>
       <%= f.button :submit, 'Submit', class: 'btn btn-primary' %>

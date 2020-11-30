@@ -17,7 +17,7 @@ class ColorInput < SimpleForm::Inputs::Base
   end
 
   def default_help_text
-    content_tag :p, 'Click to select a color, or enter a 6 digit hex code in the box.', class: 'help-block'
+    content_tag :small, 'Click to select a color, or enter a 6 digit hex code in the box.', class: 'form-text text-muted'
   end
 
   def input_group_addon(hex_code)
