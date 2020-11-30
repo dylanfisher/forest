@@ -19,7 +19,7 @@ Rails.application.routes.draw do
     resources :menus, except: [:show]
     resources :pages, except: [:show]
     resources :redirects, except: [:show]
-    resources :settings, except: [:show, :destroy]
+    resources :settings, only: [:index, :edit, :update]
     resources :users, except: [:show] do
       get 'reset_password'
     end

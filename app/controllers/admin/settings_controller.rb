@@ -9,32 +9,9 @@ class Admin::SettingsController < Admin::ForestController
     authorize @settings
   end
 
-  # GET /settings/1
-  def show
-    authorize @setting
-  end
-
-  # GET /settings/new
-  # def new
-  #   @setting = Setting.new
-  #   authorize @setting
-  # end
-
   # GET /settings/1/edit
   def edit
     authorize @setting
-  end
-
-  # POST /settings
-  def create
-    @setting = Setting.new(setting_params)
-    authorize @setting
-
-    if @setting.save
-      redirect_to edit_admin_setting_path(@setting), notice: 'Setting was successfully created.'
-    else
-      render :new
-    end
   end
 
   # PATCH/PUT /settings/1
@@ -46,13 +23,6 @@ class Admin::SettingsController < Admin::ForestController
       render :edit
     end
   end
-
-  # DELETE /settings/1
-  # def destroy
-  #   authorize @setting
-  #   @setting.destroy
-  #   redirect_to admin_settings_url, notice: 'Setting was successfully destroyed.'
-  # end
 
   private
 
