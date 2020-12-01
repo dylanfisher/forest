@@ -74,7 +74,7 @@ module AdminHelper
     end
   end
 
-  def bootstrap_icon(icon_name)
-    image_tag("bootstrap/#{icon_name}.svg")
+  def bootstrap_icon(icon_name, options = {})
+    image_tag("bootstrap/#{icon_name}.svg", **options)
   end
 end
