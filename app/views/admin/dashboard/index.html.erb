@@ -1,13 +1,11 @@
 <%= render 'admin/shared/breadcrumbs' %>
-<div class="card">
-  <h1 class="card-header h2">Forest</h1>
-  <div class="card-body pb-0">
-    <% @_rendered_resources = [] %>
-    <%= render 'admin/dashboard/panel',
-               title: 'Content',
-               resources: [Page, MediaItem] %>
-    <%= render 'admin/dashboard/panel',
-               title: 'Admin',
-               resources: @admin_resources - @_rendered_resources %>
-  </div>
+<div class="card mb-3">
+  <h1 class="card-header h2 border-bottom-0">Forest</h1>
 </div>
+<% @_rendered_resources = [] %>
+<%= render 'admin/dashboard/panel',
+           title: 'Content',
+           resources: [Page, MediaItem] %>
+<%= render 'admin/dashboard/panel',
+           title: 'Admin',
+           resources: @admin_resources - @_rendered_resources %>
