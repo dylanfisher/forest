@@ -31,7 +31,7 @@
                   <% if index.zero? %>
                     <%= render 'admin/form_inputs/status', f: f, record: @page %>
                     <%= f.input :redirect, hint: 'Add a relative path or full URL if you need to redirect this page to another URL.' %>
-                    <%= f.association :featured_image, as: :image %>
+                    <%= render 'admin/pages/media_item_inputs', f: f %>
                   <% end %>
                 </div>
               <% end %>
