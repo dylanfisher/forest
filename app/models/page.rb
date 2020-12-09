@@ -105,10 +105,6 @@ class Page < Forest::ApplicationRecord
     self.immediate_children.update(parent_page_id: nil)
   end
 
-  def select2_format
-    ((page_ancestors.length + 1).times.collect{}.join('&mdash; ') + title).as_json
-  end
-
   # Returns a collection of media items that represent the basic images on the page. Override this
   # method in your host app if your pages often contain images stored under other attribute names.
   def typical_media_items
