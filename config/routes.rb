@@ -31,7 +31,7 @@ Rails.application.routes.draw do
   begin
     mount Shrine.uppy_s3_multipart(:cache) => '/s3/multipart'
   rescue Shrine::Error => e
-    puts "[Forest][Error] Shrine cache must be configured. Define S3 options in Rails credentials file." if Rails.env.development?
+    puts "[Forest][Error] Shrine cache must be configured. Define S3 options in Rails credentials file.\n#{e.inspect}" if Rails.env.development?
   end
 
   # Devise
