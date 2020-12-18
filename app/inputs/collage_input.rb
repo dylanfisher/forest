@@ -44,7 +44,7 @@ class CollageInput < SimpleForm::Inputs::CollectionSelectInput
     cocoon_content = template.content_tag(:div, cocoon_content, class: "collage-input__canvas", id: "#{field_name}_preview", style: canvas_styles.join('; '))
     cocoon_content = template.content_tag(:div, cocoon_content, class: "row")
 
-    content << template.content_tag(:div, cocoon_content, class: "collage-input__canvas-wrapper well")
+    content << template.content_tag(:div, cocoon_content, class: "collage-input__canvas-wrapper card bg-light p-3")
 
     cocoon_link = template.link_to_add_association('Add collage item',
                                                    @builder,
