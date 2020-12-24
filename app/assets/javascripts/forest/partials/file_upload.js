@@ -115,6 +115,8 @@
   };
 
   var initializeUppyDashboardModal = function(uppy, $fileUpload) {
+    uppy.reset();
+
     $(document).on('dragenter.uppyDashboardModal', function(e) {
       $(document).off('dragenter.uppyDashboardModal');
       uppy.getPlugin('Dashboard').openModal();
@@ -124,13 +126,14 @@
 
   var multiFileUpload = function($fileUpload) {
     var uppy = Uppy.Core({
-        autoProceed: true,
+        autoProceed: true
       })
       .use(Uppy.Dashboard, {
         inline: false,
         proudlyDisplayPoweredByUppy: false,
         closeModalOnClickOutside: true,
         showLinkToFileUploadResult: false,
+        closeAfterFinish: true
         // height: 300,
         // width: '100%',
         // hideProgressAfterFinish: true
