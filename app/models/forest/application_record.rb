@@ -38,7 +38,7 @@ module Forest
     end
 
     def self.cache_key
-      Rails.cache.fetch self.cache_key_name do
+      Rails.cache.fetch self.cache_key_name, expires_in: 4.weeks do
         SecureRandom.uuid
       end
     end

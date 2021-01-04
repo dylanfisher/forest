@@ -38,13 +38,13 @@ class MediaItem < Forest::ApplicationRecord
   end
 
   def self.dates_for_filter
-    Rails.cache.fetch DATE_FILTER_CACHE_KEY do
+    Rails.cache.fetch DATE_FILTER_CACHE_KEY, expires_in: 4.weeks do
       self.grouped_by_year_month.collect { |x| [x.created_at.strftime('%B %Y'), x.created_at.strftime('%d-%m-%Y')] }.reverse
     end
   end
 
   def self.content_types_for_filter
-    Rails.cache.fetch CONTENT_TYPE_CACHE_KEY do
+    Rails.cache.fetch CONTENT_TYPE_CACHE_KEY, expires_in: 4.weeks do
       self.grouped_by_content_type.collect { |x| x.attachment_content_type }
     end
   end

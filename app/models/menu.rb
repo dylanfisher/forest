@@ -40,7 +40,7 @@ class Menu < Forest::ApplicationRecord
   private
 
   def self.menus
-    @memo ||= Rails.cache.fetch CACHE_KEY do
+    @memo ||= Rails.cache.fetch CACHE_KEY, expires_in: 4.weeks do
       self.all.to_a
     end
   end
