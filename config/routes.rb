@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   # Admin Resources
   namespace :admin do
     get '/', to: 'dashboard#index'
+    get '/forest', to: redirect('/admin')
     resources :block_kinds, only: [:index, :edit, :update], path: 'block-kinds'
     resources :block_layouts, except: [:destroy, :show, :new], path: 'block-layouts'
     resources :cache_purge, path: 'cache-purge', only: [:index]
