@@ -94,6 +94,7 @@ class FileUploader < Shrine
   end
 
   Attacher.destroy_block do
+    # TODO: figure out why the original upload is not being destroyed in S3
     AttachmentDestroyJob.perform_later(self.class.name, data)
   end
 end
