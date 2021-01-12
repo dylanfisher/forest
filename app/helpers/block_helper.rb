@@ -9,7 +9,8 @@ module BlockHelper
         block_layout = BlockLayout.find_by_slug(block_layout)
       end
 
-      collection = record.blocks(block_layout: block_layout).select(&:display?)
+      collection = options.delete(:collection) || record.blocks(block_layout: block_layout)
+      collection.select!(&:display?)
 
       if collection.present?
         content_tag :div, class: "blocks block-layout--#{block_layout.slug}" do
