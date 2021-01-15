@@ -19,6 +19,7 @@ App.Datepicker = {
       var showTimepicker = $el.attr('data-timepicker') == 'true';
       var timezone = parseInt( $el.attr('data-timezone-utc-offset') ) / 60;
       var displayTimeFormat = 'hh:mm tt';
+      var disabled = $el.attr('disabled');
       var options = {
         dateFormat: 'mm/dd/yy',
         timeFormat: displayTimeFormat,
@@ -32,6 +33,7 @@ App.Datepicker = {
         showTimepicker: showTimepicker,
         showTimezone: false,
         showSecond: false,
+        disabled: disabled,
         onClose: function(dateText, inst) {
           if ( !dateText || !$el.val() ) {
             $altField.val('');
