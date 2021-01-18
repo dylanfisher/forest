@@ -37,9 +37,9 @@ class User < Forest::ApplicationRecord
 
   private
 
-    def assign_default_user_groups
-      if self.class.count == 0
-        self.user_groups << UserGroup.find_by_name('admin')
-      end
+  def assign_default_user_groups
+    if self.class.count == 0
+      self.user_groups << UserGroup.find_by_name('admin')
     end
+  end
 end

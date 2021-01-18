@@ -16,26 +16,24 @@ Gem::Specification.new do |s|
 
   s.files = Dir['{app,config,db,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.md']
 
-  s.add_dependency 'rails'
-
-  s.add_development_dependency 'pg'
-
   s.add_dependency 'aws-sdk-s3'
-  s.add_dependency 'bootstrap-sass'
+  s.add_dependency 'bootstrap'
   s.add_dependency 'cocoon'
-  s.add_dependency 'devise'
   s.add_dependency 'deep_cloneable'
+  s.add_dependency 'devise'
+  s.add_dependency 'fastimage'
   s.add_dependency 'has_scope'
   s.add_dependency 'jbuilder'
   s.add_dependency 'jquery-rails'
-  s.add_dependency 'jquery-fileupload-rails'
   s.add_dependency 'jquery-ui-rails'
-  s.add_dependency 'kaminari'
   s.add_dependency 'nokogiri'
-  s.add_dependency 'paperclip'
+  s.add_dependency 'pagy'
   s.add_dependency 'pundit'
+  s.add_dependency 'rails'
   s.add_dependency 'redcarpet'
-  s.add_dependency 'sass-rails'
+  s.add_dependency 'shrine', '~> 3.0'
   s.add_dependency 'simple_form'
-  s.add_dependency 'turbolinks'
+  s.add_dependency 'uppy-s3_multipart', '~> 0.3'
+
+  s.add_development_dependency 'pg'
 end

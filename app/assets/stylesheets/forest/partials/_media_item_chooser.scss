@@ -1,0 +1,53 @@
+// Media Item Chooser
+
+
+// .media-item-chooser__image,
+// .media-item-chooser__button,
+// .media-item-chooser__remove-image {
+//   margin-bottom: $gutter;
+// }
+
+.media-item-chooser__image {
+  display: block;
+  max-width: 100%;
+  max-height: 250px;
+
+  &:hover {
+    filter: brightness(95%);
+  }
+}
+
+.media-item-chooser__image--file {
+  color: #aaa;
+  font-size: 80px;
+  display: inline-block;
+}
+
+.media-item-chooser {
+  .fileupload {
+    margin-top: $gutter * 2;
+  }
+}
+
+.gallery {
+  // margin-bottom: 0;
+
+  .media-item-chooser__button {
+    margin-bottom: 0;
+  }
+
+  .sortable-placeholder {
+    float: left;
+    // background-color: darken($well-bg, 10%);
+    margin: 0 0 $gutter;
+    padding: 0 ($gutter / 2);
+    border-radius: 3px;
+
+    &:before {
+      content: '';
+      display: block;
+      height: 0;
+      padding-bottom: 100%;
+    }
+  }
+}

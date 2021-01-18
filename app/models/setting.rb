@@ -42,7 +42,7 @@ class Setting < Forest::ApplicationRecord
   end
 
   def self.application_cache_key
-    Rails.cache.fetch APPLICATION_CACHE_KEY do
+    Rails.cache.fetch APPLICATION_CACHE_KEY, expires_in: 4.weeks do
       SecureRandom.uuid
     end
   end
@@ -148,22 +148,22 @@ class Setting < Forest::ApplicationRecord
 
   private
 
-    def self.settings
-      @memo ||= Rails.cache.fetch CACHE_KEY do
-        self.all.to_a
-      end
+  def self.settings
+    @memo ||= Rails.cache.fetch CACHE_KEY, expires_in: 4.weeks do
+      self.all.to_a
     end
+  end
 
-    def self.reset_method_cache!
-      @memo = nil
-    end
+  def self.reset_method_cache!
+    @memo = nil
+  end
 
-    def expire_cache
-      self.class.expire_cache!
-    end
+  def expire_cache
+    self.class.expire_cache!
+  end
 
-    # Pages may depend on settings and should be updated each time a setting is changed
-    def touch_associations
-      Page.update_all(updated_at: Time.now)
-    end
+  # Pages may depend on settings and should be updated each time a setting is changed
+  def touch_associations
+    Page.update_all(updated_at: Time.now)
+  end
 end

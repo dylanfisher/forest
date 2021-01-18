@@ -44,12 +44,12 @@ class CollageInput < SimpleForm::Inputs::CollectionSelectInput
     cocoon_content = template.content_tag(:div, cocoon_content, class: "collage-input__canvas", id: "#{field_name}_preview", style: canvas_styles.join('; '))
     cocoon_content = template.content_tag(:div, cocoon_content, class: "row")
 
-    content << template.content_tag(:div, cocoon_content, class: "collage-input__canvas-wrapper well")
+    content << template.content_tag(:div, cocoon_content, class: "collage-input__canvas-wrapper card bg-light p-3")
 
     cocoon_link = template.link_to_add_association('Add collage item',
                                                    @builder,
                                                    reflection_or_attribute_name,
-                                                   class: 'collage-input__link-to-add-association btn btn-default',
+                                                   class: 'collage-input__link-to-add-association btn btn-outline-secondary',
                                                    partial: 'admin/form_inputs/collage/media_item_fields',
                                                    render_options: {
                                                      locals: {
@@ -66,7 +66,7 @@ class CollageInput < SimpleForm::Inputs::CollectionSelectInput
       cocoon_text_box_link = template.link_to_add_association('Add text box item',
                                                               @builder,
                                                               reflection_or_attribute_name,
-                                                              class: 'collage-input__link-to-add-association btn btn-default',
+                                                              class: 'collage-input__link-to-add-association btn btn-outline-secondary',
                                                               partial: 'admin/form_inputs/collage/text_box_fields',
                                                               render_options: {
                                                                 locals: {

@@ -1,4 +1,6 @@
 module AdminHelper
+  include Pagy::Frontend
+
   def table_sorter(options = {})
     title = options.fetch :title
     path = options.fetch :path
@@ -16,13 +18,9 @@ module AdminHelper
   def table_thumbnail(image)
     if image&.attachment.present?
       content_tag :div, class: 'table-thumbnail' do
-        image_tag image.attachment.url(:thumb)
+        image_tag image.attachment_url(:thumb)
       end
     end
-  end
-
-  def table_color_representation(color)
-    content_tag :div, '', class: 'table-color-representation', style: "background-color: #{color};"
   end
 
   def forest_date(datetime)
@@ -33,18 +31,6 @@ module AdminHelper
 
   def admin_page_level_indicator(level)
     (level + 1).times.collect{}.join('&mdash; ').html_safe
-  end
-
-  def admin_navbar_class
-    return unless (@page && @page.statusable?)
-
-    # if @page.scheduled?
-    #   'bg-info'
-    # elsif !@page.published?
-    #   'bg-warning'
-    # end
-
-    !@page.published?
   end
 
   def admin_navbar_active_class(nav_item_path)
@@ -65,12 +51,16 @@ module AdminHelper
 
   def record_name(record)
     return unless record.present?
-    record.try(:display_name).presence || record.try(:title).presence || record.try(:name).presence || "#{record.model_name.human} #{record.id}"
+    if record.new_record?
+      "New #{record.model_name.human}"
+    else
+      record.try(:display_name).presence || record.try(:title).presence || record.try(:name).presence || "#{record.model_name.human} #{record.id}"
+    end
   end
 
   def admin_header_tag(record, &block)
     record = record.first if record.respond_to?(:join)
-    content_tag :div, capture(&block), class: "admin-header", data: {
+    content_tag :div, capture(&block), class: "admin-header mb-3", data: {
       record_type: record&.class&.model_name&.singular,
       record_id: record.try(:id)
     }
@@ -84,12 +74,7 @@ module AdminHelper
     end
   end
 
-  def jquery_include_tag
-    if Rails.env.production?
-      jquery_url = 'https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'
-    else
-      jquery_url = 'forest/lib/jquery-3.3.1.min'
-    end
-    javascript_include_tag jquery_url, data: { turbolinks_eval: false, turbolinks_suppress_warning: true }
+  def bootstrap_icon(icon_name, options = {})
+    image_tag("bootstrap/#{icon_name}.svg", **options)
   end
 end

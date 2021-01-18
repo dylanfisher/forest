@@ -11,24 +11,23 @@ module Forest
   class Engine < ::Rails::Engine
     config.autoload_paths << "#{config.root}/app/models/blocks"
 
+    config.assets.paths << Pagy.root.join('javascripts')
+
     initializer :assets, group: :all do
       Rails.application.config.assets.precompile += %w(
-        forest/application_admin.css
-        forest/application_public.css
-        forest/application_bootstrap.css
-        forest/application_admin.js
-        forest/application_public.js
-        forest/lib/jquery-3.3.1.min.js
-        forest/favicons/apple-touch-icon.png
-        forest/favicons/favicon-32x32.png
-        forest/favicons/favicon-16x16.png
-        forest/favicons/manifest.json
-        forest/favicons/safari-pinned-tab.svg
+        forest/application.css
+        forest/bootstrap.css
+        forest/application.js
       )
-    end
 
+      Rails.application.config.assets.precompile.concat Dir.glob(Forest::Engine.root.join('app', 'assets', 'images', 'bootstrap', '*.svg'))
+    end
     initializer 'forest.checking_migrations' do
       Migrations.new(config, engine_name).check
+    end
+
+    config.before_configuration do
+      require 'forest/shrine'
     end
 
     config.after_initialize do
@@ -36,7 +35,6 @@ module Forest
         ActiveRecord::Base.connection_pool.with_connection do |c|
           unless Migrations.new(config, engine_name).missing_migrations.present? || c.migration_context.needs_migration?
             Setting.initialize_from_i18n if c.data_source_exists? 'settings'
-            Translation.initialize_from_i18n if c.data_source_exists? 'translations'
           end
         end
       end

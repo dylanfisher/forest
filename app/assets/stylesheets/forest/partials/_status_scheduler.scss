@@ -1,0 +1,11 @@
+// Status scheduler
+
+.status-scheduler {
+  .form-group[class*='_scheduled_date'] {
+    display: none;
+
+    &.active {
+      display: block;
+    }
+  }
+}

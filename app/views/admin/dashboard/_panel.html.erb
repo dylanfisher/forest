@@ -1,27 +1,26 @@
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h3><%= title %></h3>
-  </div>
+<div class="card mb-3">
+  <h2 class="card-header h3"><%= title %></h2>
   <div class="table-responsive">
-    <table class="forest-table table table-striped">
+    <table class="forest-table table table-striped table-sm mb-0">
       <thead>
         <tr>
-          <th width="10%">Index</th>
-          <th width="20%">Resource type</th>
-          <th width="60%">Description</th>
-          <th width="10%">Count</th>
-          <th colspan="1"></th>
+          <th class="px-3" width="10%">Index</th>
+          <th class="px-3" width="20%">Resource type</th>
+          <th class="px-3" width="60%">Description</th>
+          <th class="px-3" width="10%">Count</th>
+          <th class="px-3" colspan="1"></th>
         </tr>
       </thead>
       <tbody>
         <% @_rendered_resources.concat(resources) %>
         <% resources.each_with_index do |resource, index| %>
+          <% resource_count = resource.name == 'MediaItem' ? resource.not_hidden.count : resource.count %>
           <tr>
-            <td><%= index + 1 %></td>
-            <td><%= resource.model_name.human.titleize.pluralize %></td>
-            <td><p class="text-muted"><%= resource.try(:resource_description) %></p></td>
-            <td><%= number_with_delimiter resource.count %></td>
-            <td width="1"><%= link_to 'Edit', polymorphic_path([:admin, resource]), class: 'btn btn-xs btn-info forest-table__link', role: 'button' %></td>
+            <td class="px-3"><%= index + 1 %></td>
+            <td class="px-3"><%= resource.model_name.human.titleize.pluralize %></td>
+            <td class="px-3"><div class="text-muted"><%= resource.try(:resource_description) %></div></td>
+            <td class="px-3"><%= number_with_delimiter resource_count %></td>
+            <td class="px-3" width="1"><%= link_to 'Edit', polymorphic_path([:admin, resource]), class: 'btn btn-xs btn-primary forest-table__link', role: 'button' %></td>
           </tr>
         <% end %>
       </tbody>

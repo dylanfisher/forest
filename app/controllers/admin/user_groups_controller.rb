@@ -7,13 +7,8 @@ class Admin::UserGroupsController < Admin::ForestController
 
   # GET /user_groups
   def index
-    @user_groups = apply_scopes(UserGroup).by_name.page params[:page]
+    @pagy, @user_groups = pagy apply_scopes(UserGroup).by_name
     authorize @user_groups
-  end
-
-  # GET /user_groups/1
-  def show
-    authorize @user_group
   end
 
   # GET /user_groups/new
@@ -57,13 +52,14 @@ class Admin::UserGroupsController < Admin::ForestController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_user_group
-      @user_group = UserGroup.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def user_group_params
-      params.require(:user_group).permit(:name)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_user_group
+    @user_group = UserGroup.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def user_group_params
+    params.require(:user_group).permit(:name)
+  end
 end

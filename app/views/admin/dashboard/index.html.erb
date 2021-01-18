@@ -1,18 +1,11 @@
-<div class="admin-header">
-  <div class="well">
-    <h1>
-      Dashboard
-      <span class="badge" title="<%= number_with_delimiter(@admin_resources.count) %> total resources"><%= number_with_delimiter @admin_resources.count %></span>
-    </h1>
-  </div>
+<%= render 'admin/shared/breadcrumbs' %>
+<div class="card mb-3">
+  <h1 class="card-header h2 border-bottom-0">Forest</h1>
 </div>
-
 <% @_rendered_resources = [] %>
-
 <%= render 'admin/dashboard/panel',
            title: 'Content',
            resources: [Page, MediaItem] %>
-
 <%= render 'admin/dashboard/panel',
            title: 'Admin',
            resources: @admin_resources - @_rendered_resources %>

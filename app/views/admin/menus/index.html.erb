@@ -1,7 +1,7 @@
 <%= render 'admin/headers/index', records: @menus, model_name: 'Menu' %>
 
 <div class="table-responsive">
-  <table class="forest-table table table-striped">
+  <table class="forest-table table table-striped table-sm">
     <thead>
       <tr>
         <th>Title</th>
@@ -17,13 +17,19 @@
           <td><%= menu.title %></td>
           <td><%= menu.slug %></td>
           <td><%= Menu.for(menu.slug).render %></td>
-          <td width="1"><%= link_to 'Edit', edit_admin_menu_path(menu), class: 'btn btn-xs btn-primary', role: 'button' %></td>
-          <td width="1"><%= link_to 'Show', [:admin, menu], class: 'btn btn-xs btn-info', role: 'button', data: { turbolinks: false } %></td>
-          <td width="1"><%= link_to 'Destroy', [:admin, menu], method: :delete, class: 'btn btn-xs btn-danger', role: 'button', data: { confirm: 'Are you sure?' } %></td>
+          <td width="1">
+            <%= link_to 'Edit', edit_admin_menu_path(menu), class: 'btn btn-xs btn-primary', role: 'button' %>
+          </td>
+          <td width="1">
+            <%= link_to 'Show', [:admin, menu], class: 'btn btn-xs btn-info', role: 'button' %>
+          </td>
+          <td width="1">
+            <%= link_to 'Destroy', [:admin, menu], method: :delete, class: 'btn btn-xs btn-danger', role: 'button', data: { confirm: 'Are you sure?' } %>
+          </td>
         </tr>
       <% end %>
     </tbody>
   </table>
 </div>
 
-<%= paginate @menus %>
+<%= pagy_bootstrap_nav_js(@pagy).html_safe if @pagy.pages > 1 %>

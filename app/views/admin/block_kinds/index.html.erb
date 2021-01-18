@@ -1,7 +1,7 @@
 <%= render 'admin/headers/index', records: @block_kinds, model_name: 'BlockKind' %>
 
 <div class="table-responsive">
-  <table class="forest-table table table-striped">
+  <table class="forest-table table table-striped table-sm">
     <thead>
       <tr>
         <th><%= table_sorter title: 'ID', path: :admin_block_kinds_path, scope: :by_id, default_order: :desc %></th>
@@ -21,11 +21,11 @@
           <td><%= block_kind.description %></td>
           <td><%= block_kind.category %></td>
           <td><%= block_kind.record_type %></td>
-          <td width="1"><%= link_to 'Edit', edit_admin_block_kind_path(block_kind), class: 'btn btn-xs btn-primary', role: 'button' %></td>
+          <td width="1"><%= link_to 'Edit', edit_admin_block_kind_path(block_kind), class: 'btn btn-sm btn-primary', role: 'button' %></td>
         </tr>
       <% end %>
     </tbody>
   </table>
 </div>
 
-<%= paginate @block_kinds %>
+<%= pagy_bootstrap_nav_js(@pagy).html_safe if @pagy.pages > 1 %>

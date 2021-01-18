@@ -1,7 +1,7 @@
 module ImageHelper
   # Embed an SVG file inline, allowing it to be styled with CSS.
-  def embedded_svg(filename, options={})
-    file = File.read(Rails.root.join('app', 'assets', 'images', 'svg', "#{filename}.svg"))
+  def embedded_svg(filename, options = {})
+    file = File.read(Rails.root.join('app', 'assets', 'images', filename))
     doc = Nokogiri::HTML::DocumentFragment.parse file
     svg = doc.at_css 'svg'
     if options[:class].present?
@@ -20,9 +20,9 @@ module ImageHelper
     # TODO: DF 08/04/17 - return a missing image if media item is blank?
     # return if media_item.blank?
     css_class = options.fetch :class, nil
-    image_set_tag media_item.attachment.url(:small), {
-        media_item.attachment.url(:medium) => '1200w',
-        media_item.attachment.url(:large) => '2000w'
+    image_set_tag media_item.attachment_url(:small), {
+        media_item.attachment_url(:medium) => '1200w',
+        media_item.attachment_url(:large) => '2000w'
       },
       options.merge(
         sizes: options.fetch(:sizes, '100vw'),
@@ -45,11 +45,11 @@ module ImageHelper
   # Prevent images from thrashing your page's layout with the image_jump_fix helper.
   #
   # <%= image_jump_fix block.media_item do %>
-  #   <%= image_tag block.media_item.attachment.url(:medium) %>
+  #   <%= image_tag block.media_item.attachment_url(:medium) %>
   # <% end %>
   def image_jump_fix(media_item, options = {})
-    width = media_item.try(:dimensions).try(:[], :width) || media_item.try(:attachment_width)
-    height = media_item.try(:dimensions).try(:[], :height) || media_item.try(:attachment_height)
+    width = media_item.try(:dimensions).try(:[], :width)
+    height = media_item.try(:dimensions).try(:[], :height)
     tag_type = options.delete(:tag) || :div
     css_class = options[:class]
 
@@ -61,5 +61,9 @@ module ImageHelper
     content_tag tag_type, class: "forest-image-jump-fix #{('forest-image-jump-fix--' + media_item.attachment_content_type.parameterize) if media_item.try(:attachment_content_type).present?} #{css_class}", style: padding_bottom do
       yield
     end
+  end
+
+  def uri_image_placeholder
+    'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=='
   end
 end

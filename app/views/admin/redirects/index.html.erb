@@ -1,0 +1,54 @@
+<%= render 'admin/headers/index', records: @redirects, model_name: 'Redirect' %>
+
+<div class="table-responsive">
+  <table class="forest-table table table-striped table-sm">
+    <thead>
+      <tr>
+        <% if Redirect.statusable? %>
+          <th></th>
+        <% end %>
+        <th><%= table_sorter title: 'ID', path: :admin_redirects_path, scope: :by_id, default_order: :desc %></th>
+        <th>Name</th>
+        <th>From Path</th>
+        <th>To Path</th>
+        <th><%= table_sorter title: 'Created&nbsp;at'.html_safe, path: :admin_redirects_path, scope: :by_created_at, default_order: :desc %></th>
+        <th><%= table_sorter title: 'Updated&nbsp;at'.html_safe, path: :admin_redirects_path, scope: :by_updated_at, default_order: :desc %></th>
+        <th colspan="3"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @redirects.each do |redirect| %>
+        <tr>
+          <% if Redirect.statusable? %>
+            <td><%= status_indicator redirect %></td>
+          <% end %>
+          <td><%= redirect.id %></td>
+          <td><%= redirect.name %></td>
+          <td><%= redirect.from_path %></td>
+          <td><%= redirect.to_path %></td>
+          <td><%= forest_date redirect.created_at %></td>
+          <td><%= forest_date redirect.updated_at %></td>
+          <td width="1">
+            <%= link_to 'Edit', edit_admin_redirect_path(redirect), class: 'btn btn-xs btn-primary', role: 'button' %>
+          </td>
+          <% if try('redirect_path', redirect) %>
+            <% if redirect.respond_to?(:to_friendly_param) %>
+              <% param = redirect.to_friendly_param %>
+            <% else %>
+              <% param = redirect %>
+            <% end %>
+            <td width="1">
+              <%= link_to 'Show', redirect_path(param), class: 'btn btn-xs btn-info', role: 'button', data: { turbolinks: false } %>
+            </td>
+          <% end %>
+          <td width="1">
+            <%= link_to 'Destroy', [:admin, redirect], method: :delete, class: 'btn btn-xs btn-danger', role: 'button', data: { confirm: 'Are you sure you want to destroy this Redirect?' } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<%= pagy_bootstrap_nav_js(@pagy).html_safe if @pagy.pages > 1 %>

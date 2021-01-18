@@ -7,10 +7,24 @@ module Forest
     after_commit :expire_application_cache_key
     after_commit :expire_cache_key
 
-    scope :by_id, -> (orderer = :desc) { order(id: orderer) }
-    scope :by_title, -> (orderer = :asc) { order(title: orderer, id: :desc) }
-    scope :by_created_at, -> (orderer = :desc) { order(created_at: orderer, id: orderer) }
-    scope :by_updated_at, -> (orderer = :desc) { order(updated_at: orderer, id: orderer) }
+    scope :by_id, -> (orderer = :desc) {
+      orderer = %i(asc desc).include?(orderer.to_sym) ? orderer : :desc
+      order(id: orderer)
+    }
+    scope :by_title, -> (orderer = :asc) {
+      orderer = %i(asc desc).include?(orderer.to_sym) ? orderer : :desc
+      order(title: orderer, id: :desc)
+    }
+    scope :by_created_at, -> (orderer = :desc) {
+      orderer = %i(asc desc).include?(orderer.to_sym) ? orderer : :desc
+      order(created_at: orderer,
+            id: orderer)
+    }
+    scope :by_updated_at, -> (orderer = :desc) {
+      orderer = %i(asc desc).include?(orderer.to_sym) ? orderer : :desc
+      order(updated_at: orderer,
+            id: orderer)
+    }
     scope :fuzzy_search, -> (query) {
       columns_to_search = self.columns
                               .select { |x| [:string, :text].include?(x.type) }
@@ -24,7 +38,7 @@ module Forest
     end
 
     def self.cache_key
-      Rails.cache.fetch self.cache_key_name do
+      Rails.cache.fetch self.cache_key_name, expires_in: 4.weeks do
         SecureRandom.uuid
       end
     end
@@ -46,15 +60,6 @@ module Forest
     end
 
     def statusable?
-      false
-    end
-
-    # Versionable default
-    def self.versionable
-      false
-    end
-
-    def versionable
       false
     end
 
@@ -84,10 +89,10 @@ module Forest
     end
 
     def to_select2_response
-      if respond_to?(:media_item) && media_item.try(:attachment).present?
-        img_tag = "<img src='#{media_item.attachment.url(:thumb)}' style='height: 20px; display: inline-block; vertical-align: top;'> "
+      if respond_to?(:media_item) && media_item.try(:attachment_url, :thumb).present?
+        img_tag = "<img src='#{media_item.attachment_url(:thumb)}' style='height: 20px; margin-right: 5px;'> "
       end
-      "#{img_tag}<span class='select2-response__id'>#{id}</span> #{to_label}"
+      "#{img_tag}<span class='select2-response__id' style='margin-right: 5px;'>#{id}</span> #{to_label}"
     end
 
     def to_select2_selection

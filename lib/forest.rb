@@ -3,7 +3,7 @@ require 'forest/migrations'
 require 'devise'
 require 'pundit'
 require 'simple_form'
-require 'paperclip'
 
 module Forest
+  ROOT_PATH = Pathname.new(File.join(__dir__, ".."))
 end

@@ -19,6 +19,8 @@ class DatepickerInput < SimpleForm::Inputs::StringInput
 
     datepicker_options[:placeholder] = placeholder
     datepicker_options[:autocomplete] = 'off'
+    datepicker_options[:disabled] = options[:disabled]
+    datepicker_options[:readonly] = options[:readonly]
 
     # This needs to match the date format in datepicker_init.js
     display_date_value = obj.send(attribute_name).present? ? obj.send(attribute_name).strftime(date_format) : nil

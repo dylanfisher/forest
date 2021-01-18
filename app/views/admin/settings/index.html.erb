@@ -1,9 +1,4 @@
-<div class="admin-header">
-  <div class="well">
-    <h1>Settings <span class="badge"><%= number_with_delimiter Setting.count %></span></h1>
-    <%= paginate @settings %>
-  </div>
-</div>
+<%= render 'admin/headers/index', records: @settings, model_name: 'Setting' %>
 
 <% if I18n.available_locales.length > 1 %>
   <ul class="nav nav-tabs">
@@ -17,7 +12,7 @@
 <% end %>
 
 <div class="table-responsive">
-  <table class="forest-table table table-striped">
+  <table class="forest-table table table-striped table-sm">
     <thead>
       <tr>
         <th><%= table_sorter title: 'ID', path: :admin_settings_path, scope: :by_id, default_order: :asc %></th>
@@ -39,11 +34,11 @@
           <td><%= truncate admin_setting_value(setting) %></td>
           <td><%= forest_date setting.created_at %></td>
           <td><%= forest_date setting.updated_at %></td>
-          <td width="1"><%= link_to 'Edit', edit_admin_setting_path(setting), class: 'btn btn-xs btn-info forest-table__link', role: 'button' %></td>
+          <td width="1"><%= link_to 'Edit', edit_admin_setting_path(setting), class: 'btn btn-xs btn-primary forest-table__link', role: 'button' %></td>
         </tr>
       <% end %>
     </tbody>
   </table>
 </div>
 
-<%= paginate @settings %>
+<%= pagy_bootstrap_nav_js(@pagy).html_safe if @pagy.pages > 1 %>

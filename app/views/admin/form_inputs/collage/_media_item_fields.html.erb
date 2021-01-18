@@ -32,10 +32,10 @@
   <% rescue ActionView::MissingTemplate %>
   <% end %>
 
-  <div class="media-item__buttons">
+  <div class="media-item--grid__buttons">
     <% if f.object.media_item.present? %>
-      <%= content_tag :div, '', class: 'media-item__button media-item__buttons__edit glyphicon glyphicon-pencil', data: { path: edit_admin_media_item_path(f.object.media_item) } %>
+      <%= content_tag :div, '', class: 'media-item__button media-item--grid__buttons__edit glyphicon glyphicon-pencil', data: { path: edit_admin_media_item_path(f.object.media_item) } %>
     <% end %>
-    <%= link_to_remove_association '', f, class: 'media-item__button media-item__buttons__remove glyphicon glyphicon-remove' %>
+    <%= link_to_remove_association '', f, class: 'media-item__button media-item--grid__button__remove glyphicon glyphicon-remove' %>
   </div>
 <% end %>

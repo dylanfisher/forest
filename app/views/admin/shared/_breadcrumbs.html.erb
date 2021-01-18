@@ -1,0 +1,18 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <% num_parts_to_reject = %w(show edit new).include?(action_name) ? 2 : 1 %>
+    <% path_parts = request.path.split('/').reject(&:blank?) %>
+    <% path_parts.each_with_index do |path_part, index| %>
+      <% path_part_name = path_part == 'admin' ? 'dashboard' : path_part %>
+      <% if index >= num_parts_to_reject || num_parts_to_reject == path_parts.length %>
+        <li class="breadcrumb-item active" aria-current="page">
+          <%= path_part_name.titleize %>
+        </li>
+      <% else %>
+        <li class="breadcrumb-item">
+          <%= link_to path_part_name.titleize, path_parts[0..index].join('/').prepend('/') %>
+        </li>
+      <% end %>
+    <% end %>
+  </ol>
+</nav>

@@ -1,12 +1,15 @@
-<div class="row">
-  <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
-    <div class="panel panel-default">
-      <%# TODO: create admin user in bootstrap process? %>
-      <% if User.for_user_group_name('admin').present? %>
-        <%= render 'default_login' %>
-      <% else %>
-        <%= render 'first_time_login' %>
-      <% end %>
+<div class="devise-card">
+  <h1 class="h2 text-center mb-3">Forest</h1>
+  <% if flash.present? %>
+    <div class="mb-3">
+      <%= render 'admin/flash_notifications' %>
     </div>
-  </div>
+  <% end %>
+  <%= simple_form_for resource, as: resource_name, url: session_path(resource_name) do |f| %>
+    <%= f.input :email, required: false, autofocus: true, placeholder: 'Email', label: false %>
+    <%= f.input :password, required: false, placeholder: 'Password', label: false %>
+    <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
+    <%= f.button :submit, 'Log in', class: 'btn btn-primary btn-block' %>
+  <% end %>
+  <%= render 'devise/shared/links' %>
 </div>

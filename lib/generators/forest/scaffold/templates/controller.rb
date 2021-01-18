@@ -13,8 +13,8 @@ class <%= plural_name.camelize %>Controller < ForestController
 
   private
 
-    def set_<%= singular_name %>
-      @<%= singular_name %> = <%= name %>.find_by!(slug: params[:id])
-    end
+  def set_<%= singular_name %>
+    @<%= singular_name %> = <%= name %>.find_by!(slug: params[:id])
+  end
 end
 <% end -%>

@@ -1,0 +1,67 @@
+// Bootstrap icons
+
+.glyphicon {
+  &:before {
+    content: "";
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-size: 1.2rem 1.2rem;
+    background-position: center center;
+    width: 1.2rem;
+    height: 1.2rem;
+  }
+}
+
+.glyphicon-chevron-up {
+  &:before {
+    background-image: image-url('bootstrap/chevron-expand.svg');
+  }
+}
+
+.glyphicon-chevron-down {
+  &:before {
+    background-image: image-url('bootstrap/chevron-contract.svg');
+  }
+}
+
+.glyphicon-pencil {
+  &:before {
+    background-image: image-url('bootstrap/pencil.svg');
+  }
+}
+
+.glyphicon-remove {
+  &:before {
+    background-image: image-url('bootstrap/x.svg');
+  }
+}
+
+.glyphicon-image {
+  &:before {
+    background-image: image-url('bootstrap/image.svg');
+  }
+}
+
+.glyphicon-play {
+  &:before {
+    background-image: image-url('bootstrap/play.svg');
+  }
+}
+
+.glyphicon-file-richtext {
+  &:before {
+    background-image: image-url('bootstrap/file-richtext.svg');
+  }
+}
+
+.glyphicon-file {
+  &:before {
+    background-image: image-url('bootstrap/file.svg');
+  }
+}
+
+.glyphicon-exclamation-sign {
+  &:before {
+    background-image: image-url('bootstrap/exclamation-diamond.svg');
+  }
+}

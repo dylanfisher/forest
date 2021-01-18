@@ -1,0 +1,16 @@
+// Block errors
+
+.block-slot--has-error {
+  & > .card,
+  & > .card > .card-header {
+    border-color: $red;
+  }
+
+  .block-type-header-title {
+    color: $red;
+
+    .text-muted {
+      color: $red !important;
+    }
+  }
+}

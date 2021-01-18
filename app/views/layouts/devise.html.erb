@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="<%= @html_classes.try(:join, ' ') %> devise h-100">
   <head>
-    <%= render 'layouts/shared_head' %>
-    <%= stylesheet_link_tag 'forest/application_admin', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= csp_meta_tag %>
+    <%= javascript_include_tag 'forest/application' %>
+    <%= stylesheet_link_tag 'forest/application', media: 'all' %>
   </head>
-  <body class="<%= @body_classes.try(:join, ' ') %> devise">
-    <div id="admin-container" class="container-fluid">
-      <%= yield %>
-    </div>
+  <body class="d-flex flex-column h-100">
+    <%= yield %>
   </body>
 </html>

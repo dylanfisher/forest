@@ -25,10 +25,10 @@ class Admin::ImportsController < Admin::ForestController
 
   private
 
-    def import_params
-    end
+  def import_params
+  end
 
-    def set_import
-      @import = params[:id].camelcase.constantize
-    end
+  def set_import
+    @import = params[:id].camelcase.constantize
+  end
 end

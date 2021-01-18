@@ -1,0 +1,36 @@
+// Blocks
+
+.block_slots {
+  overflow: auto;
+}
+
+.block-kind__select2-response__icon {
+  line-height: 1.4;
+  vertical-align: top;
+
+  .select2-results__option--highlighted & {
+    filter: invert(1);
+  }
+}
+
+.nested-fields,
+[data-collapse-parent] {
+  &.collapsed {
+    .panel-body {
+      display: none;
+    }
+  }
+}
+
+.nested-fields {
+  margin-bottom: map-get($spacers, 3);
+}
+
+.block-slot-field-template {
+  display: none;
+}
+
+.block-slot-field__buttons {
+  min-width: 74px;
+  text-align: right;
+}

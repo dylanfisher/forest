@@ -1,9 +1,8 @@
 <%= simple_form_for([:admin, @page]) do |f| %>
   <%= f.error_notification %>
-
-  <div class="row">
-    <div class="col-sm-12">
-
+  <div class="row small-gutters">
+    <%= render 'admin/shared/edit/sidebar', f: f, record: @page %>
+    <div class="col-md-9">
       <% if @page.redirect.present? %>
         <div class="alert alert-danger" role="alert">
           <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
@@ -11,50 +10,38 @@
           This page is being redirected to: <%= link_to @page.redirect, @page.redirect, class: 'text-danger' %>
         </div>
       <% end %>
-
       <%= render 'admin/shared/localization/nav_tabs' %>
-
-      <div class="panel panel-default" data-collapse-parent>
-        <div class="panel-heading">
-          <h3 class="panel-title">
-            Metadata
-            <button type="button" class="btn btn-default btn-xs pull-right" data-collapse-trigger>
-              <div class="collapsable-icon glyphicon glyphicon-chevron-up"></div>
-            </button>
-          </h3>
-        </div>
-        <div class="panel-body" data-collapse-body>
+      <div class="card">
+        <h1 class="h2 card-header"><%= record_name(@page) %></h1>
+        <div class="card-body">
           <div class="form-inputs tab-content">
             <% I18n.available_locales.each_with_index do |locale, index| %>
-              <%= content_tag :div, class: "row locale-panel #{'display-none' unless index.zero?}", data: { locale: locale } do %>
-                <div class="col-sm-6">
+              <%= content_tag :div, class: "row small-gutters locale-panel #{'display-none' unless index.zero?}", data: { locale: locale } do %>
+                <div class="col-md-6">
                   <%= localized_input f, :title, locale %>
                   <% if index.zero? %>
                     <%= render 'admin/form_inputs/slug', f: f %>
                     <%= f.association :parent_page, remote: { scope: :title_like, path: admin_pages_path(current_record: @page) } %>
+                    <%= f.input :path, as: :string, disabled: true, placeholder: 'Generated automatically from the slug and parent page.', input_html: { value: (f.object.try(:path).present? ? "/#{f.object.path}" : nil) } %>
                   <% end %>
                   <%= localized_input f, :seo_title, locale, label: 'SEO Title', placeholder: 'Leave blank to use the page\'s title.' %>
                   <%= localized_input f, :description, locale, label: 'SEO Description' %>
-                  <%= f.button :submit, class: 'btn-success' %>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-md-6">
                   <% if index.zero? %>
                     <%= render 'admin/form_inputs/status', f: f, record: @page %>
                     <%= f.input :redirect, hint: 'Add a relative path or full URL if you need to redirect this page to another URL.' %>
-                    <%= f.association :featured_image, as: :image %>
+                    <%= render 'admin/pages/media_item_inputs', f: f %>
                   <% end %>
                 </div>
               <% end %>
             <% end %>
+            <%= f.button :submit, class: 'btn-success d-md-none' %>
           </div>
         </div>
       </div>
-
       <%= render 'admin/pages/additional_inputs', f: f %>
-
       <%= render 'admin/block_record/block_layout', f: f, block_layout: @block_layout, block_kinds: @block_kinds %>
-
-      <%= f.button :submit, class: 'btn-success' %>
     </div>
   </div>
 <% end %>
