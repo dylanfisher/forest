@@ -28,12 +28,14 @@ module Statusable
         date_today: Date.today,
         date_yesterday: Date.yesterday)
     }
+  end
 
-    def self.statusable?
+  class_methods do
+    def statusable?
       true
     end
 
-    def self.statuses_for_select
+    def statuses_for_select
       if (self.column_names & ['scheduled_date', 'published_date']).present?
         self.statuses
       else
@@ -41,31 +43,31 @@ module Statusable
       end
     end
 
-    def self.attribute_for_scheduled_date
+    def attribute_for_scheduled_date
       if column_names.include?('scheduled_date')
         :scheduled_date
       elsif column_names.include?('published_date')
         :published_date
       end
     end
+  end
 
-    def statusable?
-      true
-    end
+  def statusable?
+    true
+  end
 
-    private
+  private
 
-      def set_status_by_published_date
-        return if self.class.attribute_for_scheduled_date.blank?
-        return if self.send(self.class.attribute_for_scheduled_date).blank?
+  def set_status_by_published_date
+    return if self.class.attribute_for_scheduled_date.blank?
+    return if self.send(self.class.attribute_for_scheduled_date).blank?
 
-        if self.respond_to?(self.class.attribute_for_scheduled_date)
-          if self.send(self.class.attribute_for_scheduled_date).present? && self.send(self.class.attribute_for_scheduled_date).to_date <= Date.today
-            self.status = self.scheduled? ? 'published' : self.status
-          else
-            self.status = self.published? ? 'scheduled' : self.status
-          end
-        end
+    if self.respond_to?(self.class.attribute_for_scheduled_date)
+      if self.send(self.class.attribute_for_scheduled_date).present? && self.send(self.class.attribute_for_scheduled_date).to_date <= Date.today
+        self.status = self.scheduled? ? 'published' : self.status
+      else
+        self.status = self.published? ? 'published' : self.status
       end
+    end
   end
 end

@@ -1,0 +1,6 @@
+// Edit
+
+.edit-sidebar {
+  position: sticky;
+  top: calc(#{$header-height} + #{map-get($spacers, 3)});
+}

@@ -3,16 +3,20 @@ class PagesController < ForestController
 
   def show
     unless @page
+
+      check_for_redirect! and return
+
       if Rails.configuration.consider_all_requests_local
         raise ActionController::RoutingError.new('Not Found')
       else
-        logger.error("[Forest][Error] 404 page not found. Looked for path \"#{request.fullpath.force_encoding('utf-8')}\"")
-        @body_classes ||= []
-        @body_classes << 'controller--errors action--not_found'
+        logger.error("[Forest][Warn] 404 page not found. Looked for path \"#{request.fullpath.force_encoding('utf-8')}\"")
+        @html_classes ||= []
+        @html_classes << 'controller--errors action--not_found'
         @page_title = '404 - Not Found'
         return render 'errors/not_found', status: 404
       end
     end
+
     authorize @page
 
     if @page.redirect.present?
@@ -21,7 +25,7 @@ class PagesController < ForestController
 
     ensure_localization
 
-    @body_classes << "page--#{@page.slug}"
+    @html_classes << "page--#{@page.slug}"
   end
 
   def edit
@@ -35,19 +39,19 @@ class PagesController < ForestController
 
   private
 
-    def ensure_localization
-      if I18n.available_locales.length > 1
-        unless request.path.match(available_locale_pattern)
-          return redirect_to "/#{I18n.locale}/#{@page.path}", status: 301
-        end
-      else
-        if request.path.match(available_locale_pattern)
-          return redirect_to "/#{@page.path}", status: 301
-        end
+  def ensure_localization
+    if I18n.available_locales.length > 1
+      unless request.path.match(available_locale_pattern)
+        return redirect_to "/#{I18n.locale}/#{@page.path}", status: 301
+      end
+    else
+      if request.path.match(available_locale_pattern)
+        return redirect_to "/#{@page.path}", status: 301
       end
     end
+  end
 
-    def available_locale_pattern
-      /^\/(#{I18n.available_locales.join('|')})(\/|$)/i
-    end
+  def available_locale_pattern
+    /^\/(#{I18n.available_locales.join('|')})(\/|$)/i
+  end
 end

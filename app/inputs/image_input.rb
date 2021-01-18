@@ -4,7 +4,7 @@ class ImageInput < SimpleForm::Inputs::StringInput
     obj = input_html_options.fetch :object, object
     input_html_options.merge! id: object_name.parameterize
     image_object = obj.send(reflection_or_attribute_name)
-    img_src = input_html_options.fetch :img_src, image_object.try(:attachment).try(:url, :medium)
+    img_src = input_html_options.fetch :img_src, image_object.try(:attachment_url, :medium)
     attribute_name_to_use = reflection.present? ? "#{reflection.name}_id" : attribute_name
     media_item_type = image_object.try(:display_content_type).presence || 'media item'
     button_title = input_html_options.fetch :button_title, "Choose #{media_item_type}"
@@ -12,7 +12,7 @@ class ImageInput < SimpleForm::Inputs::StringInput
 
     # TODO: clean this craziness up
     if img_src.nil? && obj.respond_to?(self.input_type)
-      img_src = obj.send(self.input_type).try(:attachment).try(:url, :medium)
+      img_src = obj.send(self.input_type).try(:attachment_url, :medium)
     end
     path_only    = input_html_options.fetch :path_only, false
     field_name   = input_html_options.fetch :field_name, "#{input_html_options[:id]}"
@@ -29,7 +29,7 @@ class ImageInput < SimpleForm::Inputs::StringInput
 
     image_tag_classes = []
     image_tag_classes << path_class
-    image_tag_classes << (img_src.blank? ? 'hidden' : '')
+    image_tag_classes << (img_src.blank? ? 'd-none' : '')
     image_tag_classes = image_tag_classes.join(' ')
 
     content = ActiveSupport::SafeBuffer.new
@@ -38,16 +38,16 @@ class ImageInput < SimpleForm::Inputs::StringInput
     if image_object.try(:file?) && !image_object.try(:video?)
       content << template.content_tag(:div,
                     nil,
-                    class: "media-item-chooser__image media-item-chooser__image--file img-rounded cursor-pointer glyphicon glyphicon-file #{image_tag_classes}",
+                    class: "media-item-chooser__image media-item-chooser__image--file rounded cursor-pointer glyphicon glyphicon-file #{image_tag_classes}",
                     id: "#{field_name}_preview",
                     data: {
                       **modal_data_attributes
                     })
-      content << template.text_field_tag('File URL', image_object.attachment.try(:url), readonly: true, class: 'form-control string')
+      content << template.text_field_tag('File URL', image_object.try(:attachment_url), readonly: true, class: 'form-control string')
       content << template.tag(:br)
     else
       content << template.image_tag((img_src || ''),
-                    class: "media-item-chooser__image img-rounded cursor-pointer #{image_tag_classes}",
+                    class: "media-item-chooser__image mb-3 rounded cursor-pointer #{image_tag_classes}",
                     id: "#{field_name}_preview",
                     data: {
                       **modal_data_attributes
@@ -56,19 +56,19 @@ class ImageInput < SimpleForm::Inputs::StringInput
 
     buttons << template.content_tag(:button, button_title,
                   type: 'button',
-                  class: "media-item-chooser__button btn btn-default #{path_class}",
+                  class: "media-item-chooser__button btn btn-outline-secondary #{path_class}",
                   data: {
                     **modal_data_attributes
                   })
 
     buttons << template.content_tag(:button, "Remove #{media_item_type}",
                   type: 'button',
-                  class: "media-item-chooser__remove-image btn btn-default #{'hidden' unless image_object.present?}")
+                  class: "media-item-chooser__remove-image btn btn-outline-secondary #{'d-none' unless image_object.present?}")
 
     if image_object.try(:id).present?
       buttons << template.link_to("Edit #{media_item_type}",
                     template.edit_admin_media_item_path(id: image_object.id),
-                    class: "media-item-chooser__edit-image btn btn-default",
+                    class: "media-item-chooser__edit-image btn btn-outline-secondary",
                     target: '_blank')
     end
 

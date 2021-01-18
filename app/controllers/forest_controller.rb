@@ -6,7 +6,7 @@ class ForestController < ApplicationController
 
   layout :layout_by_resource
 
-  before_action :set_body_classes
+  before_action :set_html_classes
   before_action :reset_class_method_cache
 
   def after_sign_in_path_for(resource)
@@ -15,41 +15,47 @@ class ForestController < ApplicationController
 
   private
 
-    def layout_by_resource
-      devise_controller? ? 'devise' : 'application'
-    end
+  def layout_by_resource
+    devise_controller? ? 'devise' : 'application'
+  end
 
-    def set_body_classes
-      controller_heirarchy = self.class.name.split('::').reject(&:blank?)
-      controller_heirarchy.pop
-      controller_heirarchy = controller_heirarchy.collect { |a| "controller-class--#{a.underscore}" }.join(' ')
+  def set_html_classes
+    controller_heirarchy = self.class.name.split('::').reject(&:blank?)
+    controller_heirarchy.pop
+    controller_heirarchy = controller_heirarchy.collect { |a| "controller-class--#{a.underscore}" }.join(' ')
 
-      @body_classes ||= []
-      @body_classes << controller_heirarchy
-      @body_classes << "controller--#{controller_name}"
-      @body_classes << "action--#{action_name}"
-      @body_classes << 'current-user--admin' if current_user&.admin?
-    end
+    @html_classes ||= []
+    @html_classes << controller_heirarchy
+    @html_classes << "controller--#{controller_name}"
+    @html_classes << "action--#{action_name}"
+    @html_classes << 'current-user--admin' if current_user&.admin?
+  end
 
-    def reset_class_method_cache
-      Menu.reset_method_cache!
-      Setting.reset_method_cache!
-      Translation.reset_method_cache!
-    end
+  def reset_class_method_cache
+    Menu.reset_method_cache!
+    Setting.reset_method_cache!
+  end
 
-    def home_page_paths
-      ['/', '/home'].concat(I18n.available_locales.collect { |l| "/#{l}" })
-    end
+  def home_page_paths
+    ['/', '/home'].concat(I18n.available_locales.collect { |l| "/#{l}" })
+  end
 
-    def page_path
-      if params[:page_path].present?
-        params[:page_path]
-      elsif home_page_paths.include?(request.path)
-        'home'
-      end
+  def page_path
+    if params[:page_path].present?
+      params[:page_path].sub(/^\//, '')
+    elsif home_page_paths.include?(request.path)
+      'home'
     end
+  end
 
-    def set_page
-      @page = Page.find_by_path(page_path)
+  def set_page
+    @page = Page.find_by_path(page_path)
+  end
+
+  # Make sure to return after calling this method, e.g. `check_for_redirect! and return` to avoid double render errors
+  def check_for_redirect!
+    if redirect = Redirect.published.find_by_from_path("/#{page_path}")
+      redirect_to redirect.to_path, params: { page_path: redirect.to_path }, status: 301
     end
+  end
 end

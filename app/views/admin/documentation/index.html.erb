@@ -1,7 +1,7 @@
 <div class="admin-header">
-  <div class="well">
+  <div class="card bg-light p-3">
     <div class="row">
-      <div class="col-sm-6">
+      <div class="col-md-6">
         <h1>
           Forest Documentation
         </h1>
@@ -16,7 +16,6 @@
     </div>
   </div>
 </div>
-
 <% content_for :body do %>
   <p>Welcome to <strong>Forest Documentation</strong>, the built-in manual for Forest CMS.</p>
   <h2 id="general">General</h2>
@@ -82,5 +81,4 @@
   <p>Forest is created and maintained by <a href="http://dylanfisher.com/" target="_blank">Dylan Fisher</a>.</p>
   <p>The goal of forest is to provide an easy to use, full featured CMS similar to Wordpress but with the flexibility and security of Ruby on Rails.</p>
 <% end %>
-
 <%= render 'body' %>

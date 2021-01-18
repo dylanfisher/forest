@@ -4,28 +4,26 @@ class Admin::PagesController < Admin::ForestController
   before_action :set_block_kinds, only: [:create, :edit, :new]
 
   has_scope :by_parent_page
+  has_scope :by_status
   has_scope :title_like
 
   def index
     if request.format.json?
-      @pages = apply_scopes(Page).by_title.where.not(id: params[:current_record]).page(params[:page])
+      @pagy, @pages = pagy apply_scopes(Page).by_title.where.not(id: params[:current_record])
+      authorize @pages
     else
       # TODO: fuzzy searching doesn't work properly with page hierarchy
-      @parent_pages = apply_scopes(Page.includes(:immediate_children)).parent_pages.page(params[:page])
-      @pages = apply_scopes(Page).by_title.page params[:page]
+      # TODO: by_status scope doesn't work when filtering to parent_pages
+      if params[:fuzzy_search].present? || params[:by_status].present?
+        @pagy, @parent_pages = pagy apply_scopes(Page.all)
+      else
+        @pagy, @parent_pages = pagy apply_scopes(Page.includes(:immediate_children)).parent_pages
+      end
+      authorize @parent_pages
     end
 
-    authorize @pages
     respond_to :html, :json
   end
-
-  # def show
-  #   unless @page
-  #     raise ActionController::RoutingError.new('Not Found')
-  #   end
-  #   authorize @page
-  #   redirect_to edit_admin_page_path(@page)
-  # end
 
   def new
     @page = Page.new
@@ -76,30 +74,30 @@ class Admin::PagesController < Admin::ForestController
 
   private
 
-    def page_params
-      page_attributes = [
-        :title, :slug, :description, :status, :featured_image_id, :redirect,
-        :media_item_ids, :parent_page_id, :ancestor_page_id, :scheduled_date, :path,
-        **BlockSlot.blockable_params
-      ]
-      # TODO: come up with a better pattern for adding additional params via the host app, rather than
-      # just permitting all other column_names of the class.
-      column_names = (@page.class.column_names.collect(&:to_sym) - page_attributes).reject { |a| [:id, :created_at, :updated_at].include?(a) }
-      # Attributes from store_accessors
-      stored_attributes = @page.class.stored_attributes.values.flatten
-      permitted_attributes = page_attributes + column_names + stored_attributes
-      params.require(:page).permit(permitted_attributes)
-    end
+  def page_params
+    page_attributes = [
+      :title, :slug, :description, :status, :featured_image_id, :redirect,
+      :media_item_ids, :parent_page_id, :ancestor_page_id, :scheduled_date, :path,
+      **BlockSlot.blockable_params
+    ]
+    # TODO: come up with a better pattern for adding additional params via the host app, rather than
+    # just permitting all other column_names of the class.
+    column_names = (@page.class.column_names.collect(&:to_sym) - page_attributes).reject { |a| [:id, :created_at, :updated_at].include?(a) }
+    # Attributes from store_accessors
+    stored_attributes = @page.class.stored_attributes.values.flatten
+    permitted_attributes = page_attributes + column_names + stored_attributes
+    params.require(:page).permit(permitted_attributes)
+  end
 
-    def set_page
-      @page = Page.includes(block_slots: [:block_kind, :block]).find(params[:id])
-    end
+  def set_page
+    @page = Page.includes(block_slots: [:block_kind, :block]).find(params[:id])
+  end
 
-    def set_block_layout
-      @block_layout = BlockLayout.find_by_slug('default')
-    end
+  def set_block_layout
+    @block_layout = BlockLayout.find_by_slug('default')
+  end
 
-    def set_block_kinds
-      @block_kinds = BlockKind.all
-    end
+  def set_block_kinds
+    @block_kinds = BlockKind.all
+  end
 end

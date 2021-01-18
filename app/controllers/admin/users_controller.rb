@@ -9,13 +9,8 @@ class Admin::UsersController < Admin::ForestController
 
   # GET /users
   def index
-    @users = apply_scopes(User.includes(:user_groups)).by_id.page params[:page]
+    @pagy, @users = pagy apply_scopes(User.includes(:user_groups)).by_id
     authorize @users
-  end
-
-  # GET /users/1
-  def show
-    authorize @user
   end
 
   # GET /users/new
@@ -76,19 +71,20 @@ class Admin::UsersController < Admin::ForestController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_user
-      @user = User.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def user_params
-      params.require(:user).permit(:email, :first_name, :last_name, :password, :password_confirmation, *admin_user_params)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_user
+    @user = User.find(params[:id])
+  end
 
-    def admin_user_params
-      _admin_user_params = []
-      _admin_user_params.concat([user_group_ids: []]) if current_user.admin?
-      _admin_user_params
-    end
+  # Only allow a trusted parameter "white list" through.
+  def user_params
+    params.require(:user).permit(:email, :first_name, :last_name, :password, :password_confirmation, *admin_user_params)
+  end
+
+  def admin_user_params
+    _admin_user_params = []
+    _admin_user_params.concat([user_group_ids: []]) if current_user.admin?
+    _admin_user_params
+  end
 end

@@ -37,3 +37,6 @@ test/dummy/log/*.log
 test/dummy/tmp/
 
 node_modules
+/yarn-error.log
+yarn-debug.log*
+.yarn-integrity

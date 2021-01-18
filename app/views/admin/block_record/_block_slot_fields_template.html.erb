@@ -1,50 +1,51 @@
+<%# Make sure this file matches the structure of the _block_slot_fields.html.erb file %>
+
 <% locals = { block_record: local_assigns.fetch(:block_record, nil) } %>
 
-<div class="block-slot-field-template-wrapper block-slot nested-fields">
-  <% collection = block_kinds.to_a
-                             .sort_by { |bk| [bk.category, bk.name] }
-                             .collect { |bk| [bk.to_label, bk.id, category: bk.category, data: { select2_response: bk.to_select2_response }] } %>
-  <%= f.association :block_kind,
-                    collection: collection,
-                    as: :grouped_select,
-                    group_by: proc { |bk| bk.last[:category].humanize if bk.last[:category].present? },
-                    include_blank: true,
-                    input_html: {
-                      class: 'block-kind-select' } %>
-
-  <div class="block-slot-field-templates">
-    <% block_kinds.each do |block_kind| %>
-      <% klass = block_kind.name.constantize %>
-      <%= content_tag :div,
-                      class: "block-slot-field-template block-slot-field-template--#{klass.model_name.singular}",
-                      data: {
-                        block_kind_id: block_kind.id } do %>
-
-        <div class="panel panel-default">
-          <div class="block-slot__panel-heading panel-heading sortable-handle" data-block-type-header>
-            <div class="block-type-header-title">
-              <%= content_tag :div, '', class: "nested-fields__panel-display-icon #{klass.display_icon}" %>
-              <%= klass.display_name %>
-              <span class="text-muted">
-                <small><%= block_kind.description %></small>
-              </span>
+<%# TODO: test this cache block to make sure it is safe in production %>
+<% cache [block_record.class.name, block_layout, cache_key_for(BlockKind), expires_in: 4.weeks] do %>
+  <div class="block-slot-field-template-wrapper block-slot nested-fields">
+    <% collection = block_kinds.to_a
+                               .sort_by { |bk| [bk.category.downcase, bk.name.downcase] }
+                               .collect { |bk| [bk.to_label, bk.id, category: bk.category, data: { select2_response: bk.to_select2_response }] } %>
+    <%= f.association :block_kind,
+                      collection: collection,
+                      as: :grouped_select,
+                      group_by: proc { |bk| bk.last[:category].humanize if bk.last[:category].present? },
+                      include_blank: true,
+                      input_html: {
+                        class: 'block-kind-select' } %>
+    <div class="block-slot-field-templates">
+      <% block_kinds.each do |block_kind| %>
+        <% klass = block_kind.name.constantize %>
+        <%= content_tag :div,
+                        class: "block-slot-field-template block-slot-field-template--#{klass.model_name.singular}",
+                        data: {
+                          block_kind_id: block_kind.id } do %>
+          <div class="card">
+            <div class="card-header sortable-handle">
+              <div class="block-type-header-title d-flex">
+                <%= content_tag :div, klass.display_icon, class: 'mr-2' %>
+                <div class="mr-2 flex-shrink-0">
+                  <%= klass.display_name %>
+                </div>
+                <span class="text-muted">
+                  <small><%= block_kind.description %></small>
+                </span>
+                <%= render 'admin/block_record/block_slot_field_buttons', f: f %>
+              </div>
             </div>
-
-            <%= render 'admin/block_record/block_slot_field_buttons', f: f %>
+            <div class="block-slot__inputs card-body pb-1">
+              <%= f.simple_fields_for :block, f.object.send(:build_block, klass) do |f| %>
+                <%= render "blocks/#{klass.model_name.singular}/edit", f: f, **locals %>
+              <% end %>
+            </div>
           </div>
-
-          <div class="block-slot__inputs panel-body">
-            <%= f.simple_fields_for :block, f.object.send(:build_block, klass) do |f| %>
-              <%= render "blocks/#{klass.model_name.singular}/edit", f: f, **locals %>
-            <% end %>
-          </div>
-        </div>
-
+        <% end %>
       <% end %>
-    <% end %>
+    </div>
+    <%= f.association :block_layout, as: :hidden, input_html: { value: block_layout.id } %>
+    <%= f.input :block_record_type, as: :hidden %>
+    <%= f.input :position, as: :hidden, input_html: { class: 'block-position' } %>
   </div>
-
-  <%= f.association :block_layout, as: :hidden, input_html: { value: block_layout.id } %>
-  <%= f.input :block_record_type, as: :hidden %>
-  <%= f.input :position, as: :hidden, input_html: { class: 'block-position' } %>
-</div>
+<% end %>

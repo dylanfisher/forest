@@ -1,14 +1,12 @@
 class Page < Forest::ApplicationRecord
   include Blockable
   include Statusable
-  # include Versionable
 
   before_validation :generate_slug
   before_validation :generate_path, if: :hierarchy_changed?
 
-  after_save :touch_associated_pages, if: :hierarchy_changed?
+  after_save :generate_descendent_paths, if: :hierarchy_changed?
   after_save :expire_menu_cache
-  after_save :touch_self
 
   after_destroy :remove_page_hierarchy!
 
@@ -33,16 +31,32 @@ class Page < Forest::ApplicationRecord
     "Pages offer a flexible and modular way to present information."
   end
 
-  def generate_slug
-    self.slug = title.parameterize if self.slug.blank?
-  end
-
   def to_friendly_param
     path
   end
 
+  def generate_slug
+    self.slug = title.parameterize if self.slug.blank?
+  end
+
+  def generate_path
+    if page_ancestors.any?
+      generated_path = "#{page_ancestors.reverse.collect(&:slug).join('/')}/#{self.slug}"
+    else
+      generated_path = self.slug
+    end
+    self.path = generated_path
+  end
+
+  def generate_descendent_paths
+    page_descendents.each do |page_descendent|
+      page_descendent.generate_path
+      page_descendent.save
+    end
+  end
+
   def page_ancestors
-    # TODO: these recursive function aren't performant and should be cached in the view
+    # Note: these recursive function aren't performant and should be cached in the view
     @_page_ancestors ||= begin
       ancestors ||= []
       page = self
@@ -57,7 +71,7 @@ class Page < Forest::ApplicationRecord
   end
 
   def page_descendents
-    # TODO: these recursive function aren't performant and should be cached in the view
+    # Note: these recursive function aren't performant and should be cached in the view
     @_page_descendents ||= begin
       descendents = []
       children = self.immediate_children
@@ -88,13 +102,7 @@ class Page < Forest::ApplicationRecord
   end
 
   def remove_page_hierarchy!
-    pages_to_touch = Page.where(id: [self.id, *self.page_descendents.collect(&:id)])
-    self.immediate_children.update_all(parent_page_id: nil)
-    pages_to_touch.update_all(updated_at: DateTime.now)
-  end
-
-  def select2_format
-    ((page_ancestors.length + 1).times.collect{}.join('&mdash; ') + title).as_json
+    self.immediate_children.update(parent_page_id: nil)
   end
 
   # Returns a collection of media items that represent the basic images on the page. Override this
@@ -117,38 +125,21 @@ class Page < Forest::ApplicationRecord
 
   private
 
-    def touch_associated_pages
-      Page.where(id: all_associated_pages.collect(&:id)).update_all(updated_at: DateTime.now)
-    end
+  def current_or_previous_changes
+    self.changed.presence || self.previous_changes.keys
+  end
 
-    def current_or_previous_changes
-      self.changed.presence || self.previous_changes.keys
-    end
+  def hierarchy_changed?
+    (current_or_previous_changes & %w(parent_page_id slug)).any?
+  end
 
-    def hierarchy_changed?
-      (current_or_previous_changes & %w(parent_page_id slug)).any?
+  def parent_page_is_not_self
+    if parent_page == self
+      errors.add :parent_page, "a parent page can't be assigned to itself."
     end
+  end
 
-    def generate_path
-      if page_ancestors.any?
-        generated_path = "#{page_ancestors.reverse.collect(&:slug).join('/')}/#{self.slug}"
-      else
-        generated_path = self.slug
-      end
-      self.path = generated_path
-    end
-
-    def parent_page_is_not_self
-      if parent_page == self
-        errors.add :parent_page, "a parent page can't be assigned to itself."
-      end
-    end
-
-    def expire_menu_cache
-      Menu.expire_cache!
-    end
-
-    def touch_self
-      self.touch unless self.new_record?
-    end
+  def expire_menu_cache
+    Menu.expire_cache!
+  end
 end

@@ -1,22 +1,20 @@
-<% begin %>
-  <% classes = [] %>
-  <% classes << block.model_name.singular.dasherize %>
-  <% classes << 'block' %>
-  <% classes << (block.first? ? 'block--first' : '') %>
-  <% classes << (block.last? ? 'block--last' : '') %>
-  <% classes << "block-category--#{block.class.kind.category.to_s.parameterize}" %>
-  <% classes << "block-record-type--#{block.class.kind.record_type.to_s.parameterize}" %>
-  <% classes << block.try(:css_class) %>
+<% classes = [] %>
+<% classes << block.model_name.singular.dasherize %>
+<% classes << 'block' %>
+<% classes << (block.first? ? 'block--first' : '') %>
+<% classes << (block.last? ? 'block--last' : '') %>
+<% classes << "block-category--#{block.class.kind.category.to_s.parameterize}" %>
+<% classes << "block-record-type--#{block.class.kind.record_type.to_s.parameterize}" %>
+<% classes << block.try(:css_class) %>
 
-  <% options = {} %>
-  <% options[:id] = block.block_id %>
-  <% options[:class] = classes.join(' ') %>
-  <% options[:data] = (block.try(:data_attributes).presence || {}).merge(kind: block.model_name.name) %>
-  <% options[:style] = block.try(:css_styles) %>
+<% options = {} %>
+<% options[:id] = block.block_id %>
+<% options[:class] = classes.join(' ') %>
+<% options[:data] = (block.try(:data_attributes).presence || {}).merge(kind: block.model_name.name) %>
+<% options[:style] = block.try(:css_styles) %>
 
-  <%= content_tag :div, **options do %>
-    <%= render "blocks/#{block.model_name.singular}/show", block: block %>
-  <% end %>
-<% rescue Exception => e %>
-  <%= forest_admin_error(e) %>
+<%= content_tag :div, **options do %>
+  <%= render "blocks/#{block.model_name.singular}/show", block: block %>
 <% end %>
+
+<% block.rendered = true %>

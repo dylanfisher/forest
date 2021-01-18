@@ -1,7 +1,7 @@
 <%= render 'admin/headers/index', records: @block_layouts, model_name: 'BlockLayout' %>
 
 <div class="table-responsive">
-  <table class="forest-table table table-striped">
+  <table class="forest-table table table-striped table-sm">
     <thead>
       <tr>
         <th><%= table_sorter title: 'ID', path: :admin_block_layouts_path, scope: :by_id, default_order: :desc %></th>
@@ -26,4 +26,4 @@
   </table>
 </div>
 
-<%= paginate @block_layouts %>
+<%= pagy_bootstrap_nav_js(@pagy).html_safe if @pagy.pages > 1 %>

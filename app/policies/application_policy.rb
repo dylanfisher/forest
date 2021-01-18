@@ -61,15 +61,15 @@ class ApplicationPolicy
 
   private
 
-    def admin?
-      user.try(:admin?)
-    end
+  def admin?
+    user.try(:admin?)
+  end
 
-    def editor?
-      user.try(:in_group?, 'editor')
-    end
+  def editor?
+    user.try(:in_group?, 'editor')
+  end
 
-    def contributor?
-      user.try(:in_group?, 'contributor')
-    end
+  def contributor?
+    user.try(:in_group?, 'contributor')
+  end
 end

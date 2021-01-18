@@ -1,0 +1,38 @@
+// Forms
+
+.was-validated .form-check-input:valid ~ .form-check-label,
+.form-check-input.is-valid ~ .form-check-label {
+  &.boolean {
+    color: inherit;
+  }
+}
+
+.form-group-invalid {
+  .invalid-feedback {
+    display: block;
+  }
+
+  label {
+    color: $red;
+  }
+
+  .btn {
+    color: $red;
+    border-color: $red;
+
+    &:hover {
+      color: $white;
+    }
+  }
+}
+
+// Color picker
+.form-control.color {
+  padding: 0;
+}
+
+.alert {
+  .glyphicon {
+    vertical-align: middle;
+  }
+}

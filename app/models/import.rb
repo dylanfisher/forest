@@ -31,13 +31,13 @@ class Import
 
   private
 
-    def validate_import
-      unless file.content_type == 'text/csv'
-        raise "Import must be a .csv file."
-      end
-
-      unless klass.present?
-        raise "A valid model must be supplied to the import."
-      end
+  def validate_import
+    unless file.content_type == 'text/csv'
+      raise "Import must be a .csv file."
     end
+
+    unless klass.present?
+      raise "A valid model must be supplied to the import."
+    end
+  end
 end

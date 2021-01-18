@@ -1,5 +1,4 @@
 module BlockHelper
-
   def render_blocks(record, options = {})
     return if (record.blank? || !record.respond_to?(:blocks))
 
@@ -10,16 +9,22 @@ module BlockHelper
         block_layout = BlockLayout.find_by_slug(block_layout)
       end
 
-      collection = record.blocks(block_layout: block_layout).reject(&:hidden?)
+      collection = options.delete(:collection) || record.blocks(block_layout: block_layout)
+      collection.select!(&:display?)
 
       if collection.present?
         content_tag :div, class: "blocks block-layout--#{block_layout.slug}" do
-          render partial: 'blocks/show', collection: collection, as: 'block'
+          collection.each do |block|
+            begin
+              concat render 'blocks/show', block: block
+            rescue Exception => e
+              forest_admin_error(e)
+            end
+          end
         end
       end
     rescue Exception => e
       forest_admin_error(e)
     end
   end
-
 end

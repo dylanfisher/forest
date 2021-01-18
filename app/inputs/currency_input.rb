@@ -8,15 +8,15 @@ class CurrencyInput < SimpleForm::Inputs::Base
 
   private
 
-    def input_group(currency, merged_input_options)
-      "#{currency_addon(currency)} #{@builder.number_field(attribute_name, merged_input_options)}".html_safe
-    end
+  def input_group(currency, merged_input_options)
+    "#{currency_addon(currency)} #{@builder.number_field(attribute_name, merged_input_options)}".html_safe
+  end
 
-    def currency_addon(currency)
-      content_tag(:span, currency, class: "input-group-addon")
-    end
+  def currency_addon(currency)
+    content_tag(:span, currency, class: "input-group-addon")
+  end
 
-    def default_currency
-      "$"
-    end
+  def default_currency
+    "$"
+  end
 end

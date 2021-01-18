@@ -39,54 +39,54 @@ class Menu < Forest::ApplicationRecord
 
   private
 
-    def self.menus
-      @memo ||= Rails.cache.fetch CACHE_KEY do
-        self.all.to_a
-      end
+  def self.menus
+    @memo ||= Rails.cache.fetch CACHE_KEY, expires_in: 4.weeks do
+      self.all.to_a
+    end
+  end
+
+  def self.reset_method_cache!
+    @memo = nil
+  end
+
+  def expire_cache
+    self.class.expire_cache!
+  end
+
+  def relative_link?(resource)
+    begin
+      URI(resource).relative?
+    rescue URI::InvalidURIError => e
+      logger.error("[Forest][AdminError] #{e.class}")
+      logger.error(e.message)
+      logger.error(e.backtrace.first(10).join("\n"))
+      false
+    end
+  end
+
+  def create_nokogiri_children(menu_item, node)
+    if menu_item['url'].first == '/' && relative_link?(menu_item['url']) && I18n.available_locales.length > 1
+      menu_item_link = "/#{I18n.locale}#{menu_item['url']}"
+    else
+      menu_item_link = menu_item['url']
     end
 
-    def self.reset_method_cache!
-      @memo = nil
-    end
-
-    def expire_cache
-      self.class.expire_cache!
-    end
-
-    def relative_link?(resource)
-      begin
-        URI(resource).relative?
-      rescue URI::InvalidURIError => e
-        logger.error("[Forest][AdminError] #{e.class}")
-        logger.error(e.message)
-        logger.error(e.backtrace.first(10).join("\n"))
-        false
-      end
-    end
-
-    def create_nokogiri_children(menu_item, node)
-      if menu_item['url'].first == '/' && relative_link?(menu_item['url']) && I18n.available_locales.length > 1
-        menu_item_link = "/#{I18n.locale}#{menu_item['url']}"
-      else
-        menu_item_link = menu_item['url']
-      end
-
-      if I18n.available_locales.length > 1
-        name_attr_suffix = I18n.locale == I18n.default_locale ? '' : "_#{I18n.locale}"
-        menu_item_name = menu_item["name#{name_attr_suffix}"]
-        if menu_item_name.blank?
-          menu_item_name = menu_item['name']
-        end
-      else
+    if I18n.available_locales.length > 1
+      name_attr_suffix = I18n.locale == I18n.default_locale ? '' : "_#{I18n.locale}"
+      menu_item_name = menu_item["name#{name_attr_suffix}"]
+      if menu_item_name.blank?
         menu_item_name = menu_item['name']
       end
+    else
+      menu_item_name = menu_item['name']
+    end
 
-      node.add_child("<li><a href='#{menu_item_link}'>#{menu_item_name}</a></li>")
-      if menu_item['children'].present?
-        node.css('> li').last.add_child('<ul></ul>')
-        menu_item['children'].each do |menu_item_child|
-          create_nokogiri_children(menu_item_child, node.css('> li').last.css('> ul').last)
-        end
+    node.add_child("<li><a href='#{menu_item_link}'>#{menu_item_name}</a></li>")
+    if menu_item['children'].present?
+      node.css('> li').last.add_child('<ul></ul>')
+      menu_item['children'].each do |menu_item_child|
+        create_nokogiri_children(menu_item_child, node.css('> li').last.css('> ul').last)
       end
     end
+  end
 end

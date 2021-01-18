@@ -1,19 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-100">
   <head>
-    <%= render 'layouts/shared_head' %>
-    <%= jquery_include_tag %>
-    <%= javascript_include_tag 'forest/application_admin' %>
-    <%= render 'admin/shared/admin_head_additions' %>
-    <meta name="turbolinks-cache-control" content="no-preview">
-    <%= stylesheet_link_tag 'forest/application_admin', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%#= render 'layouts/shared_head' %>
+    <%= csp_meta_tag %>
+    <%= csrf_meta_tags %>
+    <%= javascript_include_tag 'forest/application' %>
+    <%= stylesheet_link_tag 'forest/application', media: 'all' %>
+    <%#= render 'admin/shared/admin_head_additions' %>
   </head>
-  <body class="<%= @body_classes %> admin">
+  <body class="<%= @html_classes.try(:join, ' ') %> admin d-flex flex-column h-100">
     <%= render 'admin/navigation' %>
-    <%= render 'admin/flash_notifications' %>
-    <div id="admin-container" class="container-fluid">
-      <%= yield %>
-    </div>
+    <% if flash.present? %>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <%= render 'admin/flash_notifications' %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    <main role="main" class="flex-shrink-0 mt-3">
+      <div class="container-fluid">
+        <%= yield %>
+      </div>
+    </main>
     <%= render 'admin/media_items/modal' %>
   </body>
 </html>

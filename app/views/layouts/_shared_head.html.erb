@@ -1,9 +1,8 @@
 <meta charset="utf-8">
 <title><%= meta_page_title %></title>
 
-<%= render 'shared/header_colophon' %>
-
 <%= csrf_meta_tags %>
+<%= csp_meta_tag %>
 
 <!-- Basic meta tags -->
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -14,19 +13,19 @@
 <!-- Open graph meta tags -->
 <%= tag :meta, property: 'og:url', content: meta_url %>
 <%= tag :meta, property: 'og:description', content: page_description %>
-<%= tag :meta, property: 'og:title', content: page_title.presence || site_title %>
+<%= tag :meta, property: 'og:title', content: meta_page_title %>
 <%= tag :meta, property: 'og:site_name', content: site_title %>
 <%= tag :meta, property: 'og:type', content: meta_type %>
 <%= tag :meta, property: 'og:see_also', content: meta_see_also %>
 
 <!-- Google meta tags -->
-<%= tag :meta, itemprop: 'name', content: page_title.presence || site_title %>
+<%= tag :meta, itemprop: 'name', content: meta_page_title %>
 <%= tag :meta, itemprop: 'description', content: page_description %>
 
 <!-- Twitter meta tags -->
 <%= tag :meta, itemprop: 'twitter:card', content: 'summary' %>
 <%= tag :meta, itemprop: 'twitter:url', content: request.original_url.force_encoding('utf-8') %>
-<%= tag :meta, itemprop: 'twitter:title', content: page_title.presence || site_title %>
+<%= tag :meta, itemprop: 'twitter:title', content: meta_page_title %>
 <%= tag :meta, itemprop: 'twitter:description', content: page_description %>
 
 <!-- Featured image -->
@@ -44,5 +43,3 @@
 <!-- Additional meta tags -->
 <%= additional_meta_tags %>
 <% end %>
-
-<%= render 'forest/favicons' %>

@@ -1,0 +1,2 @@
+class RedirectPolicy < BlockRecordPolicy
+end

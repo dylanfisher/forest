@@ -1,23 +1,21 @@
 <%= simple_form_for([:admin, @setting]) do |f| %>
-  <div class="row">
-    <% if @setting.description.present? %>
-      <div class="col-sm-6">
-        <div class="well text-muted">
-          <%= md @setting.description %>
-        </div>
-      </div>
-    <% end %>
-    <div class="col-sm-12">
-      <div class="panel panel-default" data-collapse-parent>
-        <div class="panel-body" data-collapse-body>
-          <div class="form-inputs">
-            <div class="row">
-              <div class="col-sm-12">
-                <%= render "admin/settings/types/#{@setting.value_type}", f: f %>
-                <%= f.button :submit, class: 'btn-success' %>
+  <div class="row small-gutters">
+    <%= render 'admin/shared/edit/sidebar', f: f, record: @setting %>
+    <div class="col-md-9">
+      <div class="card">
+        <h1 class="h2 card-header"><%= record_name(@setting) %></h1>
+        <div class="card-body media-item-to-path-parent">
+          <% if @setting.description.present? %>
+            <div class="card mb-3">
+              <div class="card-body">
+                <div class="text-muted">
+                  <%= md @setting.description %>
+                </div>
               </div>
             </div>
-          </div>
+          <% end %>
+          <%= render "admin/settings/types/#{@setting.value_type}", f: f %>
+          <%= f.button :submit, class: 'btn-success' %>
         </div>
       </div>
     </div>

@@ -165,60 +165,54 @@ Forest relies heavily on the following gems, software and frameworks:
 - devise
 - has_scope
 - jquery
-- kaminari
-- paperclip
+- pagy
 - postgres
 - pundit
 - redcarpet
+- shrine
 - simpleform
 
 ## TODO
 
-Better Documentation
-- [ ] document how to use `has_many_ordered` and how to make it work in more complex scenarios, e.g. `has_many_ordered :program_artists, through: :program_program_artists, has_many_options: { source: 'artist' }`
-
-Big Picture
+Version 2
+- [ ] Allow configuration of Shrine media upload to allow local file storage
+- [ ] Better media item input (allow editing caption in place, show point of interest, etc.)
+- [ ] Update site title and description for meta tags
+- [ ] Add ability to collapse blocks, and (optionally) allow setting default collapse state
+- [ ] Add a refresh button to media item modal to refresh with newly added images
+- [ ] Add media item preview icons for PDF/Video and other files. Reference Uppy's pdf icon preview for inspiration
+- [ ] Media library needs multi-image delete functionality
+- [ ] Add ability to redirect to a page association, not just a string field
+- [ ] Allow menu items to link to reference a page ID in addition to a page path
+- [ ] scope simpleform configuration in engine so that global config doesn't interfere with host app
 - [ ] move admin helper methods to definition in Admin::ForestController to avoid helper methods on the frontend host app
 - [ ] change references to model names and other hard coded names to use I18n
 - [ ] model resource_description should use I18n
-- [ ] add rake task to download database dumps from heroku and store in S3
-- [ ] add additional og tags http://ogp.me/
-- [ ] add schema.org microdata where appopriate, e.g. for navigation menus, headers, footers
-- [ ] is it better to namespace engine?
-- [ ] tests
-
-Admin
 - [ ] better pattern for defining custom status message via I18n
-- [ ] simpleMDE markdown editor has a bug where sometimes the text area gets messed up and needs to have the page resize functions run to work properly again.
-- [ ] fix user login page view when signing up for the first time and passwords don't match.
-- [ ] nested forms are cumbersome at laptop size. It should be easier to rearrange nested items.
-- [ ] add ability to insert nested form items in between other nested items.
-- [ ] do something more useful with the admin#show view
-- [ ] email confirmations for user related actions
-- [ ] versioning option for data associated pages, settings, menus, etc.
-- [ ] version diff UI like wordpress?
-- [ ] modal to create associated records directly from association page?
-- [ ] bulk actions to delete pages (and other records)
-- [ ] duplicate records
-- [ ] add an option to repeater field to allow adjusting number of fields in each repeated set.
-- [ ] remove font-awesome dependency from simplemde markdown editor
-
-Pages
-- [ ] proper drafting/publishing permissions for drafted/published pages
+- [ ] add method to duplicate records
+- [ ] versioning option for data associated pages, settings, menus, etc. Version diffing ala wordpress.
 - [ ] better page versioning, page history navigation, restore content blocks with page version
+- [ ] email confirmations for user related actions
+- [ ] more robust and flexible permissions system via pundit
+- [ ] replace glyphicon with bootstrap 4 icons
+- [ ] tests
+- [ ] streamlined javascript event triggers namespaced to forest, e.g. `forest:block-slot-after-insert`
+- [ ] potentially refactor how settings are stored, how a setting's value type is inferred, how they are imported, and potentially add a reference to other models so that a model's settings can be displayed when editing a record.
+- [ ] add description to settings admin index view
+- [ ] resolve all TODOs
 
 Blocks
+- [ ] refactor block partial to use helper for possible performance gains
 - [ ] add a duplicate block button to make adding additional blocks of the same type quicker and easier
-- [ ] is it possible to add the ability to create blocks within nested forms?
+- [ ] add ability to drag certain content types, e.g. media items, between blocks
 - [ ] minimum and maximum blocks per layout
 
 Media Gallery
+- [ ] search and replace all legacy references of attachment with new attachment_url method e.g. search for `.attachment.`
 - [ ] add drag and drop upload to media item edit view
 - [ ] add direct to S3 file upload for large files like video, that otherwise look like they timeout on heroku
-- [ ] use mini_magick or similar, more efficient image editor to process paperclip files
-- [ ] better media item upload in media_item#edit
-- [ ] crop tool and other enhancements
-- [ ] configure paperclip to generate optimized images so that google page speed test doesn't complain about the lack of savings.
+- [ ] ability to categorize media items on the backend, e.g. different directories of images
+- [ ] document the new requirements for using the media library, e.g. create the CloudFormation stack, add a background job library to host app's gemfile
 
 ## Contributing
 If you are interested in contributing to this project please [get in touch](mailto:hi@dylanfisher.com).

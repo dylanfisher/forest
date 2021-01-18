@@ -8,11 +8,6 @@ en:
             only support certain types of blocks. Creating a new block layout will have no effect until this
             application's code is updated to support the new layout. Destroying a block layout will prevent
             blocks from displaying. The default layout should never be destroyed.
-        translation:
-          description: |
-            Translations provide a way to control and update static values that exist throughout the application.
-            If your application supports multiple languages, you can also define the translated value in each language
-            with the translations interface.
       page:
         status:
           published: Published

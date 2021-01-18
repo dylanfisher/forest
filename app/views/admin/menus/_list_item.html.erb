@@ -15,7 +15,7 @@
             <% I18n.available_locales.each do |locale| %>
               <% name_attr_suffix = locale == I18n.default_locale ? '' : "_#{locale}" %>
               <% name_attr = "name#{name_attr_suffix}" %>
-              <%= text_field_tag name_attr, list_item[name_attr], class: 'dd-input__input form-control', placeholder: "Navigation label #{I18n.available_locales.length > 1 ? locale.upcase : ''}" %>
+              <%= text_field_tag name_attr, list_item[name_attr], id: nil, class: 'dd-input__input form-control', placeholder: "Navigation label #{I18n.available_locales.length > 1 ? locale.upcase : ''}" %>
               <% if I18n.available_locales.length > 1 %>
                 <div class="dd-input__input__locale-label text-muted"><%= locale.upcase %></div>
               <% end %>

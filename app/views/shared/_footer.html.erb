@@ -1,9 +1,11 @@
-<hr>
+<footer>
+  <hr>
 
-<h4>Footer</h4>
-<p>Find me in /app/views/shared/_footer.html.erb</p>
+  <h4>Footer</h4>
+  <p>Find me in /app/views/shared/_footer.html.erb</p>
 
-<% if Menu.for('footer-menu').present? %>
-  <strong><%= Menu.for('footer-menu').title %></strong>
-  <%= render 'shared/menu', menu: Menu.for('footer-menu') %>
-<% end %>
+  <% if Menu.for('footer-menu').present? %>
+    <strong><%= Menu.for('footer-menu').title %></strong>
+    <%= render 'shared/menu', menu: Menu.for('footer-menu') %>
+  <% end %>
+</footer>

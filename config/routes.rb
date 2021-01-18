@@ -7,24 +7,32 @@ Rails.application.routes.draw do
   # Admin Resources
   namespace :admin do
     get '/', to: 'dashboard#index'
+    get '/forest', to: redirect('/admin')
     resources :block_kinds, only: [:index, :edit, :update], path: 'block-kinds'
-    resources :block_layouts, except: [:destroy, :show], path: 'block-layouts'
+    resources :block_layouts, except: [:destroy, :show, :new], path: 'block-layouts'
     resources :cache_purge, path: 'cache-purge', only: [:index]
     resources :imports, only: [:edit, :create]
-    resources :media_items, path: 'media-items' do
+    resources :media_items, except: [:show], path: 'media-items' do
       collection do
         post 'update_multiple'
       end
     end
-    resources :menus
-    resources :pages
-    resources :settings, except: [:destroy]
-    resources :translations
-    resources :users do
+    resources :menus, except: [:show]
+    resources :pages, except: [:show]
+    resources :redirects, except: [:show]
+    resources :settings, only: [:index, :edit, :update]
+    resources :users, except: [:show] do
       get 'reset_password'
     end
-    resources :user_groups, except: [:destroy], path: 'user-groups'
+    resources :user_groups, except: [:show, :destroy], path: 'user-groups'
     get 'documentation', to: 'documentation#index'
+  end
+
+  # Shrine direct S3 multipart upload
+  begin
+    mount Shrine.uppy_s3_multipart(:cache) => '/s3/multipart'
+  rescue Shrine::Error => e
+    puts "[Forest][Error] Shrine cache must be configured. Define S3 options in Rails credentials file.\n#{e.inspect}" if Rails.env.development?
   end
 
   # Devise

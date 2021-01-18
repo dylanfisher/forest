@@ -12,7 +12,7 @@ class Admin::MediaItemsController < Admin::ForestController
 
   # GET /media_items
   def index
-    @media_items = apply_scopes(MediaItem.all).by_id.not_hidden.page(params[:page]).per(36)
+    @pagy, @media_items = pagy(apply_scopes(MediaItem.all).by_id.is_not_hidden, items: 36)
     authorize @media_items
 
     if params[:layout].blank? || params[:layout] != 'list'
@@ -47,7 +47,10 @@ class Admin::MediaItemsController < Admin::ForestController
     respond_to do |format|
       if @media_item.save
         format.html { redirect_to edit_admin_media_item_path(@media_item), notice: 'Media item was successfully created.' }
-        format.json { render json: { files: [@media_item.to_jq_upload]}, status: :created, location: [:admin, @media_item] }
+        format.json {
+          html_content = render_to_string(partial: 'admin/media_items/media_item_grid_layout', locals: { media_item: @media_item }, layout: false, formats: [:html])
+          render json: { attachmentPartial: html_content }
+        }
       else
         format.html { render :new }
         format.json { render json: @media_item.errors, status: :unprocessable_entity }
@@ -90,19 +93,20 @@ class Admin::MediaItemsController < Admin::ForestController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_media_item
-      @media_item = MediaItem.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def media_item_params
-      params.require(:media_item).permit(:title, :slug, :caption, :alternative_text, :description, :attachment, :selected, :point_of_interest_x, :point_of_interest_y, *MediaItem.localized_params)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_media_item
+    @media_item = MediaItem.find(params[:id])
+  end
 
-    def set_s3_direct_post
-      if defined? S3_BUCKET
-        @s3_direct_post = S3_BUCKET.presigned_post(key: "uploads/#{SecureRandom.uuid}/${filename}", success_action_status: '201', acl: 'public-read')
-      end
+  # Only allow a trusted parameter "white list" through.
+  def media_item_params
+    params.require(:media_item).permit(:title, :slug, :caption, :alternative_text, :description, :attachment, :selected, :point_of_interest_x, :point_of_interest_y, *MediaItem.localized_params)
+  end
+
+  def set_s3_direct_post
+    if defined? S3_BUCKET
+      @s3_direct_post = S3_BUCKET.presigned_post(key: "uploads/#{SecureRandom.uuid}/${filename}", success_action_status: '201', acl: 'public-read')
     end
+  end
 end

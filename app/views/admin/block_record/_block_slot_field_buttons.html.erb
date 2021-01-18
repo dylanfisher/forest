@@ -1,15 +1,12 @@
-<div class="block-slot__buttons">
-  <button type="button" class="block-slot-field__button--low-priority btn btn-xs btn-default" data-block-add title="Add block">
-    <div class="glyphicon glyphicon-plus"></div>
+<div class="block-slot-field__buttons pl-2 ml-auto">
+  <button type="button" class="block-slot-field__button--low-priority btn btn-xs btn-outline-secondary" data-block-add title="Add block">
+    <%= bootstrap_icon('plus') %>
   </button>
   <%= link_to_remove_association f,
-        class: 'block-slot-field__button--low-priority btn btn-xs btn-default',
+        class: 'block-slot-field__button--low-priority btn btn-xs btn-outline-secondary',
         title: 'Remove block',
         data: {
           confirm: "Are you sure you want to remove this block?" } do %>
-    <div class="glyphicon glyphicon-minus"></div>
+    <%= bootstrap_icon('dash') %>
   <% end %>
-  <button type="button" class="btn btn-xs btn-default" data-block-collapser title="Collapse block">
-    <div class="collapsable-icon glyphicon glyphicon-chevron-up"></div>
-  </button>
 </div>

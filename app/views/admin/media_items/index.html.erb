@@ -1,30 +1,42 @@
 <% content_for :index_header_body do %>
-  <%= link_to admin_media_items_path(layout: :list), class: 'btn btn-link btn-md' do %>
-    <span class="glyphicon glyphicon-th-list"></span>
+  <% if false %>
+    <%# TODO: list view? %>
+    <%= link_to admin_media_items_path(layout: :list), class: 'btn btn-link btn-md' do %>
+      <span class="glyphicon glyphicon-th-list"></span>
+    <% end %>
+
+    <%= link_to admin_media_items_path(layout: :grid), class: 'btn btn-link btn-md' do %>
+      <span class="glyphicon glyphicon-th-large"></span>
+    <% end %>
   <% end %>
 
-  <%= link_to admin_media_items_path(layout: :grid), class: 'btn btn-link btn-md' do %>
-    <span class="glyphicon glyphicon-th-large"></span>
-  <% end %>
-
-  <%= dropdown_select_form url: admin_media_items_path(current_scopes.except(:by_date)), id: 'by_date', select_options: MediaItem.dates_for_filter, title: 'All Dates' %>
-  <%= dropdown_select_form url: admin_media_items_path(current_scopes.except(:by_content_type)), id: 'by_content_type', select_options: MediaItem.content_types_for_filter, title: 'All Content Types' %>
+  <div class="row small-gutters ml-2">
+    <div class="col">
+      <%= dropdown_select_form url: admin_media_items_path(current_scopes.except(:by_date)), id: 'by_date', select_options: MediaItem.dates_for_filter, title: 'All Dates' %>
+    </div>
+    <div class="col">
+      <%= dropdown_select_form url: admin_media_items_path(current_scopes.except(:by_content_type)), id: 'by_content_type', select_options: MediaItem.content_types_for_filter, title: 'All Content Types' %>
+    </div>
+  </div>
 <% end %>
 
 <%= render 'admin/headers/index', records: @media_items, model_name: 'MediaItem', paginate: false %>
 
-<%= info_message 'Drag and drop images or files to upload multiple items at once.' %>
+<div class="mb-3">
+  <%= info_message 'Drag and drop images or files to upload multiple items at once.' %>
+</div>
 
-<%= render 'admin/file_upload', klass: MediaItem, association: :attachment %>
+<%#= render 'admin/file_upload', klass: MediaItem, association: :attachment, multi_upload: true %>
+<%= content_tag :div, nil, class: 'multi-file-upload', data: { media_item_url: admin_media_items_path } %>
 
 <div class="media-library">
   <% if @layout == :grid %>
-    <div class="row small-gutters" data-infinite-load>
+    <div id="media-library-infinite-load" class="row small-gutters" data-infinite-load>
       <% if @media_items.blank? %>
         <div class="col-sm-12 text-center">No results</div>
       <% else %>
-        <%= render partial: 'media_item_grid_layout', collection: @media_items, as: :media_item, cached: true %>
-        <%= link_to_next_page @media_items, 'Next page', class: 'infinite-load__next-page-link' %>
+        <%= render partial: 'admin/media_items/media_item_grid_layout', collection: @media_items, as: :media_item, cached: true %>
+        <%= pagy_link_proc(@pagy, 'class="infinite-load__next-page-link"').call(@pagy.next).html_safe if @pagy.next.present? %>
       <% end %>
     </div>
   <% else %>
@@ -34,12 +46,12 @@
         <option value="delete">Delete Permanently</option>
       </select>
 
-      <%= submit_tag 'Apply', class: 'btn btn-default', data: { confirm: 'Are you sure you want to apply this bulk action?' } %>
+      <%= submit_tag 'Apply', class: 'btn btn-outline-secondary', data: { confirm: 'Are you sure you want to apply this bulk action?' } %>
 
       <br>
-      <%= paginate @media_items %>
+      <%= pagy_bootstrap_nav_js(@pagy).html_safe if @pagy.pages > 1 %>
 
-      <table class="table table-striped multi-checkbox-parent">
+      <table class="table table-striped table-sm multi-checkbox-parent">
         <thead>
           <tr>
             <th width="1"><%= check_box_tag 'select_all' %></th>
@@ -55,4 +67,4 @@
   <% end %>
 </div>
 
-<%= paginate @media_items if @layout == :list %>
+<%= pagy_bootstrap_nav_js(@pagy).html_safe if (@layout == :list && @pagy.pages > 1) %>

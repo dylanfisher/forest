@@ -1,15 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="<%= @html_classes.try(:join, ' ') %>">
   <head>
-    <%= render 'layouts/shared_head' %>
-    <%= stylesheet_link_tag 'forest/application_public', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%#= render 'layouts/shared_head' %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_pack_tag 'application' %>
+    <%= javascript_pack_tag 'application' %>
   </head>
-  <body class="<%= @body_classes.try(:join, ' ') %> public">
-    <%#= TODO: if a admin user is logged in, show admin bar %>
+  <body>
     <%= render 'shared/header' %>
-    <%= yield %>
-    <%= render 'shared/footer' %>
-    <%= jquery_include_tag %>
-    <%= javascript_include_tag 'forest/application_public', data: { turbolinks_eval: false }  %>
+    <main id="application-wrapper" class="application-wrapper d-flex flex-column">
+      <%= yield %>
+    </main>
+    <%#= render 'shared/footer' %>
   </body>
 </html>

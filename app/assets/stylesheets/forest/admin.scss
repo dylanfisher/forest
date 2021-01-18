@@ -1,0 +1,20 @@
+// Core - fonts, variables, mixins, etc. These shouldn't output any CSS on their own.
+// @import "core/fonts";
+@import "bootstrap_variables";
+@import "core/variables";
+@import "core/mixins";
+
+// Vendor
+@import "vendor/**/*";
+
+// Base - basic foundation and structural styles
+// @import "base/normalize";
+// @import "base/typography";
+// @import "base/foundation";
+@import "base/helper_classes";
+
+// Partials - reusable partials and page elements
+@import "partials/**/*";
+
+// Pages - styles that apply to specific pages
+@import "pages/**/*";

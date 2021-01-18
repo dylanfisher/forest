@@ -32,10 +32,14 @@ class BlockKind < Forest::ApplicationRecord
     block.display_icon
   end
 
+  def description
+    block.description
+  end
+
   def to_select2_response
     r = ''
     r << '<div>'
-    r << "<span class='block-kind__select2-response__icon #{display_icon}'></span> "
+    r << "<span class='block-kind__select2-response__icon'>#{display_icon}</span> "
     r << '<strong>'
     r << display_name
     r << '</strong>'

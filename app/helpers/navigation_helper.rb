@@ -1,5 +1,4 @@
 module NavigationHelper
-
   def subnav
     # TODO: cache subnav
     if parent.present?
@@ -11,8 +10,7 @@ module NavigationHelper
 
   private
 
-    def parent
-      request.path.split('/').reject(&:blank?)[-2]
-    end
-
+  def parent
+    request.path.split('/').reject(&:blank?)[-2]
+  end
 end

@@ -30,7 +30,6 @@ module MetaHelper
 
   def site_title
     @_site_title ||= begin
-      # TODO: add forest translation for description from settings
       title = Setting.for('site_title') || default_site_title
       sanitize stripdown(title).squish
     end
@@ -59,18 +58,12 @@ module MetaHelper
 
   def page_featured_image
     @_page_featured_image ||= begin
-      image = [
+      [
         content_for(:page_featured_image),
         @page_featured_image,
         build_page_featured_image_from_record,
         site_featured_image
       ].reject(&:blank?).first
-
-      if image.respond_to?(:attachment)
-        image = image.attachment
-      end
-
-      image
     end
   end
 
@@ -81,13 +74,8 @@ module MetaHelper
           url = page_featured_image
         end
 
-        if page_featured_image.is_a?(Paperclip::Attachment)
-          if page_featured_image.options[:styles].keys.include?(:large)
-            style = :large
-          else
-            style = page_featured_image.options[:styles].keys.last
-          end
-          url = page_featured_image.url(style)
+        if page_featured_image.is_a?(MediaItem)
+          url = page_featured_image.attachment_url(:large)
         end
 
         url
@@ -98,41 +86,40 @@ module MetaHelper
 
   def page_featured_image_width
     @_page_featured_image_width ||= begin
-      return unless page_featured_image.is_a?(Paperclip::Attachment)
+      return unless page_featured_image.is_a?(MediaItem)
       @page_featured_image_width ||
-        page_featured_image.instance.try(:dimensions).try(:[], :width) ||
-        page_featured_image.instance.try(:attachment_width)
+        page_featured_image.try(:dimensions).try(:[], :width) ||
+        page_featured_image.try(:width)
     end
   end
 
   def page_featured_image_height
     @_page_featured_image_height ||= begin
-      return unless page_featured_image.is_a?(Paperclip::Attachment)
+      return unless page_featured_image.is_a?(MediaItem)
       @page_featured_image_height ||
-        page_featured_image.instance.try(:dimensions).try(:[], :height) ||
-        page_featured_image.instance.try(:attachment_height)
+        page_featured_image.try(:dimensions).try(:[], :height) ||
+        page_featured_image.try(:height)
     end
   end
 
   def page_featured_image_type
     @_page_featured_image_type ||= begin
-      return unless page_featured_image.is_a?(Paperclip::Attachment)
+      return unless page_featured_image.is_a?(MediaItem)
       page_featured_image.try(:attachment_content_type)
     end
   end
 
   def page_featured_image_alt
     @_page_featured_image_alt ||= begin
-      return unless page_featured_image.is_a?(Paperclip::Attachment)
-      if page_featured_image.try(:instance).present?
-        ft(page_featured_image.instance, :alternative_text, call_method: :try, fallback: true)
+      return unless page_featured_image.is_a?(MediaItem)
+      if page_featured_image.present?
+        ft(page_featured_image, :alternative_text, call_method: :try, fallback: true)
       end
     end
   end
 
   def site_description
     @_site_description ||= begin
-      # TODO: add forest translation for description from settings
       (Setting.for('description') || default_site_description).try(:squish)
     end
   end
@@ -185,58 +172,58 @@ module MetaHelper
 
   private
 
-    def default_site_title
-      'Forest CMS'
-    end
+  def default_site_title
+    'Forest CMS'
+  end
 
-    def default_site_description
-      'This site was built with Forest, a Ruby on Rails CMS.'
-    end
+  def default_site_description
+    'This site was built with Forest, a Ruby on Rails CMS.'
+  end
 
-    def default_meta_type
-      'website'
-    end
+  def default_meta_type
+    'website'
+  end
 
-    def divider(spacer = ' - ')
-      spacer
-    end
+  def divider(spacer = ' - ')
+    spacer
+  end
 
-    def build_page_title_from_record
-      ft(record_to_build_from, :to_page_title, call_method: :try, fallback: true) ||
-      ft(record_to_build_from, :title, call_method: :try, fallback: true) ||
-      ft(record_to_build_from, :name, call_method: :try, fallback: true)
-    end
+  def build_page_title_from_record
+    ft(record_to_build_from, :to_page_title, call_method: :try, fallback: true) ||
+    ft(record_to_build_from, :title, call_method: :try, fallback: true) ||
+    ft(record_to_build_from, :name, call_method: :try, fallback: true)
+  end
 
-    def build_page_title_from_controller
-      if controller_name == 'home_pages'
-        'Home'
-      else
-        controller_name.titleize
-      end
+  def build_page_title_from_controller
+    if controller_name == 'home_pages'
+      'Home'
+    else
+      controller_name.titleize
     end
+  end
 
-    def build_page_description_from_record
-      @_build_page_description_from_record ||= begin
-        description = ft(record_to_build_from, :to_page_description, call_method: :try, fallback: true) ||
-          ft(record_to_build_from, :description, call_method: :try, fallback: true)
-        truncate(description, length: 240)
-      end
+  def build_page_description_from_record
+    @_build_page_description_from_record ||= begin
+      description = ft(record_to_build_from, :to_page_description, call_method: :try, fallback: true) ||
+        ft(record_to_build_from, :description, call_method: :try, fallback: true)
+      truncate(description, length: 240)
     end
+  end
 
-    def build_page_featured_image_from_record
-      @_build_page_featured_image_from_record ||= begin
-        record_to_build_from.try(:featured_image).presence ||
-          record_to_build_from.try(:media_item).presence ||
-          record_to_build_from.try(:blockable_metadata).try(:[], 'featured_image_url').presence
-      end
+  def build_page_featured_image_from_record
+    @_build_page_featured_image_from_record ||= begin
+      record_to_build_from.try(:featured_image).presence ||
+        record_to_build_from.try(:media_item).presence ||
+        record_to_build_from.try(:blockable_metadata).try(:[], 'featured_image_url').presence
     end
+  end
 
-    def record_to_build_from(record = nil)
-      @_record_to_build_from ||= begin
-        record.presence ||
-          @page.presence ||
-          @record.presence ||
-          instance_variable_get("@#{controller_name.singularize}").presence
-      end
+  def record_to_build_from(record = nil)
+    @_record_to_build_from ||= begin
+      record.presence ||
+        @page.presence ||
+        @record.presence ||
+        instance_variable_get("@#{controller_name.singularize}").presence
     end
+  end
 end

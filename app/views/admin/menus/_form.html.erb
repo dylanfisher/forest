@@ -1,40 +1,23 @@
 <%= simple_form_for([:admin, @menu]) do |f| %>
   <%= f.error_notification %>
-
-  <div class="row">
-    <div class="col-sm-12">
-
-      <div class="panel panel-default" data-collapse-parent>
-        <div class="panel-heading">
-          <h3 class="panel-title">
-            Metadata
-          </h3>
-        </div>
-        <div class="panel-body" data-collapse-body>
+  <div class="row small-gutters">
+    <%= render 'admin/shared/edit/sidebar', f: f, record: @menu %>
+    <div class="col-md-9">
+      <div class="card">
+        <h1 class="h2 card-header"><%= record_name(@menu) %></h1>
+        <div class="card-body">
           <div class="form-inputs">
-            <div class="row">
-              <div class="col-sm-6">
-                <p class="text-muted">The menu name and slug determines where this menu is displayed.</p>
-                <%= f.input :title %>
-                <%= render 'admin/form_inputs/slug', f: f %>
+            <div class="row small-gutters">
+              <div class="col-md-6">
+                <%= f.input :title, hint: 'The menu title and slug determines where this menu is displayed.' %>
                 <%= f.input :structure, as: :hidden %>
-                <%= f.button :submit, class: 'btn-success' %>
+              </div>
+              <div class="col-md-6">
+                <%= render 'admin/form_inputs/slug', f: f %>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="panel panel-default" data-collapse-parent>
-        <div class="panel-heading">
-          <h3 class="panel-title">
-            Menu Structure
-          </h3>
-        </div>
-        <div class="panel-body" data-collapse-body>
-          <div class="form-inputs">
-            <div class="row">
-              <div class="col-sm-12">
+            <div class="row small-gutters">
+              <div class="col">
                 <p class="text-muted">
                   Add menu items and arrange them hierarchically by dragging them into position. When linking to an internal page, make sure to use a <%= link_to 'relative url', admin_documentation_path(anchor: 'links'), target: '_blank' %>.
                 </p>
@@ -43,8 +26,6 @@
                     This is especially important when your site supports multiple locales. Your links <u>will not</u> work properly if you do not use relative urls that start with a forward slash, e.g. <code>/projects</code>.
                   </p>
                 <% end %>
-              </div>
-              <div class="col-sm-12">
                 <div class="dd" id="dd-primary">
                   <% if @menu.structure_as_json.present? %>
                     <ol class="dd-list">
@@ -60,10 +41,8 @@
           </div>
         </div>
       </div>
-
     </div>
   </div>
-
 <% end %>
 
 <%# This HTML should match the HTML in menus/_list_item.html.erb %>
