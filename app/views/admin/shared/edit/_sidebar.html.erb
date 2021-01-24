@@ -26,6 +26,15 @@
       <%= f.button :submit, class: 'btn-success' %>
     </div>
     <div class="mt-3">
+      <% if record.try(:title).present? %>
+        <div class="small">
+          Title <span class="text-muted"><%= record.title %></span>
+        </div>
+      <% elsif record.try(:name).present? %>
+        <div class="small">
+          Name <span class="text-muted"><%= record.name %></span>
+        </div>
+      <% end %>
       <% unless record.new_record? %>
         <div class="small">
           Record ID <span class="text-muted"><%= record.id %></span>
