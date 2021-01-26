@@ -68,6 +68,7 @@ class MediaItem < Forest::ApplicationRecord
     # Reprocessing all derivatives
     # https://shrinerb.com/docs/changing-derivatives#reprocessing-all-derivatives
 
+    # TODO: move this to background job?
     MediaItem.find_each do |media_item|
       attacher = media_item.attachment_attacher
 
@@ -86,7 +87,16 @@ class MediaItem < Forest::ApplicationRecord
         attacher.delete_derivatives                   # delete now orphaned derivatives
       end
     end
+  end
 
+  def self.reprocess_missing!
+    MediaItem.find_each do |media_item|
+      attacher = media_item.attachment_attacher
+
+      next unless attacher.stored? && media_item.image? && attacher.derivatives.blank?
+
+      AttachmentDerivativeJob.perform_later(attacher.class.name, attacher.record.class.name, attacher.record.id, attacher.name, attacher.file_data)
+    end
   end
 
   def generate_slug

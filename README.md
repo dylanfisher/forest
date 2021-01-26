@@ -182,6 +182,7 @@ Version 2
 - [ ] Add a refresh button to media item modal to refresh with newly added images
 - [ ] Add media item preview icons for PDF/Video and other files. Reference Uppy's pdf icon preview for inspiration
 - [ ] Media library needs multi-image delete functionality
+- [ ] Can we add indexes to media item attachment_data jsonb column, e.g. to index if a derivative is present?
 - [ ] Add ability to redirect to a page association, not just a string field
 - [ ] Allow menu items to link to reference a page ID in addition to a page path
 - [ ] scope simpleform configuration in engine so that global config doesn't interfere with host app
