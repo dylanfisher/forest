@@ -30,11 +30,6 @@ Run Forest install generator and follow post-install prompts
 $ rails g forest:install
 ```
 
-Springify your project, if you're into that sort of thing.
-```bash
-$ bundle exec spring binstub --all
-```
-
 Delete the ApplicationRecord file to inherit from Forest's ApplicationRecord.
 
 Define a `root_path` in your host app's routes file
