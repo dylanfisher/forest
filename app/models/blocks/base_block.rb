@@ -82,7 +82,7 @@ class BaseBlock < Forest::ApplicationRecord
   end
 
   def block_record
-    @block_record ||= block_slot.block_record
+    @block_record ||= block_slot.try(:block_record)
   end
 
   def block_record_id
@@ -90,10 +90,12 @@ class BaseBlock < Forest::ApplicationRecord
   end
 
   def block_layout
-    block_slot.block_layout
+    block_slot.try(:block_layout)
   end
 
   def blocks
+    return Forest::BlockSet.new if block_record.blank?
+
     block_record.blocks(block_layout: block_layout)
   end
 
