@@ -32,6 +32,7 @@ class MediaItem < Forest::ApplicationRecord
       date = nil
     end
   }
+  scope :missing_derivatives, -> { where("(attachment_data->'derivatives') is null") }
 
   def self.resource_description
     'Media items consist of image, video and other file uploads.'
@@ -90,7 +91,7 @@ class MediaItem < Forest::ApplicationRecord
   end
 
   def self.reprocess_missing!
-    MediaItem.find_each do |media_item|
+    MediaItem.images.missing_derivatives.find_each do |media_item|
       attacher = media_item.attachment_attacher
 
       next unless attacher.stored? && media_item.image? && attacher.derivatives.blank?

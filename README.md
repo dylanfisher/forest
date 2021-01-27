@@ -175,6 +175,7 @@ Forest relies heavily on the following gems, software and frameworks:
 ## TODO
 
 Version 2
+- [ ] Replace and/or document suckerpunch background job with sidekiq or similar more resilient solution
 - [ ] Allow configuration of Shrine media upload to allow local file storage
 - [ ] Better media item input (allow editing caption in place, show point of interest, etc.)
 - [ ] Update site title and description for meta tags
