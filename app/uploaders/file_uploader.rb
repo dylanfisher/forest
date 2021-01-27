@@ -16,6 +16,11 @@ class FileUploader < Shrine
     withoutEnlargement: true,
     sharpen: true
   }
+  # https://shrinerb.com/docs/plugins/remote_url#downloader
+  DOWNLOADER_OPTIONS = {
+    read_timeout: 120,
+    open_timeout: 120
+  }
 
   # Active Record - Overriding callbacks
   # https://shrinerb.com/docs/plugins/activerecord#overriding-callbacks
@@ -64,28 +69,28 @@ class FileUploader < Shrine
           height: 200,
           fit: 'cover'
         }.reverse_merge(DEFAULT_EDITS)
-      })),
+      }), **DOWNLOADER_OPTIONS),
       small: Shrine.remote_url( serverless_image_request({
         resize: {
           width: 600,
           height: 600,
           fit: 'inside'
         }.reverse_merge(DEFAULT_EDITS)
-      })),
+      }), **DOWNLOADER_OPTIONS),
       medium: Shrine.remote_url( serverless_image_request({
         resize: {
           width: 1200,
           height: 1200,
           fit: 'inside'
         }.reverse_merge(DEFAULT_EDITS)
-      })),
+      }), **DOWNLOADER_OPTIONS),
       large: Shrine.remote_url( serverless_image_request({
         resize: {
           width: 2200,
           height: 2200,
           fit: 'inside'
         }.reverse_merge(DEFAULT_EDITS)
-      }))
+      }), **DOWNLOADER_OPTIONS)
     }
   end
 
