@@ -21,12 +21,12 @@ App.MediaItemChooser = {
           var $modalBody = $element.find('.modal-body');
 
           if ( $modalBody.find('.media-library').length ) {
-            App.InfiniteLoader.initialize( $element.find('[data-infinite-load]'), { $scrollListener: $element } );
+            App.InfiniteLoader.initialize( $element.find('[data-infinite-load]'), { $scrollListener: $element.find('.modal-body') } );
           } else {
             $.ajax(ajaxUrl)
               .done(function(data) {
                 $modalBody.html( $(data).find('.media-library') );
-                App.InfiniteLoader.initialize( $element.find('[data-infinite-load]'), { $scrollListener: $element } );
+                App.InfiniteLoader.initialize( $element.find('[data-infinite-load]'), { $scrollListener: $element.find('.modal-body') } );
               }).fail(function() {
                 var error = 'Unable to fetch media items index.';
                 console.warn(error);
@@ -66,7 +66,7 @@ App.MediaItemChooser = {
               })
               .done(function(data) {
                 $modalBody.html( $(data).find('.media-library') );
-                App.InfiniteLoader.initialize( $element.find('[data-infinite-load]'), { $scrollListener: $element } );
+                App.InfiniteLoader.initialize( $element.find('[data-infinite-load]'), { $scrollListener: $element.find('.modal-body') } );
               }).fail(function() {
                 var error = 'Unable to fetch media items index.';
                 console.warn(error);
