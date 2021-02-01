@@ -49,7 +49,7 @@ class CollageInput < SimpleForm::Inputs::CollectionSelectInput
     cocoon_link = template.link_to_add_association('Add collage item',
                                                    @builder,
                                                    reflection_or_attribute_name,
-                                                   class: 'collage-input__link-to-add-association btn btn-outline-secondary',
+                                                   class: 'collage-input__link-to-add-association btn btn-outline-secondary mt-3',
                                                    partial: 'admin/form_inputs/collage/media_item_fields',
                                                    render_options: {
                                                      locals: {
@@ -66,7 +66,7 @@ class CollageInput < SimpleForm::Inputs::CollectionSelectInput
       cocoon_text_box_link = template.link_to_add_association('Add text box item',
                                                               @builder,
                                                               reflection_or_attribute_name,
-                                                              class: 'collage-input__link-to-add-association btn btn-outline-secondary',
+                                                              class: 'collage-input__link-to-add-association btn btn-outline-secondary mt-3',
                                                               partial: 'admin/form_inputs/collage/text_box_fields',
                                                               render_options: {
                                                                 locals: {

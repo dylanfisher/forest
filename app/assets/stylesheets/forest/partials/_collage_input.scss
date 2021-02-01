@@ -1,0 +1,145 @@
+// Collage inputs
+
+.form-group.collage {
+  margin-top: map-get($spacers, 3);
+}
+
+.collage-input__canvas-wrapper {
+  overflow: hidden;
+
+  .ui-resizable-s {
+    height: 20px;
+    bottom: -20px;
+    left: map-get($spacers, 3) / -2;
+    width: calc(100% + #{map-get($spacers, 3)});
+    border-bottom-left-radius: $border-radius;
+    border-bottom-right-radius: $border-radius;
+    border-top: 1px solid $card-border-color;
+    background-color: $card-bg;
+
+    &:after {
+      content: '';
+      background-image: image-url('bootstrap/arrows-expand.svg');
+      position: absolute;
+      top: 0;
+      right: 6px;
+      width: 22px;
+      height: 14px;
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+  }
+}
+
+.collage-input__canvas {
+  width: 100%;
+  height: 60vw;
+  position: relative;
+
+  &.initialized {
+    .collage-input__item {
+      opacity: 1;
+    }
+  }
+}
+
+.collage-input__item {
+  opacity: 0;
+  position: absolute;
+  cursor: move;
+  transition: opacity 0.2s;
+
+  &:hover {
+    .media-item__buttons {
+      display: block;
+    }
+  }
+
+  .form-group {
+    display: inline-block;
+    position: relative;
+    margin: 0;
+
+    br {
+      display: none;
+    }
+  }
+
+  .media-item-chooser__image {
+    max-width: 100%;
+    max-height: none;
+    pointer-events: none;
+    margin: 0;
+  }
+
+  .btn-group {
+    display: block;
+  }
+
+  .media-item-chooser__edit-image {
+    display: none;
+  }
+}
+
+.collage-input__item--text-box {
+  .media-item__button {
+    position: absolute;
+    top: -4px;
+  }
+
+  label {
+    cursor: move;
+  }
+
+  .form-group.text,
+  textarea {
+    width: 100%;
+  }
+}
+
+.collage-input__item__image {
+  max-width: 200px;
+}
+
+.collage-input__item {
+  .media-item-chooser__remove-image {
+    display: none;
+  }
+}
+
+.collage-input__item--with-image {
+  .media-item-chooser__button {
+    display: none;
+  }
+}
+
+.collage-input__empty-canvas-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  text-align: center;
+}
+
+.collage-input__caption {
+  display: none;
+  position: absolute;
+}
+
+.collage-input__additional-fields {
+  position: absolute;
+  bottom: 10px;
+  left: 5px;
+  width: calc(100% - 10px);
+  max-width: 250px;
+  opacity: 0.9;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  .form-group {
+    display: block;
+  }
+}
