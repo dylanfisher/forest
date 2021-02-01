@@ -39,7 +39,4 @@
 <%= tag :meta, property: 'og:image:type', content: page_featured_image_type if page_featured_image_type.present? %>
 <%= tag :meta, property: 'og:image:alt', content: page_featured_image_alt if page_featured_image_alt.present? %>
 
-<% if additional_meta_tags.present? %>
-<!-- Additional meta tags -->
-<%= additional_meta_tags %>
-<% end %>
+<%= additional_meta_tags if additional_meta_tags.present? %>

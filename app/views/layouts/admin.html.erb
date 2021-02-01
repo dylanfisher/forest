@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" class="h-100">
   <head>
-    <%#= render 'layouts/shared_head' %>
+    <meta charset="utf-8">
+    <title><%= meta_page_title %></title>
     <%= csp_meta_tag %>
     <%= csrf_meta_tags %>
-    <%= javascript_include_tag 'forest/application' %>
     <%= stylesheet_link_tag 'forest/application', media: 'all' %>
-    <%#= render 'admin/shared/admin_head_additions' %>
+    <%= render 'admin/shared/admin_head_additions' %>
   </head>
   <body class="<%= @html_classes.try(:join, ' ') %> admin d-flex flex-column h-100">
     <%= render 'admin/navigation' %>
@@ -25,5 +25,6 @@
       </div>
     </main>
     <%= render 'admin/media_items/modal' %>
+    <%= javascript_include_tag 'forest/application' %>
   </body>
 </html>

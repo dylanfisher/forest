@@ -48,6 +48,7 @@
   position: absolute;
   cursor: move;
   transition: opacity 0.2s;
+  margin-bottom: 0;
 
   &:hover {
     .media-item__buttons {
@@ -69,7 +70,7 @@
     max-width: 100%;
     max-height: none;
     pointer-events: none;
-    margin: 0;
+    margin: 0 !important;
   }
 
   .btn-group {
