@@ -96,7 +96,7 @@ class BaseBlock < Forest::ApplicationRecord
   def blocks
     return Forest::BlockSet.new if block_record.blank?
 
-    block_record.blocks(block_layout: block_layout)
+    block_record.blocks(block_layout: block_layout).select(&:display?)
   end
 
   def index
