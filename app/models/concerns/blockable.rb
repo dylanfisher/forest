@@ -40,7 +40,7 @@ module Blockable
       if block_layout.present?
         b = b.select { |bs| bs.block_layout == block_layout }
       end
-      Forest::BlockSet.new b.collect(&:block)
+      Forest::BlockSet.new b.collect(&:block).select(&:display?)
     end)
   end
 

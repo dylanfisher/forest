@@ -10,11 +10,11 @@ module BlockHelper
       end
 
       collection = options.delete(:collection) || record.blocks(block_layout: block_layout)
-      collection.select!(&:display?)
 
       if collection.present?
         content_tag :div, class: "blocks block-layout--#{block_layout.slug}" do
           collection.each do |block|
+            next if block.hidden?
             begin
               concat render 'blocks/show', block: block
             rescue Exception => e
