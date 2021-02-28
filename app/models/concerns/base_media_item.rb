@@ -70,6 +70,11 @@ module BaseMediaItem
       end.flatten.reject(&:blank?)
     end
 
+    # Override this method to add additional permitted params to the Admin::MediaItemsController
+    def additional_permitted_params
+      []
+    end
+
     def reprocess_all!
       # Reprocessing all derivatives
       # https://shrinerb.com/docs/changing-derivatives#reprocessing-all-derivatives

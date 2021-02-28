@@ -101,7 +101,7 @@ class Admin::MediaItemsController < Admin::ForestController
 
   # Only allow a trusted parameter "white list" through.
   def media_item_params
-    params.require(:media_item).permit(:title, :slug, :caption, :alternative_text, :description, :attachment, :selected, :point_of_interest_x, :point_of_interest_y, *MediaItem.localized_params)
+    params.require(:media_item).permit(:title, :slug, :caption, :alternative_text, :description, :attachment, :selected, :point_of_interest_x, :point_of_interest_y, *MediaItem.localized_params, *MediaItem.additional_permitted_params)
   end
 
   def set_s3_direct_post
