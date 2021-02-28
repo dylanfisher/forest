@@ -32,7 +32,7 @@ module BasePage
   end
 
   class_methods do
-    def self.resource_description
+    def resource_description
       "Pages offer a flexible and modular way to present information."
     end
   end
