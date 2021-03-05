@@ -170,7 +170,7 @@ module BaseMediaItem
   end
 
   def image?
-    (attachment_content_type =~ %r{^(image|(x-)?application)/(bmp|gif|jpeg|jpg|pjpeg|png|x-png)$}).present?
+    (attachment_content_type =~ %r{^(image|(x-)?application)/(bmp|gif|jpeg|jpg|pjpeg|png|x-png|svg\+xml)$}).present?
   end
 
   def video?
