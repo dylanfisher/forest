@@ -15,6 +15,12 @@ class Forest::MarkdownRenderer < Redcarpet::Render::HTML
     }
   end
 
+  def header(text, header_level)
+    sanitized_name = ActionView::Base.full_sanitizer.sanitize(text).parameterize
+
+    "<h#{header_level} name=\"#{sanitized_name}\">#{text}</h#{header_level}>"
+  end
+
   def postprocess(full_document)
     return full_document if full_document.blank?
 
