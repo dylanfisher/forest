@@ -15,8 +15,8 @@
               <span class="sr-only">Toggle Dropdown</span>
             </button>
             <div class="dropdown-menu dropdown-menu-right">
-              <%= link_to edit_admin_import_path(model_names.singular), class: 'dropdown-item' do %>
-                <span class="glyphicon glyphicon-import"></span>
+              <%= link_to edit_admin_import_path(model_names.singular), class: 'dropdown-item d-flex align-items-center' do %>
+                <span class="glyphicon glyphicon-import mr-2"></span>
                 Bulk import
               <% end %>
             </div>
