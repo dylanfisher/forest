@@ -61,7 +61,7 @@ module Blockable
   def set_blockable_metadata
     if self.respond_to?(:blockable_metadata)
       self.blockable_metadata['featured_image_url'] = featured_image_from_blocks.try(:attachment_url, :large)
-      self.update_column(:blockable_metadata, self.blockable_metadata)
+      self.update_column(:blockable_metadata, self.blockable_metadata) if self.changes[:blockable_metadata].present?
     end
   end
 end
