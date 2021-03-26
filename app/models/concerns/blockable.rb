@@ -4,6 +4,7 @@ module Blockable
   included do
     parent_class = self
 
+    before_save :touch_self
     after_save :set_blockable_metadata
 
     has_many :block_slots, -> { order(:position) },
@@ -48,6 +49,12 @@ module Blockable
   end
 
   private
+
+  def touch_self
+    if self.respond_to?(:updated_at)
+      self.updated_at = Time.now
+    end
+  end
 
   # Blockable metadata is a way to cache and store data on the blockable record itself to avoid expensive database lookups
   # when querying information about a record that may come from the reord's blocks.
