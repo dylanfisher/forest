@@ -16,13 +16,19 @@ App.Select2 = {
     ul.sortable({
       placeholder: 'ui-state-highlight',
       forcePlaceholderSize: true,
+      tolerance: 'pointer',
+      scroll: false,
       items: 'li:not(.select2-search)',
+      helper: function(e, el) {
+        el.width(el.width() + 1);
+        return el;
+      },
       start: function(e, ui) {
-        ui.placeholder.height( ui.item.outerHeight(true) );
+        ui.placeholder.height( ui.item.height() );
       },
       stop: function() {
         $( $(ul).find('.select2-selection__choice').get().reverse() ).each(function() {
-          var id = $(this).data('data').id;
+          var id = $(this).find('.select2-response__id').attr('data-id');
           var option = $select2.find('option[value="' + id + '"]')[0];
 
           $select2.prepend(option);

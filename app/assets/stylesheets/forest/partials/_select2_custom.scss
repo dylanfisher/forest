@@ -31,3 +31,19 @@
   display: flex;
   align-items: center;
 }
+
+.is-ui-sortable {
+  .select2-selection--multiple {
+    .select2-selection__choice {
+      float: left;
+      background-color: $white;
+    }
+  }
+}
+
+.select2-selection__choice__display {
+  img {
+    vertical-align: top;
+    margin-top: 1px;
+  }
+}
