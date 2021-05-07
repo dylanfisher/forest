@@ -3,10 +3,11 @@ PATH
   specs:
     forest (2.0.0)
       aws-sdk-s3
-      bootstrap
+      bootstrap (~> 4.0)
       cocoon
       deep_cloneable
       devise
+      fastimage
       has_scope
       jbuilder
       jquery-rails
@@ -116,10 +117,11 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
-    down (5.1.1)
+    down (5.2.1)
       addressable (~> 2.5)
     erubi (1.9.0)
     execjs (2.7.0)
+    fastimage (2.2.3)
     ffi (1.13.1)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
@@ -145,7 +147,9 @@ GEM
     marcel (0.3.3)
       mimemagic (~> 0.3.2)
     method_source (1.0.0)
-    mimemagic (0.3.5)
+    mimemagic (0.3.10)
+      nokogiri (~> 1)
+      rake
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
     minitest (5.14.1)
@@ -156,7 +160,7 @@ GEM
     pagy (3.8.2)
     pg (1.2.3)
     popper_js (1.16.0)
-    public_suffix (4.0.5)
+    public_suffix (4.0.6)
     pundit (2.1.0)
       activesupport (>= 3.0.0)
     rack (2.2.3)
@@ -203,7 +207,7 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    shrine (3.2.1)
+    shrine (3.3.0)
       content_disposition (~> 1.0)
       down (~> 5.1)
     simple_form (5.0.2)
