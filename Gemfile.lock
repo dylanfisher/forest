@@ -3,10 +3,11 @@ PATH
   specs:
     forest (2.0.0)
       aws-sdk-s3
-      bootstrap
+      bootstrap (~> 4.0)
       cocoon
       deep_cloneable
       devise
+      fastimage
       has_scope
       jbuilder
       jquery-rails
@@ -120,6 +121,7 @@ GEM
       addressable (~> 2.5)
     erubi (1.9.0)
     execjs (2.7.0)
+    fastimage (2.2.3)
     ffi (1.13.1)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
@@ -145,7 +147,9 @@ GEM
     marcel (0.3.3)
       mimemagic (~> 0.3.2)
     method_source (1.0.0)
-    mimemagic (0.3.5)
+    mimemagic (0.3.10)
+      nokogiri (~> 1)
+      rake
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
     minitest (5.14.1)
@@ -189,7 +193,7 @@ GEM
       rake (>= 0.8.7)
       thor (>= 0.20.3, < 2.0)
     rake (13.0.1)
-    redcarpet (3.5.0)
+    redcarpet (3.5.1)
     responders (3.0.1)
       actionpack (>= 5.0)
       railties (>= 5.0)
