@@ -18,7 +18,7 @@
           <tr>
             <td class="px-3"><%= index + 1 %></td>
             <td class="px-3"><%= resource.model_name.human.titleize.pluralize %></td>
-            <td class="px-3"><div class="text-muted"><%= resource.try(:resource_description) %></div></td>
+            <td class="px-3"><div class="text-muted"><%= md resource.try(:resource_description) %></div></td>
             <td class="px-3"><%= number_with_delimiter resource_count %></td>
             <td class="px-3" width="1"><%= link_to 'Edit', polymorphic_path([:admin, resource]), class: 'btn btn-xs btn-primary forest-table__link', role: 'button' %></td>
           </tr>
