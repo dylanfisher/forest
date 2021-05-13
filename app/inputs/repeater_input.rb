@@ -2,7 +2,12 @@ class RepeaterInput < SimpleForm::Inputs::TextInput
   def input(wrapper_options = nil)
     merged_input_options = merge_wrapper_options(input_html_options, wrapper_options)
     # By default a repeater input is a key/value store. Specify values_only if you don't need keys.
-    options.reverse_merge(values_only: false)
+    options.reverse_merge!(values_only: false)
+    # Override the key/value placeholder
+    options.reverse_merge!(key_placeholder: 'Key')
+    options.reverse_merge!(value_placeholder: 'Value')
+    # Change the value field tag
+    options.reverse_merge!(value_field_tag: 'text_area_tag')
 
     content = ActiveSupport::SafeBuffer.new
     content << '<div class="repeater__group-wrapper">'.html_safe
@@ -19,21 +24,27 @@ class RepeaterInput < SimpleForm::Inputs::TextInput
     repeater_group_fields = ActiveSupport::SafeBuffer.new
     repeatable_records = object.send(attribute_name)
     if options[:as_template]
-      repeater_group_fields << '<div class="repeater__group card">'.html_safe
-      repeater_group_fields << '<div class="repeater__group__body card-body">'.html_safe
+      repeater_group_fields << '<div class="repeater__group card bg-light mb-2">'.html_safe
+      repeater_group_fields << '<div class="card-header sortable-field-set__handle d-flex p-2">'.html_safe
+      repeater_group_fields << "<div class='text-muted'><small>Item</small></div>".html_safe
+      repeater_group_fields << repeater_controls
+      repeater_group_fields << '</div>'.html_safe
+      repeater_group_fields << '<div class="repeater__group__body card-body p-2">'.html_safe
       repeater_group_fields << key_input unless options[:values_only]
       repeater_group_fields << value_input
       repeater_group_fields << '</div>'.html_safe
-      repeater_group_fields << repeater_controls
       repeater_group_fields << '</div>'.html_safe
     elsif repeatable_records.try(:present?)
-      repeatable_records&.each do |row|
-        repeater_group_fields << '<div class="repeater__group card">'.html_safe
-        repeater_group_fields << '<div class="repeater__group__body card-body">'.html_safe
+      repeatable_records&.each_with_index do |row, index|
+        repeater_group_fields << '<div class="repeater__group card bg-light mb-2">'.html_safe
+        repeater_group_fields << '<div class="card-header sortable-field-set__handle d-flex p-2">'.html_safe
+        repeater_group_fields << "<div class='text-muted'><small>Item #{index + 1}</small></div>".html_safe
+        repeater_group_fields << repeater_controls
+        repeater_group_fields << '</div>'.html_safe
+        repeater_group_fields << '<div class="repeater__group__body card-body p-2">'.html_safe
         repeater_group_fields << key_input(row[:key]) unless options[:values_only]
         repeater_group_fields << value_input(row[:value])
         repeater_group_fields << '</div>'.html_safe
-        repeater_group_fields << repeater_controls
         repeater_group_fields << '</div>'.html_safe
       end
     end
@@ -45,11 +56,11 @@ class RepeaterInput < SimpleForm::Inputs::TextInput
   end
 
   def key_input(key = nil)
-    content_tag(:div, template.text_field_tag("#{object.model_name.singular}[#{attribute_name}][][key]", key, class: 'form-control', required: true, placeholder: 'Key'), class: 'form-group')
+    content_tag(:div, template.text_field_tag("#{object.model_name.singular}[#{attribute_name}][][key]", key, class: 'form-control', required: true, placeholder: options[:key_placeholder]), class: 'form-group')
   end
 
   def value_input(value = nil)
-    content_tag(:div, template.text_area_tag("#{object.model_name.singular}[#{attribute_name}][][value]", value, class: 'form-control', required: true, placeholder: 'Value'), class: 'form-group')
+    content_tag(:div, template.send(options[:value_field_tag], "#{object.model_name.singular}[#{attribute_name}][][value]", value, class: 'form-control', required: true, placeholder: options[:value_placeholder]), class: 'form-group mb-0')
   end
 
   def hidden_key_input
@@ -62,11 +73,9 @@ class RepeaterInput < SimpleForm::Inputs::TextInput
 
   def repeater_controls
     controls = ActiveSupport::SafeBuffer.new
-    controls << '<div class="repeater__controls">'.html_safe
-    controls << '<div class="repeater__controls__buttons">'.html_safe
-    controls << content_tag(:div, '', class: 'repeater__controls__add-row-button repeater__controls__button btn btn-outline-secondary btn-sm glyphicon glyphicon-plus')
-    controls << content_tag(:div, '', class: 'repeater__controls__remove-row-button repeater__controls__button btn btn-outline-secondary btn-sm glyphicon glyphicon-minus')
-    controls << '</div>'.html_safe
+    controls << '<div class="repeater__controls ml-auto">'.html_safe
+    controls << content_tag(:div, template.bootstrap_icon('plus'), class: 'repeater__controls__add-row-button repeater__controls__button btn btn-outline-secondary btn-xs', title: 'Insert item above')
+    controls << content_tag(:div, template.bootstrap_icon('dash'), class: 'repeater__controls__remove-row-button repeater__controls__button btn btn-outline-secondary btn-xs ml-1', title: 'Remove item')
     controls << '</div>'.html_safe
   end
 end

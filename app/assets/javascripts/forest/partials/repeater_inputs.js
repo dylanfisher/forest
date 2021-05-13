@@ -43,8 +43,12 @@ $(document).on('click', '.repeater__controls__remove-row-button', function() {
 
       $element.sortable({
         items: '.repeater__group',
-        containment: $element,
-        tolerance: 'pointer'
+        placeholder: 'ui-state-highlight',
+        handle: '.sortable-field-set__handle',
+        forcePlaceholderSize: true,
+        start: function(e, ui) {
+          ui.placeholder.height( ui.item.outerHeight() - 12 );
+        }
       });
     });
   };
