@@ -41,6 +41,10 @@
   }
 }
 
+.select2-container .select2-selection--multiple {
+  display: inline-block;
+}
+
 .select2-selection__choice__display {
   img {
     vertical-align: top;
