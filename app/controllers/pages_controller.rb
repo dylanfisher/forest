@@ -21,6 +21,8 @@ class PagesController < ForestController
 
     if @page.redirect.present?
       return redirect_to @page.redirect, status: 301
+    elsif @page.path != page_path
+      return redirect_to "/#{@page.path}", params: { page_path: @page.path }, status: 301
     end
 
     ensure_localization
