@@ -49,7 +49,7 @@ class ForestController < ApplicationController
   end
 
   def set_page(page_path_to_use = page_path)
-    @page = Page.find_by_path(page_path_to_use&.downcase)
+    @page = Page.find_by_path(page_path_to_use.to_s.downcase.sub(/^\//, ''))
   end
 
   # Make sure to return after calling this method, e.g. `check_for_redirect! and return` to avoid double render errors
