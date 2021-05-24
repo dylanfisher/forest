@@ -4,15 +4,11 @@ module ImageHelper
     file = File.read(Rails.root.join('app', 'assets', 'images', filename))
     doc = Nokogiri::HTML::DocumentFragment.parse file
     svg = doc.at_css 'svg'
-    if options[:class].present?
-      svg['class'] = "#{svg['class']} #{options[:class]}"
-    end
-    if options[:id].present?
-      svg['id'] = options[:id]
-    end
-    if options[:style].present?
-      svg['style'] = "#{svg['style']} #{options[:style]}"
-    end
+    svg['class'] = "#{svg['class']} #{options[:class]}" if options[:class].present?
+    svg['id'] = options[:id] if options[:id].present?
+    svg['style'] = "#{svg['style']} #{options[:style]}" if options[:style].present?
+    svg['width'] = options[:width] if options[:width].present?
+    svg['height'] = options[:height] if options[:height].present?
     doc.to_html.html_safe
   end
 
