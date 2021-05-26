@@ -3,7 +3,6 @@ module BaseMediaItem
 
   included do
     include FileUploader::Attachment(:attachment)
-    include Forest::Vimeo::MediaItemExtension if Module.const_defined?('Forest::Vimeo::MediaItemExtension')
     include Sluggable
 
     DATE_FILTER_CACHE_KEY = 'forest_media_item_dates_for_filter'
