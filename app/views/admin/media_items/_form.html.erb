@@ -35,27 +35,29 @@
 
                 <div class="form-group">
                   <div class="file-upload-notifications"></div>
-                  <div class="upload-preview">
-                    <% if @media_item.try(:image?) && @media_item.try(:point_of_interest_x).present? && @media_item.try(:point_of_interest_y).present? %>
-                      <label class="media-item__point-of-interest__label">Point of Interest</label>
-                      <div id="media-item__point-of-interest" class="media-item__point-of-interest">
-                        <%= content_tag :div, nil, id: 'media-item__point-of-interest__crosshair', class: 'media-item__point-of-interest__crosshair', style: "top: #{@media_item.point_of_interest_y}%; left: #{@media_item.point_of_interest_x}%;" %>
-                        <%= image_tag @media_item.attachment_url(:medium) %>
-                        <%= f.input :point_of_interest_x, as: :hidden %>
-                        <%= f.input :point_of_interest_y, as: :hidden %>
-                      </div>
-                      <small class="form-text text-muted">Click the image to change the point of interest of the image. The point of interest is used to determine where to crop the image in some contexts.</small>
-                    <% elsif @media_item.try(:image?) %>
-                      <%= image_tag @media_item.attachment_url(:medium).presence || uri_image_placeholder %>
-                    <% elsif @media_item.try(:video?) %>
-                      <%= video_tag @media_item.attachment_url, controls: true %>
-                    <% elsif @media_item.try(:file?) %>
-                      <div class="mt-2">
-                        <%= bootstrap_icon 'file-richtext', style: 'width: 36px;' %>
-                        <%= @media_item.attachment_file_name.presence || @media_item.title %>
-                      </div>
-                    <% end %>
-                  </div>
+                  <% unless @media_item.new_record? %>
+                    <div class="upload-preview">
+                      <% if @media_item.try(:image?) && @media_item.try(:point_of_interest_x).present? && @media_item.try(:point_of_interest_y).present? %>
+                        <label class="media-item__point-of-interest__label">Point of Interest</label>
+                        <div id="media-item__point-of-interest" class="media-item__point-of-interest">
+                          <%= content_tag :div, nil, id: 'media-item__point-of-interest__crosshair', class: 'media-item__point-of-interest__crosshair', style: "top: #{@media_item.point_of_interest_y}%; left: #{@media_item.point_of_interest_x}%;" %>
+                          <%= image_tag @media_item.attachment_url(:medium) %>
+                          <%= f.input :point_of_interest_x, as: :hidden %>
+                          <%= f.input :point_of_interest_y, as: :hidden %>
+                        </div>
+                        <small class="form-text text-muted">Click the image to change the point of interest of the image. The point of interest is used to determine where to crop the image in some contexts.</small>
+                      <% elsif @media_item.try(:image?) %>
+                        <%= image_tag @media_item.attachment_url(:medium).presence || uri_image_placeholder %>
+                      <% elsif @media_item.try(:video?) %>
+                        <%= video_tag @media_item.attachment_url, controls: true %>
+                      <% elsif @media_item.try(:file?) %>
+                        <div class="mt-2">
+                          <%= bootstrap_icon 'file-richtext', style: 'width: 36px;' %>
+                          <%= @media_item.attachment_file_name.presence || @media_item.title %>
+                        </div>
+                      <% end %>
+                    </div>
+                  <% end %>
 
                 </div>
                 <% if @media_item.attachment.present? %>
@@ -82,4 +84,7 @@
       </div>
     </div>
   </div>
+  <% if @media_item.vimeo_video? && lookup_context.exists?('admin/shared/forest/vimeo/vimeo_data', [], true) %>
+    <%= render 'admin/shared/forest/vimeo/vimeo_data', f: f, record: @media_item %>
+  <% end %>
 <% end %>
