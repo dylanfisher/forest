@@ -120,4 +120,9 @@
     background-size: contain;
     background-color: transparent;
   }
+
+  &.glyphicon-invert {
+    opacity: 0.8;
+    filter: invert(1);
+  }
 }

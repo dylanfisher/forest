@@ -145,7 +145,11 @@ module BaseMediaItem
     if image?
       'image'
     elsif video?
-      'play'
+      if try(:vimeo_video?)
+        'play glyphicon-invert'
+      else
+        'play'
+      end
     elsif attachment_content_type == 'application/zip'
       'file-richtext'
     else
@@ -221,18 +225,22 @@ module BaseMediaItem
     !landscape?(ratio)
   end
 
+  def select2_image_thumbnail
+    if image? && attachment.present?
+      "<img src='#{attachment_url(:thumb)}' style='height: 21px; margin-right: 5px;'> "
+    elsif try(:vimeo_video?) && vimeo_video_thumbnail(:thumb).present?
+      "<img src='#{vimeo_video_thumbnail(:thumb)}' style='height: 21px; margin-right: 5px;'> "
+    else
+      ''
+    end
+  end
+
   def to_select2_response
-    # TODO
-    img_tag = ''
-    # img_tag = "<img src='#{attachment_url(:thumb)}' style='height: 50px;'> " if image? && attachment.present?
-    "#{img_tag}<span class='select2-response__id'>#{id}</span> #{to_label}"
+    "#{select2_image_thumbnail}<span class='select2-response__id' style='margin-right: 5px;'>#{id}</span> #{to_label}"
   end
 
   def to_select2_selection
-    # TODO
-    img_tag = ''
-    # img_tag = "<img src='#{attachment_url(:thumb)}' style='height: 20px; display: inline-block; vertical-align: top;'> " if image? && attachment.present?
-    "#{img_tag}<span class='select2-response__id'>#{id}</span> #{to_label}"
+    "#{select2_image_thumbnail}<span class='select2-response__id' style='margin-right: 5px;'>#{id}</span> #{to_label}"
   end
 
   private

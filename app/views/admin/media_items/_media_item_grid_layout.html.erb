@@ -2,8 +2,6 @@
     app/assets/javascripts/forest/admin/partials/media_item_chooser_modal.js.erb %>
 
 <%= content_tag :div, class: "media-item--grid mb-3 col-xs-4 col-sm-3 col-md-2" do %>
-  <%# TODO: file url at proper size %>
-  <%# TODO: file placeholder %>
   <% if media_item.image? %>
     <% attachment_or_placeholder_url = media_item.attachment.present? ? media_item.attachment_url(:small) : '#TODO' %>
     <% attachment_or_placeholder_url_large = media_item.attachment.present? ? media_item.attachment_url(:medium) : '#TODO' %>
@@ -13,6 +11,9 @@
       <% point_of_interest_y = media_item.point_of_interest_y %>
       <% css_style = "background-position: #{point_of_interest_x}% #{point_of_interest_y}%;" %>
     <% end %>
+  <% elsif media_item.try(:vimeo_video?) && media_item.vimeo_video_thumbnail.present? %>
+    <% attachment_or_placeholder_url = media_item.vimeo_video_thumbnail %>
+    <% attachment_or_placeholder_url_large = media_item.vimeo_video_thumbnail %>
   <% else %>
     <% attachment_or_placeholder_url = media_item.attachment.present? ? media_item.attachment_url : '#TODO' %>
   <% end %>
