@@ -4,7 +4,7 @@
 
 <%# TODO: test this cache block to make sure it is safe in production %>
 <% cache [block_record.class.name, block_layout, cache_key_for(BlockKind), expires_in: 4.weeks] do %>
-  <div class="block-slot-field-template-wrapper block-slot nested-fields">
+  <div class="block-slot-field-template-wrapper block-slot nested-fields" data-collapse-parent>
     <% collection = block_kinds.to_a
                                .sort_by { |bk| [bk.category.downcase, bk.name.downcase] }
                                .collect { |bk| [bk.to_label, bk.id, category: bk.category, data: { select2_response: bk.to_select2_response }] } %>
@@ -35,7 +35,7 @@
                 <%= render 'admin/block_record/block_slot_field_buttons', f: f %>
               </div>
             </div>
-            <div class="block-slot__inputs card-body pb-1">
+            <div class="block-slot__inputs card-body pb-1" data-collapse-body>
               <%= f.simple_fields_for :block, f.object.send(:build_block, klass) do |f| %>
                 <%= render "blocks/#{klass.model_name.singular}/edit", f: f, **locals %>
               <% end %>

@@ -9,4 +9,8 @@
           confirm: "Are you sure you want to remove this block?" } do %>
     <%= bootstrap_icon('dash') %>
   <% end %>
+  <button type="button" class="btn btn-xs btn-outline-secondary" data-collapse-trigger title="Collapse block">
+    <%= bootstrap_icon 'chevron-down', class: 'collapse-trigger__chevron-down' %>
+    <%= bootstrap_icon 'chevron-up', class: 'collapse-trigger__chevron-up' %>
+  </button>
 </div>

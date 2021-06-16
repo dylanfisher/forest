@@ -13,12 +13,25 @@
   }
 }
 
-.nested-fields,
 [data-collapse-parent] {
   &.collapsed {
-    .panel-body {
+    [data-collapse-body] {
       display: none;
     }
+  }
+}
+
+.collapse-trigger__chevron-down {
+  .collapsed & {
+    display: none;
+  }
+}
+
+.collapse-trigger__chevron-up {
+  display: none;
+
+  .collapsed & {
+    display: block;
   }
 }
 
@@ -33,4 +46,13 @@
 .block-slot-field__buttons {
   min-width: 74px;
   text-align: right;
+}
+
+.block-slot-field__button--low-priority {
+  opacity: 0;
+  transition: opacity 0.1s;
+}
+
+.block-slot:hover .block-slot-field__button--low-priority {
+  opacity: 1;
 }

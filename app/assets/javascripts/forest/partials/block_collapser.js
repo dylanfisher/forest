@@ -31,21 +31,27 @@
 //   }
 // });
 
-// $(document).on('click', '[data-collapse-parent] [data-collapse-trigger]', function() {
-//   var $button = $(this);
-//   var $wrapper = $button.closest('[data-collapse-parent]');
-//   var $icon = $button.find('.collapsable-icon');
-//   var $body = $wrapper.find('[data-collapse-body]');
+$(document).on('click', '[data-collapse-trigger]', function() {
+  var $button = $(this);
+  var $wrapper = $button.closest('[data-collapse-parent]');
 
-//   if ( $wrapper.hasClass('collapsed') ) {
-//     $wrapper.removeClass('collapsed');
-//     $body.show();
-//     $icon.removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+  if ( !$wrapper.length ) {
+    console.warn('Could not find [data-collapse-parent] for this trigger', $wrapper);
+    return;
+  }
 
-//     $(document).trigger('app:show-collapsed-content', $wrapper);
-//   } else {
-//     $wrapper.addClass('collapsed');
-//     $body.hide();
-//     $icon.removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
-//   }
-// });
+  var $icon = $button.find('.collapsable-icon');
+  var $body = $wrapper.find('[data-collapse-body]');
+
+  if ( $wrapper.hasClass('collapsed') ) {
+    $wrapper.removeClass('collapsed');
+    $body.show();
+    $icon.removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+
+    $(document).trigger('app:show-collapsed-content', $wrapper);
+  } else {
+    $wrapper.addClass('collapsed');
+    $body.hide();
+    $icon.removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+  }
+});
