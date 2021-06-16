@@ -106,7 +106,9 @@ module BaseMediaItem
 
         next unless attacher.stored? && media_item.image? && attacher.derivatives.blank?
 
-        AttachmentDerivativeJob.perform_later(attacher.class.name, attacher.record.class.name, attacher.record.id, attacher.name, attacher.file_data)
+        FileUploader::IMAGE_DERIVATIVES.each_key do |derivative_name|
+          AttachmentDerivativeJob.perform_later(attacher.class.name, attacher.record.class.name, attacher.record.id, attacher.name, attacher.file_data, derivative_name)
+        end
       end
     end
 

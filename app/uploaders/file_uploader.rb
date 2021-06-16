@@ -21,6 +21,20 @@ class FileUploader < Shrine
     read_timeout: 120,
     open_timeout: 120
   }
+  IMAGE_DERIVATIVES = {
+    thumb: {
+      resize: { width: 200,  height: 200, fit: 'cover' }.reverse_merge(DEFAULT_EDITS)
+    },
+    small: {
+      resize: { width: 600,  height: 600, fit: 'inside' }.reverse_merge(DEFAULT_EDITS)
+    },
+    medium: {
+      resize: { width: 1200,  height: 1200, fit: 'inside' }.reverse_merge(DEFAULT_EDITS)
+    },
+    large: {
+      resize: { width: 2200,  height: 2200, fit: 'inside' }.reverse_merge(DEFAULT_EDITS)
+    }
+  }
 
   # Active Record - Overriding callbacks
   # https://shrinerb.com/docs/plugins/activerecord#overriding-callbacks
@@ -31,7 +45,9 @@ class FileUploader < Shrine
       super
 
       if file.image? && derivatives.blank?
-        AttachmentDerivativeJob.perform_later(self.class.name, self.record.class.name, self.record.id, self.name, self.file_data)
+        IMAGE_DERIVATIVES.each_key do |derivative_name|
+          AttachmentDerivativeJob.perform_later(self.class.name, self.record.class.name, self.record.id, self.name, self.file_data, derivative_name)
+        end
       end
     end
   end
@@ -45,6 +61,14 @@ class FileUploader < Shrine
   # The derivatives plugin allows storing processed files ("derivatives") alongside the main attached file
   # https://shrinerb.com/docs/plugins/derivatives
   Attacher.derivatives do |original|
+    if file.image?
+      {}
+    else
+      process_derivatives(:file, original)
+    end
+  end
+
+  Attacher.derivatives :image do |original, name:|
     def serverless_image_request(edits = {})
       request_path = Base64.strict_encode64({
         bucket: Shrine.storages[:store].bucket.name,
@@ -54,44 +78,7 @@ class FileUploader < Shrine
       "#{SERVERLESS_IMAGE_HOST}/#{request_path}"
     end
 
-    if file.image?
-      process_derivatives(:image, original)
-    else
-      process_derivatives(:file, original)
-    end
-  end
-
-  Attacher.derivatives :image do |original|
-    {
-      thumb: Shrine.remote_url( serverless_image_request({
-        resize: {
-          width: 200,
-          height: 200,
-          fit: 'cover'
-        }.reverse_merge(DEFAULT_EDITS)
-      }), **DOWNLOADER_OPTIONS),
-      small: Shrine.remote_url( serverless_image_request({
-        resize: {
-          width: 600,
-          height: 600,
-          fit: 'inside'
-        }.reverse_merge(DEFAULT_EDITS)
-      }), **DOWNLOADER_OPTIONS),
-      medium: Shrine.remote_url( serverless_image_request({
-        resize: {
-          width: 1200,
-          height: 1200,
-          fit: 'inside'
-        }.reverse_merge(DEFAULT_EDITS)
-      }), **DOWNLOADER_OPTIONS),
-      large: Shrine.remote_url( serverless_image_request({
-        resize: {
-          width: 2200,
-          height: 2200,
-          fit: 'inside'
-        }.reverse_merge(DEFAULT_EDITS)
-      }), **DOWNLOADER_OPTIONS)
-    }
+    { name => Shrine.remote_url( serverless_image_request(IMAGE_DERIVATIVES.fetch(name)) ) }
   end
 
   Attacher.derivatives :file do |original|
