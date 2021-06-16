@@ -36,7 +36,7 @@
         <div class="col-sm-12 text-center">No results</div>
       <% else %>
         <%= render partial: 'admin/media_items/media_item_grid_layout', collection: @media_items, as: :media_item, cached: true %>
-        <%= pagy_link_proc(@pagy, 'class="infinite-load__next-page-link"').call(@pagy.next).html_safe if @pagy.next.present? %>
+        <%= pagy_link_proc(@pagy, link_extra: 'class="infinite-load__next-page-link"').call(@pagy.next).html_safe if @pagy.next.present? %>
       <% end %>
     </div>
   <% else %>
