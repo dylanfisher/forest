@@ -3,6 +3,7 @@ class FileUploader < Shrine
   plugin :derivatives
   plugin :default_url
   plugin :store_dimensions
+  plugin :upload_options, store: { cache_control: 'public, max-age=31536000' }
 
   # TODO: images returned by Shrine.remote_url have file extension set as .jpeg, not .jpg, which is annoying
 
