@@ -9,6 +9,7 @@ module BaseMediaItem
     CONTENT_TYPE_CACHE_KEY = 'forest_media_item_content_types_for_filter'
 
     after_commit :expire_cache
+    after_commit :reprocess_derivatives, on: :update, if: Proc.new { |x| x.previous_changes[:retain_source].present? }
 
     has_many :pages, foreign_key: :featured_image_id
 
@@ -176,7 +177,7 @@ module BaseMediaItem
   end
 
   def image?
-    (attachment_content_type =~ %r{^(image|(x-)?application)/(bmp|gif|jpeg|jpg|pjpeg|png|x-png|svg\+xml)$}).present?
+    (attachment_content_type =~ %r{^(image|(x-)?application)/(bmp|gif|jpeg|jpg|pjpeg|png|tiff|webp|x-png|svg\+xml)$}).present?
   end
 
   def video?
@@ -193,6 +194,15 @@ module BaseMediaItem
 
   def gif?
     attachment_content_type == 'image/gif'
+  end
+
+  def jpeg?
+    attachment_content_type =~ %r{^(image)/(jpeg|jpg)}
+  end
+
+  # A media item with content type SVG is considered an image, but it doesn't make sense to generate derivatives for SVGs
+  def supports_derivatives?
+    (attachment_content_type =~ %r{^(image|(x-)?application)/(bmp|gif|jpeg|jpg|pjpeg|png|tiff|webp|x-png)$}).present?
   end
 
   def display_content_type
@@ -243,6 +253,18 @@ module BaseMediaItem
 
   def to_select2_selection
     "#{select2_image_thumbnail}<span class='select2-response__id' style='margin-right: 5px;'>#{id}</span> #{to_label}"
+  end
+
+  def reprocess_derivatives
+    return unless attachment_attacher.stored? && supports_derivatives?
+
+    attachment_attacher.delete_derivatives
+    attachment_attacher.set_derivatives({})
+    attachment_attacher.atomic_persist
+
+    FileUploader::IMAGE_DERIVATIVES.each_key do |derivative_name|
+      AttachmentDerivativeJob.perform_later(attachment_attacher.class.name, attachment_attacher.record.class.name, attachment_attacher.record.id, attachment_attacher.name, attachment_attacher.file_data, derivative_name)
+    end
   end
 
   private

@@ -7,6 +7,7 @@ class AttachmentDerivativeJob < ApplicationJob
 
     attacher = attacher_class.retrieve(model: record, name: name, file: file_data)
     attacher.create_derivatives(:image, name: derivative_name) # calls derivatives processor
+
     attacher.atomic_persist do |reloaded_attacher|
       # make sure we don't override derivatives created in other jobs
       attacher.merge_derivatives(reloaded_attacher.derivatives)

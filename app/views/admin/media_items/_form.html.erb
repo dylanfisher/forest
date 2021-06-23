@@ -37,7 +37,7 @@
                   <div class="file-upload-notifications"></div>
                   <% unless @media_item.new_record? %>
                     <div class="upload-preview">
-                      <% if @media_item.try(:image?) && @media_item.try(:point_of_interest_x).present? && @media_item.try(:point_of_interest_y).present? %>
+                      <% if @media_item.try(:supports_derivatives?) && @media_item.try(:image?) && @media_item.try(:point_of_interest_x).present? && @media_item.try(:point_of_interest_y).present? %>
                         <label class="media-item__point-of-interest__label">Point of Interest</label>
                         <div id="media-item__point-of-interest" class="media-item__point-of-interest">
                           <%= content_tag :div, nil, id: 'media-item__point-of-interest__crosshair', class: 'media-item__point-of-interest__crosshair', style: "top: #{@media_item.point_of_interest_y}%; left: #{@media_item.point_of_interest_x}%;" %>
@@ -47,7 +47,11 @@
                         </div>
                         <small class="form-text text-muted">Click the image to change the point of interest of the image. The point of interest is used to determine where to crop the image in some contexts.</small>
                       <% elsif @media_item.try(:image?) %>
-                        <%= image_tag @media_item.attachment_url(:medium).presence || uri_image_placeholder %>
+                        <% if @media_item.supports_derivatives? %>
+                          <%= image_tag @media_item.attachment_url(:medium).presence || uri_image_placeholder %>
+                        <% else %>
+                          <%= image_tag @media_item.attachment_url %>
+                        <% end %>
                       <% elsif @media_item.try(:video?) %>
                         <%= video_tag @media_item.attachment_url, controls: true %>
                       <% elsif @media_item.try(:file?) %>
@@ -58,12 +62,11 @@
                       <% end %>
                     </div>
                   <% end %>
-
                 </div>
                 <% if @media_item.attachment.present? %>
                   <div class="form-group">
                     <label class="control-label">Attachment URLs:</label>
-                    <% if @media_item.image? %>
+                    <% if @media_item.supports_derivatives? %>
                       <ul>
                         <li><%= link_to 'Original', @media_item.attachment_url, target: '_blank' %></li>
                         <li><%= link_to 'Large', @media_item.attachment_url(:large), target: '_blank' %></li>
@@ -75,6 +78,13 @@
                         <li><%= link_to 'Original', @media_item.attachment_url %></li>
                       </ul>
                     <% end %>
+                  </div>
+                <% end %>
+                <% if @media_item.image? && !@media_item.try(:jpeg?) && @media_item.supports_derivatives? %>
+                  <div class="card bg-light">
+                    <div class="card-body pb-1">
+                      <%= f.input :retain_source, hint: 'By default all images will be transformed to appropriately sized JPG images, which load efficiently in the browser. However, if you have a PNG or GIF image with transparency, you may wish to retain the original image format. In that case, check this box to regenerate the image at the original file type.<br><br>*Note: changing the retain source option will delete previous versions of the image. URLs for those existing images will stop working.'.html_safe %>
+                    </div>
                   </div>
                 <% end %>
               </div>

@@ -48,6 +48,7 @@ Rails.application.routes.draw do
 
   # Redirect wordpress spam
   get '/wp-login.php', to: redirect('/'), format: false
+  get '/wp-cron.php', to: redirect('/'), format: false
   get '/wp-content', to: redirect('/'), format: false
   get '/wp-admin', to: redirect('/'), format: false
   get '/wp-login', to: redirect('/'), format: false
