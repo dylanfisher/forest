@@ -131,7 +131,7 @@
       .use(Uppy.Dashboard, {
         inline: false,
         proudlyDisplayPoweredByUppy: false,
-        closeModalOnClickOutside: true,
+        // closeModalOnClickOutside: true,
         showLinkToFileUploadResult: false,
         closeAfterFinish: true
         // height: 300,
