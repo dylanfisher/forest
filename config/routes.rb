@@ -47,15 +47,16 @@ Rails.application.routes.draw do
   get '*page_path/edit', to: 'pages#edit'
 
   # Redirect wordpress spam
-  get '/wp-login.php', to: redirect('/'), format: false
-  get '/wp-cron.php', to: redirect('/'), format: false
-  get '/wp-content', to: redirect('/'), format: false
-  get '/wp-admin', to: redirect('/'), format: false
-  get '/wp-login', to: redirect('/'), format: false
-  get '/wp-content/*all', to: redirect('/'), format: false
-  get '/wp-admin/*all', to: redirect('/'), format: false
-  get '/wp-login/*all', to: redirect('/'), format: false
-  get '/xmlrpc.php', to: redirect('/'), format: false
+  match '/wp-login.php', to: redirect('/'), format: false, via: :all
+  match '/wp-cron.php', to: redirect('/'), format: false, via: :all
+  match '/wp-load.php', to: redirect('/'), format: false, via: :all
+  match '/wp-content', to: redirect('/'), format: false, via: :all
+  match '/wp-admin', to: redirect('/'), format: false, via: :all
+  match '/wp-login', to: redirect('/'), format: false, via: :all
+  match '/wp-content/*all', to: redirect('/'), format: false, via: :all
+  match '/wp-admin/*all', to: redirect('/'), format: false, via: :all
+  match '/wp-login/*all', to: redirect('/'), format: false, via: :all
+  match '/xmlrpc.php', to: redirect('/'), format: false, via: :all
 
   scope constraints: lambda { |request|
     ['text/html', '*/*'].include?(request.format.to_s) &&
