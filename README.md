@@ -152,6 +152,18 @@ Index your documents using the tasks in forest_elasticsearch_tasks.rake. To rebu
 
 `bin/rails forest:elasticsearch:rebuild`
 
+## Customize Forest Options
+
+A number of configuration options, such as image derivative options, are set in `lib/forest.rb` and can be customized in an initializer in your host app:
+
+```ruby
+# Forest.setup do |config|
+#   config.image_derivative_large_options[:resize][:width] = 3000
+#   config.image_derivative_large_options[:resize][:height] = 3000
+#   config.image_derivative_large_options[:jpeg][:quality] = 90
+# end
+```
+
 ## Primary Dependencies
 Forest relies heavily on the following gems, software and frameworks:
 
