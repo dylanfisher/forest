@@ -124,6 +124,8 @@ module BaseMediaItem
     end
   end
 
+  # Instance methods
+
   def generate_slug
     if self.slug.blank? || changed.include?('slug')
       if title.present?
@@ -263,8 +265,17 @@ module BaseMediaItem
     attachment_attacher.atomic_persist
 
     FileUploader::IMAGE_DERIVATIVES.each_key do |derivative_name|
-      AttachmentDerivativeJob.perform_later(attachment_attacher.class.name, attachment_attacher.record.class.name, attachment_attacher.record.id, attachment_attacher.name, attachment_attacher.file_data, derivative_name)
+      reprocess_derivative(derivative_name)
     end
+  end
+
+  def reprocess_derivative(derivative_name)
+    return unless attachment_attacher.stored? && supports_derivatives?
+
+    attachment_attacher.remove_derivative(derivative_name, delete: true) if attachment_derivatives[derivative_name].present?
+    attachment_attacher.atomic_persist
+
+    AttachmentDerivativeJob.perform_later(attachment_attacher.class.name, attachment_attacher.record.class.name, attachment_attacher.record.id, attachment_attacher.name, attachment_attacher.file_data, derivative_name)
   end
 
   private

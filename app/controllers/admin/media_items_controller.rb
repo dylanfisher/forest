@@ -1,5 +1,5 @@
 class Admin::MediaItemsController < Admin::ForestController
-  before_action :set_media_item, only: [:show, :edit, :update, :destroy]
+  before_action :set_media_item, only: [:show, :edit, :update, :reprocess, :destroy]
   before_action :set_s3_direct_post, only: [:new, :edit, :create, :update]
 
   has_scope :by_date
@@ -65,6 +65,18 @@ class Admin::MediaItemsController < Admin::ForestController
       redirect_to edit_admin_media_item_path(@media_item), notice: 'Media item was successfully updated.'
     else
       render :edit
+    end
+  end
+
+  # PATCH/PUT /media_items/1/reprocess
+  def reprocess
+    authorize @media_item
+    derivative_name = params[:derivative_name]
+    if derivative_name.blank?
+      redirect_to edit_admin_media_item_path(@media_item), notice: 'Failed to reprocess derivative. Derivative name must be specified.'
+    else
+      @media_item.reprocess_derivative(derivative_name.to_sym)
+      redirect_to edit_admin_media_item_path(@media_item), notice: 'Media item derivative is being reprocessed in the background. Refresh this page in a moment to see the update. If this error continues to fail for large derivative sizes, you\'ll need to upload a smaller version of the file.'
     end
   end
 

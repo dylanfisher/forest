@@ -13,9 +13,8 @@ Rails.application.routes.draw do
     resources :cache_purge, path: 'cache-purge', only: [:index]
     resources :imports, only: [:edit, :create]
     resources :media_items, except: [:show], path: 'media-items' do
-      collection do
-        post 'update_multiple'
-      end
+      post 'update_multiple', on: :collection
+      post 'reprocess', on: :member
     end
     resources :menus, except: [:show]
     resources :pages, except: [:show]
