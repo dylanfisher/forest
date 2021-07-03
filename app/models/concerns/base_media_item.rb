@@ -204,7 +204,7 @@ module BaseMediaItem
 
   # A media item with content type SVG is considered an image, but it doesn't make sense to generate derivatives for SVGs
   def supports_derivatives?
-    (attachment_content_type =~ %r{^(image|(x-)?application)/(bmp|jpeg|jpg|pjpeg|png|tiff|webp|x-png)$}).present?
+    (attachment_content_type =~ %r{^(image|(x-)?application)/(bmp|jpeg|jpg|pjpeg|png|webp|x-png)$}).present?
   end
 
   def display_content_type
