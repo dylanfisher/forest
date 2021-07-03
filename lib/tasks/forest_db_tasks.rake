@@ -151,7 +151,7 @@ namespace :forest do
   private
 
     def with_config
-      yield Rails.application.class.parent_name.underscore,
+      yield Rails.application.class.module_parent_name.underscore,
         database_name,
         ActiveRecord::Base.connection_config[:username]
     end
