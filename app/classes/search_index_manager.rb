@@ -3,7 +3,8 @@
 class SearchIndexManager
   # A single combined index name is used for environments like Heroku where multiple
   # shards are expensive.
-  INDEX_NAME = "#{Rails.app_class.module_parent_name.underscore}_#{Rails.env}".freeze
+  PARENT_NAME_METHOD = Rails.app_class.respond_to?(:module_parent_name) ? :module_parent_name : :parent_name
+  INDEX_NAME = "#{Rails.app_class.send(PARENT_NAME_METHOD).underscore}_#{Rails.env}".freeze
 
   # Override this in your host app with an array of all the models you want to search.
   # For example:
