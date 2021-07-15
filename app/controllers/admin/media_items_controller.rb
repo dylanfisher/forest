@@ -12,7 +12,11 @@ class Admin::MediaItemsController < Admin::ForestController
 
   # GET /media_items
   def index
-    @pagy, @media_items = pagy(apply_scopes(MediaItem.all).by_id.is_not_hidden, items: 36)
+    if params[:hidden] == 'true'
+      @pagy, @media_items = pagy(apply_scopes(MediaItem.all).by_id.hidden, items: 36)
+    else
+      @pagy, @media_items = pagy(apply_scopes(MediaItem.all).by_id.is_not_hidden, items: 36)
+    end
     authorize @media_items
 
     if params[:layout].blank? || params[:layout] != 'list'

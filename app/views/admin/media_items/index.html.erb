@@ -20,10 +20,21 @@
   </div>
 <% end %>
 
+<% content_for :index_header_dropdown_menu do %>
+  <%= link_to admin_media_items_path(current_scopes.merge(hidden: params[:hidden] != 'true')), class: 'dropdown-item d-flex align-items-center' do %>
+    <%= bootstrap_icon (params[:hidden] == 'true' ? 'eye' : 'eye-slash'), class: 'mr-2 flex-shrink-0', width: 22 %>
+    <%= (params[:hidden] == 'true' ? 'Show all' : 'Show hidden') %>
+  <% end %>
+<% end %>
+
 <%= render 'admin/headers/index', records: @media_items, model_name: 'MediaItem', paginate: false %>
 
 <div class="mb-3">
-  <%= info_message 'Drag and drop images or files to upload multiple items at once.' %>
+  <% if params[:hidden] == 'true' %>
+    <%= info_message 'Some applications may create hidden media items automatically as part of another workflow. Usually you can ignore these hidden items.' %>
+  <% else %>
+    <%= info_message 'Drag and drop images or files to upload multiple items at once.' %>
+  <% end %>
 </div>
 
 <%#= render 'admin/file_upload', klass: MediaItem, association: :attachment, multi_upload: true %>
