@@ -47,7 +47,7 @@ module Sluggable
     self.slug = slug_attr
 
     if self.class.find_by_slug(slug_attr).present?
-      self.slug = "#{slug_attr}-#{SecureRandom.uuid}"
+      self.slug = "#{slug_attr}#{duplicate_slug_identifier}"
     end
   end
 
@@ -62,6 +62,10 @@ module Sluggable
 
   def to_friendly_param
     slug
+  end
+
+  def duplicate_slug_identifier
+    "-#{SecureRandom.uuid}"
   end
 
   private
