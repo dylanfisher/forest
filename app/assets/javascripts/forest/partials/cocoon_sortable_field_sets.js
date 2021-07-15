@@ -3,7 +3,7 @@
 // This pattern for sorting fields can be used with the Cocoon gem.
 //
 // Sortable field sets can be nested multiple times, but need to follow this hierarchy:
-// <div class="sortable-field-set">
+// <div class="sortable-field-set" data-sortable-tolerance="intersect">
 //   <div class="sortable-field">
 //     <div class="sortable-field-set__handle"></div>
 //     <div class="sortable-field-set__position">
@@ -18,10 +18,11 @@
 
     $fieldSets.each(function() {
       var $fieldSet = $(this);
+      var tolerance = $fieldSet.attr('data-sortable-tolerance') || 'intersect';
 
       $fieldSet.sortable({
         items: '> .sortable-field',
-        // tolerance: 'pointer',
+        tolerance: tolerance,
         placeholder: 'ui-state-highlight',
         handle: '.sortable-field-set__handle',
         forcePlaceholderSize: true,
