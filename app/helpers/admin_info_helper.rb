@@ -3,7 +3,7 @@ module AdminInfoHelper
     [
       '<div class="card">',
         '<div class="card-body text-muted">',
-          '<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> ',
+          bootstrap_icon('info-circle', class: 'mr-2', width: 18, style: 'margin-top: 2px;'),
           message,
         '</div>',
     '</div>'

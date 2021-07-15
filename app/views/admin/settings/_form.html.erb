@@ -6,12 +6,8 @@
         <h1 class="h2 card-header"><%= record_name(@setting) %></h1>
         <div class="card-body media-item-to-path-parent">
           <% if @setting.description.present? %>
-            <div class="card mb-3">
-              <div class="card-body">
-                <div class="text-muted">
-                  <%= md @setting.description %>
-                </div>
-              </div>
+            <div class="mb-3">
+              <%= info_message md(@setting.description) %>
             </div>
           <% end %>
           <%= render "admin/settings/types/#{@setting.value_type}", f: f %>
