@@ -1,17 +1,17 @@
 // Documentation sidebar affix
 
-App.pageLoad.push(function() {
-  var $documentationWrapper = $('#documentation-wrapper');
+// App.pageLoad.push(function() {
+//   var $documentationWrapper = $('#documentation-wrapper');
 
-  if ( !$documentationWrapper.length ) return;
+//   if ( !$documentationWrapper.length ) return;
 
-  var $sidebar = $('#documentation-sidebar');
+//   var $sidebar = $('#documentation-sidebar');
 
-  $sidebar.affix({
-    offset: {
-      top: function() {
-        return $documentationWrapper.offset().top - 15;
-      }
-    }
-  });
-});
+//   $sidebar.affix({
+//     offset: {
+//       top: function() {
+//         return $documentationWrapper.offset().top - 15;
+//       }
+//     }
+//   });
+// });
