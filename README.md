@@ -182,6 +182,7 @@ Forest relies heavily on the following gems, software and frameworks:
 ## TODO
 
 Version 2
+- [ ] Update media library drag and drop to use smaller image thumbnail before image is done processing
 - [ ] Replace and/or document suckerpunch background job with sidekiq or similar more resilient solution
 - [ ] Show instances of block kinds in the /admin/block-kinds interface
 - [ ] Allow configuration of Shrine media upload to allow local file storage

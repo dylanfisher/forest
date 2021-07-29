@@ -26,7 +26,7 @@ module Forest
       Migrations.new(config, engine_name).check
     end
 
-    config.before_configuration do
+    config.before_initialize do
       require 'forest/shrine'
     end
 
