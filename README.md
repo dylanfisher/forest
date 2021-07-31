@@ -182,6 +182,8 @@ Forest relies heavily on the following gems, software and frameworks:
 ## TODO
 
 Version 2
+- [ ] Add Shrine keep_files plugin to prevent deletion of files except in production environment https://shrinerb.com/docs/plugins/keep_files
+- [ ] move admin helper methods to definition in Admin::ForestController to avoid helper methods on the frontend host app
 - [ ] Update media library drag and drop to use smaller image thumbnail before image is done processing
 - [ ] Replace and/or document suckerpunch background job with sidekiq or similar more resilient solution
 - [ ] Show instances of block kinds in the /admin/block-kinds interface
@@ -197,7 +199,6 @@ Version 2
 - [ ] Add ability to redirect to a page association, not just a string field
 - [ ] Allow menu items to link to reference a page ID in addition to a page path
 - [ ] scope simpleform configuration in engine so that global config doesn't interfere with host app
-- [ ] move admin helper methods to definition in Admin::ForestController to avoid helper methods on the frontend host app
 - [ ] change references to model names and other hard coded names to use I18n
 - [ ] model resource_description should use I18n
 - [ ] better pattern for defining custom status message via I18n

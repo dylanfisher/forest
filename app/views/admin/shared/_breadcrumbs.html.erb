@@ -9,9 +9,15 @@
           <%= path_part_name.titleize %>
         </li>
       <% else %>
-        <li class="breadcrumb-item">
-          <%= link_to path_part_name.titleize, path_parts[0..index].join('/').prepend('/') %>
-        </li>
+        <% if recognize_path(path_parts[0..index].join('/').prepend('/')) %>
+          <li class="breadcrumb-item">
+            <%= link_to path_part_name.titleize, path_parts[0..index].join('/').prepend('/') %>
+          </li>
+        <% else %>
+          <li class="breadcrumb-item active">
+            <%= path_part_name.titleize %>
+          </li>
+        <% end %>
       <% end %>
     <% end %>
   </ol>

@@ -17,6 +17,7 @@ class Admin::ForestController < ApplicationController
   # rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   helper_method :localized_input
+  helper_method :recognize_path
 
   has_scope :by_status
   has_scope :by_id
@@ -121,5 +122,10 @@ class Admin::ForestController < ApplicationController
     if form.object.respond_to? localized_attribute
       form.input localized_attribute, options
     end
+  end
+
+  def recognize_path(path, options = {})
+    Rails.application.routes.recognize_path(path, options)
+  rescue ActionController::RoutingError
   end
 end
