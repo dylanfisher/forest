@@ -185,6 +185,7 @@ Version 2
 - [ ] Add Shrine keep_files plugin to prevent deletion of files except in production environment https://shrinerb.com/docs/plugins/keep_files
 - [ ] move admin helper methods to definition in Admin::ForestController to avoid helper methods on the frontend host app
 - [ ] Update media library drag and drop to use smaller image thumbnail before image is done processing
+- [ ] Update scaffold generator to work with namespaced models
 - [ ] Replace and/or document suckerpunch background job with sidekiq or similar more resilient solution
 - [ ] Show instances of block kinds in the /admin/block-kinds interface
 - [ ] Allow configuration of Shrine media upload to allow local file storage
