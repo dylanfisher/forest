@@ -7,7 +7,6 @@ class ForestController < ApplicationController
   layout :layout_by_resource
 
   before_action :set_html_classes
-  before_action :reset_class_method_cache
 
   def after_sign_in_path_for(resource)
     main_app.admin_path
@@ -29,11 +28,6 @@ class ForestController < ApplicationController
     @html_classes << "controller--#{controller_name}"
     @html_classes << "action--#{action_name}"
     @html_classes << 'current-user--admin' if current_user&.admin?
-  end
-
-  def reset_class_method_cache
-    Menu.reset_method_cache!
-    Setting.reset_method_cache!
   end
 
   def home_page_paths

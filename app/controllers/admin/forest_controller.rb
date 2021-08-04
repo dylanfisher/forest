@@ -8,7 +8,6 @@ class Admin::ForestController < ApplicationController
 
   before_action :authenticate_user!
   before_action :set_html_classes, :set_page_title
-  before_action :reset_class_method_cache
   before_action :set_admin_resources
 
   rescue_from ActiveRecord::InvalidForeignKey, with: :foreign_key_contraint
@@ -45,11 +44,6 @@ class Admin::ForestController < ApplicationController
 
   def set_page_title
     @page_title = controller_name.titleize
-  end
-
-  def reset_class_method_cache
-    Menu.reset_method_cache!
-    Setting.reset_method_cache!
   end
 
   # def user_not_authorized

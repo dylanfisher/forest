@@ -40,13 +40,9 @@ class Menu < Forest::ApplicationRecord
   private
 
   def self.menus
-    @memo ||= Rails.cache.fetch CACHE_KEY, expires_in: 4.weeks do
+    Rails.cache.fetch CACHE_KEY, expires_in: 4.weeks do
       self.all.to_a
     end
-  end
-
-  def self.reset_method_cache!
-    @memo = nil
   end
 
   def expire_cache
