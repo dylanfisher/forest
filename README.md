@@ -182,6 +182,7 @@ Forest relies heavily on the following gems, software and frameworks:
 ## TODO
 
 Version 2
+- [ ] Update shrine file content disposition for non-images so that files have a more accurate file name
 - [ ] Add Shrine keep_files plugin to prevent deletion of files except in production environment https://shrinerb.com/docs/plugins/keep_files
 - [ ] move admin helper methods to definition in Admin::ForestController to avoid helper methods on the frontend host app
 - [ ] Update media library drag and drop to use smaller image thumbnail before image is done processing
