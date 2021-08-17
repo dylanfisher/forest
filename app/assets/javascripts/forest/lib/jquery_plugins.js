@@ -29,4 +29,45 @@
     return $previous;
   };
 
+  // https://gist.github.com/zergius-eggstream/bea51020b471886bafe1b2baef9817b8
+  // usage: $('.container').shiftSelectable() to select all checkboxes in container $('.cont')
+  // or $('.container').shiftSelectable({items: '.shift-selectable'}) to select only checkboxes with shift-selectable class
+  $.fn.shiftSelectable = function(config) {
+    config = $.extend({
+      items: 'input[type="checkbox"]',
+      trigger: 'change',
+      triggerOnSelf: true
+    }, config);
+    var $container = this;
+    var lastChecked;
+
+    $container.on('click', config.items, function(evt) {
+      if ( !lastChecked ) {
+        lastChecked = this;
+        return;
+      }
+
+      var $items = $container.find(config.items);
+
+      if ( evt.shiftKey ) {
+        var start = $items.index(this);
+        var end = $items.index(lastChecked);
+        var $triggeredItems = $items.slice(Math.min(start, end), Math.max(start, end) + 1);
+
+        if ( !config.triggerOnSelf ) {
+          $triggeredItems = $triggeredItems.not( $(this) );
+          $(lastChecked)
+            .attr('checked', lastChecked.checked)
+            .trigger(config.trigger);
+        }
+
+        $triggeredItems
+          .attr('checked', lastChecked.checked)
+          .trigger(config.trigger);
+      }
+
+      lastChecked = this;
+    });
+  };
+
 }(jQuery));

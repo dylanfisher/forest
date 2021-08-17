@@ -75,6 +75,12 @@ App.MediaItemChooser = {
                 $loadingIndicator.empty();
               });
           }));
+
+          $modalBody.shiftSelectable({
+            items: '.media-library-link',
+            trigger: 'click' ,
+            triggerOnSelf: false
+          });
         })
         .on('hide.bs.modal', function() {
           if ( xhr ) xhr.abort();
