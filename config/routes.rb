@@ -53,6 +53,8 @@ Rails.application.routes.draw do
   match '/wp-admin', to: redirect('/'), format: false, via: :all
   match '/wp-login', to: redirect('/'), format: false, via: :all
   match '/wp-content/*all', to: redirect('/'), format: false, via: :all
+  match '/wp-includes/*all', to: redirect('/'), format: false, via: :all
+  match '/wp-json/*all', to: redirect('/'), format: false, via: :all
   match '/wp-admin/*all', to: redirect('/'), format: false, via: :all
   match '/wp-login/*all', to: redirect('/'), format: false, via: :all
   match '/xmlrpc.php', to: redirect('/'), format: false, via: :all
