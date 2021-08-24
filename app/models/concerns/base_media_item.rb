@@ -243,8 +243,12 @@ module BaseMediaItem
   def select2_image_thumbnail
     if image? && attachment.present?
       "<img src='#{attachment_url(:thumb)}' style='height: 21px; margin-right: 5px;'> "
-    elsif try(:vimeo_video?) && vimeo_video_thumbnail(:thumb).present?
-      "<img src='#{vimeo_video_thumbnail(:thumb)}' style='height: 21px; margin-right: 5px;'> "
+    elsif try(:vimeo_video?) && (vimeo_video_thumbnail_override.present? || vimeo_video_thumbnail(:thumb).present?)
+      if vimeo_video_thumbnail_override.present?
+        "<img src='#{vimeo_video_thumbnail_override.attachment_url(:thumb)}' style='height: 21px; margin-right: 5px;'> "
+      else
+        "<img src='#{vimeo_video_thumbnail(:thumb)}' style='height: 21px; margin-right: 5px;'> "
+      end
     else
       ''
     end

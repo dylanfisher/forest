@@ -117,9 +117,9 @@
           </div>
         </div>
       </div>
+      <% if @media_item.try(:vimeo_video?) && lookup_context.exists?('admin/shared/forest/vimeo/vimeo_data', [], true) %>
+        <%= render 'admin/shared/forest/vimeo/vimeo_data', f: f, record: @media_item %>
+      <% end %>
     </div>
   </div>
-  <% if @media_item.try(:vimeo_video?) && lookup_context.exists?('admin/shared/forest/vimeo/vimeo_data', [], true) %>
-    <%= render 'admin/shared/forest/vimeo/vimeo_data', f: f, record: @media_item %>
-  <% end %>
 <% end %>

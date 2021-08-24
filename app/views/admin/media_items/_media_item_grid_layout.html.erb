@@ -11,9 +11,14 @@
       <% point_of_interest_y = media_item.point_of_interest_y %>
       <% css_style = "background-position: #{point_of_interest_x}% #{point_of_interest_y}%;" %>
     <% end %>
-  <% elsif media_item.try(:vimeo_video?) && media_item.vimeo_video_thumbnail.present? %>
-    <% attachment_or_placeholder_url = media_item.vimeo_video_thumbnail %>
-    <% attachment_or_placeholder_url_large = media_item.vimeo_video_thumbnail %>
+  <% elsif media_item.try(:vimeo_video?) && (media_item.vimeo_video_thumbnail_override.present? || media_item.vimeo_video_thumbnail.present?) %>
+    <% if media_item.vimeo_video_thumbnail_override %>
+      <% attachment_or_placeholder_url = media_item.vimeo_video_thumbnail_override.attachment_url(:small) %>
+      <% attachment_or_placeholder_url_large = media_item.vimeo_video_thumbnail_override.attachment_url(:medium) %>
+    <% else %>
+      <% attachment_or_placeholder_url = media_item.vimeo_video_thumbnail %>
+      <% attachment_or_placeholder_url_large = media_item.vimeo_video_thumbnail %>
+    <% end %>
   <% else %>
     <% attachment_or_placeholder_url = media_item.attachment.present? ? media_item.attachment_url : '#TODO' %>
   <% end %>
