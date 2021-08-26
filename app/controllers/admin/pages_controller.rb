@@ -98,6 +98,6 @@ class Admin::PagesController < Admin::ForestController
   end
 
   def set_block_kinds
-    @block_kinds = BlockKind.all
+    @block_kinds = BlockKind.where(record_type: 'default')
   end
 end

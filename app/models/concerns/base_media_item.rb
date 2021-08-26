@@ -77,7 +77,8 @@ module BaseMediaItem
     end
 
     def reprocess_all!
-      # TODO: This doesn't seem to reprocess the derivatives, it just clears them.
+      # TODO: This doesn't seem to reprocess the derivatives, it just clears them. DRY this
+      # up by using the instance methods reprocess_derivatives
       # Reprocessing all derivatives
       # https://shrinerb.com/docs/changing-derivatives#reprocessing-all-derivatives
 
