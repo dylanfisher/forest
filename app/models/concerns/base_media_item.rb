@@ -36,7 +36,8 @@ module BaseMediaItem
         date = nil
       end
     }
-    scope :missing_derivatives, -> { where("(attachment_data->'derivatives') is null") }
+    scope :missing_all_derivatives, -> { where("(attachment_data->'derivatives') is null") }
+    scope :missing_some_derivatives, -> { where("(attachment_data->'derivatives') is null") }
   end
 
   class_methods do
@@ -76,7 +77,7 @@ module BaseMediaItem
       []
     end
 
-    def reprocess_all!
+    def reprocess_all_derivatives!
       # TODO: This doesn't seem to reprocess the derivatives, it just clears them. DRY this
       # up by using the instance methods reprocess_derivatives
       # Reprocessing all derivatives
@@ -103,14 +104,11 @@ module BaseMediaItem
       end
     end
 
-    def reprocess_missing!
-      MediaItem.images.missing_derivatives.find_each do |media_item|
-        attacher = media_item.attachment_attacher
-
-        next unless attacher.stored? && media_item.image? && attacher.derivatives.blank?
-
-        FileUploader::IMAGE_DERIVATIVES.each_key do |derivative_name|
-          AttachmentDerivativeJob.perform_later(attacher.class.name, attacher.record.class.name, attacher.record.id, attacher.name, attacher.file_data, derivative_name)
+    def reprocess_missing_derivatives!
+      FileUploader::IMAGE_DERIVATIVES.keys.each do |style|
+        images_with_issing_derivatives = MediaItem.where("(attachment_data->'derivatives'->'#{style}') is null")
+        images_with_issing_derivatives.find_each do |media_item|
+          media_item.reprocess_derivative(style)
         end
       end
     end
