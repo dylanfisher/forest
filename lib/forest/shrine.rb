@@ -14,7 +14,11 @@ end
 Shrine.plugin :activerecord           # Load Active Record integration
 Shrine.plugin :add_metadata
 Shrine.plugin :cached_attachment_data # For retaining cached file on form redisplays
-Shrine.plugin :determine_mime_type
+Shrine.plugin :determine_mime_type, analyzer: -> (io, analyzers) do
+  mime_type = analyzers[:file].call(io)
+  mime_type = analyzers[:fastimage].call(io) if mime_type == 'image/svg'
+  mime_type
+end
 Shrine.plugin :infer_extension
 Shrine.plugin :instrumentation if (Rails.env.development? || Rails.application.config.log_level == :debug)
 Shrine.plugin :keep_files if (Rails.env.development? && ENV['FOREST_SHRINE_KEEP_FILES'] != 'false')
