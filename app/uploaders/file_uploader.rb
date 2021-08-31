@@ -5,11 +5,11 @@ class FileUploader < Shrine
   plugin :store_dimensions
   plugin :upload_options, store: -> (file, options) do
     record = options[:record]
-    file_name = options[:location].split('/').reject(&:blank?).last
+    file_name = [record.title, options[:derivative]].reject(&:blank?).join('-') + record.attachment_data.dig('metadata', 'filename').to_s
 
     {
       cache_control: 'public, max-age=31536000',
-      content_disposition: ContentDisposition.inline(file_name),
+      content_disposition: ContentDisposition.inline(file_name)
     }
   end
 
