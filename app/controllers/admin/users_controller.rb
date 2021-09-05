@@ -6,6 +6,7 @@ class Admin::UsersController < Admin::ForestController
   has_scope :by_email
   has_scope :by_last_name
   has_scope :by_first_name
+  has_scope :for_user_group_name
 
   # GET /users
   def index
