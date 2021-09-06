@@ -16,7 +16,7 @@ module BaseUser
     scope :by_email, -> (orderer = :asc) { order(email: orderer) }
     scope :by_first_name, -> (orderer = :asc) { order(first_name: orderer) }
     scope :by_last_name, -> (orderer = :asc) { order(last_name: orderer) }
-    scope :for_user_group_name, -> (group_name) { joins(:user_groups).where('user_groups.name = ?', group_name).limit(1) }
+    scope :for_user_group_name, -> (group_name) { joins(:user_groups).where('user_groups.name = ?', group_name) }
   end
 
   class_methods do
