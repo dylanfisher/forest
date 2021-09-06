@@ -37,12 +37,12 @@
                   <%- end -%>
                 <%- end -%>
                 <%- end -%>
-                <%%= f.button :submit, class: 'btn-success d-md-none' %>
               </div>
               <div class="col-md-6">
 <% unless options.skip_statusable? -%>
                 <%%= render 'admin/form_inputs/status', f: f, record: @<%= singular_table_name %> %>
 <% end -%>
+                <%%= f.button :submit, class: 'btn-success d-md-none' %>
               </div>
             </div>
           </div>
