@@ -182,6 +182,7 @@ Forest relies heavily on the following gems, software and frameworks:
 ## TODO
 
 Version 2
+- [ ] Add ability to toggle each individual blocks hidden status
 - [ ] Disable choosing a non-image file in the image association
 - [ ] Add an easier to use API for creating blocks and associating them to records programmatically
 - [ ] Update shrine file content disposition for non-images so that files have a more accurate file name

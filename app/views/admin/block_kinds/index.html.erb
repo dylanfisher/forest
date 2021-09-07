@@ -6,9 +6,10 @@
       <tr>
         <th><%= table_sorter title: 'ID', path: :admin_block_kinds_path, scope: :by_id, default_order: :desc %></th>
         <th>Display Name</th>
-        <th>Description</th>
-        <th>Category</th>
         <th>Record Type</th>
+        <th>Category</th>
+        <th>Description</th>
+        <th>Count</th>
         <th colspan="1"></th>
       </tr>
     </thead>
@@ -18,9 +19,10 @@
         <tr>
           <td><%= block_kind.id %></td>
           <td><%= block_kind.display_name %></td>
-          <td><%= block_kind.description %></td>
-          <td><%= block_kind.category %></td>
           <td><%= block_kind.record_type %></td>
+          <td><%= block_kind.category %></td>
+          <td><%= block_kind.description %></td>
+          <td><%= block_kind.block.all.size %></td>
           <td width="1"><%= link_to 'Edit', edit_admin_block_kind_path(block_kind), class: 'btn btn-sm btn-primary', role: 'button' %></td>
         </tr>
       <% end %>

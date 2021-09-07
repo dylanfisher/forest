@@ -6,18 +6,66 @@
       <div class="card">
         <h1 class="h2 card-header"><%= record_name(@block_kind) %></h1>
           <div class="card-body">
+            <%= content_tag :div, md(@block_kind.block.description) %>
+            <hr>
             <div class="form-inputs">
               <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                   <%= f.input :name, readonly: true %>
+                </div>
+                <div class="col-md-4">
                   <%= f.input :category %>
+                </div>
+                <div class="col-md-4">
                   <%= f.input :record_type, readonly: true %>
-                  <%= f.button :submit, class: 'btn-success' %>
+                  <%= f.button :submit, class: 'btn-success d-md-none' %>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <div class="card my-3">
+          <h1 class="h2 card-header">Instances</h1>
+            <div class="card-body">
+              <%= content_tag :div, 'Each instance of where the content block is used is listed here. You can click into a block to scroll to that point on the page where the block appears.', class: 'card-text mb-3' %>
+              <div class="row">
+                <div class="col">
+                  <table class="forest-table table table-striped table-sm">
+                    <thead>
+                      <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Label</th>
+                        <th scope="col">Block ID</th>
+                        <th scope="col">Position</th>
+                        <th scope="col">Slug</th>
+                        <th scope="col">Updated&nbsp;at</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% @block_kind.block.includes(:block_slot).each do |block| %>
+                        <tr>
+                          <th scope="row"><%= block.id %></th>
+                          <td><%= block.block_slot.block_record_type %></td>
+                          <td><%= block.block_record.to_label %></td>
+                          <td><%= block.block_slot.block_record_id %></td>
+                          <td><%= block.block_slot.position %></td>
+                          <td><%= block.block_record.try(:slug) %></td>
+                          <td><%= forest_date block.block_record.updated_at %></td>
+                          <td align="right">
+                            <% if block.block_record.try(:path).present? %>
+                              <%= link_to 'View&nbsp;instance'.html_safe, "/#{block.block_record.path}##{block.block_id}", class: 'btn btn-xs btn-info', target: '_blank' %>
+                            <% end %>
+                          </td>
+                        </tr>
+                      <% end %>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
       </div>
     </div>
   </div>
