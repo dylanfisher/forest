@@ -41,6 +41,14 @@ module BaseUser
     user_groups.any? { |ug| ug.name == name }
   end
 
+  def to_select2_response
+    if respond_to?(:media_item) && media_item.try(:attachment_url, :thumb).present?
+      img_tag = "<img src='#{media_item.attachment_url(:thumb)}' style='height: 21px; margin-right: 5px;'> "
+    end
+    user_group_badges = user_groups.collect { |ug| "<span class='badge badge-secondary h-100 ml-auto'>#{ug.name}</span>" }.reject(&:blank?)
+    "<div class='d-flex align-items-baseline w-100'>#{img_tag}<span class='select2-response__id mr-2' data-id='#{id}' style='margin-right: 5px;'>#{id}</span> #{to_label} #{user_group_badges.join()}</div>"
+  end
+
   private
 
   def assign_default_user_groups
