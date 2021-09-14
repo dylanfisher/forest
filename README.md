@@ -164,6 +164,20 @@ A number of configuration options, such as image derivative options, are set in 
 # end
 ```
 
+## Removing Block Kinds
+
+1. Delete all files related to the block kind (`_show.html.erb`, `edit.html.erb`, etc.).
+1. Create a new migration to destroy existing database entries related to the block:
+    ```ruby
+      def up
+        BlockSlot.where(block_type: 'ImageBlock').delete_all
+        BlockKind.where(name: 'ImageBlock').delete_all
+
+        remove_foreign_key(:image_blocks, :media_items) if foreign_key_exists?(:image_blocks, :media_items)
+        drop_table :image_blocks, if_exists: true
+      end
+    ```
+
 ## Primary Dependencies
 Forest relies heavily on the following gems, software and frameworks:
 
