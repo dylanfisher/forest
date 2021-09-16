@@ -1,56 +1,54 @@
-<% cache ['modal', MediaItem.cache_key], expires_in: 4.weeks do %>
-  <div class="modal media-item-chooser" id="media-item-chooser" tabindex="-1" role="dialog" aria-labelledby="mediaItemChooser" data-media-items-path="<%= admin_media_items_path %>" style="display: none;">
-    <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
-      <div class="modal-content">
-        <div class="modal-header flex-column">
-          <div class="d-flex w-100">
-            <h4 class="media-item-chooser__modal-title modal-title" id="gridSystemModalLabel">
-              Media Library
-              <div id="media-item-chooser__modal-title__loading-indicator" class="media-item-chooser__modal-title__loading-indicator text-muted small"></div>
-            </h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          </div>
-          <div class="w-100">
-            <div class="row mt-3 small-gutters align-items-center">
-              <div class="col">
-                <%= form_tag admin_media_items_path, class: 'media-item-chooser__modal-search-form', method: :get, enforce_utf8: false do %>
-                  <%= text_field_tag :fuzzy_search, params[:fuzzy_search], id: 'media_item_modal_fuzzy_search', class: 'media-item-chooser__modal-search-input form-control', placeholder: 'Search' %>
-                <% end %>
-              </div>
-              <div class="col">
-                <%= dropdown_select_form url: admin_media_items_path,
-                                         id: 'by_date',
-                                         select_options: MediaItem.dates_for_filter,
-                                         title: 'All Dates',
-                                         remote_parent: '.modal',
-                                         remote_target: '.modal-body',
-                                         remote_response_target: '.media-library' %>
-              </div>
-              <div class="col">
-                <%= dropdown_select_form url: admin_media_items_path,
-                                         id: 'by_content_type',
-                                         select_options: MediaItem.content_types_for_filter,
-                                         title: 'All Content Types',
-                                         remote_parent: '.modal',
-                                         remote_target: '.modal-body',
-                                         remote_response_target: '.media-library' %>
-              </div>
+<div class="modal media-item-chooser" id="media-item-chooser" tabindex="-1" role="dialog" aria-labelledby="mediaItemChooser" data-media-items-path="<%= admin_media_items_path %>" style="display: none;">
+  <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header flex-column">
+        <div class="d-flex w-100">
+          <h4 class="media-item-chooser__modal-title modal-title d-flex align-items-baseline" id="gridSystemModalLabel">
+            Media Library
+            <span id="media-item-chooser__modal-title__loading-indicator" class="media-item-chooser__modal-title__loading-indicator text-muted small"></span>
+          </h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="w-100">
+          <div class="row mt-3 small-gutters align-items-center">
+            <div class="col">
+              <%= form_tag admin_media_items_path, class: 'media-item-chooser__modal-search-form', method: :get, enforce_utf8: false do %>
+                <%= text_field_tag :fuzzy_search, params[:fuzzy_search], id: 'media_item_modal_fuzzy_search', class: 'media-item-chooser__modal-search-input form-control', placeholder: 'Search' %>
+              <% end %>
+            </div>
+            <div class="col">
+              <%= dropdown_select_form url: admin_media_items_path,
+                                       id: 'by_date',
+                                       select_options: MediaItem.dates_for_filter,
+                                       title: 'All Dates',
+                                       remote_parent: '.modal',
+                                       remote_target: '.modal-body',
+                                       remote_response_target: '.media-library' %>
+            </div>
+            <div class="col">
+              <%= dropdown_select_form url: admin_media_items_path,
+                                       id: 'by_content_type',
+                                       select_options: MediaItem.content_types_for_filter,
+                                       title: 'All Content Types',
+                                       remote_parent: '.modal',
+                                       remote_target: '.modal-body',
+                                       remote_response_target: '.media-library' %>
             </div>
           </div>
         </div>
-        <%= content_tag :div, nil, class: 'multi-file-upload', data: { media_item_url: admin_media_items_path }, style: 'display: none;' %>
-        <div class="modal-body">
-          Loading...
+      </div>
+      <%= content_tag :div, nil, class: 'multi-file-upload', data: { media_item_url: admin_media_items_path }, style: 'display: none;' %>
+      <div class="modal-body">
+        Loading...
+      </div>
+      <div class="modal-footer">
+        <div class="text-muted mr-auto">
+          <%= bootstrap_icon('info-circle') %>
+          Drag and drop images or files to upload new items. Shift+click to select multiple.
         </div>
-        <div class="modal-footer">
-          <div class="text-muted mr-auto">
-            <%= bootstrap_icon('info-circle') %>
-            Drag and drop images or files to upload new items. Shift+click to select multiple.
-          </div>
-          <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="media-item-chooser__select-button btn btn-primary">Select</button>
-        </div>
+        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="media-item-chooser__select-button btn btn-primary">Select</button>
       </div>
     </div>
   </div>
-<% end %>
+</div>
