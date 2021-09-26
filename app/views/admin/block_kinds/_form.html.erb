@@ -9,7 +9,7 @@
             <%= content_tag :div, md(@block_kind.block.description) %>
             <hr>
             <div class="form-inputs">
-              <div class="row">
+              <div class="row small-gutters">
                 <div class="col-md-4">
                   <%= f.input :name, readonly: true %>
                 </div>
@@ -44,6 +44,7 @@
                       </tr>
                     </thead>
                     <tbody>
+                      <%# TODO: add pagination %>
                       <% @block_kind.block.includes(:block_slot).each do |block| %>
                         <tr>
                           <th scope="row"><%= block.id %></th>
