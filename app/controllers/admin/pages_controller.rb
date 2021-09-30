@@ -10,7 +10,7 @@ class Admin::PagesController < Admin::ForestController
   def index
     if request.format.json?
       @pagy, @pages = pagy apply_scopes(Page).by_title.where.not(id: params[:current_record])
-      authorize @pages
+      authorize @pages, :admin_index?
     else
       # TODO: fuzzy searching doesn't work properly with page hierarchy
       # TODO: by_status scope doesn't work when filtering to parent_pages
@@ -19,7 +19,7 @@ class Admin::PagesController < Admin::ForestController
       else
         @pagy, @parent_pages = pagy apply_scopes(Page.includes(:immediate_children)).parent_pages
       end
-      authorize @parent_pages
+      authorize @parent_pages, :admin_index?
     end
 
     respond_to :html, :json
