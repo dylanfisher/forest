@@ -7,6 +7,10 @@ require 'simple_form'
 module Forest
   ROOT_PATH = Pathname.new(File.join(__dir__, ".."))
 
+  # Override the devise_for routes.rb declaration in a host app if necessary
+  mattr_accessor :override_devise_for_route_declaration
+  @@override_devise_for_route_declaration = false
+
   # Each of the thumb, small, medium and large derivatives are used by Forest CMS in the
   # admin area, but these options can be changed, and additional derivatives can be
   # added via the host app if necessary.
