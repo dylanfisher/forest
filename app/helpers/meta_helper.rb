@@ -63,7 +63,7 @@ module MetaHelper
         @page_featured_image,
         build_page_featured_image_from_record,
         site_featured_image
-      ].reject(&:blank?).first
+      ].reject(&:blank?).reject { |m| m.try(:new_record?) }.first
     end
   end
 
