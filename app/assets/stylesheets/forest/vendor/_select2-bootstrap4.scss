@@ -48,7 +48,8 @@
     border-radius: 0.2rem;
     padding: 0 5px 0 0;
     cursor: pointer;
-    display: inline-block;
+    // display: inline-block;
+    display: inline-flex;
     margin-top: 0.3em;
     margin-right: 5px; }
   .select2-container--bootstrap4 .select2-selection--multiple .select2-selection__choice__remove {
