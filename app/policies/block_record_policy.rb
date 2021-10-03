@@ -1,6 +1,6 @@
 class BlockRecordPolicy < ApplicationPolicy
   def show?
-    if record.respond_to?(:statusable?)
+    if record.try(:statusable?)
       record.published? || edit?
     else
       true

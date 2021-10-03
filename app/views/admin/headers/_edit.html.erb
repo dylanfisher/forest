@@ -6,7 +6,7 @@
     This <%= record.model_name.human %> is currently <strong><%= record.status.humanize(capitalize: false) %></strong> and is not visible to the public.
   </div>
 <% end %>
-<% if record.try(:draft?) %>
+<% if record.try(:statusable?) && record.try(:draft?) %>
   <div class="row">
     <br>
     <div class="col-md-6">
