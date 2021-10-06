@@ -26,10 +26,10 @@
             <div class="card-header sortable-handle">
               <div class="block-type-header-title d-flex">
                 <%= content_tag :div, klass.display_icon, class: 'mr-2' %>
-                <div class="mr-2 flex-shrink-0">
+                <div class="block-slot__block-display-name mr-2 flex-shrink-0">
                   <%= klass.display_name %>
                 </div>
-                <span class="text-muted">
+                <span class="block-slot__block-kind-description text-muted">
                   <small><%= block_kind.description %></small>
                 </span>
                 <%= render 'admin/block_record/block_slot_field_buttons', f: f %>

@@ -3,17 +3,19 @@
 
 <% raise Forest::Error.new('Block Layout does not exist.', block_layout) if block_layout.blank? %>
 
+<% add_block_button_label = local_assigns.fetch(:add_block_button_label, "Add #{block_layout.display_name.downcase.sub(/ blocks?$/i, '')} block") %>
+
 <% locals = { block_kinds: block_kinds,
               block_layout: block_layout,
               block_record: f.object } %>
 
 <% if block_kinds.present? %>
   <div class="block-layout mt-4 mb-3">
-    <h2 class="mb-3">
+    <h2 class="block-layout__display-name mb-3">
       <%= block_layout.display_name %>
     </h2>
     <% if block_layout.description.present? %>
-      <p class="text-muted">
+      <p class="block-layout__description text-muted">
         <%= block_layout.description %>
       </p>
     <% end %>
@@ -33,7 +35,7 @@
             <% end %>
 
             <div class="mt-3">
-              <%= link_to_add_association "Add #{block_layout.display_name.downcase.sub(/ blocks?$/i, '')} block",
+              <%= link_to_add_association add_block_button_label,
                                           f,
                                           :block_slots,
                                           partial: 'admin/block_record/block_slot_fields_template',

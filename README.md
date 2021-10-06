@@ -196,6 +196,9 @@ Forest relies heavily on the following gems, software and frameworks:
 ## TODO
 
 Version 2
+- [ ] Remove hidden `block_layout`, `block_record_type`, `block_kind_id` fields from `block_slot_fields` and instead apply these values in the controller for better security.
+- [ ] Add pundit policy scoped to admin namespace, e.g. `authorize([:admin, Post])` https://github.com/varvet/pundit#policy-namespacing
+- [ ] Replace authorize index actions with `policy_scope` and make sure policy scope is set up properly
 - [ ] Add ability to toggle each individual blocks hidden status
 - [ ] Disable choosing a non-image file in the image association
 - [ ] Add an easier to use API for creating blocks and associating them to records programmatically
