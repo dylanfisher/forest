@@ -3,6 +3,7 @@ class Admin::BlockKindsController < Admin::ForestController
 
   def index
     @pagy, @block_kinds = pagy apply_scopes(BlockKind).by_name
+    authorize @block_kinds, :admin_index?
   end
 
   def edit

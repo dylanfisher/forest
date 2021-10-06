@@ -17,7 +17,7 @@ class Admin::MediaItemsController < Admin::ForestController
     else
       @pagy, @media_items = pagy(apply_scopes(MediaItem.all).by_id.is_not_hidden, items: 36)
     end
-    authorize @media_items
+    authorize @media_items, :admin_index?
 
     if params[:layout].blank? || params[:layout] != 'list'
       @layout = :grid

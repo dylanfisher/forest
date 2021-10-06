@@ -8,7 +8,7 @@ class Admin::UserGroupsController < Admin::ForestController
   # GET /user_groups
   def index
     @pagy, @user_groups = pagy apply_scopes(UserGroup).by_name
-    authorize @user_groups
+    authorize @user_groups, :admin_index?
   end
 
   # GET /user_groups/new

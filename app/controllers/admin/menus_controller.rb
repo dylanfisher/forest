@@ -4,7 +4,7 @@ class Admin::MenusController < Admin::ForestController
   # GET /menus
   def index
     @pagy, @menus = pagy apply_scopes(Menu.order(id: :asc))
-    authorize @menus
+    authorize @menus, :admin_index?
   end
 
   # GET /menus/1

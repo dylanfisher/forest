@@ -11,7 +11,7 @@ class Admin::UsersController < Admin::ForestController
   # GET /users
   def index
     @pagy, @users = pagy apply_scopes(User.includes(:user_groups)).by_last_name
-    authorize @users
+    authorize @users, :admin_index?
   end
 
   # GET /users/new

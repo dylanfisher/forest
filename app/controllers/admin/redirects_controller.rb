@@ -3,6 +3,7 @@ class Admin::RedirectsController < Admin::ForestController
 
   def index
     @pagy, @redirects = pagy apply_scopes(Redirect.by_id)
+    authorize @redirects, :admin_index?
   end
 
   def new

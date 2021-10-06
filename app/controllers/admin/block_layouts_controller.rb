@@ -3,6 +3,7 @@ class Admin::BlockLayoutsController < Admin::ForestController
 
   def index
     @pagy, @block_layouts = pagy apply_scopes(BlockLayout).by_id
+    authorize @block_layouts, :admin_index?
   end
 
   def new

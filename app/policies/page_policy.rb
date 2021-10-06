@@ -6,8 +6,4 @@ class PagePolicy < BlockRecordPolicy
       true
     end
   end
-
-  def admin_index?
-    admin?
-  end
 end

@@ -4,6 +4,7 @@ class <%= plural_name.camelize %>Controller < ForestController
 
   def index
     # TODO: published/statusable scope
+    skip_authorization
     @<%= plural_name %> = apply_scopes(<%= name %>)
   end
 
@@ -14,7 +15,11 @@ class <%= plural_name.camelize %>Controller < ForestController
   private
 
   def set_<%= singular_name %>
+    <% if options.skip_sluggable? -%>
+    @<%= singular_name %> = <%= name %>.find(params[:id])
+    <% else -%>
     @<%= singular_name %> = <%= name %>.find_by!(slug: params[:id])
+    <% end -%>
   end
 end
 <% end -%>

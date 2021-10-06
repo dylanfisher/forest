@@ -14,6 +14,10 @@ class ApplicationPolicy
     admin?
   end
 
+  def admin_index?
+    admin?
+  end
+
   def dashboard?
     admin?
   end
