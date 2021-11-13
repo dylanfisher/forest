@@ -2,8 +2,7 @@
 
 <% locals = { block_record: local_assigns.fetch(:block_record, nil) } %>
 
-<%# TODO: test this cache block to make sure it is safe in production %>
-<% cache [block_record.class.name, block_layout, cache_key_for(BlockKind), expires_in: 4.weeks] do %>
+<% cache [block_record.class.name, block_layout, application_cache_key, expires_in: 4.weeks] do %>
   <div class="block-slot-field-template-wrapper block-slot nested-fields" data-collapse-parent>
     <% collection = block_kinds.to_a
                                .sort_by { |bk| [bk.category.downcase, bk.name.downcase] }
