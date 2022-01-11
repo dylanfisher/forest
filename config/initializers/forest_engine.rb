@@ -1,4 +1,4 @@
-MediaItem.expire_cache!
-Menu.expire_cache!
-Setting.expire_cache!
-Setting.expire_application_cache_key!
+'MediaItem'.safe_constantize&.expire_cache!
+'Menu'.safe_constantize&.expire_cache!
+'Setting'.safe_constantize&.expire_cache!
+'Setting'.safe_constantize&.expire_application_cache_key!
