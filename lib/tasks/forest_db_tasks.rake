@@ -47,21 +47,11 @@ namespace :forest do
       end
 
       if s3_bucket.object(object_key).upload_file(filename)
-        s3.client.put_object_acl({
-          acl: 'public-read',
-          bucket: s3_bucket.name,
-          key: object_key
-        })
-
         puts "[Forest] Careful! You just uploaded a publicly accessible db dump to the #{s3_bucket.name} bucket."
         puts "[Forest] If this file wasn't the latest database dump, run `bin/rails forest:db:dump` to create a new dump."
         puts "[Forest] To import that db dump to Heroku, please run:"
 
-        if aws_region == 'us-east-1'
-          puts "heroku pg:backups:restore 'https://s3.amazonaws.com/#{s3_bucket_name}/#{object_key}' DATABASE_URL"
-        else
-          puts "heroku pg:backups:restore 'https://#{s3_bucket_name}.s3.amazonaws.com/#{object_key}' DATABASE_URL"
-        end
+        puts "heroku pg:backups:restore '#{Rails.application.credentials.asset_host}/#{object_key}' DATABASE_URL"
 
         puts "\n"
         puts "[Forest] ✋ ** After importing to Heroku, run this command to delete the public db dump from Amazon S3. Don't leave the db dump publicly accessible! **"
