@@ -153,7 +153,7 @@ namespace :forest do
   def with_config
     yield Rails.application.class.module_parent_name.underscore,
       database_name,
-      ActiveRecord::Base.connection_config[:username]
+      ActiveRecord::Base.connection_db_config.configuration_hash[:username]
   end
 
   def s3
@@ -178,6 +178,6 @@ namespace :forest do
   end
 
   def database_name
-    @database_name ||= ActiveRecord::Base.connection_config[:database]
+    @database_name ||= ActiveRecord::Base.connection_db_config.configuration_hash[:database]
   end
 end
