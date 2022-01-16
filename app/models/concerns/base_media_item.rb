@@ -28,13 +28,8 @@ module BaseMediaItem
     scope :audio, -> { where('attachment_content_type LIKE ?', '%audio%') }
     scope :pdfs, -> { where('attachment_content_type LIKE ?', '%pdf%') }
     scope :by_date, -> (date) {
-      # TODO: why this rescue block?
-      begin
-        date = Date.parse(date)
-        where('media_items.created_at >= ? AND media_items.created_at <= ?', date.beginning_of_month, date.end_of_month)
-      rescue ArgumentError => e
-        date = nil
-      end
+      date = Date.parse(date)
+      where('media_items.created_at >= ? AND media_items.created_at <= ?', date.beginning_of_month, date.end_of_month)
     }
     scope :missing_all_derivatives, -> { where("(attachment_data->'derivatives') is null") }
     scope :missing_some_derivatives, -> { where("(attachment_data->'derivatives') is null") }
