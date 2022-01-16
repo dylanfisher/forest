@@ -226,13 +226,13 @@ module BaseMediaItem
     }
   end
 
-  # Portrait images have a lower aspect ratio
+  # Landscape images have a lower aspect ratio
   def aspect_ratio
-    dimensions[:width].to_f / dimensions[:height].to_f
+    dimensions[:height].to_f / dimensions[:width].to_f
   end
 
   def landscape?(ratio = 1)
-    aspect_ratio > ratio
+    aspect_ratio < ratio
   end
 
   def portrait?(ratio = 1)

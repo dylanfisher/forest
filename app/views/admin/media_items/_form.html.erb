@@ -48,7 +48,7 @@
                         <small class="form-text text-muted">Click the image to change the point of interest of the image. The point of interest is used to determine where to crop the image in some contexts.</small>
                       <% elsif @media_item.try(:image?) %>
                         <% if @media_item.supports_derivatives? %>
-                          <%= image_tag @media_item.attachment_url(:medium).presence || uri_image_placeholder %>
+                          <%= image_tag @media_item.attachment_url(:medium).presence || forest_uri_image_placeholder %>
                         <% else %>
                           <%= image_tag @media_item.attachment_url %>
                         <% end %>
