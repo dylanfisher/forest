@@ -76,17 +76,6 @@ class Setting < Forest::ApplicationRecord
   def self.create_translations_for_locale(locale)
     settings_from_i18n = I18n.backend.send(:translations).dig(locale, :forest, :settings).presence || {}
 
-    # Destroy any settings that are no longer in the i18n initialization or default settings array, and have not been updated.
-    # This means any settings that are added directly from the database will be deleted.
-    Setting.where(locale: locale).reject { |setting|
-      Array(Setting::DEFAULT_SETTINGS.dup).concat(settings_from_i18n.keys).include?(setting.slug.to_sym)
-    }.each { |setting|
-      if setting.has_not_been_updated?
-        logger.info { "[Forest][Setting] Destroying obsolete setting for #{setting.slug}" }
-        setting.destroy
-      end
-    }
-
     settings_from_i18n.each do |setting|
       k = setting[0].to_s
       v = setting[1]
