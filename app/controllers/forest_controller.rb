@@ -8,6 +8,8 @@ class ForestController < ApplicationController
 
   before_action :set_html_classes
 
+  after_action :verify_authorized, unless: :devise_controller?
+
   def after_sign_in_path_for(resource)
     main_app.admin_path
   end

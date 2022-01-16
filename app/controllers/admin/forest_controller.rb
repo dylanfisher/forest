@@ -10,6 +10,8 @@ class Admin::ForestController < ApplicationController
   before_action :set_html_classes, :set_page_title
   before_action :set_admin_resources
 
+  after_action :verify_authorized, unless: :devise_controller?
+
   rescue_from ActiveRecord::InvalidForeignKey, with: :foreign_key_contraint
   rescue_from ActiveRecord::RecordNotUnique, with: :record_not_unique
 
