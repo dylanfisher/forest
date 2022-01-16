@@ -17,7 +17,7 @@
       <tr>
         <th><%= table_sorter title: 'ID', path: :admin_settings_path, scope: :by_id, default_order: :asc %></th>
         <th><%= table_sorter title: 'Title', path: :admin_settings_path, scope: :by_title, default_order: :asc %></th>
-        <th><%= table_sorter title: 'Slug', path: :admin_settings_path, scope: :by_slug, default_order: :asc %></th>
+        <th>Description</th>
         <th>Value</th>
         <th><%= table_sorter title: 'Created&nbsp;at'.html_safe, path: :admin_settings_path, scope: :by_created_at, default_order: :desc %></th>
         <th><%= table_sorter title: 'Updated&nbsp;at'.html_safe, path: :admin_settings_path, scope: :by_created_at, default_order: :desc %></th>
@@ -30,8 +30,8 @@
         <tr>
           <td><%= setting.id %></td>
           <td><%= setting.title %></td>
-          <td><%= setting.slug %></td>
-          <td><%= truncate admin_setting_value(setting) %></td>
+          <td><%= truncate setting.description, length: 100 %></td>
+          <td><%= truncate admin_setting_value(setting), length: 100 %></td>
           <td><%= forest_date setting.created_at %></td>
           <td><%= forest_date setting.updated_at %></td>
           <td width="1"><%= link_to 'Edit', edit_admin_setting_path(setting), class: 'btn btn-xs btn-primary forest-table__link', role: 'button' %></td>

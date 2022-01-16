@@ -23,11 +23,11 @@ module Forest
         puts "[Forest] ---- Creating default settings"
 
         if Setting.find_by_title('Site Title').blank?
-          Setting.create(title: 'Site Title', value: 'Default Site Title', value_type: 'string')
+          Setting.create(title: 'Site Title', value: 'Default Site Title', value_type: 'string', description: 'The title of the website as it appears in search results.')
         end
 
         if Setting.find_by_title('Description').blank?
-          Setting.create(title: 'Description', value: 'A Site Built With Forest')
+          Setting.create(title: 'Description', value: 'A Site Built With Forest', description: 'A brief summary of this website, between 50 and 160 characters.')
         end
 
         if Setting.find_by_title('Featured Image').blank?
