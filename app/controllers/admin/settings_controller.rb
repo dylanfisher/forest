@@ -5,7 +5,11 @@ class Admin::SettingsController < Admin::ForestController
 
   # GET /settings
   def index
-    @pagy, @settings = pagy apply_scopes(Setting.all).by_title
+    if params[:hidden] == 'true'
+      @pagy, @settings = pagy(apply_scopes(Setting.all).by_title.hidden)
+    else
+      @pagy, @settings = pagy(apply_scopes(Setting.all).by_title.is_not_hidden)
+    end
     authorize @settings, :admin_index?
   end
 

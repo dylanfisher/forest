@@ -6,8 +6,16 @@ class Setting < Forest::ApplicationRecord
   DEFAULT_SETTINGS = %i(site_title description featured_image)
   VALID_VALUE_TYPES = %w(text boolean image integer string)
 
+  before_create :set_locale, if: Proc.new { |s| s.locale.blank? }
+  before_save :set_title, if: Proc.new { |s| s.title.blank? }
+
   after_commit :touch_associations
   after_commit :expire_cache
+
+  enum setting_status: {
+    is_not_hidden: 0,
+    hidden: 1
+  }
 
   scope :by_locale, -> (locale) { where(locale: locale) }
 
@@ -150,5 +158,13 @@ class Setting < Forest::ApplicationRecord
   # Pages may depend on settings and should be updated each time a setting is changed
   def touch_associations
     Page.update_all(updated_at: Time.now)
+  end
+
+  def set_title
+    self.title = slug.to_s.titleize
+  end
+
+  def set_locale
+    self.locale = I18n.default_locale
   end
 end
