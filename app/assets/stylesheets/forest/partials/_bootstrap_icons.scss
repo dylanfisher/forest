@@ -1,5 +1,14 @@
 // Bootstrap icons
 
+.bi {
+  display: inline-block;
+  vertical-align: -0.125em;
+}
+
+.bootstrap-icon {
+  vertical-align: top;
+}
+
 .glyphicon {
   &:before {
     content: "";
@@ -83,7 +92,3 @@
 //     background-image: image-url('bootstrap/dash.svg');
 //   }
 // }
-
-.bootstrap-icon {
-  vertical-align: top;
-}

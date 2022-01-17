@@ -76,6 +76,11 @@ module AdminHelper
 
   def bootstrap_icon(icon_name, options = {})
     options[:class] = "#{options[:class]} bootstrap-icon"
-    image_tag("bootstrap/#{icon_name}.svg", **options)
+    embedded = options.delete(:embedded)
+    if embedded
+      forest_embedded_svg("bootstrap/#{icon_name}.svg", class: "bi bi-#{icon_name}")
+    else
+      image_tag("bootstrap/#{icon_name}.svg", **options)
+    end
   end
 end
