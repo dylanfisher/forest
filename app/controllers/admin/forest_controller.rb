@@ -86,7 +86,7 @@ class Admin::ForestController < ApplicationController
         error_messages.each { |e| record.errors.add(:base, e) }
         return render :new
       else
-        return redirect_to edit_polymorphic_path([:admin, record]), flash: { error: error_messages }
+        return redirect_to edit_polymorphic_path([*forest_controller_namespace, record]), flash: { error: error_messages }
       end
     else
       raise
@@ -100,7 +100,7 @@ class Admin::ForestController < ApplicationController
         error_messages.each { |e| record.errors.add(:base, e) }
         return render :new
       else
-        return redirect_to edit_polymorphic_path([:admin, record]), flash: { error: error_messages }
+        return redirect_to edit_polymorphic_path([*forest_controller_namespace, record]), flash: { error: error_messages }
       end
     else
       raise
@@ -123,5 +123,12 @@ class Admin::ForestController < ApplicationController
   def recognize_path(path, options = {})
     Rails.application.routes.recognize_path(path, options)
   rescue ActionController::RoutingError
+  end
+
+  def forest_controller_namespace
+    controller_namespace_parts = self.class.name.split('::').reject(&:blank?)
+    controller_namespace_parts = controller_namespace_parts[0..(controller_namespace_parts.size - 2)]
+    controller_namespace_parts = controller_namespace_parts.collect { |x| x.underscore.to_sym }
+    controller_namespace_parts
   end
 end
