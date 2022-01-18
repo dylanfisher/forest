@@ -6,4 +6,8 @@ class PagePolicy < BlockRecordPolicy
       true
     end
   end
+
+  def preview?
+    edit?
+  end
 end

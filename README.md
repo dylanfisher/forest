@@ -229,11 +229,9 @@ Version 2
 - [ ] better page versioning, page history navigation, restore content blocks with page version
 - [ ] email confirmations for user related actions
 - [ ] more robust and flexible permissions system via pundit
-- [ ] replace glyphicon with bootstrap 4 icons
 - [ ] tests
 - [ ] streamlined javascript event triggers namespaced to forest, e.g. `forest:block-slot-after-insert`
 - [ ] potentially refactor how settings are stored, how a setting's value type is inferred, how they are imported, and potentially add a reference to other models so that a model's settings can be displayed when editing a record.
-- [ ] add description to settings admin index view
 
 Blocks
 - [ ] refactor block partial to use helper for possible performance gains

@@ -63,6 +63,30 @@ class Admin::PagesController < Admin::ForestController
     end
   end
 
+  def preview
+    if params[:id].present?
+      @page = Page.find(params[:id])
+    else
+      @page = Page.new
+    end
+
+    authorize @page
+
+    @preview = @page.create_preview
+
+    # binding.pry
+
+    respond_to do |format|
+      if @preview.update(preview_params)
+        format.html { redirect_to @preview.path.prepend('/') }
+        format.json { render :show, status: :created, location: @preview }
+      else
+        format.html { render @page.new_record? ? :new : :edit }
+        format.json { render json: @page.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   def destroy
     authorize @page
     @page.destroy
@@ -87,6 +111,13 @@ class Admin::PagesController < Admin::ForestController
     stored_attributes = @page.class.stored_attributes.values.flatten
     permitted_attributes = page_attributes + column_names + stored_attributes
     params.require(:page).permit(permitted_attributes)
+  end
+
+  def preview_params
+    previewable_params = page_params.except(:slug)
+    previewable_params[:block_slots_attributes].each do |index, block_slot_params|
+
+    end
   end
 
   def set_page

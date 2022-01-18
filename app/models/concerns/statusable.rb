@@ -12,7 +12,8 @@ module Statusable
       # draft: 2,
       scheduled: 3,
       # pending: 4,
-      hidden: 5
+      hidden: 5,
+      preview: 6
     }
 
     validates_presence_of :status

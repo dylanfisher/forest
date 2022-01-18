@@ -17,7 +17,11 @@ Rails.application.routes.draw do
       post 'reprocess', on: :member
     end
     resources :menus, except: [:show]
-    resources :pages, except: [:show]
+    resources :pages, except: [:show] do
+      member do
+        match 'preview', via: [:patch, :post]
+      end
+    end
     resources :redirects, except: [:show]
     resources :settings, only: [:index, :edit, :update]
     resources :users, except: [:show] do

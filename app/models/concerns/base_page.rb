@@ -129,6 +129,21 @@ module BasePage
     end
   end
 
+  def previewable?
+    true
+  end
+
+  def create_preview
+    preview = deep_clone(include: [ block_slots: :block ], validate: false)
+    random_hex = SecureRandom.hex
+
+    preview.slug = random_hex
+    preview.path = random_hex
+    preview.status = 'preview'
+    preview.save!
+    preview
+  end
+
   private
 
   def current_or_previous_changes

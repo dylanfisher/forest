@@ -21,6 +21,9 @@
       <% end %>
     </div>
     <div class="mt-3 d-none d-md-block">
+      <% if record.try(:previewable?) %>
+        <%= link_to "Preview", '#', class: 'preview-record-button btn btn-outline-secondary ml-auto' %>
+      <% end %>
       <%= f.button :submit, class: 'btn-success' %>
     </div>
     <div class="mt-3">
