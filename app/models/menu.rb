@@ -53,7 +53,7 @@ class Menu < Forest::ApplicationRecord
     begin
       URI(resource).relative?
     rescue URI::InvalidURIError => e
-      logger.error("[Forest][AdminError] #{e.class}")
+      logger.error("[Forest][Error] #{e.class}")
       logger.error(e.message)
       logger.error(e.backtrace.first(10).join("\n"))
       false
