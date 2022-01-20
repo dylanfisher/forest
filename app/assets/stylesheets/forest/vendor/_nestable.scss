@@ -186,8 +186,9 @@ $item-space: 10px;
 }
 
 .dd-placeholder {
-  margin-top: $gutter;
-  margin-bottom: $gutter;
+  &:first-child {
+    margin-top: $item-space;
+  }
 }
 
 .dd-empty {
