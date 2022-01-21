@@ -31,9 +31,9 @@ module Blockable
     block_layout_name = block_layout.try(:slug).try(:underscore).presence || 'default'
     block_type = options.fetch(:kind, nil)
 
-    instance_variable_get("@#{block_layout_name}_blocks") || instance_variable_set("@#{block_layout_name}_blocks", begin
+    instance_variable_get("@#{block_layout_name}_#{block_type}_blocks") || instance_variable_set("@#{block_layout_name}_#{block_type}_blocks", begin
       if block_type
-        b = block_slots.includes(:block).where(block_kind_id: block_type.kind.id)
+        b = block_slots.includes(:block, :block_layout).where(block_kind_id: block_type.kind.id)
       else
         b = block_slots.includes(:block, :block_layout)
       end
