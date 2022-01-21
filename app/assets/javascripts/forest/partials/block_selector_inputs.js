@@ -15,7 +15,10 @@
     var $blockSelectors;
 
     if ( blockSlot ) {
-      $blockSelectors = $(blockSlot).find('.form-group.block_selector');
+      var $blockSlot = $(blockSlot);
+      $blockSelectors = $blockSlot.find('.form-group.block_selector');
+      // Focus the first input of the new block
+      $blockSlot.find('.block-slot__inputs :input').filter(':visible').first().focus();
     } else {
       $blockSelectors = $('.form-group.block_selector');
     }
