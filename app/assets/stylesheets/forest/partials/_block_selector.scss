@@ -17,6 +17,14 @@
 // }
 
 .block-kind-selector {
+  &.select2-dropdown--below {
+    box-shadow: 2px 14px 18px rgba(0, 0, 0, 0.25);
+  }
+
+  &.select2-dropdown--above {
+    box-shadow: 2px -8px 18px rgba(0, 0, 0, 0.25);
+  }
+
   .select2-results__options--nested {
     // display: flex;
     // flex-wrap: wrap;
