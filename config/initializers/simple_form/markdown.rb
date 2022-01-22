@@ -6,6 +6,7 @@ module SimpleForm
           if markdown?
             input_html_options[:class] ||= []
             input_html_options[:class] << 'markdown-editor'
+            input_html_options[:class] << 'markdown-editor--image-upload' if image_upload?
           end
         end
         nil
@@ -13,6 +14,10 @@ module SimpleForm
 
       def markdown?
         options[:markdown].present?
+      end
+
+      def image_upload?
+        options[:image_upload].present?
       end
     end
   end

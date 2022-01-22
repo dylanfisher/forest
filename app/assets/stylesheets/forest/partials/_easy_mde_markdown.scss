@@ -47,4 +47,8 @@
     background-image: image-url('bootstrap/question-circle.svg');
   }
 
+  .fa-image:before {
+    background-image: image-url('bootstrap/image.svg');
+    background-size: 1.1rem 1.1rem;
+  }
 }

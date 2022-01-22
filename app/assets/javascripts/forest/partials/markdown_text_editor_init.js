@@ -1,27 +1,48 @@
-App.MarkdownTextEditor = {
-  instances: [],
-  initialize: function($textAreas) {
-    var that = this;
+(function() {
+  var insertMediaItem = function(instance, changeObj, $textArea) {
+    var $mediaItemChooser = $('#media-item-chooser');
 
-    $textAreas.each(function() {
-      var $textArea = $(this);
-      var placeholder = $textArea.attr('placeholder');
+    $mediaItemChooser.modal('show');
 
-      if ( ( $textArea.data('forest') && $textArea.data('forest').markdownInitialized ) || $textArea.closest('.CodeMirror').length ) {
-        return;
-      }
+    var cursor = instance.doc.getCursor();
+    var prevPos = {
+      line: cursor.line,
+      ch: cursor.ch - 1
+    };
 
-      $textArea.data('forest') || $textArea.data('forest', {});
-      $textArea.data('forest', { markdownInitialized: true });
+    $(document).on('click.markdownImageUpload', '#media-item-chooser .media-library-link', function(e) {
+      e.preventDefault();
+      var id = $(this).attr('data-media-item-id');
+      instance.doc.replaceRange(id, prevPos);
+      $mediaItemChooser.modal('hide');
+      $(document).off('click.markdownImageUpload');
+    });
+  };
 
-      var editor = new EasyMDE({
-        element: this,
-        placeholder: placeholder,
-        spellChecker: false,
-        status: false,
-        autoDownloadFontAwesome: false,
-        minHeight: '150px',
-        toolbar: [
+  App.MarkdownTextEditor = {
+    instances: [],
+    initialize: function($textAreas) {
+      var that = this;
+
+      $textAreas.each(function() {
+        var $textArea = $(this);
+        var placeholder = $textArea.attr('placeholder');
+
+        if ( ( $textArea.data('forest') && $textArea.data('forest').markdownInitialized ) || $textArea.closest('.CodeMirror').length ) {
+          return;
+        }
+
+        $textArea.data('forest') || $textArea.data('forest', {});
+        $textArea.data('forest', { markdownInitialized: true });
+
+        var imageUploadToolbarObj = {
+          name: 'image',
+          title: 'Insert media item shortcode',
+          action: EasyMDE.drawImage,
+          className: 'fa fa-image'
+        };
+        var imageUpload = $textArea.hasClass('markdown-editor--image-upload') ? imageUploadToolbarObj : undefined;
+        var toolbarOptions = [
           'bold',
           'italic',
           'heading',
@@ -30,6 +51,7 @@ App.MarkdownTextEditor = {
           'ordered-list',
           '|',
           'link',
+          imageUpload,
           '|',
           {
             name: 'guide',
@@ -38,40 +60,63 @@ App.MarkdownTextEditor = {
             title: 'Markdown Guide',
             default: true
           },
-        ],
-        shortcuts: {
-          'drawImage': null,
-          'drawLink': null,
-          'cleanBlock': null,
-          'toggleBlockquote': null,
-          'toggleCodeBlock': null,
-          'toggleFullScreen': null,
-          'toggleHeadingBigger': null,
-          'toggleHeadingSmaller': null,
-          'toggleOrderedList': null,
-          'togglePreview': null,
-          'toggleSideBySide': null,
-          'toggleUnorderedList': null,
-        }
+        ];
+
+        toolbarOptions = toolbarOptions.filter(function(x) {
+          return x !== undefined;
+        });
+
+        var editor = new EasyMDE({
+          element: this,
+          placeholder: placeholder,
+          spellChecker: false,
+          status: false,
+          autoDownloadFontAwesome: false,
+          minHeight: '150px',
+          toolbar: toolbarOptions,
+          shortcuts: {
+            'drawImage': null,
+            'drawLink': null,
+            'cleanBlock': null,
+            'toggleBlockquote': null,
+            'toggleCodeBlock': null,
+            'toggleFullScreen': null,
+            'toggleHeadingBigger': null,
+            'toggleHeadingSmaller': null,
+            'toggleOrderedList': null,
+            'togglePreview': null,
+            'toggleSideBySide': null,
+            'toggleUnorderedList': null,
+          },
+          insertTexts: {
+            image: ["[MEDIA_ITEM=", "]"],
+          }
+        });
+
+        editor.codemirror.options.extraKeys['Tab'] = false;
+        editor.codemirror.options.extraKeys['Shift-Tab'] = false;
+
+        editor.codemirror.on('change', function(instance, changeObj) {
+          if ( changeObj.text && changeObj.text[0] == '[MEDIA_ITEM=]' ) {
+            insertMediaItem(instance, changeObj, $textArea);
+          }
+        });
+
+        that.instances.push( editor );
       });
-
-      editor.codemirror.options.extraKeys['Tab'] = false;
-      editor.codemirror.options.extraKeys['Shift-Tab'] = false;
-
-      that.instances.push( editor );
-    });
-  },
-  teardown: function() {
-    for ( var i = this.instances.length - 1; i >= 0; i-- ) {
-      this.instances[i].toTextArea();
+    },
+    teardown: function() {
+      for ( var i = this.instances.length - 1; i >= 0; i-- ) {
+        this.instances[i].toTextArea();
+      }
+      this.instances = [];
     }
-    this.instances = [];
-  }
-};
+  };
 
-App.pageLoad.push(function() {
-  App.MarkdownTextEditor.initialize( $('.markdown-editor').filter(':visible') );
-});
+  App.pageLoad.push(function() {
+    App.MarkdownTextEditor.initialize( $('.markdown-editor').filter(':visible') );
+  });
+})();
 
 $(document).on('forest:block-slot-after-insert', function(event, nestedFields) {
   App.MarkdownTextEditor.initialize( $(nestedFields).find('.form-group.text .markdown-editor').filter(':visible') );

@@ -87,7 +87,7 @@ App.MediaItemChooser = {
           that.destroyModal();
         })
         .on('hidden.bs.modal', function() {
-          $('.media-item-chooser .media-library-link--selected').removeClass('media-library-link--selected');
+          $('#media-item-chooser .media-library-link--selected').removeClass('media-library-link--selected');
         });
     });
   },
@@ -96,7 +96,7 @@ App.MediaItemChooser = {
       App.InfiniteLoader.unbindScroll( this.instances[i] );
     }
     $('.media-item-chooser__button--active').removeClass('media-item-chooser__button--active');
-    $(document).off('change.mediaItemModalSearch keyup.mediaItemModalSearch keydown.mediaItemModalSearch');
+    $(document).off('change.mediaItemModalSearch keyup.mediaItemModalSearch keydown.mediaItemModalSearch click.markdownImageUpload');
   },
   createThumbnail: function(id, url) {
     return '<div class="media-item--grid mb-3 col-xs-4 col-sm-3 col-md-2">' +
@@ -128,7 +128,7 @@ App.MediaItemChooser = {
 };
 
 App.pageLoad.push(function() {
-  App.MediaItemChooser.initialize( $('.media-item-chooser') );
+  App.MediaItemChooser.initialize( $('#media-item-chooser') );
 });
 
 $(document).on('click', '[data-media-item-input]', function() {
@@ -141,7 +141,7 @@ $(document).on('click', '[data-media-item-input]', function() {
   App.MediaItemChooser.multiple = $(this).attr('data-multiple') == 'true';
 });
 
-$(document).on('click', '.media-item-chooser .media-library-link', function(e) {
+$(document).on('click', '#media-item-chooser .media-library-link', function(e) {
   e.preventDefault();
 
   var $wrapper = $('.media-item-chooser__button--active').closest('.media-item-chooser-to-path');
@@ -155,7 +155,7 @@ $(document).on('click', '.media-item-chooser .media-library-link', function(e) {
   var value = App.MediaItemChooser.toPath ? imageUrl : id;
   var $removeButton = $(this).closest('.image').find('.media-item-chooser__remove-image');
 
-  if ( !$removeButton.length ) {
+  if ( !$removeButton.length && App.MediaItemChooser.scope ) {
     $removeButton = App.MediaItemChooser.scope.closest('.image').find('.media-item-chooser__remove-image');
   }
 
@@ -192,7 +192,7 @@ $(document).on('click.mediaItemChooser', '.media-library-link--selected', functi
 
 $(document).on('click.mediaItemChooser', '.media-item-chooser__select-button', function() {
   var $gallery = App.MediaItemChooser.preview.closest('.gallery, .collage');
-  var $selected = $('.media-item-chooser .media-library-link--selected');
+  var $selected = $('#media-item-chooser .media-library-link--selected');
   var thumbnails = [];
   var $existingThumbnails = $gallery.find('.media-library-image');
   var existingThumbnailIds = $existingThumbnails.map(function() {
@@ -209,7 +209,7 @@ $(document).on('click.mediaItemChooser', '.media-item-chooser__select-button', f
     }
   });
 
-  $('.modal.media-item-chooser').modal('hide');
+  $('#media-item-chooser').modal('hide');
   if ( App.MediaItemChooser.preview.length ) {
     if ( App.MediaItemChooser.preview.closest('.media-gallery-preview-wrapper').hasClass('media-gallery-preview-wrapper--no-images') ) {
       App.MediaItemChooser.preview.closest('.media-gallery-preview-wrapper').removeClass('media-gallery-preview-wrapper--no-images').addClass('media-gallery-preview-wrapper--has-images');
