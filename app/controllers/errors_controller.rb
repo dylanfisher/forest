@@ -1,5 +1,6 @@
 class ErrorsController < ForestController
   before_action :filter_by_request_type
+  before_action -> { skip_authorization }
 
   def not_found
     check_for_redirect! and return
