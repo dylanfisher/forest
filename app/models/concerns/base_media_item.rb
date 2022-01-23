@@ -8,7 +8,6 @@ module BaseMediaItem
     DATE_FILTER_CACHE_KEY = 'forest_media_item_dates_for_filter'
     CONTENT_TYPE_CACHE_KEY = 'forest_media_item_content_types_for_filter'
 
-    after_commit :expire_cache
     after_commit :reprocess_derivatives, on: :update, if: Proc.new { |x| x.previous_changes[:retain_source].present? }
 
     has_many :pages, foreign_key: :featured_image_id
@@ -41,20 +40,15 @@ module BaseMediaItem
     end
 
     def dates_for_filter
-      Rails.cache.fetch DATE_FILTER_CACHE_KEY, expires_in: 4.weeks do
+      Rails.cache.fetch [DATE_FILTER_CACHE_KEY, cache_key], expires_in: 4.weeks do
         self.grouped_by_year_month.collect { |x| [x.created_at.strftime('%B %Y'), x.created_at.strftime('%d-%m-%Y')] }.reverse
       end
     end
 
     def content_types_for_filter
-      Rails.cache.fetch CONTENT_TYPE_CACHE_KEY, expires_in: 4.weeks do
+      Rails.cache.fetch [CONTENT_TYPE_CACHE_KEY, cache_key], expires_in: 4.weeks do
         self.grouped_by_content_type.collect { |x| x.attachment_content_type }
       end
-    end
-
-    def expire_cache!
-      Rails.cache.delete self::DATE_FILTER_CACHE_KEY
-      Rails.cache.delete self::CONTENT_TYPE_CACHE_KEY
     end
 
     def localizable_params
@@ -285,9 +279,5 @@ module BaseMediaItem
     end
 
     self.attachment_content_type = get_attachment_content_type
-  end
-
-  def expire_cache
-    self.class.expire_cache!
   end
 end
