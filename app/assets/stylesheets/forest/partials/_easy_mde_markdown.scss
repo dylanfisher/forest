@@ -51,4 +51,8 @@
     background-image: image-url('bootstrap/image.svg');
     background-size: 1.1rem 1.1rem;
   }
+
+  .fa-quote-left:before {
+    background-image: image-url('bootstrap/blockquote-left.svg');
+  }
 }

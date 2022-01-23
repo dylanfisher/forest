@@ -42,10 +42,12 @@
           className: 'fa fa-image'
         };
         var imageUpload = $textArea.hasClass('markdown-editor--image-upload') ? imageUploadToolbarObj : undefined;
+        var blockquote = $textArea.hasClass('markdown-editor--blockquote') ? 'quote' : undefined;
         var toolbarOptions = [
           'bold',
           'italic',
           'heading',
+          blockquote,
           '|',
           'unordered-list',
           'ordered-list',

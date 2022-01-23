@@ -12,14 +12,14 @@ module MarkdownHelper
   private
 
   def parser
-    @parser ||= Redcarpet::Markdown.new(renderer, Forest::MarkdownRenderer.options)
+    @_forest_md_parser ||= Redcarpet::Markdown.new(renderer, Forest::MarkdownRenderer.options)
   end
 
   def stripper
-    @stripper ||= Redcarpet::Markdown.new(Redcarpet::Render::StripDown)
+    @_forest_md_stripper ||= Redcarpet::Markdown.new(Redcarpet::Render::StripDown)
   end
 
   def renderer
-    @renderer ||= Forest::MarkdownRenderer.new(Forest::MarkdownRenderer.render_options)
+    @_forest_md_renderer ||= Forest::MarkdownRenderer.new(Forest::MarkdownRenderer.render_options)
   end
 end
