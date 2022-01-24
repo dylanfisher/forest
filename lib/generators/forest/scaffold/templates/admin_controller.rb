@@ -4,7 +4,7 @@ class Admin::<%= plural_name.camelize %>Controller < Admin::ForestController
 
   def index
     @pagy, @<%= plural_name %> = pagy apply_scopes(<%= name %>).by_id
-      authorize @<%= plural_name %>, :admin_index?
+    authorize @<%= plural_name %>, :admin_index?
   end
 
   def new
