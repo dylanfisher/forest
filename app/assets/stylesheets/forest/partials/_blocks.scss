@@ -44,7 +44,7 @@
 }
 
 .block-slot-field__buttons {
-  min-width: 74px;
+  min-width: 96px;
   text-align: right;
 }
 
@@ -55,4 +55,10 @@
 
 .block-slot:hover .block-slot-field__button--low-priority {
   opacity: 1;
+}
+
+.block-slot__block-kind-description {
+  line-height: 1.1;
+  display: flex;
+  align-self: center;
 }
