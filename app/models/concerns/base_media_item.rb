@@ -215,9 +215,17 @@ module BaseMediaItem
     }
   end
 
+  def width
+    dimensions[:width]
+  end
+
+  def height
+    dimensions[:height]
+  end
+
   # Landscape images have a lower aspect ratio
   def aspect_ratio
-    dimensions[:height].to_f / dimensions[:width].to_f
+    height.to_f / width.to_f
   end
 
   def landscape?(ratio = 1)
