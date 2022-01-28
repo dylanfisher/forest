@@ -46,7 +46,8 @@ module Sluggable
 
     self.slug = slug_attr
 
-    if self.class.find_by_slug(slug_attr).present?
+    existing_record_with_slug = self.class.find_by_slug(slug_attr)
+    if existing_record_with_slug.present? && existing_record_with_slug != self
       self.slug = "#{slug_attr}#{duplicate_slug_identifier}"
     end
   end
