@@ -1,0 +1,6 @@
+<%= f.input :path,
+            as: :string,
+            disabled: true,
+            placeholder: "Generated automatically from the slug and parent #{f.object.model_name.singular}.",
+            input_html: {
+              value: (f.object.try(:path).present? ? "/#{f.object.path}" : nil) } %>

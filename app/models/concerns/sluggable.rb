@@ -3,9 +3,7 @@ module Sluggable
 
   included do
     before_validation :generate_slug
-    before_save :parameterize_slug, if: :will_save_change_to_slug?
-
-    # validates :slug, presence: true, uniqueness: true
+    before_validation :parameterize_slug, if: :will_save_change_to_slug?
 
     scope :by_slug, -> (orderer = :asc) { order(slug: orderer) }
   end
