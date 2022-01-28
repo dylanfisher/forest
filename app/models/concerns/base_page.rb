@@ -4,6 +4,7 @@ module BasePage
   included do
     include Blockable
     include Statusable
+    # TODO: refactor to use Pathable concern
 
     before_validation :generate_slug
     before_validation :generate_path, if: :hierarchy_changed?
@@ -18,7 +19,7 @@ module BasePage
     validates_presence_of :path
     validates_uniqueness_of :slug, scope: :parent_page_id
     validates_uniqueness_of :path
-    validate :parent_page_is_not_self
+    validate :parent_page_is_not_self_or_ancestor
 
     has_many :immediate_children, -> { by_title }, class_name: 'Page', foreign_key: 'parent_page_id'
 
@@ -129,6 +130,16 @@ module BasePage
     end
   end
 
+  def to_select2_response
+    if respond_to?(:media_item) && media_item.try(:attachment_url, :thumb).present?
+      img_tag = "<img src='#{media_item.attachment_url(:thumb)}' style='height: 21px; margin-right: 5px;'> "
+    end
+    if page_ancestors.present?
+      select2_parent_page_label = "<span style='color: #aaa; font-size: smaller; margin-right: 5px;'>#{page_ancestors.reverse.collect(&:title).join(' > ')}</span>"
+    end
+    "#{img_tag}<span class='select2-response__id' data-id='#{id}' style='margin-right: 5px;'>#{id}</span> #{select2_parent_page_label}#{to_label}"
+  end
+
   private
 
   def current_or_previous_changes
@@ -139,9 +150,11 @@ module BasePage
     (current_or_previous_changes & %w(parent_page_id slug)).any?
   end
 
-  def parent_page_is_not_self
+  def parent_page_is_not_self_or_ancestor
     if parent_page == self
       errors.add :parent_page, "a parent page can't be assigned to itself."
+    elsif page_ancestors.include?(self)
+      errors.add :parent_page, "a parent page can't be assigned to an ancestor of itself."
     end
   end
 
