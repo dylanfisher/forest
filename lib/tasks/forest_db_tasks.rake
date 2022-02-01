@@ -150,8 +150,12 @@ namespace :forest do
 
   private
 
+    def application_class_name
+      Rails.application.class.respond_to?(:module_parent_name) ? Rails.application.class.module_parent_name.module_parent_name : Rails.application.class.parent_name
+    end
+
     def with_config
-      yield Rails.application.class.module_parent_name.underscore,
+      yield application_class_name.underscore,
         database_name,
         ActiveRecord::Base.connection_config[:username]
     end
