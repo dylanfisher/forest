@@ -3,10 +3,6 @@ module Forest
     class InstallGenerator < Rails::Generators::Base
       source_root File.expand_path('../templates', __FILE__)
 
-      # TODO: the install generator should:
-      #   - seed default settings
-      #     - block kinds
-
       puts "[Forest] Install Generator"
 
       # Prompt to install migrations
