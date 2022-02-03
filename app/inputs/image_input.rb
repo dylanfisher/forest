@@ -4,13 +4,16 @@ class ImageInput < SimpleForm::Inputs::StringInput
     obj = input_html_options.fetch :object, object
     input_html_options.merge! id: object_name.parameterize
     image_object = obj.send(reflection_or_attribute_name)
-    img_src = input_html_options.fetch :img_src, image_object.try(:attachment_url, :medium)
     attribute_name_to_use = reflection.present? ? "#{reflection.name}_id" : attribute_name
     media_item_type = image_object.try(:display_content_type).presence || 'media item'
     button_title = input_html_options.fetch :button_title, "Choose #{media_item_type}"
     compact = options.fetch(:compact, false)
 
     # TODO: clean this craziness up
+    default_image_url = image_object.try(:attachment_url, :medium)
+    # TODO: better support for vimeo videos - should this be moved into a video_input.rb file?
+    default_image_url = image_object.vimeo_video_thumbnail if image_object.try(:vimeo_video?)
+    img_src = input_html_options.fetch(:img_src, default_image_url)
     if img_src.nil? && obj.respond_to?(self.input_type)
       img_src = obj.send(self.input_type).try(:attachment_url, :medium)
     end
@@ -46,12 +49,14 @@ class ImageInput < SimpleForm::Inputs::StringInput
       content << template.text_field_tag('File URL', image_object.try(:attachment_url), readonly: true, class: 'form-control string')
       content << template.tag(:br)
     else
-      content << template.image_tag((img_src || ''),
-                    class: "media-item-chooser__image mb-3 rounded cursor-pointer #{image_tag_classes}",
-                    id: "#{field_name}_preview",
-                    data: {
-                      **modal_data_attributes
-                    })
+      image_thumbnail = template.image_tag((img_src || ''),
+                          class: "media-item-chooser__image mb-3 rounded cursor-pointer #{image_tag_classes}",
+                          id: "#{field_name}_preview",
+                          data: {
+                            **modal_data_attributes
+                          })
+      image_thumbnail << template.content_tag(:span, '', class: "media-item--grid__icon glyphicon glyphicon-#{image_object.glyphicon}") if image_object.try(:file?).present?
+      content << template.content_tag(:div, image_thumbnail, class: 'media-item-chooser__image-wrapper')
     end
 
     buttons << template.content_tag(:button, button_title,
@@ -72,6 +77,7 @@ class ImageInput < SimpleForm::Inputs::StringInput
                     target: '_blank')
     end
 
+    content << template.tag(:br)
     content << template.content_tag(:div, buttons, class: 'image__btn-group btn-group', role: 'group')
 
     content << @builder.hidden_field(attribute_name_to_use, input_html_options) unless path_only

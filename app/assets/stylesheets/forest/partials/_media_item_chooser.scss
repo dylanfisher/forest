@@ -1,11 +1,21 @@
 // Media Item Chooser
 
-
 // .media-item-chooser__image,
 // .media-item-chooser__button,
 // .media-item-chooser__remove-image {
 //   margin-bottom: $gutter;
 // }
+
+.image-input__body {
+  .media-item--grid__icon {
+    pointer-events: none;
+  }
+}
+
+.media-item-chooser__image-wrapper {
+  position: relative;
+  display: inline-block;
+}
 
 .media-item-chooser__image {
   display: block;

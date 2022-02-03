@@ -172,6 +172,10 @@ $(document).on('click', '#media-item-chooser .media-library-link', function(e) {
       $(this).addClass('media-library-link--selected');
     } else {
       // Single item
+      var $imageWrapper = App.MediaItemChooser.input.closest('.image-input__body');
+
+      $imageWrapper.find('.media-item--grid__icon').remove();
+
       App.MediaItemChooser.input.val( value );
 
       if ( App.MediaItemChooser.preview.length )  {
