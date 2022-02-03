@@ -11,7 +11,7 @@ module MetaHelper
       end
 
       title = title.reject(&:blank?).join(divider)
-      sanitize(stripdown(title), tags: []).squish
+      sanitize(stripdown(title), tags: []).gsub('&amp;', '&').squish
     end
   end
 
@@ -24,14 +24,14 @@ module MetaHelper
         build_page_title_from_record,
         build_page_title_from_controller
       ].reject(&:blank?).first
-      sanitize(stripdown(title), tags: []).squish
+      sanitize(stripdown(title), tags: []).gsub('&amp;', '&').squish
     end
   end
 
   def site_title
     @_site_title ||= begin
       title = Setting.for('site_title') || default_site_title
-      sanitize(stripdown(title), tags: []).squish
+      sanitize(stripdown(title), tags: []).gsub('&amp;', '&').squish
     end
   end
 
@@ -43,7 +43,7 @@ module MetaHelper
         build_page_description_from_record,
         site_description
       ].reject(&:blank?).first.try(:squish)
-      sanitize(stripdown(description), tags: []).squish
+      sanitize(stripdown(description), tags: []).gsub('&amp;', '&').squish
     end
   end
 
