@@ -8,6 +8,7 @@ class ImageInput < SimpleForm::Inputs::StringInput
     media_item_type = image_object.try(:display_content_type).presence || 'media item'
     button_title = input_html_options.fetch :button_title, "Choose #{media_item_type}"
     compact = options.fetch(:compact, false)
+    media_item_scope = options.fetch(:scope, nil)
 
     # TODO: clean this craziness up
     default_image_url = image_object.try(:attachment_url, :medium)
@@ -24,7 +25,8 @@ class ImageInput < SimpleForm::Inputs::StringInput
       toggle: 'modal',
       target: '.media-item-chooser',
       media_item_input: "##{field_name}",
-      media_item_modal_path: template.admin_media_items_path
+      media_item_modal_path: template.admin_media_items_path,
+      media_item_scope: media_item_scope
     }
 
     # TODO: DF 08/04/17 - clarify what this is intened to do... and refactor ImageInput

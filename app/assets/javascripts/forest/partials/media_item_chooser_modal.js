@@ -19,11 +19,23 @@ App.MediaItemChooser = {
       $element
         .on('show.bs.modal', function(e) {
           var $modalBody = $element.find('.modal-body');
+          var $relatedTarget = $(e.relatedTarget);
+          var mediaItemScope = $relatedTarget.attr('data-media-item-scope');
+          var ajaxData = {};
+          var refreshAjax = false;
 
-          if ( $modalBody.find('.media-library').length ) {
+          if ( App.MediaItemChooser.lastScope != mediaItemScope ) refreshAjax = true;
+          App.MediaItemChooser.lastScope = mediaItemScope;
+
+          if ( mediaItemScope ) ajaxData[mediaItemScope] = true;
+
+          if ( !refreshAjax && $modalBody.find('.media-library').length ) {
             App.InfiniteLoader.initialize( $element.find('[data-infinite-load]'), { $scrollListener: $element.find('.modal-body') } );
           } else {
-            $.ajax(ajaxUrl)
+            $.ajax({
+                url: ajaxUrl,
+                data: ajaxData
+              })
               .done(function(data) {
                 $modalBody.html( $(data).find('.media-library') );
                 App.InfiniteLoader.initialize( $element.find('[data-infinite-load]'), { $scrollListener: $element.find('.modal-body') } );
@@ -126,6 +138,8 @@ App.MediaItemChooser = {
     }
   }
 };
+
+App.MediaItemChooser.lastScope = undefined;
 
 App.pageLoad.push(function() {
   App.MediaItemChooser.initialize( $('#media-item-chooser') );
