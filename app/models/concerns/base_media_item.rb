@@ -210,8 +210,8 @@ module BaseMediaItem
 
   def dimensions
     {
-      width: (attachment.width.presence || attachment_derivatives[:large].try(:width)),
-      height: (attachment.height.presence || attachment_derivatives[:large].try(:height))
+      width: (attachment.width.presence || attachment_derivatives[:large].try(:width) || (try(:vimeo_video?) ? vimeo_video_width : nil)),
+      height: (attachment.height.presence || attachment_derivatives[:large].try(:height) || (try(:vimeo_video?) ? vimeo_video_height : nil))
     }
   end
 
