@@ -13,6 +13,14 @@
 }
 
 .media-item-chooser__image-wrapper {
+  display: flex;
+
+  .media-item--grid__icon {
+    margin-top: 0.5em;
+  }
+}
+
+.media-item-chooser__image-wrapper__inner {
   position: relative;
   display: inline-block;
 }
@@ -21,6 +29,10 @@
   display: block;
   max-width: 100%;
   max-height: 250px;
+
+  &[src=""] {
+    display: none;
+  }
 
   &:hover {
     filter: brightness(95%);

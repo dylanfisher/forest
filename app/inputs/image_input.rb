@@ -58,7 +58,7 @@ class ImageInput < SimpleForm::Inputs::StringInput
                             **modal_data_attributes
                           })
       image_thumbnail << template.content_tag(:span, '', class: "media-item--grid__icon glyphicon glyphicon-#{image_object.glyphicon}") if image_object.try(:file?).present?
-      content << template.content_tag(:div, image_thumbnail, class: 'media-item-chooser__image-wrapper')
+      content << template.content_tag(:div, template.content_tag(:div, image_thumbnail, class: 'media-item-chooser__image-wrapper__inner'), class: 'media-item-chooser__image-wrapper')
     end
 
     buttons << template.content_tag(:button, button_title,
@@ -79,7 +79,6 @@ class ImageInput < SimpleForm::Inputs::StringInput
                     target: '_blank')
     end
 
-    content << template.tag(:br)
     content << template.content_tag(:div, buttons, class: 'image__btn-group btn-group', role: 'group')
 
     content << @builder.hidden_field(attribute_name_to_use, input_html_options) unless path_only
