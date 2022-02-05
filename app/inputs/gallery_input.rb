@@ -11,6 +11,7 @@ class GalleryInput < SimpleForm::Inputs::CollectionSelectInput
   def input(wrapper_options = nil)
     obj = input_html_options.fetch :object, object
     input_html_options.merge! id: object_name.parameterize
+    media_item_scope = options.fetch(:scope, nil)
 
     associated_records = obj.send(reflection_or_attribute_name)
 
@@ -26,7 +27,8 @@ class GalleryInput < SimpleForm::Inputs::CollectionSelectInput
       target: '.media-item-chooser',
       multiple: true,
       media_item_input: "##{field_name}",
-      media_item_modal_path: template.admin_media_items_path
+      media_item_modal_path: template.admin_media_items_path,
+      media_item_scope: media_item_scope
     }
 
     modal_data_attributes_for_preview = selected_images.present? ? {} : modal_data_attributes
