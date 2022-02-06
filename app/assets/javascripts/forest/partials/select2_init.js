@@ -120,6 +120,8 @@ App.Select2 = {
 
       $select.select2( selectOptions );
 
+      if ( $select.hasClass('country') ) $select.trigger('change');
+
       if ( $select.attr('data-sortable') == 'true' ) {
         App.Select2.sortable( $select );
       }
@@ -129,6 +131,37 @@ App.Select2 = {
 
 App.pageLoad.push(function() {
   App.Select2.initialize( $('select').filter(':visible') );
+});
+
+$(document).on('change', 'select', function() {
+  var $select = $(this);
+
+  if ( $select.hasClass('country') ) {
+    var $selectedOption = $select.find('option:selected');
+    var $form = $select.closest('form');
+
+    if ( $selectedOption.length && $selectedOption.text().toLowerCase() == 'united states' ) {
+      $form.addClass('country--united-states');
+    } else {
+      $form.removeClass('country--united-states');
+    }
+
+    $form.find('.state-input--select input').trigger('change');
+
+    $form.find('.state-input--select select').each(function() {
+      var $stateSelect = $(this);
+
+      if ( $stateSelect.is(':visible') ) {
+        $stateSelect.removeAttr('disabled');
+      } else {
+        $stateSelect.prop('disabled', true);
+      }
+
+      if ( $stateSelect.data('select2Id') ) return;
+
+      App.Select2.initialize($stateSelect);
+    });
+  }
 });
 
 $(document).on('forest:show-media-item-chooser', function() {

@@ -36,3 +36,18 @@
     vertical-align: middle;
   }
 }
+
+// Custom country/state select behavior
+.country--united-states {
+  .state-input--text {
+    display: none;
+  }
+
+  .state-input--select {
+    display: block;
+  }
+}
+
+.state-input--select {
+  display: none;
+}
