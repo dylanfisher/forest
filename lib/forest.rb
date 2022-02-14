@@ -20,9 +20,9 @@ module Forest
       width: 200, height: 200, fit: 'cover', withoutEnlargement: true
     },
     jpeg: {
-      quality: 60, trellisQuantisation: true, overshootDeringing: true, optimiseScans: true, progressive: true, quantisationTable: 3
+      quality: 80, trellisQuantisation: true, overshootDeringing: true, optimiseScans: true, progressive: true, quantisationTable: 3, chromaSubsampling: '4:2:0'
     },
-    sharpen: true
+    sharpen: 0.8
   }
 
   mattr_accessor :image_derivative_small_options
@@ -31,9 +31,9 @@ module Forest
       width: 600, height: 600, fit: 'inside', withoutEnlargement: true
     },
     jpeg: {
-      quality: 60, trellisQuantisation: true, overshootDeringing: true, optimiseScans: true, progressive: true, quantisationTable: 3, chromaSubsampling: '4:4:4'
+      quality: 90, trellisQuantisation: true, overshootDeringing: true, optimiseScans: true, progressive: true, quantisationTable: 3, chromaSubsampling: '4:2:0'
     },
-    sharpen: true
+    sharpen: 0.7
   }
 
   mattr_accessor :image_derivative_medium_options
@@ -42,9 +42,9 @@ module Forest
       width: 1200, height: 1200, fit: 'inside', withoutEnlargement: true
     },
     jpeg: {
-      quality: 70, trellisQuantisation: true, overshootDeringing: true, optimiseScans: true, progressive: true, quantisationTable: 3, chromaSubsampling: '4:4:4'
+      quality: 90, trellisQuantisation: true, overshootDeringing: true, optimiseScans: true, progressive: true, quantisationTable: 3, chromaSubsampling: '4:2:0'
     },
-    sharpen: true
+    sharpen: 0.65
   }
 
   mattr_accessor :image_derivative_large_options
@@ -53,8 +53,9 @@ module Forest
       width: 2200, height: 1600, fit: 'inside', withoutEnlargement: true
     },
     jpeg: {
-      quality: 70, trellisQuantisation: true, overshootDeringing: true, optimiseScans: true, progressive: true, quantisationTable: 3, chromaSubsampling: '4:4:4'
-    }
+      quality: 90, trellisQuantisation: true, overshootDeringing: true, optimiseScans: true, progressive: true, quantisationTable: 3, chromaSubsampling: '4:2:0'
+    },
+    sharpen: 0.65
   }
 
   # Configure forest's default values in an initializer in your host app.
