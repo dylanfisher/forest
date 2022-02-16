@@ -6,7 +6,7 @@ class ImageInput < SimpleForm::Inputs::StringInput
     image_object = obj.send(reflection_or_attribute_name)
     attribute_name_to_use = reflection.present? ? "#{reflection.name}_id" : attribute_name
     media_item_type = image_object.try(:display_content_type).presence || 'media item'
-    button_title = input_html_options.fetch :button_title, template.bootstrap_icon('collection', embedded: true) + " Choose #{media_item_type}"
+    button_title = input_html_options.fetch :button_title, template.bootstrap_icon('collection', embedded: true) + " Choose"
     compact = options.fetch(:compact, false)
     media_item_scope = options.fetch(:scope, nil)
 
@@ -70,14 +70,14 @@ class ImageInput < SimpleForm::Inputs::StringInput
 
     buttons << template.content_tag(:button, template.bootstrap_icon('x-lg', embedded: true) + ' Remove',
                   type: 'button',
-                  class: "media-item-chooser__remove-image btn btn-outline-secondary #{'d-none' unless image_object.present?}")
+                  class: "media-item-chooser__remove-image btn btn-outline-secondary #{'d-none' if image_object.blank?}")
 
     buttons << template.link_to(template.bootstrap_icon('pencil', embedded: true) + ' Edit',
                   (image_object.try(:id).present? ? template.edit_admin_media_item_path(id: image_object.id) : '#'),
-                  class: "media-item-chooser__edit-image btn btn-outline-secondary #{'d-none' if image_object.try(:id).blank?}",
+                  class: "media-item-chooser__edit-image btn btn-outline-secondary #{'d-none' if image_object.blank?}",
                   target: '_blank')
 
-    content << template.content_tag(:div, buttons.html_safe, class: 'image__btn-group btn-group', role: 'group')
+    content << template.content_tag(:div, buttons.html_safe, class: "image__btn-group #{'image__btn-group--blank-image' if image_object.blank?} btn-group", role: 'group')
 
     content << @builder.hidden_field(attribute_name_to_use, input_html_options) unless path_only
 

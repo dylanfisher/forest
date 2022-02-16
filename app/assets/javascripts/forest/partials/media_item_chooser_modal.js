@@ -170,6 +170,7 @@ $(document).on('click', '#media-item-chooser .media-library-link', function(e) {
   var value = App.MediaItemChooser.toPath ? imageUrl : id;
   var $removeButton = $mediaLibraryLink.closest('.image').find('.media-item-chooser__remove-image');
   var $scopedImageWrapper = App.MediaItemChooser.scope.closest('.image');
+  var $buttonGroup = $scopedImageWrapper.find('.image__btn-group');
   var $editButton = $scopedImageWrapper.find('.media-item-chooser__edit-image');
   var mediaItemEditPath = $mediaLibraryLink.attr('href');
 
@@ -201,6 +202,7 @@ $(document).on('click', '#media-item-chooser .media-library-link', function(e) {
         $editButton.removeClass('d-none');
       }
 
+      $buttonGroup.removeClass('image__btn-group--blank-image');
       $editButton.attr('href', mediaItemEditPath);
 
       $mediaLibraryLink.closest('.modal').modal('hide');
@@ -254,6 +256,7 @@ $(document).on('click', '.media-item-chooser__remove-image', function() {
   var $removeButton = $(this);
   var $wrapper = $removeButton.closest('.image');
   var $image = $wrapper.find('.media-item-chooser__image');
+  var $buttonGroup = $wrapper.find('.image__btn-group');
   var $button = $wrapper.find('.media-item-chooser__button');
   var $input = $wrapper.find( $button.attr('data-media-item-input') );
   var $toPathInput = $wrapper.closest('.media-item-to-path-parent').find('.media-item-to-path-target');
@@ -263,6 +266,7 @@ $(document).on('click', '.media-item-chooser__remove-image', function() {
   $input.val('');
   $removeButton.addClass('d-none');
   $editButton.addClass('d-none');
+  $buttonGroup.addClass('image__btn-group--blank-image');
 
   if ( $toPathInput.length ) {
     $toPathInput.val('');

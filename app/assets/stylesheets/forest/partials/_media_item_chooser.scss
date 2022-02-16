@@ -52,6 +52,13 @@
   }
 }
 
+.image__btn-group--blank-image {
+  .btn {
+    border-top-right-radius: 0.25rem !important;
+    border-bottom-right-radius: 0.25rem !important;
+  }
+}
+
 .gallery {
   // margin-bottom: 0;
 
