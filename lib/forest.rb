@@ -22,7 +22,7 @@ module Forest
     jpeg: {
       quality: 80, trellisQuantisation: true, overshootDeringing: true, optimiseScans: true, progressive: true, quantisationTable: 3, chromaSubsampling: '4:2:0'
     },
-    sharpen: 0.8
+    sharpen: 0.6
   }
 
   mattr_accessor :image_derivative_small_options
@@ -33,7 +33,7 @@ module Forest
     jpeg: {
       quality: 90, trellisQuantisation: true, overshootDeringing: true, optimiseScans: true, progressive: true, quantisationTable: 3, chromaSubsampling: '4:2:0'
     },
-    sharpen: 0.7
+    sharpen: true
   }
 
   mattr_accessor :image_derivative_medium_options
@@ -44,7 +44,7 @@ module Forest
     jpeg: {
       quality: 90, trellisQuantisation: true, overshootDeringing: true, optimiseScans: true, progressive: true, quantisationTable: 3, chromaSubsampling: '4:2:0'
     },
-    sharpen: 0.65
+    sharpen: true
   }
 
   mattr_accessor :image_derivative_large_options
@@ -55,7 +55,7 @@ module Forest
     jpeg: {
       quality: 90, trellisQuantisation: true, overshootDeringing: true, optimiseScans: true, progressive: true, quantisationTable: 3, chromaSubsampling: '4:2:0'
     },
-    sharpen: 0.65
+    sharpen: 0.3
   }
 
   # Configure forest's default values in an initializer in your host app.
