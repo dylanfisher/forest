@@ -4,7 +4,7 @@
 # Your model should have the following attributes:
 #   path:text
 #   slug:string (with a unique index)
-#   parent_#{model_name.singular}
+#   parent_#{model_name.singular} (e.g. parent_page)
 #
 # You are expected to include the Sluggable concern, and it must be included *before* Pathable.
 module Pathable
