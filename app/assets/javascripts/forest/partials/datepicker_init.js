@@ -74,3 +74,6 @@ $(document).on('shown.bs.tab', function(e) {
   App.Datepicker.initialize( $tabContent.find('[data-datepicker="true"]').filter(':visible') );
 });
 
+$(document).on('forest:block-slot-after-insert', function(event, nestedFields) {
+  App.Datepicker.initialize( $(nestedFields).find('[data-datepicker="true"]').filter(':visible') );
+});
