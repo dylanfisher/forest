@@ -1,5 +1,4 @@
 App.Datepicker = {
-  instances: [],
   initialize: function($elements) {
     var that = this;
 
@@ -46,8 +45,7 @@ App.Datepicker = {
 
       if ( $el.data('datepicker') && $el.data('datepicker')['input'] ) {
         // Already initialized
-      } else {
-        that.instances.push( $el );
+        return;
       }
 
       $el.datetimepicker( options );
@@ -75,5 +73,16 @@ $(document).on('shown.bs.tab', function(e) {
 });
 
 $(document).on('forest:block-slot-after-insert', function(event, nestedFields) {
-  App.Datepicker.initialize( $(nestedFields).find('[data-datepicker="true"]').filter(':visible') );
+  var $datepickerFields = $(nestedFields).find('[data-datepicker="true"]').filter(':visible');
+
+  $datepickerFields.each(function() {
+    var $field = $(this);
+    var $formGroup = $field.closest('.form-group');
+    var $simpleformInput = $formGroup.find('.form-control.datepicker');
+    var simpleformInputId = $simpleformInput.attr('id');
+
+    $field.attr('id', simpleformInputId + '_preview');
+  });
+
+  App.Datepicker.initialize( $datepickerFields );
 });
