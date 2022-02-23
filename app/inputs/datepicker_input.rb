@@ -31,5 +31,6 @@ class DatepickerInput < SimpleForm::Inputs::StringInput
     out = ActiveSupport::SafeBuffer.new
     out << template.text_field_tag("#{object.model_name.singular}_#{attribute_name}_#{object.try(:id)}_preview", display_date_value, class: "form-control", **datepicker_options)
     out << @builder.hidden_field(attribute_name, merged_input_options)
+    out
   end
 end
