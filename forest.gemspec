@@ -34,6 +34,9 @@ Gem::Specification.new do |s|
   s.add_dependency 'shrine', '~> 3.0'
   s.add_dependency 'simple_form'
   s.add_dependency 'uppy-s3_multipart', '~> 0.3'
+  s.add_dependency 'net-smtp'
+  s.add_dependency 'net-imap'
+  s.add_dependency 'net-pop'
 
   s.add_development_dependency 'pg'
 end
