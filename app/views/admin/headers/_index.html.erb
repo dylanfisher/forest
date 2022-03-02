@@ -9,8 +9,11 @@
         <% if content_for? :index_header_button_group %>
           <%= content_for :index_header_button_group %>
         <% else %>
-          <% if try(:respond_to?, "new_admin_#{model_names.singular_route_key}_path") %>
-            <%= link_to "New #{model_names.human.titleize}", send("new_admin_#{model_names.singular_route_key}_path"), class: 'btn btn-outline-primary' %>
+          <% collection_namespaces = model_names.collection.split('/') %>
+          <% collection_namespaces.pop %>
+          <% route_key_with_namespaces = [*collection_namespaces, model_names.singular_route_key].join('_') %>
+          <% if try(:respond_to?, "new_admin_#{route_key_with_namespaces}_path") %>
+            <%= link_to "New #{model_names.human.titleize}", send("new_admin_#{route_key_with_namespaces}_path"), class: 'btn btn-outline-primary' %>
             <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <span class="sr-only">Toggle Dropdown</span>
             </button>
