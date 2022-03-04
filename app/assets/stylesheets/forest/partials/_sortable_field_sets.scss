@@ -3,3 +3,11 @@
 .sortable-field-set__handle {
   cursor: move;
 }
+
+.nested-fields__header-label {
+  margin-right: map-get($spacers, 3);
+}
+
+.nested-fields__remove-fields-button {
+  white-space: nowrap;
+}
