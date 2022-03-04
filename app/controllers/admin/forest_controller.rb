@@ -1,6 +1,6 @@
 class Admin::ForestController < ApplicationController
   include Pagy::Backend
-  include Pundit
+  include Pundit::Authorization
 
   protect_from_forgery with: :exception, prepend: true
 
