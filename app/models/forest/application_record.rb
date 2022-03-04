@@ -91,6 +91,8 @@ module Forest
     def to_select2_response
       if respond_to?(:media_item) && media_item.try(:attachment_url, :thumb).present?
         img_tag = "<img src='#{media_item.attachment_url(:thumb)}' style='height: 21px; margin-right: 5px;'> "
+      elsif respond_to?(:featured_media_item) && featured_media_item.try(:attachment_url, :thumb).present?
+        img_tag = "<img src='#{featured_media_item.attachment_url(:thumb)}' style='height: 21px; margin-right: 5px;'> "
       end
       "#{img_tag}<span class='select2-response__id' data-id='#{id}' style='margin-right: 5px;'>#{id}</span> #{to_label}"
     end
