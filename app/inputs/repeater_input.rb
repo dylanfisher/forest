@@ -9,11 +9,13 @@ class RepeaterInput < SimpleForm::Inputs::TextInput
     # Change the value field tag
     options.reverse_merge!(value_field_tag: 'text_area_tag')
 
+    record_singular_name_to_use = options.delete(:singular_name).presence || attribute_name.to_s.humanize.singularize.downcase
+
     content = ActiveSupport::SafeBuffer.new
     content << '<div class="repeater__group-wrapper">'.html_safe
     content << repeater_group_fields(options)
     content << '</div>'.html_safe
-    content << content_tag(:div, "Add #{attribute_name.to_s.humanize.singularize.downcase}", class: 'repeater__add-item-button btn btn-outline-secondary')
+    content << content_tag(:div, "Add #{record_singular_name_to_use}", class: 'repeater__add-item-button btn btn-outline-secondary')
     content << content_tag(:div, nil, class: 'repeater__template', data: { template: repeater_group_fields(options.merge(as_template: true)) })
     content
   end
