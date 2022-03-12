@@ -8,6 +8,7 @@ module SimpleForm
             input_html_options[:class] << 'markdown-editor'
             input_html_options[:class] << 'markdown-editor--image-upload' if image_upload?
             input_html_options[:class] << 'markdown-editor--blockquote' if blockquote?
+            input_html_options[:class] << 'markdown-editor--no-toolbar' unless toolbar?
           end
         end
         nil
@@ -23,6 +24,10 @@ module SimpleForm
 
       def blockquote?
         options[:blockquote].present?
+      end
+
+      def toolbar?
+        options.fetch(:toolbar, true)
       end
     end
   end

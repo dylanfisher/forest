@@ -1,3 +1,6 @@
+// EasyMDE - Markdown Editor
+// https://github.com/Ionaru/easy-markdown-editor
+
 (function() {
   var insertMediaItem = function(instance, changeObj, $textArea) {
     var $mediaItemChooser = $('#media-item-chooser');
@@ -43,6 +46,7 @@
         };
         var imageUpload = $textArea.hasClass('markdown-editor--image-upload') ? imageUploadToolbarObj : undefined;
         var blockquote = $textArea.hasClass('markdown-editor--blockquote') ? 'quote' : undefined;
+        var noToolbar = $textArea.hasClass('markdown-editor--no-toolbar') ? true : false;
         var toolbarOptions = [
           'bold',
           'italic',
@@ -67,6 +71,8 @@
         toolbarOptions = toolbarOptions.filter(function(x) {
           return x !== undefined;
         });
+
+        if ( noToolbar ) toolbarOptions = false;
 
         var editor = new EasyMDE({
           element: this,
