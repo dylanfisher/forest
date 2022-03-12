@@ -169,13 +169,16 @@ $(document).on('click', '#media-item-chooser .media-library-link', function(e) {
   var imageUrl = $mediaLibraryLink.attr('data-image-url-large');
   var value = App.MediaItemChooser.toPath ? imageUrl : id;
   var $removeButton = $mediaLibraryLink.closest('.image').find('.media-item-chooser__remove-image');
-  var $scopedImageWrapper = App.MediaItemChooser.scope.closest('.image');
-  var $buttonGroup = $scopedImageWrapper.find('.image__btn-group');
-  var $editButton = $scopedImageWrapper.find('.media-item-chooser__edit-image');
   var mediaItemEditPath = $mediaLibraryLink.attr('href');
 
-  if ( !$removeButton.length && App.MediaItemChooser.scope ) {
-    $removeButton = $scopedImageWrapper.find('.media-item-chooser__remove-image');
+  if ( App.MediaItemChooser.scope ) {
+    var $scopedImageWrapper = App.MediaItemChooser.scope.closest('.image');
+    var $buttonGroup = $scopedImageWrapper.find('.image__btn-group');
+    var $editButton = $scopedImageWrapper.find('.media-item-chooser__edit-image');
+
+    if ( !$removeButton.length ) {
+      $removeButton = $scopedImageWrapper.find('.media-item-chooser__remove-image');
+    }
   }
 
   if ( App.MediaItemChooser.inputSelector ) {
