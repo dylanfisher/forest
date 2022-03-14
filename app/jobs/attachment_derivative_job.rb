@@ -13,6 +13,6 @@ class AttachmentDerivativeJob < ApplicationJob
       attacher.merge_derivatives(reloaded_attacher.derivatives)
     end
   rescue Shrine::AttachmentChanged, ActiveRecord::RecordNotFound
-    attacher.derivatives[derivative_name].delete # delete now orphaned derivative
+    attacher.derivatives[derivative_name].delete if attacher.present? # delete now orphaned derivative
   end
 end

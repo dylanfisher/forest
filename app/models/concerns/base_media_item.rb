@@ -88,7 +88,7 @@ module BaseMediaItem
           attacher.delete_derivatives(old_derivatives)  # delete old derivatives
         rescue Shrine::AttachmentChanged,               # attachment has changed
                ActiveRecord::RecordNotFound             # record has been deleted
-          attacher.delete_derivatives                   # delete now orphaned derivatives
+          attacher.delete_derivatives if attacher.present? # delete now orphaned derivatives
         end
       end
     end
