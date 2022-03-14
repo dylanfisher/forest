@@ -40,7 +40,17 @@ class ImageInput < SimpleForm::Inputs::StringInput
     content = ActiveSupport::SafeBuffer.new
     buttons = ActiveSupport::SafeBuffer.new
 
-    if image_object.try(:file?) && !image_object.try(:video?)
+    if image_object.try(:video?) && !image_object.try(:vimeo_video?)
+      image_thumbnail = template.video_tag((img_src || ''),
+                          class: "media-item-chooser__image mb-3 rounded cursor-pointer #{image_tag_classes}",
+                          id: "#{field_name}_preview",
+                          controls: true,
+                          preload: 'metadata',
+                          data: {
+                            **modal_data_attributes
+                          })
+      content << template.content_tag(:div, template.content_tag(:div, image_thumbnail, class: 'media-item-chooser__image-wrapper__inner'), class: 'media-item-chooser__image-wrapper')
+    elsif image_object.try(:file?)
       content << template.content_tag(:div,
                     nil,
                     class: "media-item-chooser__image media-item-chooser__image--file rounded cursor-pointer glyphicon glyphicon-file #{image_tag_classes}",
