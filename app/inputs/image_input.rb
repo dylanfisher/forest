@@ -41,8 +41,8 @@ class ImageInput < SimpleForm::Inputs::StringInput
     buttons = ActiveSupport::SafeBuffer.new
 
     if image_object.try(:video?) && !image_object.try(:vimeo_video?)
-      image_thumbnail = template.video_tag((img_src || ''),
-                          class: "media-item-chooser__image mb-3 rounded cursor-pointer #{image_tag_classes}",
+      image_thumbnail = template.video_tag((img_src || image_input_uri_image_placeholder),
+                          class: "media-item-chooser__image media-item-chooser__image--video mb-3 rounded cursor-pointer #{image_tag_classes}",
                           id: "#{field_name}_preview",
                           controls: true,
                           preload: 'metadata',
@@ -61,7 +61,7 @@ class ImageInput < SimpleForm::Inputs::StringInput
       content << template.text_field_tag('File URL', image_object.try(:attachment_url), readonly: true, class: 'form-control string')
       content << template.tag(:br)
     else
-      image_thumbnail = template.image_tag((img_src || ''),
+      image_thumbnail = template.image_tag((img_src || image_input_uri_image_placeholder),
                           class: "media-item-chooser__image mb-3 rounded cursor-pointer #{image_tag_classes}",
                           id: "#{field_name}_preview",
                           data: {
@@ -94,4 +94,8 @@ class ImageInput < SimpleForm::Inputs::StringInput
     template.content_tag(:div, content, class: "image-input__body image-input__body--compact-#{compact.present?}")
   end
 
+
+  def image_input_uri_image_placeholder
+    'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=='
+  end
 end

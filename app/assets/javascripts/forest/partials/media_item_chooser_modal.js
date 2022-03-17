@@ -167,6 +167,12 @@ $(document).on('click', '#media-item-chooser .media-library-link', function(e) {
   var $mediaLibraryLink = $(this);
   var id = $mediaLibraryLink.attr('data-media-item-id');
   var imageUrl = $mediaLibraryLink.attr('data-image-url-large');
+  var videoUrl;
+
+  if ( $mediaLibraryLink.attr('data-video-url') ) {
+    videoUrl = $mediaLibraryLink.attr('data-video-url');
+  }
+
   var value = App.MediaItemChooser.toPath ? imageUrl : id;
   var $removeButton = $mediaLibraryLink.closest('.image').find('.media-item-chooser__remove-image');
   var mediaItemEditPath = $mediaLibraryLink.attr('href');
@@ -194,13 +200,26 @@ $(document).on('click', '#media-item-chooser .media-library-link', function(e) {
       $mediaLibraryLink.addClass('media-library-link--selected');
     } else {
       // Single item
+      var $previewWrapper = App.MediaItemChooser.preview.closest('.media-item-chooser__image-wrapper__inner')
       var $imageWrapper = App.MediaItemChooser.input.closest('.image-input__body');
       $imageWrapper.find('.media-item--grid__icon').remove();
 
       App.MediaItemChooser.input.val( value );
 
       if ( App.MediaItemChooser.preview.length )  {
-        App.MediaItemChooser.preview.removeClass('d-none').attr('src', imageUrl);
+        $previewWrapper.find('.media-item-chooser__temp-video').remove();
+
+        if ( videoUrl ) {
+          if ( App.MediaItemChooser.preview.hasClass('media-item-chooser__image--video') ) {
+            App.MediaItemChooser.preview.removeClass('d-none').attr('src', videoUrl);
+          } else {
+            App.MediaItemChooser.preview.addClass('d-none');
+            $previewWrapper.append('<video src="' + videoUrl + '" controls preload="metadata" class="media-item-chooser__temp-video media-item-chooser__image media-item-chooser__image--video mb-3 rounded cursor-pointer">');
+          }
+        } else {
+          App.MediaItemChooser.preview.removeClass('d-none').attr('src', imageUrl);
+        }
+
         $removeButton.removeClass('d-none');
         $editButton.removeClass('d-none');
       }

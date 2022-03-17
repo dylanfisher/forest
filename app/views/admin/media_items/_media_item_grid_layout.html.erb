@@ -19,6 +19,8 @@
       <% attachment_or_placeholder_url = media_item.vimeo_video_thumbnail %>
       <% attachment_or_placeholder_url_large = media_item.vimeo_video_thumbnail %>
     <% end %>
+  <% elsif media_item.try(:video?) %>
+    <% attachment_or_placeholder_url = media_item.attachment_url %>
   <% else %>
     <% attachment_or_placeholder_url = media_item.attachment.present? ? media_item.attachment_url : '#TODO' %>
   <% end %>
@@ -33,6 +35,7 @@
               class: 'media-library-link blank-link',
               data: {
                 media_item_id: media_item.id,
+                video_url: (video_url(attachment_or_placeholder_url) if media_item.try(:video?)),
                 image_url: (image_url(attachment_or_placeholder_url) if (media_item.try(:image?) || media_item.try(:vimeo_video?))),
                 image_url_large: (image_url(attachment_or_placeholder_url_large) if (media_item.try(:image?) || media_item.try(:vimeo_video?))) } do %>
     <%= content_tag :div,
