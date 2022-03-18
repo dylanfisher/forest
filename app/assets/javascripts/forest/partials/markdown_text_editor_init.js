@@ -47,6 +47,7 @@
         var imageUpload = $textArea.hasClass('markdown-editor--image-upload') ? imageUploadToolbarObj : undefined;
         var blockquote = $textArea.hasClass('markdown-editor--blockquote') ? 'quote' : undefined;
         var noToolbar = $textArea.hasClass('markdown-editor--no-toolbar') ? true : false;
+        var minHeight = $textArea.attr('data-min-height') || '150px';
         var toolbarOptions = [
           'bold',
           'italic',
@@ -80,7 +81,7 @@
           spellChecker: false,
           status: false,
           autoDownloadFontAwesome: false,
-          minHeight: '150px',
+          minHeight: minHeight,
           toolbar: toolbarOptions,
           shortcuts: {
             'drawImage': null,
