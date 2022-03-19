@@ -29,7 +29,6 @@ class ImageInput < SimpleForm::Inputs::StringInput
       media_item_scope: media_item_scope
     }
 
-    # TODO: DF 08/04/17 - clarify what this is intened to do... and refactor ImageInput
     path_class = (path_only ? 'media-item-chooser-to-path' : '')
 
     image_tag_classes = []
@@ -50,7 +49,7 @@ class ImageInput < SimpleForm::Inputs::StringInput
                             **modal_data_attributes
                           })
       content << template.content_tag(:div, template.content_tag(:div, image_thumbnail, class: 'media-item-chooser__image-wrapper__inner'), class: 'media-item-chooser__image-wrapper')
-    elsif image_object.try(:file?)
+    elsif image_object.try(:file?) && !image_object.try(:vimeo_video?)
       content << template.content_tag(:div,
                     nil,
                     class: "media-item-chooser__image media-item-chooser__image--file rounded cursor-pointer glyphicon glyphicon-file #{image_tag_classes}",
