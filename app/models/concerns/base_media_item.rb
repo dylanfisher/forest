@@ -22,6 +22,10 @@ module BaseMediaItem
     }
 
     scope :by_content_type, -> (content_type) { where(attachment_content_type: content_type) }
+    scope :by_extension, -> (extension) {
+      extension_pattern = ".*#{Regexp.escape(extension)}$"
+      where("attachment_data->'metadata'->>'filename' ~ ?", extension_pattern)
+    }
     scope :images, -> { where('attachment_content_type LIKE ?', '%image%') }
     scope :videos, -> { where('attachment_content_type LIKE ?', '%video%') }
     scope :audio, -> { where('attachment_content_type LIKE ?', '%audio%') }

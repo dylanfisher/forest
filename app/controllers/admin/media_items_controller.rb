@@ -3,6 +3,7 @@ class Admin::MediaItemsController < Admin::ForestController
 
   has_scope :by_date
   has_scope :by_content_type
+  has_scope :by_extension
   has_scope :videos, type: :boolean
   has_scope :audio, type: :boolean
   has_scope :images, type: :boolean
