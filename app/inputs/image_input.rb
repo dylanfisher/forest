@@ -49,14 +49,28 @@ class ImageInput < SimpleForm::Inputs::StringInput
                             **modal_data_attributes
                           })
       content << template.content_tag(:div, template.content_tag(:div, image_thumbnail, class: 'media-item-chooser__image-wrapper__inner'), class: 'media-item-chooser__image-wrapper')
-    elsif image_object.try(:file?) && !image_object.try(:vimeo_video?)
-      content << template.content_tag(:div,
+    elsif image_object.try(:audio?)
+      audio_content = ActiveSupport::SafeBuffer.new
+      audio_content << template.content_tag(:div,
                     nil,
-                    class: "media-item-chooser__image media-item-chooser__image--file rounded cursor-pointer glyphicon glyphicon-file #{image_tag_classes}",
+                    class: "media-item-chooser__image media-item-chooser__image--file rounded cursor-pointer glyphicon glyphicon-audio #{image_tag_classes} mr-3",
                     id: "#{field_name}_preview",
                     data: {
                       **modal_data_attributes
                     })
+      audio_content << template.audio_tag(image_object.try(:attachment_url), controls: true)
+      audio_content = template.content_tag(:div, audio_content, class: 'd-flex align-items-center mr-3')
+      content << audio_content
+      content << template.tag(:br)
+    elsif image_object.try(:file?) && !image_object.try(:vimeo_video?)
+      content << template.content_tag(:div,
+                    nil,
+                    class: "media-item-chooser__image media-item-chooser__image--file rounded cursor-pointer glyphicon glyphicon-file-richtext #{image_tag_classes}",
+                    id: "#{field_name}_preview",
+                    data: {
+                      **modal_data_attributes
+                    })
+      content << template.label_tag('File URL', nil, class: 'mt-3')
       content << template.text_field_tag('File URL', image_object.try(:attachment_url), readonly: true, class: 'form-control string')
       content << template.tag(:br)
     else

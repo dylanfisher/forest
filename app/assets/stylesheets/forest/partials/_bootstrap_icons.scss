@@ -71,6 +71,12 @@
   }
 }
 
+.glyphicon-audio {
+  &:before {
+    background-image: image-url('bootstrap/file-earmark-music.svg');
+  }
+}
+
 .glyphicon-exclamation-sign {
   &:before {
     background-image: image-url('bootstrap/exclamation-diamond.svg');
