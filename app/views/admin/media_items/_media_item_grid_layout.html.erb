@@ -28,6 +28,8 @@
   <% content = capture do %>
     <% if media_item.file? %>
       <%= content_tag :span, '', class: "media-item--grid__icon glyphicon glyphicon-#{media_item.glyphicon}" %>
+    <% elsif media_item.try(:video?) && !media_item.try(:vimeo_video?) %>
+      <%= content_tag :span, '', class: "media-item--grid__icon glyphicon glyphicon-video" %>
     <% end %>
     <%= content_tag :div, media_item.title, class: "media-item--grid__label small card", title: "#{media_item.attachment_file_name}\nUpdated at #{forest_date(media_item.updated_at)}\nCreated at #{forest_date(media_item.created_at)}".html_safe %>
   <% end %>
@@ -42,6 +44,9 @@
                     content,
                     class: "media-item--grid__image background-image-contain square-image rounded-lg #{'media-item--grid__image--file' if media_item.try(:file?)}",
                     style: "background-image: url(#{attachment_or_placeholder_url}); #{css_style}" %>
+    <% if media_item.try(:video?) && !media_item.try(:vimeo_video?) %>
+      <%= video_tag media_item.attachment_url, preload: 'metadata', class: 'media-item--grid__video rounded-lg' %>
+    <% end %>
   <% end %>
   <div class="media-item--grid__buttons">
     <%= content_tag :div, '', class: 'media-item__button media-item--grid__button media-item--grid__button__edit glyphicon glyphicon-pencil', data: { path: edit_admin_media_item_path(media_item) } %>
