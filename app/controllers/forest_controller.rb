@@ -51,6 +51,7 @@ class ForestController < ApplicationController
   # Make sure to return after calling this method, e.g. `check_for_redirect! and return` to avoid double render errors
   def check_for_redirect!
     if redirect = Redirect.published.find_by_from_path("/#{page_path}")
+      skip_authorization
       redirect_to redirect.to_path, params: { page_path: redirect.to_path }, status: 301
     end
   end
