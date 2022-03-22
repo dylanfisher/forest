@@ -73,28 +73,28 @@
                           <% if @media_item.attachment_derivatives[:large].present? %>
                             <%= link_to 'Large', @media_item.attachment_url(:large), target: '_blank' %>
                           <% else %>
-                            <span class="text-muted">Large <%= @media_item.created_at < DateTime.current - 1.hour ? "(failed, #{link_to(content_tag(:u, 'reprocess derivative'), reprocess_admin_media_item_path(@media_item, derivative_name: :large), method: :post, class: 'text-muted')})".html_safe : " – processing" %></span>
+                            <span class="text-muted">Large <%= @media_item.updated_at < DateTime.current - 1.hour ? "(failed, #{link_to(content_tag(:u, 'reprocess derivative'), reprocess_admin_media_item_path(@media_item, derivative_name: :large), method: :post, class: 'text-muted')})".html_safe : " – processing" %></span>
                           <% end %>
                         </li>
                         <li>
                           <% if @media_item.attachment_derivatives[:medium].present? %>
                             <%= link_to 'Medium', @media_item.attachment_url(:medium), target: '_blank' %>
                           <% else %>
-                            <span class="text-muted">Medium <%= @media_item.created_at < DateTime.current - 1.hour ? "(failed, #{link_to(content_tag(:u, 'reprocess derivative'), reprocess_admin_media_item_path(@media_item, derivative_name: :medium), method: :post, class: 'text-muted')})".html_safe : " – processing" %></span>
+                            <span class="text-muted">Medium <%= @media_item.updated_at < DateTime.current - 1.hour ? "(failed, #{link_to(content_tag(:u, 'reprocess derivative'), reprocess_admin_media_item_path(@media_item, derivative_name: :medium), method: :post, class: 'text-muted')})".html_safe : " – processing" %></span>
                           <% end %>
                         </li>
                         <li>
                           <% if @media_item.attachment_derivatives[:small].present? %>
                             <%= link_to 'Small', @media_item.attachment_url(:small), target: '_blank' %>
                           <% else %>
-                            <span class="text-muted">Small <%= @media_item.created_at < DateTime.current - 1.hour ? "(failed, #{link_to(content_tag(:u, 'reprocess derivative'), reprocess_admin_media_item_path(@media_item, derivative_name: :small), method: :post, class: 'text-muted')})".html_safe : " – processing" %></span>
+                            <span class="text-muted">Small <%= @media_item.updated_at < DateTime.current - 1.hour ? "(failed, #{link_to(content_tag(:u, 'reprocess derivative'), reprocess_admin_media_item_path(@media_item, derivative_name: :small), method: :post, class: 'text-muted')})".html_safe : " – processing" %></span>
                           <% end %>
                         </li>
                         <li>
                           <% if @media_item.attachment_derivatives[:thumb].present? %>
                             <%= link_to 'Thumb', @media_item.attachment_url(:thumb), target: '_blank' %>
                           <% else %>
-                            <span class="text-muted">Thumb <%= @media_item.created_at < DateTime.current - 1.hour ? "(failed, #{link_to(content_tag(:u, 'reprocess derivative'), reprocess_admin_media_item_path(@media_item, derivative_name: :thumb), method: :post, class: 'text-muted')})".html_safe : " – processing" %></span>
+                            <span class="text-muted">Thumb <%= @media_item.updated_at < DateTime.current - 1.hour ? "(failed, #{link_to(content_tag(:u, 'reprocess derivative'), reprocess_admin_media_item_path(@media_item, derivative_name: :thumb), method: :post, class: 'text-muted')})".html_safe : " – processing" %></span>
                           <% end %>
                         </li>
                       </ul>
