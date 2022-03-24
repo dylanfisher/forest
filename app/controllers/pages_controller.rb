@@ -42,6 +42,7 @@ class PagesController < ForestController
 
   private
 
+  # Override in your host app if you don't want to force a default locale
   def ensure_localization
     if I18n.available_locales.length > 1
       unless request.path.match(available_locale_pattern)
