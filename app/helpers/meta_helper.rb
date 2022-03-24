@@ -4,7 +4,7 @@ module MetaHelper
       title = []
 
       if ft(record_to_build_from, :seo_title, call_method: :try, fallback: true).present?
-        title << ft(record_to_build_from, :seo_title, fallback: true)
+        title << ft(record_to_build_from, :seo_title, call_method: :try, fallback: true)
       else
         title << page_title unless controller_name == 'home_pages'
         title << site_title
