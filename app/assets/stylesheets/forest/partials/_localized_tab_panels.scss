@@ -1,0 +1,8 @@
+// Localized tab panels
+
+.locale-selection {
+  position: sticky;
+  top: 72px;
+  z-index: 10;
+  margin-bottom: map-get($spacers, 3);
+}

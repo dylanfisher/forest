@@ -1,6 +1,6 @@
 class Admin::ForestController < ApplicationController
   include Pagy::Backend
-  include Pundit
+  include Pundit::Authorization
 
   protect_from_forgery with: :exception, prepend: true
 
@@ -16,6 +16,7 @@ class Admin::ForestController < ApplicationController
   # rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   helper_method :localized_input
+  helper_method :localized_inputs
   helper_method :recognize_path
 
   has_scope :by_status
@@ -116,6 +117,26 @@ class Admin::ForestController < ApplicationController
     if form.object.respond_to? localized_attribute
       form.input localized_attribute, options
     end
+  end
+
+  def localized_inputs(form, attribute, options = {})
+    buffer = ActiveSupport::SafeBuffer.new
+    I18n.available_locales.each do |locale|
+      locale = locale.to_s
+      label = options.fetch(:label, attribute.to_s.humanize).sub(/( \((#{I18n.available_locales.join('|')})\))+$/i, '')
+      options.merge!(label: label)
+      buffer << view_context.content_tag(:div, class: "locale-panel #{'display-none' unless locale == I18n.default_locale.to_s}", data: { locale: locale }) do
+        localized_input form, attribute, locale, options
+      end
+    end
+    buffer
+  end
+
+  def localized_attributes(attributes)
+    attrs = Array(attributes)
+    I18n.available_locales.collect do |l|
+      attrs.collect { |a| l == I18n.default_locale ? a : :"#{a}_#{l}" }
+    end.flatten
   end
 
   def recognize_path(path, options = {})

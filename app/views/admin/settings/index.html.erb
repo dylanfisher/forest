@@ -1,14 +1,21 @@
 <%= render 'admin/headers/index', records: @settings, model_name: 'Setting' %>
 
 <% if I18n.available_locales.length > 1 %>
-  <ul class="nav nav-tabs">
-    <% I18n.available_locales.each_with_index do |locale, index| %>
-      <% active_class = 'active' if (params[:setting_locale] == locale.to_s) || (params[:setting_locale].blank? && index.zero?) %>
-      <%= content_tag :li, class: active_class do %>
-        <%= link_to locale.to_s.upcase, admin_settings_path(setting_locale: locale) %>
-      <% end %>
-    <% end %>
-  </ul>
+  <div class="card mb-3">
+    <h5 class="card-header">
+      Toggle Language Fields
+    </h5>
+    <div class="card-body">
+      <ul class="nav nav-pills">
+        <% I18n.available_locales.each_with_index do |locale, index| %>
+          <% active_class = 'active' if (params[:setting_locale] == locale.to_s) || (params[:setting_locale].blank? && index.zero?) %>
+          <%= content_tag :li, class: 'nav-item' do %>
+            <%= link_to locale.to_s.upcase, admin_settings_path(setting_locale: locale), class: "nav-link #{active_class}" %>
+          <% end %>
+        <% end %>
+      </ul>
+    </div>
+  </div>
 <% end %>
 
 <div class="table-responsive">

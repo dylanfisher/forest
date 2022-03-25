@@ -37,6 +37,13 @@ class BaseBlock < Forest::ApplicationRecord
     self.class.display_name
   end
 
+  def self.localized_attributes(attributes)
+    attrs = Array(attributes)
+    I18n.available_locales.collect do |l|
+      attrs.collect { |a| l == I18n.default_locale ? a : :"#{a}_#{l}" }
+    end.flatten
+  end
+
   def display?
     true unless rendered
   end

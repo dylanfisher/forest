@@ -1,14 +1,13 @@
 <% if I18n.available_locales.length > 1 %>
   <div id="locale-selection" class="locale-selection card">
-    <h3 class="card-header">
-      Language
-    </h3>
+    <h5 class="card-header">
+      Toggle Language Fields
+    </h5>
     <div class="card-body">
       <ul class="nav nav-pills">
         <% I18n.available_locales.each_with_index do |locale, index| %>
-          <% active_class = 'active' if index.zero? %>
-          <%= content_tag :li, class: active_class do %>
-            <%= link_to locale.to_s.upcase, "#locale-#{locale.to_s}", class: 'locale-tab', data: { locale: locale, toggle: 'tab' } %>
+          <%= content_tag :li, class: 'nav-item' do %>
+            <%= link_to locale.to_s.upcase, "#locale-#{locale.to_s}", class: "nav-link locale-tab #{'active' if index.zero?}", data: { locale: locale, toggle: 'tab' } %>
           <% end %>
         <% end %>
       </ul>

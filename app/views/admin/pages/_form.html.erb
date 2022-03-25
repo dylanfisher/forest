@@ -15,28 +15,22 @@
         <h1 class="h2 card-header"><%= record_name(@page) %></h1>
         <div class="card-body">
           <div class="form-inputs tab-content">
-            <% I18n.available_locales.each_with_index do |locale, index| %>
-              <%= content_tag :div, class: "row small-gutters locale-panel #{'display-none' unless index.zero?}", data: { locale: locale } do %>
-                <div class="col-md-6">
-                  <%= localized_input f, :title, locale %>
-                  <% if index.zero? %>
-                    <%= render 'admin/form_inputs/slug', f: f %>
-                    <%= f.association :parent_page, remote: { scope: :title_like, path: admin_pages_path(current_record: @page) } %>
-                    <%= f.input :path, as: :string, disabled: true, placeholder: 'Generated automatically from the slug and parent page.', input_html: { value: (f.object.try(:path).present? ? "/#{f.object.path}" : nil) } %>
-                  <% end %>
-                  <%= localized_input f, :seo_title, locale, label: 'SEO Title', placeholder: 'Leave blank to use the page\'s title.' %>
-                  <%= localized_input f, :description, locale, label: 'SEO Description' %>
-                </div>
-                <div class="col-md-6">
-                  <% if index.zero? %>
-                    <%= render 'admin/form_inputs/status', f: f, record: @page %>
-                    <%= f.input :redirect, hint: 'Add a relative path or full URL if you need to redirect this page to another URL.' %>
-                    <%= render 'admin/pages/media_item_inputs', f: f %>
-                  <% end %>
-                </div>
-              <% end %>
-            <% end %>
-            <%= f.button :submit, class: 'btn-success d-md-none' %>
+            <div class="row small-gutters">
+              <div class="col-md-6">
+                <%= localized_inputs f, :title %>
+                <%= render 'admin/form_inputs/slug', f: f %>
+                <%= f.association :parent_page, remote: { scope: :title_like, path: admin_pages_path(current_record: @page) } %>
+                <%= f.input :path, as: :string, disabled: true, placeholder: 'Generated automatically from the slug and parent page.', input_html: { value: (f.object.try(:path).present? ? "/#{f.object.path}" : nil) } %>
+                <%= localized_inputs f, :seo_title, label: 'SEO Title', placeholder: 'Leave blank to use the page\'s title.' %>
+                <%= localized_inputs f, :description, label: 'SEO Description' %>
+              </div>
+              <div class="col-md-6">
+                <%= render 'admin/form_inputs/status', f: f, record: @page %>
+                <%= f.input :redirect, hint: 'Add a relative path or full URL if you need to redirect this page to another URL.' %>
+                <%= render 'admin/pages/media_item_inputs', f: f %>
+              </div>
+              <%= f.button :submit, class: 'btn-success d-md-none' %>
+            </div>
           </div>
         </div>
       </div>
