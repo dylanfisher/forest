@@ -11,6 +11,9 @@ module BaseMediaItem
     after_commit :reprocess_derivatives, on: :update, if: Proc.new { |x| x.previous_changes[:retain_source].present? }
 
     has_many :pages, foreign_key: :featured_image_id
+    has_many :poster_images, foreign_key: :poster_image_id, class_name: 'MediaItem', dependent: :nullify
+
+    belongs_to :poster_image, class_name: 'MediaItem', optional: true
 
     validates_presence_of :attachment
 
