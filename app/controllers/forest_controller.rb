@@ -49,7 +49,10 @@ class ForestController < ApplicationController
   # Make sure to return after calling this method, e.g. `check_for_redirect! and return` to avoid double render errors
   def check_for_redirect!
     if redirect = Redirect.published.find_by_from_path("/#{page_path}")
-      redirect_to redirect.to_path, params: { page_path: redirect.to_path }, status: 301
+      path = redirect.to_path
+      path.prepend "/#{I18n.locale}" if I18n.available_locales.length > 1
+
+      redirect_to path, params: { page_path: redirect.to_path }, status: 301
     end
   end
 end
