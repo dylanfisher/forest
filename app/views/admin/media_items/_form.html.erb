@@ -103,7 +103,7 @@
                         <li><%= link_to 'Original', @media_item.attachment_url, target: '_blank' %></li>
                       </ul>
                     <% end %>
-                    <% if @media_item.video? %>
+                    <% if @media_item.video? && !@media_item.try(:vimeo_video?) %>
                       <%= f.association :poster_image, as: :image, scope: 'images', hint: 'Add a poster image to video files. This image is used when initially loading the video, or displayed in some contexts on mobile devices.' %>
                     <% end %>
                   </div>
