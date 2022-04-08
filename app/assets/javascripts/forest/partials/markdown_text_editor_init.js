@@ -112,6 +112,14 @@
         });
 
         that.instances.push( editor );
+
+        window.setTimeout(function() {
+          editor.codemirror.refresh();
+
+          window.setTimeout(function() {
+            editor.codemirror.refresh();
+          }, 500);
+        }, 250);
       });
     },
     teardown: function() {
