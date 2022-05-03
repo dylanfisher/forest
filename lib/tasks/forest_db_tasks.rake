@@ -147,7 +147,10 @@ namespace :forest do
   end
 
   def s3
-    @s3 ||= Aws::S3::Resource.new(region: aws_region)
+    @s3 ||= Aws::S3::Resource.new({
+      region: aws_region,
+      credentials: Aws::Credentials.new(s3_access_key_id, s3_secret_access_key)
+    })
   end
 
   def s3_bucket
@@ -155,8 +158,18 @@ namespace :forest do
   end
 
   def check_for_s3_env_variables!
+    abort('[Forest] Error: Please specify an AWS_ACCESS_KEY_ID environment variable') if s3_access_key_id.blank?
+    abort('[Forest] Error: Please specify an AWS_SECRET_KEY_ID environment variable') if s3_secret_access_key.blank?
     abort('[Forest] Error: Please specify an AWS_REGION environment variable') if aws_region.blank?
     abort('[Forest] Error: Please specify an S3_BUCKET_NAME environment variable') if s3_bucket_name.blank?
+  end
+
+  def s3_access_key_id
+    @s3_access_key_id ||= ENV['AWS_ACCESS_KEY_ID'].presence || Rails.application.credentials&.dig(:s3, :access_key_id)
+  end
+
+  def s3_secret_access_key
+    @s3_secret_access_key ||= ENV['AWS_SECRET_KEY_ID'].presence || Rails.application.credentials&.dig(:s3, :secret_access_key)
   end
 
   def aws_region
