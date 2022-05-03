@@ -31,7 +31,7 @@
     <% elsif media_item.try(:video?) && !media_item.try(:vimeo_video?) %>
       <%= content_tag :span, '', class: "media-item--grid__icon glyphicon glyphicon-video" %>
     <% end %>
-    <%= content_tag :div, media_item.title, class: "media-item--grid__label small card", title: "#{media_item.attachment_file_name}\nUpdated at #{forest_date(media_item.updated_at)}\nCreated at #{forest_date(media_item.created_at)}".html_safe %>
+    <%= content_tag :div, media_item.attachment_file_name, class: "media-item--grid__label small card", title: "#{media_item.attachment_file_name}\nUpdated at #{forest_date(media_item.updated_at)}\nCreated at #{forest_date(media_item.created_at)}".html_safe %>
   <% end %>
   <%= link_to edit_admin_media_item_path(media_item),
               class: 'media-library-link blank-link',
