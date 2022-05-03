@@ -243,6 +243,10 @@ module BaseMediaItem
     !landscape?(ratio)
   end
 
+  def to_label
+    attachment_file_name
+  end
+
   def select2_image_thumbnail
     if image? && attachment.present?
       "<img src='#{attachment_url(:thumb)}' style='height: 21px; margin-right: 5px;'> "
