@@ -124,7 +124,7 @@ class Forest::ScaffoldGenerator < Rails::Generators::NamedBase
   end
 
   def admin_views
-    %w(_form edit index new)
+    %w(_form _table edit index new)
   end
 
   def public_views
