@@ -9,5 +9,17 @@ namespace :forest do
     task reprocess_missing: :environment do
       MediaItem.reprocess_missing_derivatives!
     end
+
+    desc 'Refresh metadata for all files'
+    task refresh_file_metadata: :environment do
+      MediaItem.find_each do |media_item|
+        attacher = media_item.attachment_attacher
+
+        next unless attacher.stored? && media_item.file?
+
+        attacher.refresh_metadata!
+        media_item.save!
+      end
+    end
   end
 end
