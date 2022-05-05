@@ -15,7 +15,7 @@ Shrine.plugin :activerecord           # Load Active Record integration
 Shrine.plugin :add_metadata
 Shrine.plugin :cached_attachment_data # For retaining cached file on form redisplays
 Shrine.plugin :determine_mime_type, analyzer: -> (io, analyzers) do
-  mime_type = analyzers[:file].call(io)
+  mime_type = analyzers[:marcel].call(io)
   mime_type = analyzers[:fastimage].call(io) if mime_type == 'image/svg'
   mime_type
 end
