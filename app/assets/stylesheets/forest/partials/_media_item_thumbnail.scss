@@ -150,3 +150,8 @@
   background-size: cover;
   background-position: center center;
 }
+
+.media-library__list__checkbox-td {
+  position: relative;
+  z-index: 1;
+}
