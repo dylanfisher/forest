@@ -11,7 +11,7 @@
           <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
             Settings <span class="caret"></span>
           </a>
-          <div class="dropdown-menu">
+          <div class="dropdown-menu dropdown-menu-right">
             <%= link_to 'General', admin_settings_path, class: "dropdown-item #{admin_navbar_active_class(admin_settings_path)}" %>
             <div class="dropdown-divider"></div>
             <%= link_to 'Clear Cache', admin_cache_purge_index_path, class: 'dropdown-item', data: { confirm: "Are you sure you wan't to clear the website cache? Performance may decrease while cache rebuilds." } %>
@@ -22,7 +22,7 @@
         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
           <%= current_user.display_name %> <span class="caret"></span>
         </a>
-        <div class="dropdown-menu">
+        <div class="dropdown-menu dropdown-menu-right">
           <%= link_to 'Edit My Profile', edit_admin_user_path(current_user), class: 'dropdown-item' %>
           <%= link_to 'View Home Page', root_path, class: 'dropdown-item' if defined?(root_path) %>
           <%= link_to 'Forest Docs', admin_documentation_path, title: 'Learn more about this CMS and how to use it.', class: 'dropdown-item' %>
