@@ -29,6 +29,8 @@ module BaseMediaItem
       extension_pattern = ".*#{Regexp.escape(extension)}$"
       where("attachment_data->'metadata'->>'filename' ~ ?", extension_pattern)
     }
+    # This layout scope is a NOOP that exists to make it easier to use the `current_scopes` method
+    scope :layout, -> (layout_name) { }
     scope :images, -> { where('attachment_content_type LIKE ?', '%image%') }
     scope :videos, -> { where('attachment_content_type LIKE ?', '%video%') }
     scope :audio, -> { where('attachment_content_type LIKE ?', '%audio%') }

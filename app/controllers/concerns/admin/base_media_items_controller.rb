@@ -13,22 +13,26 @@ module Admin
       has_scope :images, type: :boolean
       has_scope :pdfs, type: :boolean
       has_scope :fuzzy_search
+      has_scope :layout
     end
 
     # GET /media_items
     def index
-      if params[:hidden] == 'true'
-        @pagy, @media_items = pagy(apply_scopes(MediaItem.all).by_id.hidden, items: 36)
-      else
-        @pagy, @media_items = pagy(apply_scopes(MediaItem.all).by_id.is_not_hidden, items: 36)
-      end
-      authorize @media_items, :admin_index?
-
       if params[:layout].blank? || params[:layout] != 'list'
         @layout = :grid
       else
         @layout = :list
       end
+
+      item_limit = @layout == :list ? 100 : 36
+
+      if params[:hidden] == 'true'
+        @pagy, @media_items = pagy(apply_scopes(MediaItem.all).by_id.hidden, items: item_limit)
+      else
+        @pagy, @media_items = pagy(apply_scopes(MediaItem.all).by_id.is_not_hidden, items: item_limit)
+      end
+
+      authorize @media_items, :admin_index?
 
       respond_to :html, :json
     end
@@ -101,6 +105,7 @@ module Admin
           notice = 'Please select a bulk action.'
         end
       else
+        authorize @media_items, :admin_index?
         notice = 'Please select a media item.'
       end
       redirect_to admin_media_items_url, notice: notice

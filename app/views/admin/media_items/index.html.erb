@@ -1,16 +1,14 @@
-<% content_for :index_header_body do %>
-  <% if false %>
-    <%# TODO: list view? %>
-    <%= link_to admin_media_items_path(layout: :list), class: 'btn btn-link btn-md' do %>
-      <span class="glyphicon glyphicon-th-list"></span>
-    <% end %>
-
-    <%= link_to admin_media_items_path(layout: :grid), class: 'btn btn-link btn-md' do %>
-      <span class="glyphicon glyphicon-th-large"></span>
-    <% end %>
+<% content_for :index_header_after_title do %>
+  <% if @layout == :grid %>
+    <%= link_to 'View as list', admin_media_items_path(layout: :list), class: 'btn btn-outline-secondary btn-md' %>
+  <% else %>
+    <%= link_to 'View as grid', admin_media_items_path(layout: :grid), class: 'btn btn-outline-secondary btn-md' %>
   <% end %>
+<% end %>
 
-  <div class="row small-gutters ml-2">
+<% content_for :index_header_body do %>
+  <%= hidden_field_tag :layout, params[:layout] %>
+  <div class="row small-gutters ml-1">
     <div class="col">
       <%= dropdown_select_form url: admin_media_items_path(current_scopes.except(:by_date)), id: 'by_date', select_options: MediaItem.dates_for_filter, title: 'All Dates' %>
     </div>
@@ -29,13 +27,15 @@
 
 <%= render 'admin/headers/index', records: @media_items, model_name: 'MediaItem', paginate: false %>
 
-<div class="mb-3">
-  <% if params[:hidden] == 'true' %>
-    <%= info_message 'Some applications may create hidden media items automatically as part of another workflow. Usually you can ignore these hidden items.' %>
-  <% else %>
-    <%= info_message 'Drag and drop images or files to upload multiple items at once.' %>
-  <% end %>
-</div>
+<% if @layout == :grid %>
+  <div class="mb-3">
+    <% if params[:hidden] == 'true' %>
+      <%= info_message 'Some applications may create hidden media items automatically as part of another workflow. Usually you can ignore these hidden items.' %>
+    <% else %>
+      <%= info_message 'Drag and drop images or files to upload multiple items at once.' %>
+    <% end %>
+  </div>
+<% end %>
 
 <%#= render 'admin/file_upload', klass: MediaItem, association: :attachment, multi_upload: true %>
 <%= content_tag :div, nil, class: 'multi-file-upload', data: { media_item_url: admin_media_items_path } %>
@@ -57,17 +57,17 @@
         <option value="delete">Delete Permanently</option>
       </select>
 
-      <%= submit_tag 'Apply', class: 'btn btn-outline-secondary', data: { confirm: 'Are you sure you want to apply this bulk action?' } %>
+      <%= submit_tag 'Apply', class: 'btn btn-outline-secondary ml-2', data: { confirm: 'Are you sure you want to apply this bulk action?' } %>
 
-      <br>
-      <%= pagy_bootstrap_nav_js(@pagy).html_safe if @pagy.pages > 1 %>
-
-      <table class="table table-striped table-sm multi-checkbox-parent">
+      <table class="table table-striped table-sm multi-checkbox-parent mt-3">
         <thead>
           <tr>
             <th width="1"><%= check_box_tag 'select_all' %></th>
             <th>File</th>
-            <th>Date</th>
+            <th>Alt&nbsp;Text</th>
+            <th>Caption</th>
+            <th>Created&nbsp;at</th>
+            <th colspan="2"></th>
           </tr>
         </thead>
         <tbody>

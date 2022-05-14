@@ -9,6 +9,10 @@
 
 .bootstrap-icon {
   vertical-align: top;
+
+  .btn & {
+    height: 1.5em;
+  }
 }
 
 .glyphicon {

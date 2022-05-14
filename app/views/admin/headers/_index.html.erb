@@ -5,7 +5,13 @@
   <div class="card">
     <h1 class="card-header h2 d-flex">
       <%= model_names.human.pluralize.titleize %>
+      <% if content_for? :index_header_after_title %>
+        <div class="ml-3">
+          <%= content_for :index_header_after_title %>
+        </div>
+      <% end %>
       <div class="btn-group text-left ml-auto">
+        <%= content_for :index_header_button_group_before if content_for?(:index_header_button_group_before) %>
         <% if content_for? :index_header_button_group %>
           <%= content_for :index_header_button_group %>
         <% else %>
@@ -29,18 +35,19 @@
       </div>
     </h1>
     <div class="card-body">
-      <div class="d-flex align-items-baseline">
-        <%= form_tag send("admin_#{model_names.plural}_path"), class: 'form-inline mr-auto w-100', method: :get, enforce_utf8: false do %>
-          <div class="form-group w-100">
-            <%= text_field_tag :fuzzy_search, params[:fuzzy_search], class: 'form-control mr-2', placeholder: 'Search', autofocus: (true if params[:fuzzy_search].present?) %>
-            <%= submit_tag "Search #{model_names.human.pluralize.titleize}", name: nil, class: 'btn btn-outline-secondary' %>
-            <%= content_for :index_header_body if content_for? :index_header_body %>
+      <%= form_tag send("admin_#{model_names.plural}_path"), class: 'mr-auto w-100', method: :get, enforce_utf8: false do %>
+        <div class="form-inline">
+          <div class="d-flex align-items-baseline w-100 flex-wrap">
+            <div class="form-group mr-auto flex-grow-1">
+              <%= text_field_tag :fuzzy_search, params[:fuzzy_search], class: 'form-control mr-2', placeholder: 'Search', autofocus: (true if params[:fuzzy_search].present?) %>
+              <%= submit_tag "Search #{model_names.human.pluralize.titleize}", name: nil, class: 'btn btn-outline-secondary' %>
+              <%= content_for :index_header_body if content_for?(:index_header_body) %>
+            </div>
+            <%= pagy_bootstrap_nav_js(@pagy).html_safe if @pagy.pages > 1 %>
           </div>
-        <% end %>
-        <% if @pagy.pages > 1 %>
-          <%= pagy_bootstrap_nav_js(@pagy).html_safe %>
-        <% end %>
-      </div>
+        </div>
+        <%= content_for :index_header_body_after if content_for?(:index_header_body_after) %>
+      <% end %>
     </div>
   </div>
 <% end %>
