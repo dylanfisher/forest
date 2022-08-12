@@ -1,3 +1,5 @@
+# https://github.com/dylanfisher/forest/wiki/SimpleForm-inputs-&-components#repeater_inputrb
+
 module Forest
   module HasRepeatable
     extend ActiveSupport::Concern
