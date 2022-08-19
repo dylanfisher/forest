@@ -3,7 +3,6 @@ class PagesController < ForestController
 
   def show
     unless @page
-
       check_for_redirect! and return
 
       if Rails.configuration.consider_all_requests_local
@@ -32,6 +31,7 @@ class PagesController < ForestController
   end
 
   def edit
+    skip_authorization
     @page = Page.where(path: params[:page_path]).try(:first)
     if @page
       return redirect_to edit_admin_page_path(@page)
