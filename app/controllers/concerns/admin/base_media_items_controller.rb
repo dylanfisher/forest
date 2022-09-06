@@ -24,7 +24,7 @@ module Admin
         @layout = :list
       end
 
-      item_limit = @layout == :list ? 100 : 36
+      item_limit = @layout == :list ? 200 : 36
 
       if params[:hidden] == 'true'
         @pagy, @media_items = pagy(apply_scopes(MediaItem.all).by_id.hidden, items: item_limit)
