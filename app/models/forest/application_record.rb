@@ -4,8 +4,8 @@ module Forest
   class ApplicationRecord < ActiveRecord::Base
     self.abstract_class = true
 
-    after_commit :expire_application_cache_key
-    after_commit :expire_cache_key
+    after_commit :expire_application_cache_key, if: :expire_application_cache_key?
+    after_commit :expire_cache_key, if: :expire_cache_key?
 
     scope :by_id, -> (orderer = :desc) {
       orderer = %i(asc desc).include?(orderer.to_sym) ? orderer : :desc
@@ -103,16 +103,26 @@ module Forest
 
     private
 
-      def self.valid_csv_column_types
-        %i(integer text string boolean)
-      end
+    def self.valid_csv_column_types
+      %i(integer text string boolean)
+    end
 
-      def self.invalid_csv_column_names
-        %w(id created_at updated_at status slug)
-      end
+    def self.invalid_csv_column_names
+      %w(id created_at updated_at status slug)
+    end
 
-      def expire_application_cache_key
-        Setting.expire_application_cache_key!
-      end
+    def expire_application_cache_key
+      Setting.expire_application_cache_key!
+    end
+
+    # Override in your host app models that don't need to bust the entire application's cache key
+    def expire_application_cache_key?
+      true
+    end
+
+    # Override in your host app models that don't need to bust this model's cache key
+    def expire_cache_key?
+      true
+    end
   end
 end
