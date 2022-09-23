@@ -56,4 +56,8 @@ module BaseUser
       self.user_groups << UserGroup.find_by_name('admin')
     end
   end
+
+  def expire_application_cache_key
+    false
+  end
 end
