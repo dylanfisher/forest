@@ -4,7 +4,7 @@ class Setting < Forest::ApplicationRecord
   CACHE_KEY = 'forest_settings'
   APPLICATION_CACHE_KEY = 'forest_application_cache_key'
   DEFAULT_SETTINGS = %i(site_title description featured_image)
-  VALID_VALUE_TYPES = %w(text boolean image integer string color)
+  VALID_VALUE_TYPES = %w(text plain_text boolean image integer string color)
 
   before_create :set_locale, if: Proc.new { |s| s.locale.blank? }
   before_save :set_title, if: Proc.new { |s| s.title.blank? }
