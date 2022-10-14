@@ -63,10 +63,17 @@
         <thead>
           <tr>
             <th width="1"><%= check_box_tag 'select_all' %></th>
-            <th>File</th>
+            <th>
+              <%= link_to 'File&nbsp;name'.html_safe, admin_media_items_path(layout: 'list', by_title: current_scopes[:by_title] == 'desc' ? 'asc' : 'desc') %>
+            </th>
             <th>Alt&nbsp;Text</th>
             <th>Caption</th>
-            <th>Created&nbsp;at</th>
+            <th>
+              <%= link_to 'Created&nbsp;at'.html_safe, admin_media_items_path(layout: 'list', by_created_at: current_scopes[:by_created_at] == 'desc' ? 'asc' : 'desc') %>
+            </th>
+            <th>
+              <%= link_to 'Updated&nbsp;at'.html_safe, admin_media_items_path(layout: 'list', by_updated_at: current_scopes[:by_updated_at] == 'desc' ? 'asc' : 'desc') %>
+            </th>
             <th colspan="2"></th>
           </tr>
         </thead>

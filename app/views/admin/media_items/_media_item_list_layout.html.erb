@@ -23,6 +23,7 @@
   <td><%= md(media_item.alternative_text) %></td>
   <td><%= md(media_item.caption) %></td>
   <td><%= forest_date media_item.created_at %></td>
+  <td><%= forest_date media_item.updated_at %></td>
   <td width="1">
     <%= link_to 'Edit', edit_admin_media_item_path(media_item), class: 'btn btn-xs btn-primary', role: 'button' %>
   </td>
