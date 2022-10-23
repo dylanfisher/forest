@@ -53,8 +53,22 @@
   transition: opacity 0.1s;
 }
 
-.block-slot:hover .block-slot-field__button--low-priority {
-  opacity: 1;
+.block-slot-field__button--collapse-block {
+  border-top-left-radius: 0.2rem !important;
+  border-bottom-left-radius: 0.2rem !important;
+}
+
+.block-slot {
+  &:hover {
+    .block-slot-field__button--low-priority {
+      opacity: 1;
+    }
+
+    .block-slot-field__button--collapse-block {
+      border-top-left-radius: 0 !important;
+      border-bottom-left-radius: 0 !important;
+    }
+  }
 }
 
 .block-slot__block-kind-description {

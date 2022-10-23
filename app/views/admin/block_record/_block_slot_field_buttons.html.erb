@@ -1,5 +1,5 @@
 <% cache_if f.object.present?, [f.object, f.object.try(:block_record)], expires_in: 4.weeks do %>
-  <div class="block-slot-field__buttons pl-2 ml-auto">
+  <div class="block-slot-field__buttons pl-2 ml-auto btn-group h-100">
     <button type="button" class="block-slot-field__button--low-priority block-slot-field__button--add-block btn btn-xs btn-outline-secondary" data-block-add title="Add block">
       <%= bootstrap_icon('plus') %>
     </button>
