@@ -10,7 +10,7 @@ App.pageLoad.push(function() {
   var setTdWidths = function() {
     $tables.each(function() {
       var $table = $(this);
-      var $rows = $table.find('.sortable-row');
+      var $rows = $table.find('[data-sortable-row]');
 
       $rows.each(function() {
         var $row = $(this);
@@ -27,7 +27,7 @@ App.pageLoad.push(function() {
   };
 
   var updatePositionValues = function($table, ui) {
-    var $rows = $table.find('.sortable-row');
+    var $rows = $table.find('[data-sortable-row]');
     var recordOffset = parseInt($table.attr('data-table-record-offset'));
 
     if ( isNaN(recordOffset) ) {
@@ -85,7 +85,7 @@ App.pageLoad.push(function() {
     var $table = $(this);
 
     $table.sortable({
-      items: '.sortable-row',
+      items: '[data-sortable-row]',
       axis: 'y',
       helper: 'clone',
       forcePlaceholderSize: true,

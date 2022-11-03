@@ -35,9 +35,13 @@ module AdminHelper
   end
 
   def sortable_table_attributes(records:, pagy:)
-    return unless table_sort_supported?(records: records)
+    return {} unless table_sort_supported?(records: records)
 
-    "data-sortable-table data-update-table-position-path='#{admin_position_updater_path}' data-table-record-offset='#{pagy.offset}' data-resource='#{records.klass.name}'".html_safe
+    { sortable_table: true, update_table_position_path: admin_position_updater_path, table_record_offset: pagy.offset, resource: records.klass.name }
+  end
+
+  def sortable_row_attributes(record)
+    { sortable_row: true, record_id: record.id }
   end
 
   def sortable_table_field(records:, position:, **options)
