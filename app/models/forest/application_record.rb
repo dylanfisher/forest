@@ -94,7 +94,8 @@ module Forest
       elsif respond_to?(:featured_media_item) && featured_media_item.try(:attachment_url, :thumb).present?
         img_tag = "<img src='#{featured_media_item.attachment_url(:thumb)}' style='height: 21px; margin-right: 5px;'> "
       end
-      "#{img_tag}<span class='select2-response__id' data-id='#{id}' style='margin-right: 5px;'>#{id}</span> #{to_label}"
+      status = ApplicationController.helpers.status_indicator(self, class: 'select2-response__status') if self.try(:statusable?)
+      "#{img_tag}<span class='select2-response__id' data-id='#{id}' style='margin-right: 5px;'>#{status}#{id}</span> #{to_label}"
     end
 
     def to_select2_selection

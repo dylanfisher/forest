@@ -12,6 +12,15 @@
   }
 }
 
+.select2-response__status {
+  display: inline-block !important;
+  margin-right: 5px !important;
+  margin-top: -2px !important;
+  vertical-align: middle !important;
+  width: 9px !important;
+  height: 9px !important;
+}
+
 .select2-response__id {
   color: #aaa;
   font-size: smaller;
