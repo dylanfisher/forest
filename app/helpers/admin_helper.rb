@@ -27,9 +27,9 @@ module AdminHelper
     allow_sort_by_position = false
     order_value = records.order_values.first
     if order_value.is_a?(String)
-      allow_sort_by_position = allow_sort_by_position || order_value.include?('position')
+      allow_sort_by_position = order_value.include?('position')
     elsif order_value.is_a?(Arel::Nodes::Ascending)
-      allow_sort_by_position = allow_sort_by_position || order_value.try(:expr).try(:name) == 'position'
+      allow_sort_by_position = order_value.try(:expr).try(:name) == 'position'
     end
     allow_sort_by_position
   end
