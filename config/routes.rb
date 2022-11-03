@@ -24,6 +24,7 @@ Rails.application.routes.draw do
       get 'reset_password'
     end
     resources :user_groups, except: [:show, :destroy], path: 'user-groups'
+    post 'position_updater', to: 'position_updater#update'
     get 'documentation', to: 'documentation#index'
   end
 

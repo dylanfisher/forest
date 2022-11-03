@@ -27,3 +27,22 @@
   height: 1.6em;
   // border-radius: $border-radius-base;
 }
+
+.table-position-field {
+  outline: 1px solid #c7c7c7;
+  text-align: center;
+  border-radius: 2px;
+
+  &:not(.table-position-field--disabled) {
+    cursor: move;
+    user-select: none;
+
+    &:hover {
+      background-color: #fffa90;
+    }
+  }
+}
+
+.table-position-field--disabled {
+  cursor: not-allowed;
+}

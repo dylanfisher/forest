@@ -38,6 +38,10 @@ class ApplicationPolicy
     admin?
   end
 
+  def update_positions?
+    update?
+  end
+
   def edit?
     update?
   end

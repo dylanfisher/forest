@@ -23,6 +23,33 @@ module AdminHelper
     end
   end
 
+  def table_sort_supported?(records:)
+    allow_sort_by_position = false
+    order_value = records.order_values.first
+    if order_value.is_a?(String)
+      allow_sort_by_position = allow_sort_by_position || order_value.include?('position')
+    elsif order_value.is_a?(Arel::Nodes::Ascending)
+      allow_sort_by_position = allow_sort_by_position || order_value.try(:expr).try(:name) == 'position'
+    end
+    allow_sort_by_position
+  end
+
+  def sortable_table_attributes(records:, pagy:)
+    return unless table_sort_supported?(records: records)
+
+    "data-sortable-table data-update-table-position-path='#{admin_position_updater_path}' data-table-record-offset='#{pagy.offset}' data-resource='#{records.klass.name}'".html_safe
+  end
+
+  def sortable_table_field(records:, position:, **options)
+    if table_sort_supported?(records: records)
+      options.reverse_merge!(title: 'Drag to reorder')
+      content_tag :div, "#{content_tag(:span, position, class: 'table-position-label')} #{hidden_field_tag(:forest_sortable_field_position, position, id: nil)}".html_safe, class: "table-position-field #{options.delete(:class)}", **options
+    else
+      options.reverse_merge!(title: 'Position can only be updated when records are ordered ascending by position.')
+      content_tag :div, position, class: "table-position-field table-position-field--disabled #{options.delete(:class)}", **options
+    end
+  end
+
   def forest_date(datetime)
     return if datetime.blank?
     datetime_format = datetime.is_a?(Date) ? '%m&#8209;%d&#8209;%Y' : '%m&#8209;%d&#8209;%Y %l:%M&nbsp;%p'
