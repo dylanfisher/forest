@@ -24,6 +24,8 @@ module AdminHelper
   end
 
   def table_sort_supported?(records:)
+    return if controller_name != records.klass.model_name.route_key
+
     allow_sort_by_position = false
     order_value = records.order_values.first
     if order_value.is_a?(String)
@@ -49,7 +51,12 @@ module AdminHelper
       options.reverse_merge!(title: 'Drag to reorder')
       content_tag :div, "#{content_tag(:span, position, class: 'table-position-label')} #{hidden_field_tag(:forest_sortable_field_position, position, id: nil)}".html_safe, class: "table-position-field #{options.delete(:class)}", **options
     else
-      options.reverse_merge!(title: 'Position can only be updated when records are ordered ascending by position.')
+      if controller_name != records.klass.model_name.route_key
+        title = 'Position can only be updated when viewing records within the resource\'s main table view.'
+      else
+        title = 'Position can only be updated when records are ordered ascending by position'
+      end
+      options.reverse_merge!(title: title)
       content_tag :div, position, class: "table-position-field table-position-field--disabled #{options.delete(:class)}", **options
     end
   end
