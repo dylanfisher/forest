@@ -59,6 +59,8 @@
 }
 
 .image-input__body--compact-true {
-  width: 100px;
-  max-width: 100%;
+  .media-item-chooser__image-wrapper {
+    width: 100px;
+    max-width: 100%;
+  }
 }
