@@ -35,5 +35,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'simple_form'
   s.add_dependency 'uppy-s3_multipart', '~> 1.0'
 
+  s.add_dependency 'net-protocol', '~> 0.1.0'
+
   s.add_development_dependency 'pg'
 end
