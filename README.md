@@ -196,6 +196,8 @@ Forest relies heavily on the following gems, software and frameworks:
 ## TODO
 
 Version 2
+- [ ] Update Pundit::NotAuthorizedError on hidden records to return 404, not 500
+- [ ] Fix common errors in URL, e.g. `app/web.1: [a5d5d477-3e7b-411f-85d6-414af80850f2] ActionView::Template::Error (unexpected ''' after '[:equal, "'/page/some-page/'"]'):`
 - [ ] Remove hidden `block_layout`, `block_record_type`, `block_kind_id` fields from `block_slot_fields` and instead apply these values in the controller for better security.
 - [ ] Add pundit policy scoped to admin namespace, e.g. `authorize([:admin, Post])` https://github.com/varvet/pundit#policy-namespacing
 - [ ] Replace authorize index actions with `policy_scope` and make sure policy scope is set up properly
