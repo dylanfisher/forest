@@ -7,7 +7,7 @@ class ImageInput < SimpleForm::Inputs::StringInput
     attribute_name_to_use = reflection.present? ? "#{reflection.name}_id" : attribute_name
     media_item_type = image_object.try(:display_content_type).presence || 'media item'
     button_title = input_html_options.fetch :button_title, template.bootstrap_icon('collection', embedded: true) + " Choose"
-    compact = options.fetch(:compact, false)
+    compact = options.fetch(:compact, false) # Make a smaller image input
     media_item_scope = options.fetch(:scope, nil)
 
     # TODO: clean this craziness up
