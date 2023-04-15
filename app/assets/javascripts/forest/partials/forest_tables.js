@@ -7,6 +7,7 @@ App.pageLoad.push(function() {
 
   // Unfortunately we need to explicitly set the td widths so that the table row doesn't collapse in a
   // weird way when you begin to drag it.
+  // *There may still be a bug when only a single row is listed in the table.
   var setTdWidths = function() {
     $tables.each(function() {
       var $table = $(this);
@@ -86,6 +87,7 @@ App.pageLoad.push(function() {
 
     $table.sortable({
       items: '[data-sortable-row]',
+      handle: '.table-position-field',
       axis: 'y',
       helper: 'clone',
       forcePlaceholderSize: true,
