@@ -55,3 +55,14 @@ $(document).on('click', '[data-collapse-trigger]', function() {
     $icon.removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
   }
 });
+
+$(document).on('click', '[data-collapse-parent] .card-header', function(e) {
+  var $target = $(e.target);
+
+  if ( $target.closest('[data-collapse-trigger]').length ) return;
+
+  var $parent = $(this).closest('[data-collapse-parent]');
+  var $trigger = $parent.find('[data-collapse-trigger]').first();
+
+  if ( $trigger.length ) $trigger.trigger('click');
+});
