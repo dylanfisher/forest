@@ -20,9 +20,11 @@ class Admin::PositionUpdaterController < Admin::ForestController
     end
 
     if position_has_changed
-      record_ids_with_position.each do |record_id, position|
-        record = records_cache.find { |r| r.id == record_id }
-        record.update(position: position)
+      ActiveRecord::Base.transaction do
+        record_ids_with_position.each do |record_id, position|
+          record = records_cache.find { |r| r.id == record_id }
+          record.update(position: position)
+        end
       end
     end
 
