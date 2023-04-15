@@ -1,3 +1,3 @@
 module Forest
-  VERSION = '3.27.2'
+  VERSION = '3.28.0'
 end
