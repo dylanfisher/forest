@@ -59,7 +59,7 @@ $(document).on('click', '[data-collapse-trigger]', function() {
 $(document).on('click', '[data-collapse-parent] .card-header', function(e) {
   var $target = $(e.target);
 
-  if ( $target.closest('[data-collapse-trigger]').length ) return;
+  if ( $target.closest('.block-slot-field__buttons').length ) return;
 
   var $parent = $(this).closest('[data-collapse-parent]');
   var $trigger = $parent.find('[data-collapse-trigger]').first();
