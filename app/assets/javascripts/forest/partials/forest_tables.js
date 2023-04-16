@@ -13,6 +13,8 @@ App.pageLoad.push(function() {
       var $table = $(this);
       var $rows = $table.find('[data-sortable-row]');
 
+      $rows.find('td').css({ width: '' });
+
       $rows.each(function() {
         var $row = $(this);
         var $tds = $row.find('td');
