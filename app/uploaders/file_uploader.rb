@@ -40,6 +40,11 @@ class FileUploader < Shrine
           AttachmentDerivativeJob.perform_later(self.class.name, self.record.class.name, self.record.id, self.name, self.file_data, derivative_name)
         end
       end
+
+      # TODO: don't reprocess if video is already present, but do reprocess if video has changed
+      if record.video?
+        VideoTranscodeEnqueueJob.perform_later(self.record.id)
+      end
     end
   end
 

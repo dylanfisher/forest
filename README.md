@@ -195,6 +195,17 @@ Forest relies heavily on the following gems, software and frameworks:
 
 ## TODO
 
+### On Demand Video Transcoder
+
+- Upload video to media library
+- Use `Aws::Lambda::Client` to invoke lambda function
+  - Pass arguments to lambda function defining `MediaItem` bucket path
+  - Lambda function invokes `MediaConvert`
+    - In `MediaConvert` callback, send webhook notification to Forest
+- Forest recieves webhook notification from `MediaConvert`
+  - Webhook supplies `MediaItem` ID and metadata
+  - Update `MediaItem` with new video info
+
 Version 2
 - [ ] Update settings to support an optional default fallback value for situations where a client may forget to enter a value.
 - [ ] Update Pundit::NotAuthorizedError on hidden records to return 404, not 500
