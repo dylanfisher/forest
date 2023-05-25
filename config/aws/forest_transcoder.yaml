@@ -1,0 +1,196 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  BucketName:
+    Type: String
+    Default: 'my-existing-app-bucket-name'
+
+Resources:
+  ForestTranscoderLambdaPolicy:
+    Type: 'AWS::IAM::ManagedPolicy'
+    Properties:
+      Description: Provides necessary access to MediaConvert and CloudWatch logs
+      ManagedPolicyName: !Join
+        - '-'
+        - - !Ref 'AWS::Region'
+          - ForestTranscoderLambdaExecutor
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - mediaconvert:CreateJob
+              - mediaconvert:DescribeEndpoints
+            Resource:
+              - '*'
+          - Effect: Allow
+            Action:
+              - 'logs:CreateLogGroup'
+              - 'logs:CreateLogStream'
+              - 'logs:PutLogEvents'
+            Resource:
+              - '*'
+          - Effect: Allow
+            Action:
+              - 'iam:PassRole'
+            Resource:
+              - !GetAtt MediaConvertRole.Arn
+
+  LambdaExecutionRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: LambdaExecution
+      Description: Allows ForestTranscoder lambda function to start MediaConvert job
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      Path: "/"
+      ManagedPolicyArns:
+        - !Ref ForestTranscoderLambdaPolicy
+
+  TranscodeVideoFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: TranscodeVideo
+      Description: Sends uploaded S3 object to MediaConvert for transcoding
+      Handler: index.handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Environment:
+        Variables:
+          ROLE: !GetAtt MediaConvertRole.Arn
+      Code:
+        ZipFile: |
+          console.log('the function is running');
+
+          const path = require('path')
+          const { MediaConvertClient, CreateJobCommand, DescribeEndpointsCommand } = require("@aws-sdk/client-mediaconvert");
+
+          exports.handler = async function(event, context, cb) {
+            const objectPath = event.object_path;
+            const objectDirectory = objectPath.split('/').slice(0, -1).join('/');
+            const region = event.region;
+            const bucket = event.bucket;
+            let client = new MediaConvertClient({
+              region: region
+            })
+
+            console.log(objectPath);
+            console.log(region);
+            console.log(bucket);
+
+            try {
+              const describeCommand = new DescribeEndpointsCommand({});
+              const describeResponse = await client.send(describeCommand);
+              const endpoint = describeResponse['Endpoints'][0]['Url'];
+              console.log(endpoint);
+
+              client = new MediaConvertClient({
+                region: region,
+                endpoint: endpoint
+              })
+
+              const input = {
+                Role: process.env.ROLE,
+                JobTemplate: 'System-Ott_Hls_Ts_Avc_Aac',
+                Settings: {
+                  Inputs: [{
+                    FileInput: `s3://${bucket}/${objectPath}`,
+                    AudioSelectors: {
+                      'Audio Selector 1': {
+                        Offset: 0
+                      }
+                    },
+                  }],
+                  OutputGroups: [{
+                    OutputGroupSettings: {
+                      Type: 'HLS_GROUP_SETTINGS',
+                      HlsGroupSettings: {
+                        Destination: `s3://${bucket}/${objectDirectory}/transcoded/`
+                      }
+                    }
+                  }]
+                },
+              };
+
+              const command = new CreateJobCommand(input);
+              console.log(command);
+              const response = await client.send(command);
+              console.log(response);
+
+              cb(null, [response])
+            } catch (e) {
+              cb(e.message)
+            }
+          }
+      Runtime: nodejs18.x
+
+  # S3Bucket:
+  #   Type: 'AWS::S3::Bucket'
+  #   DependsOn:
+  #     - S3ExecutionPermission
+  #   Properties:
+  #     BucketName: !Ref BucketName
+  #     NotificationConfiguration:
+  #       LambdaConfigurations:
+  #         - Event: 's3:ObjectCreated:*'
+  #           Function: !GetAtt TranscodeVideoFunction.Arn
+  #           Filter:
+  #             S3Key:
+  #               Rules:
+  #                 - Name: prefix
+  #                   Value: 'originals/'
+
+  S3ExecutionPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !GetAtt TranscodeVideoFunction.Arn
+      Action: lambda:InvokeFunction
+      Principal: s3.amazonaws.com
+      SourceAccount: !Ref 'AWS::AccountId'
+      SourceArn: !Sub 'arn:aws:s3:::${BucketName}'
+
+  ForestTranscoderMediaConvertPolicy:
+    Type: 'AWS::IAM::ManagedPolicy'
+    Properties:
+      ManagedPolicyName: !Join
+        - '-'
+        - - !Ref 'AWS::Region'
+          - ForestTranscoderMediaConverter
+      Description: Provides access to S3 for MediaConvert transcode jobs
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - 's3:PutObject'
+            Resource:
+              - !Sub 'arn:aws:s3:::${BucketName}/*'
+          - Effect: Allow
+            Action:
+              - 's3:GetObject'
+            Resource:
+              - !Sub 'arn:aws:s3:::${BucketName}/*'
+
+  MediaConvertRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: MediaConvertExecution
+      Description: Allows MediaConvert to gain access to S3
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - mediaconvert.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      Path: "/"
+      ManagedPolicyArns:
+        - !Ref ForestTranscoderMediaConvertPolicy

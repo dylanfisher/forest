@@ -1,5 +1,5 @@
 class VideoTranscodeEnqueueJob < ApplicationJob
-  LAMBDA_FUNCTION_NAME = 'transcodeVideoTest2'
+  LAMBDA_FUNCTION_NAME = 'TranscodeVideo'
 
   def perform(media_item_id)
     media_item = MediaItem.find(media_item_id)
@@ -10,7 +10,9 @@ class VideoTranscodeEnqueueJob < ApplicationJob
       function_name: LAMBDA_FUNCTION_NAME,
       invocation_type: 'Event', # Invoke the function asynchronously
       payload: {
-        object_path: object_path
+        region: aws_region,
+        object_path: object_path,
+        bucket: Rails.application.credentials.s3.bucket
       }.to_json
     })
 
@@ -38,5 +40,9 @@ class VideoTranscodeEnqueueJob < ApplicationJob
 
   def aws_region
     @aws_region ||= ENV['AWS_REGION'].presence || Rails.application.credentials&.dig(:s3, :region)
+  end
+
+  def s3_bucket
+    @s3_bucket ||= s3.bucket(s3_bucket_name)
   end
 end
