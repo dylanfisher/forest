@@ -80,15 +80,10 @@ Resources:
               region: region
             })
 
-            console.log(objectPath);
-            console.log(region);
-            console.log(bucket);
-
             try {
               const describeCommand = new DescribeEndpointsCommand({});
               const describeResponse = await client.send(describeCommand);
               const endpoint = describeResponse['Endpoints'][0]['Url'];
-              console.log(endpoint);
 
               client = new MediaConvertClient({
                 region: region,
@@ -97,7 +92,7 @@ Resources:
 
               const input = {
                 Role: process.env.ROLE,
-                JobTemplate: 'System-Ott_Hls_Ts_Avc_Aac',
+                JobTemplate: 'forest-transcode-video',
                 Settings: {
                   Inputs: [{
                     FileInput: `s3://${bucket}/${objectPath}`,
@@ -109,8 +104,8 @@ Resources:
                   }],
                   OutputGroups: [{
                     OutputGroupSettings: {
-                      Type: 'HLS_GROUP_SETTINGS',
-                      HlsGroupSettings: {
+                      Type: 'FILE_GROUP_SETTINGS',
+                      FileGroupSettings: {
                         Destination: `s3://${bucket}/${objectDirectory}/transcoded/`
                       }
                     }

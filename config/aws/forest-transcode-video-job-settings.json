@@ -1,0 +1,111 @@
+{
+  "Queue": "Default",
+  "Role": "",
+  "Settings": {
+    "TimecodeConfig": {
+      "Source": "ZEROBASED"
+    },
+    "OutputGroups": [
+      {
+        "Name": "File Group",
+        "Outputs": [
+          {
+            "ContainerSettings": {
+              "Container": "MP4",
+              "Mp4Settings": {}
+            },
+            "VideoDescription": {
+              "Width": 1280,
+              "Height": 720,
+              "CodecSettings": {
+                "Codec": "H_264",
+                "H264Settings": {
+                  "MaxBitrate": 6000000,
+                  "RateControlMode": "QVBR",
+                  "QvbrSettings": {
+                    "QvbrQualityLevel": 9
+                  },
+                  "SceneChangeDetect": "TRANSITION_DETECTION",
+                  "QualityTuningLevel": "SINGLE_PASS_HQ"
+                }
+              }
+            },
+            "AudioDescriptions": [
+              {
+                "AudioSourceName": "Audio Selector 1",
+                "CodecSettings": {
+                  "Codec": "AAC",
+                  "AacSettings": {
+                    "VbrQuality": "MEDIUM_LOW",
+                    "RateControlMode": "VBR",
+                    "CodingMode": "CODING_MODE_2_0",
+                    "SampleRate": 44100
+                  }
+                }
+              }
+            ],
+            "NameModifier": "_LOW_RES"
+          },
+          {
+            "ContainerSettings": {
+              "Container": "MP4",
+              "Mp4Settings": {}
+            },
+            "VideoDescription": {
+              "Width": 1920,
+              "Height": 1080,
+              "CodecSettings": {
+                "Codec": "H_264",
+                "H264Settings": {
+                  "MaxBitrate": 9000000,
+                  "RateControlMode": "QVBR",
+                  "QvbrSettings": {
+                    "QvbrQualityLevel": 9
+                  },
+                  "SceneChangeDetect": "TRANSITION_DETECTION",
+                  "QualityTuningLevel": "SINGLE_PASS_HQ"
+                }
+              }
+            },
+            "AudioDescriptions": [
+              {
+                "AudioSourceName": "Audio Selector 1",
+                "CodecSettings": {
+                  "Codec": "AAC",
+                  "AacSettings": {
+                    "VbrQuality": "MEDIUM_HIGH",
+                    "RateControlMode": "VBR",
+                    "CodingMode": "CODING_MODE_2_0",
+                    "SampleRate": 44100
+                  }
+                }
+              }
+            ],
+            "NameModifier": "_HIGH_RES"
+          }
+        ],
+        "OutputGroupSettings": {
+          "Type": "FILE_GROUP_SETTINGS",
+          "FileGroupSettings": {}
+        }
+      }
+    ],
+    "Inputs": [
+      {
+        "AudioSelectors": {
+          "Audio Selector 1": {
+            "DefaultSelection": "DEFAULT"
+          }
+        },
+        "VideoSelector": {
+          "Rotate": "AUTO"
+        },
+        "TimecodeSource": "ZEROBASED"
+      }
+    ]
+  },
+  "AccelerationSettings": {
+    "Mode": "PREFERRED"
+  },
+  "StatusUpdateInterval": "SECONDS_60"
+}
