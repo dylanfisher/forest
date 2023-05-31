@@ -200,6 +200,10 @@ module BaseMediaItem
     attachment_content_type =~ %r{^(image)/(jpeg|jpg)}
   end
 
+  def video
+    @video ||= Forest::Video.new(video_data) if video_data.present?
+  end
+
   # A media item with content type SVG is considered an image, but it doesn't make sense to generate derivatives for SVGs
   def supports_derivatives?
     (attachment_content_type =~ %r{^(image|(x-)?application)/(bmp|jpeg|jpg|pjpeg|png|webp|x-png)$}).present?

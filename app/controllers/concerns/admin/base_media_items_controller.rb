@@ -116,20 +116,40 @@ module Admin
 
     # GET /media_items/1/edit
     def transcode
-      # TODO: verify the signature of the SNS sender
-      # https://docs.aws.amazon.com/sns/latest/dg/SendMessageToHttp.prepare.html
       skip_authorization
-      # authorize @media_items, :admin_index?
-      if params['Type'] == 'SubscriptionConfirmation'
-        url = URI.parse(params['SubscribeURL'])
-        req = Net::HTTP::Get.new(url.to_s)
-        res = Net::HTTP.start(url.host, url.port) { |http| http.request(req) }
-        logger.info { 'Transcode SubscriptionConfirmation' }
-        logger.info { res.body }
-      else
-        logger.info { 'TranscodeParams' }
-        logger.info { params }
+
+      begin
+        sns_message = JSON.parse(request.body.string)
+      rescue JSON::ParserError => e
+        logger.error { "[Forest][Error] MediaItem transcode failed to parse SNS message\n#{e.inspect}" }
+        return head :bad_request
       end
+
+      verifier = Aws::SNS::MessageVerifier.new
+      unless verifier.authentic?(request.body.string)
+        logger.error { '[Forest][Error] SNS message was not verified to be authentic.' }
+        return head :bad_request
+      end
+
+      message_type = sns_message['Type']
+      topic_arn = sns_message['TopicArn']
+      subject = sns_message['Subject']
+
+      if message_type == 'SubscriptionConfirmation'
+        subscribe_url = sns_message['SubscribeURL']
+        VideoTranscodeConfirmSnsJob.perform_later(subscribe_url)
+      elsif message_type == 'Notification'
+        message = JSON.parse(sns_message['Message'])
+        status = message.dig('detail', 'status')
+        output_file_path = message.dig('detail', 'outputGroupDetails').try(:[], 0).try(:[], 'outputDetails').try(:[], 0).try(:[], 'outputFilePaths').try(:[], 0)
+
+        if output_file_path.present?
+          media_item_id = output_file_path.match(/\/media\/mediaitem\/(3)\/attachment\//)[1].to_i
+          media_item = MediaItem.find(media_item_id)
+          media_item.update(video_data: message) if media_item.present?
+        end
+      end
+
       head :ok
     end
 

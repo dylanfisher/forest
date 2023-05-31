@@ -16,9 +16,10 @@ class VideoTranscodeEnqueueJob < ApplicationJob
       }.to_json
     })
 
-    # TODO: failure state if response is not 200
-    # TODO: MediaEncode lambda function callback needs to send back a
-    #       webhook to our app.
+    # If response is not equal to a 200, log an error
+    if (response.status_code.to_s =~ /2\d{2}/).nil?
+      Rails.logger.error { '[Forest][Error] VideoTranscodeEnqueueJob failed to invoke lambda client.' }
+    end
   end
 
   private
