@@ -4,7 +4,7 @@ module Admin
 
     included do
       skip_before_action :authenticate_user!, only: :transcode
-      skip_forgery_protection, only: :transcode
+      skip_forgery_protection only: :transcode
 
       before_action :set_media_item, only: [:show, :edit, :update, :reprocess, :destroy]
 
