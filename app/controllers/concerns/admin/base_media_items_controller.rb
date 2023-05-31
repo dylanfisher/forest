@@ -3,6 +3,8 @@ module Admin
     extend ActiveSupport::Concern
 
     included do
+      skip_before_action :authenticate_user!, only: :transcode
+
       before_action :set_media_item, only: [:show, :edit, :update, :reprocess, :destroy]
 
       has_scope :by_date
@@ -109,6 +111,24 @@ module Admin
         notice = 'Please select a media item.'
       end
       redirect_to admin_media_items_url, notice: notice
+    end
+
+    # GET /media_items/1/edit
+    def transcode
+      # TODO: verify the signature of the SNS sender
+      skip_authorization
+      # authorize @media_items, :admin_index?
+      if params['Type'] == 'SubscriptionConfirmation'
+        url = URI.parse(params['SubscribeURL'])
+        req = Net::HTTP::Get.new(url.to_s)
+        res = Net::HTTP.start(url.host, url.port) { |http| http.request(req) }
+        logger.info { 'Transcode SubscriptionConfirmation' }
+        logger.info { res.body }
+      else
+        logger.info { 'TranscodeParams' }
+        logger.info { params }
+      end
+      head :ok
     end
 
     # DELETE /media_items/1
