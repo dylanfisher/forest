@@ -7,12 +7,12 @@ class Forest::Video
     parse_files
   end
 
-  def high_res
-    files.last
-  end
-
   def low_res
     files.first
+  end
+
+  def high_res
+    files.last
   end
 
   private

@@ -212,6 +212,7 @@ Forest relies heavily on the following gems, software and frameworks:
 
 - Add video metadata information to MediaItem#edit views
 - Add documentation on using the transcoder and Forest::Video class
+- Add documentation and additional template to create SNS, EventBridge, Lambda, CloudWatch, etc.
 - Replacing a video currently overwrites the existing video data on the media item. This seems fine, unless you were testing the upload on
   a dev server (or locally), in which case the production video would get overwritten. Figure out a solution to avoid this.
 
