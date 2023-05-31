@@ -4,6 +4,7 @@ module Admin
 
     included do
       skip_before_action :authenticate_user!, only: :transcode
+      skip_forgery_protection, only: :transcode
 
       before_action :set_media_item, only: [:show, :edit, :update, :reprocess, :destroy]
 
@@ -116,6 +117,7 @@ module Admin
     # GET /media_items/1/edit
     def transcode
       # TODO: verify the signature of the SNS sender
+      # https://docs.aws.amazon.com/sns/latest/dg/SendMessageToHttp.prepare.html
       skip_authorization
       # authorize @media_items, :admin_index?
       if params['Type'] == 'SubscriptionConfirmation'
