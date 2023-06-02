@@ -3,7 +3,7 @@ class Forest::Video
 
   def initialize(video_data)
     @video_data = video_data
-    @status = video_data.dig('detail', 'status')
+    @status = video_data['status']
     parse_files
   end
 
@@ -17,12 +17,11 @@ class Forest::Video
 
   private
 
+  # TODO: Fix parse files method to work with new data structure from MediaConvert
   # Files are ordered ascending by bitrate, which means low quality files are first, and high quality files are last
   def parse_files
-    @files ||= video_data.dig('detail', 'outputGroupDetails').collect do |file_group|
-      file_group['outputDetails'].collect do |file_data|
-        Forest::Video::File.new(file_data)
-      end
+    @files ||= video_data['job']['settings']['output_groups'][0]['outputs'].collect do |file_data|
+      Forest::Video::File.new(file_data)
     end.flatten.sort_by(&:bitrate)
   end
 end

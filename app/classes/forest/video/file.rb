@@ -1,6 +1,7 @@
 class Forest::Video::File
   attr_accessor :file_data, :duration, :width, :height, :bitrate, :quality, :file_path, :url
 
+  # TODO: finish formatting data from new file structure
   def initialize(file_data)
     @file_data = file_data
     @duration = file_data['durationInMs']

@@ -85,6 +85,7 @@ class FileUploader < Shrine
   end
 
   Attacher.destroy_block do
+    VideoTranscodeDestroyJob.perform_later(record.video_data) unless Forest.config[:keep_files]
     AttachmentDestroyJob.perform_later(self.class.name, data)
   end
 end

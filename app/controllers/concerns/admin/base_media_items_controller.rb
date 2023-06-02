@@ -114,7 +114,8 @@ module Admin
       redirect_to admin_media_items_url, notice: notice
     end
 
-    # GET /media_items/1/edit
+    # TODO: Remove obsolete transcode action
+    # GET /media_items/transcode
     def transcode
       skip_authorization
 

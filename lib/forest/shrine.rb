@@ -2,6 +2,8 @@ require 'shrine'
 require 'shrine/storage/s3'
 # require "shrine/storage/file_system"
 
+Forest.config[:keep_files] = ((Rails.env.development? && ENV['FOREST_SHRINE_KEEP_FILES'] != 'false') || ENV['FOREST_SHRINE_KEEP_FILES'] == 'true')
+
 s3_options = Rails.application.credentials.s3
 
 if s3_options
@@ -21,7 +23,7 @@ Shrine.plugin :determine_mime_type, analyzer: -> (io, analyzers) do
 end
 Shrine.plugin :infer_extension
 Shrine.plugin :instrumentation if (Rails.env.development? || Rails.application.config.log_level == :debug)
-Shrine.plugin :keep_files if ((Rails.env.development? && ENV['FOREST_SHRINE_KEEP_FILES'] != 'false') || ENV['FOREST_SHRINE_KEEP_FILES'] == 'true')
+Shrine.plugin :keep_files if Forest.config[:keep_files]
 Shrine.plugin :pretty_location
 Shrine.plugin :refresh_metadata
 Shrine.plugin :remote_url, max_size: 40*1024*1024 # ~40mb

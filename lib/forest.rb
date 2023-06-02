@@ -7,6 +7,9 @@ require 'simple_form'
 module Forest
   ROOT_PATH = Pathname.new(File.join(__dir__, ".."))
 
+  mattr_accessor :config
+  @@config = {}
+
   # Override the devise_for routes.rb declaration in a host app if necessary
   mattr_accessor :override_devise_for_route_declaration
   @@override_devise_for_route_declaration = false

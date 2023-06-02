@@ -8,7 +8,7 @@ class VideoTranscodeEnqueueJob < ApplicationJob
     # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Lambda/Client.html#invoke-instance_method
     response = lambda_client.invoke({
       function_name: LAMBDA_FUNCTION_NAME,
-      invocation_type: 'Event', # Invoke the function asynchronously
+      invocation_type: 'RequestResponse', # Invoke the function synchronously (the default)
       payload: {
         region: aws_region,
         object_path: object_path,
@@ -19,7 +19,14 @@ class VideoTranscodeEnqueueJob < ApplicationJob
     # If response is not equal to a 200, log an error
     if (response.status_code.to_s =~ /2\d{2}/).nil?
       Rails.logger.error { '[Forest][Error] VideoTranscodeEnqueueJob failed to invoke lambda client.' }
+      return
     end
+
+    response_json = JSON.parse(response.payload.string)
+    response_body = JSON.parse(response_json['body'])
+    job_id = response_body['createJobResponse']['Job']['Id']
+
+    VideoTranscodePollJob.perform_later(media_item_id: media_item_id, job_id: job_id)
   end
 
   private
