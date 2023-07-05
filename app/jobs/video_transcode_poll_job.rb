@@ -27,6 +27,8 @@ class VideoTranscodePollJob < ApplicationJob
       end
     elsif status == 'COMPLETE'
       media_item.video_data['job'] = deep_compact!(media_convert_response.job.as_json)
+      media_item.save if media_item.changed?
+      media_item.extract_video_metadata!
     end
 
     media_item.save if media_item.changed?

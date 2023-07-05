@@ -6,4 +6,5 @@ Aws.config.update(
   region: (ENV['AWS_REGION'].presence || Rails.application.credentials&.dig(:s3, :region))
 )
 
-Forest.config[:aws_bucket] = ((ENV['S3_BUCKET_NAME'].presence || Rails.application.credentials&.dig(:s3, :bucket)))
+Forest.config[:aws_bucket] = ENV['S3_BUCKET_NAME'].presence || Rails.application.credentials&.dig(:s3, :bucket)
+Forest.config[:aws_region] = ENV['AWS_REGION'].presence || Rails.application.credentials&.dig(:s3, :region)

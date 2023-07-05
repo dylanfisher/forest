@@ -45,6 +45,7 @@
                     class: "media-item--grid__image background-image-contain square-image rounded-lg #{'media-item--grid__image--file' if media_item.try(:file?)}",
                     style: "background-image: url(#{attachment_or_placeholder_url}); #{css_style}" %>
     <% if media_item.try(:video?) && !media_item.try(:vimeo_video?) %>
+      <%# TODO: replace with poster image when present %>
       <%= video_tag media_item.attachment_url, preload: 'metadata', class: 'media-item--grid__video rounded-lg' %>
     <% end %>
   <% end %>

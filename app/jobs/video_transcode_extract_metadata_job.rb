@@ -1,9 +1,8 @@
-class VideoTranscodeEnqueueJob < ApplicationJob
-  LAMBDA_FUNCTION_NAME = 'TranscodeVideo'
+class VideoTranscodeExtractMetadataJob < ApplicationJob
+  LAMBDA_FUNCTION_NAME = 'ffprobe'
 
-  def perform(media_item_id)
+  def perform(media_item_id:, object_path:)
     media_item = MediaItem.find(media_item_id)
-    object_path = "#{Shrine.storages[:store].prefix}/#{media_item.attachment_data['id']}"
 
     # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Lambda/Client.html#invoke-instance_method
     response = lambda_client.invoke({
@@ -18,15 +17,18 @@ class VideoTranscodeEnqueueJob < ApplicationJob
 
     # If response is not equal to a 200, log an error
     if (response.status_code.to_s =~ /2\d{2}/).nil?
-      Rails.logger.error { '[Forest][Error] VideoTranscodeEnqueueJob failed to invoke lambda client.' }
+      Rails.logger.error { '[Forest][Error] VideoTranscodeExtractMetadataJob failed to invoke lambda client.' }
       return
     end
 
     response_json = JSON.parse(response.payload.string)
-    response_body = JSON.parse(response_json['body'])
-    job_id = response_body['createJobResponse']['Job']['Id']
+    response_body = response_json['body']
 
-    VideoTranscodePollJob.perform_later(media_item_id: media_item_id, job_id: job_id)
+    media_item.video_data = {} if media_item.video_data.blank?
+    media_item.video_data['ffprobe'] = {} if media_item.video_data['ffprobe'].blank?
+    media_item.video_data['ffprobe'][object_path] = response_body
+
+    media_item.save if media_item.changed?
   end
 
   private

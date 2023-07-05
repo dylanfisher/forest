@@ -11,7 +11,7 @@ class VideoTranscodeDestroyJob < ApplicationJob
     # })
 
     # response.contents
-    binding.pry
+    # binding.pry
   end
 
   private

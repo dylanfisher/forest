@@ -200,8 +200,8 @@ module BaseMediaItem
     attachment_content_type =~ %r{^(image)/(jpeg|jpg)}
   end
 
-  def video
-    @video ||= Forest::Video.new(video_data) if video_data.present?
+  def video_list
+    @video_list ||= Forest::VideoList.new(video_data) if video_data.present?
   end
 
   # A media item with content type SVG is considered an image, but it doesn't make sense to generate derivatives for SVGs
@@ -294,6 +294,24 @@ module BaseMediaItem
     attachment_attacher.atomic_persist
 
     AttachmentDerivativeJob.perform_later(attachment_attacher.class.name, attachment_attacher.record.class.name, attachment_attacher.record.id, attachment_attacher.name, attachment_attacher.file_data, derivative_name)
+  end
+
+  def extract_video_metadata!(include_derivatives: true)
+    path_with_just_filename = attachment_data['id'].split('/').last
+    path_without_filename = attachment_data['id'].split('/')[0..-2].join('/')
+    object_paths = []
+    object_paths << "#{Shrine.storages[:store].prefix}/#{attachment_data['id']}"
+
+    if include_derivatives
+      video_list.files.each do |video_list_file|
+        path_with_name_modifier = path_with_just_filename.sub(/\.#{attachment.extension}/, "#{video_list_file.file_data['name_modifier']}.#{attachment.extension}")
+        object_paths << "#{Shrine.storages[:store].prefix}/#{path_without_filename}/transcoded/#{path_with_name_modifier}"
+      end
+    end
+
+    object_paths.each do |object_path|
+      VideoTranscodeExtractMetadataJob.perform_later(media_item_id: id, object_path: object_path)
+    end
   end
 
   private

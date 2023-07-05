@@ -1,27 +1,18 @@
 class Forest::Video
-  attr_accessor :video_data, :status, :files
+  attr_accessor :file_data, :duration, :width, :height, :bitrate, :quality, :file_path, :url
 
-  def initialize(video_data)
-    @video_data = video_data
-    @status = video_data['status']
-    parse_files
-  end
+  # TODO: finish formatting data from new file structure
+  def initialize(file_data)
+    @file_data = file_data
 
-  def low_res
-    files.first
-  end
+    # binding.pry
 
-  def high_res
-    files.last
-  end
-
-  private
-
-  # TODO: Fix parse files method to work with new data structure from MediaConvert
-  # Files are ordered ascending by bitrate, which means low quality files are first, and high quality files are last
-  def parse_files
-    @files ||= video_data['job']['settings']['output_groups'][0]['outputs'].collect do |file_data|
-      Forest::Video::File.new(file_data)
-    end.flatten.sort_by(&:bitrate)
+    # @duration = file_data['durationInMs']
+    # @width = file_data['videoDetails']['widthInPx']
+    # @height = file_data['videoDetails']['heightInPx']
+    # @bitrate = file_data['videoDetails']['averageBitrate']
+    # @quality = file_data['videoDetails']['qvbrAvgQuality']
+    # @file_path = file_data['outputFilePaths'][0]
+    # @url = "#{Rails.application.credentials.dig(:asset_host)}/#{file_path.sub(/s3:\/\/#{Rails.application.credentials.dig(:s3, :bucket)}\//, '')}"
   end
 end
