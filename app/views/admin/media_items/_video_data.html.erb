@@ -1,0 +1,68 @@
+<%# TODO: show in-progress notice when first starting to transcode video %>
+
+<div class="row small-gutters my-3">
+  <div class="col">
+    <div class="card">
+      <h1 class="h2 card-header">
+        Video Metadata
+      </h1>
+      <div class="card-body">
+        <% if record.video_list.transcode_in_progress? %>
+          <div class="row small-gutters mb-3">
+            <div class="col">
+              <div class="alert alert-warning" role="alert">
+                This video has not finished transcoding yet. The CMS will automatically check the transcoding status
+                every minute until the video is processed and ready to view. If you believe the video is done transcoding, but hasn't
+                updated in the CMS, press the "Refresh Video Metadata" button below.
+              </div>
+            </div>
+          </div>
+        <% end %>
+        <div class="row small-gutters">
+          <div class="col-md-6">
+            <table class="table table-sm">
+              <tbody>
+                <% if record.video_list.width.present? %>
+                  <tr>
+                    <th>Width</th>
+                    <td><%= record.video_list.width %></td>
+                  </tr>
+                <% end %>
+                <% if record.video_list.height.present? %>
+                  <tr>
+                    <th>Height</th>
+                    <td><%= record.video_list.height %></td>
+                  </tr>
+                <% end %>
+                <tr>
+                  <th>Status</th>
+                  <td><%= record.video_list.status %></td>
+                </tr>
+              </tbody>
+            </table>
+            <%# TODO: Add Refresh Video Metadata button %>
+            <%#= link_to 'Refresh Vimeo Metadata', admin_media_item_vimeo_video_path(record, record.vimeo_video_id), class: 'btn btn-primary', method: 'patch' %>
+            <small class="form-text text-muted mt-2">If you find that a video is stuck on the transcoding screen in the CMS and believe this is an error, refresh the video metadata manually.</small>
+          </div>
+          <div class="col-md-6">
+            <% if record.video_list.present? %>
+              <p>
+                <strong>Direct file links</strong>: Use the direct file when embedding directly into an HTML video tag or an mp4 file is required. Use an appropriately
+                sized video depending on where you embed the video. In most cases, you should use the <strong>High Res</strong> video file.
+              </p>
+              <label>Video URLs:</label>
+              <ul>
+                <% record.video_list.each do |video| %>
+                  <% file_size = " – #{number_to_human_size(video.size)}" if video.size.present? %>
+                  <li>
+                    <%= link_to "#{video.quality.titlecase}#{file_size}", video.url, target: '_blank' %>
+                  </li>
+                <% end %>
+              </ul>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -14,15 +14,15 @@ class VideoTranscodePollJob < ApplicationJob
 
     media_item = MediaItem.find(media_item_id)
     # Update media item immediately to avoid race conditions when multiple jobs are called on the same media item
-    media_item.update(video_data: {}) if media_item.video_data.class != Hash
+    media_item.update_columns(video_data: {}) if media_item.video_data.class != Hash
     if media_item.video_data['ffprobe'].class != Hash
       media_item.video_data.merge!('ffprobe' => {})
-      media_item.update(video_data: media_item.video_data)
+      media_item.update_columns(video_data: media_item.video_data)
       media_item.reload
     end
     media_item.video_data['status'] = status
 
-    if %w(SUBMITTED PROGRESSING).include?(status)
+    if (Forest::VideoList::TRANSCODE_STATUS_SUBMITTED + Forest::VideoList::TRANSCODE_STATUS_IN_PROGRESS).include?(status)
       wait_time = 1.minute
       wait_time = 5.minutes if poll_count > 4
       wait_time = 10.minutes if poll_count > 8
@@ -32,7 +32,7 @@ class VideoTranscodePollJob < ApplicationJob
       else
         media_item.video_data['status'] = 'POLLING_FAILED'
       end
-    elsif status == 'COMPLETE'
+    elsif status == Forest::VideoList::TRANSCODE_STATUS_COMPLETE
       media_item.video_data['job'] = deep_compact!(media_convert_response.job.as_json)
       media_item.save if media_item.changed?
       media_item.extract_video_metadata!

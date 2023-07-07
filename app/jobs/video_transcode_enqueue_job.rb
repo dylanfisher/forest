@@ -7,6 +7,12 @@ class VideoTranscodeEnqueueJob < ApplicationJob
     media_item = MediaItem.find(media_item_id)
     object_path = "#{Shrine.storages[:store].prefix}/#{media_item.attachment_data['id']}"
 
+    if media_item.video_data.class != Hash
+      media_item.update_columns(video_data: { 'status' => Forest::VideoList::TRANSCODE_STATUS_ENQUEUED })
+    else
+      media_item.update_columns(video_data: media_item.video_data.merge('status' => Forest::VideoList::TRANSCODE_STATUS_ENQUEUED))
+    end
+
     # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Lambda/Client.html#invoke-instance_method
     response = lambda_client.invoke({
       function_name: LAMBDA_FUNCTION_NAME,

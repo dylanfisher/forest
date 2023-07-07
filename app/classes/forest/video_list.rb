@@ -1,7 +1,15 @@
 class Forest::VideoList
   attr_accessor :video_data, :status, :videos, :jobs
 
+  delegate :width, :height, :duration, :extension, to: :original, allow_nil: true
   delegate_missing_to :videos
+
+  TRANSCODE_STATUS_COMPLETE = 'COMPLETE'
+  TRANSCODE_STATUS_ENQUEUED = 'ENQUEUED'
+  TRANSCODE_STATUS_SUBMITTED = 'SUBMITTED'
+  TRANSCODE_STATUS_IN_PROGRESS = 'PROGRESSING'
+  TRANSCODE_STATUS_ERROR = 'ERROR'
+  TRANSCODE_STATUS_CANCELED = 'CANCELED'
 
   def initialize(video_data)
     @video_data = video_data
@@ -11,12 +19,27 @@ class Forest::VideoList
   end
 
   def low_res
-    # TODO: get low res instead of just the first video?
-    videos.first
+    videos.find(&:low_res?)
   end
 
   def high_res
-    videos.last
+    videos.find(&:high_res?)
+  end
+
+  def original
+    videos.find(&:original?)
+  end
+
+  def transcode_complete?
+    status == TRANSCODE_STATUS_COMPLETE
+  end
+
+  def transcode_in_progress?
+    [TRANSCODE_STATUS_ENQUEUED, TRANSCODE_STATUS_SUBMITTED, TRANSCODE_STATUS_IN_PROGRESS].include?(status)
+  end
+
+  def transcode_failed?
+    (TRANSCODE_STATUS_ERROR + TRANSCODE_STATUS_CANCELED).include?(status)
   end
 
   private

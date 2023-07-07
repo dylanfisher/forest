@@ -17,7 +17,7 @@ def lambda_handler(event:, context:)
   bucket = resource.bucket(bucket_name)
   object = bucket.object(object_path)
 
-  ffprobe = `ffprobe -loglevel error -print_format json -show_streams '#{s3_source_signed_url}'`
+  ffprobe = `ffprobe -loglevel error -print_format json -show_format -show_streams '#{s3_source_signed_url}'`
 
   if ffprobe
     status_code = 200

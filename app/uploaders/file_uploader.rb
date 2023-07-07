@@ -43,6 +43,11 @@ class FileUploader < Shrine
 
       # TODO: don't reprocess if video is already present, but do reprocess if video has changed
       if record.video?
+        if record.video_data.class != Hash
+          record.update_columns(video_data: { 'status' => Forest::VideoList::TRANSCODE_STATUS_ENQUEUED })
+        else
+          record.update_columns(video_data: record.video_data.merge('status', Forest::VideoList::TRANSCODE_STATUS_ENQUEUED))
+        end
         VideoTranscodeEnqueueJob.set(wait: rand(1..30).seconds).perform_later(self.record.id)
       end
     end

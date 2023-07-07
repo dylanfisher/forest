@@ -125,8 +125,8 @@
       </div>
       <% if @media_item.try(:vimeo_video?) && lookup_context.exists?('admin/shared/forest/vimeo/vimeo_data', [], true) %>
         <%= render 'admin/shared/forest/vimeo/vimeo_data', f: f, record: @media_item %>
-      <% elsif @media_item.try(:video?) %>
-        <%# TODO: show in-progress notice when first starting to transcode video %>
+      <% elsif @media_item.try(:video?) && !@media_item.video_list.nil? %>
+        <%= render 'admin/media_items/video_data', f: f, record: @media_item %>
       <% end %>
     </div>
   </div>

@@ -26,13 +26,13 @@ class VideoTranscodeExtractMetadataJob < ApplicationJob
 
     # Update media item immediately to avoid race conditions when multiple jobs are called on the same media item
     if media_item.video_data.class != Hash
-      media_item.update(video_data: {})
+      media_item.update_columns(video_data: {})
       media_item.reload
     end
 
     if media_item.video_data['ffprobe'].class != Hash
       media_item.video_data.merge!('ffprobe' => {})
-      media_item.update(video_data: media_item.video_data)
+      media_item.update_columns(video_data: media_item.video_data)
       media_item.reload
     end
     media_item.video_data['ffprobe'][object_path] = response_body
