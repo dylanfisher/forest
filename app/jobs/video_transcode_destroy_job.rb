@@ -2,8 +2,8 @@ class VideoTranscodeDestroyJob < ApplicationJob
   def perform(video_data)
     video_list = Forest::VideoList.new(video_data)
 
-    video_list.files.each do |file|
-      key = file[:filename]
+    video_list.videos.each do |video|
+      key = video.file_path
 
       # We don't need to delete the source file because the attachment destroy job already does this
       next unless key.split('/').include?('transcoded')

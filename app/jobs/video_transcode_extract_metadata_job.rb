@@ -23,9 +23,13 @@ class VideoTranscodeExtractMetadataJob < ApplicationJob
     response_body = response_json['body']
 
     media_item = MediaItem.find(media_item_id)
+
     # Update media item immediately to avoid race conditions when multiple jobs are called on the same media item
-    media_item.update(video_data: {}) if media_item.video_data.class != Hash
-    media_item.reload
+    if media_item.video_data.class != Hash
+      media_item.update(video_data: {})
+      media_item.reload
+    end
+
     if media_item.video_data['ffprobe'].class != Hash
       media_item.video_data.merge!('ffprobe' => {})
       media_item.update(video_data: media_item.video_data)

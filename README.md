@@ -197,22 +197,9 @@ Forest relies heavily on the following gems, software and frameworks:
 
 ### On Demand Video Transcoder
 
-#### Basic outline
-
-- Upload video to media library
-- Use `Aws::Lambda::Client` to invoke lambda function
-  - Pass arguments to lambda function defining `MediaItem` bucket path
-  - Lambda function invokes `MediaConvert`
-    - In `MediaConvert` callback, send webhook notification to Forest
-- Forest recieves webhook notification from `MediaConvert`
-  - Webhook supplies `MediaItem` ID and metadata
-  - Update `MediaItem` with new video info
-
-#### Transcoder TODO
-
 - Add video metadata information to MediaItem#edit views
 - Add documentation on using the transcoder and Forest::Video class
-- Add documentation and additional template to create SNS, EventBridge, Lambda, CloudWatch, etc.
+- Add documentation and additional template to create Lambda, etc.
 - Replacing a video currently overwrites the existing video data on the media item. This seems fine, unless you were testing the upload on
   a dev server (or locally), in which case the production video would get overwritten. Figure out a solution to avoid this.
 
