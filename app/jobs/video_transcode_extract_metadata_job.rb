@@ -2,8 +2,6 @@ class VideoTranscodeExtractMetadataJob < ApplicationJob
   LAMBDA_FUNCTION_NAME = 'ffprobe'
 
   def perform(media_item_id:, object_path:)
-    media_item = MediaItem.find(media_item_id)
-
     # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Lambda/Client.html#invoke-instance_method
     response = lambda_client.invoke({
       function_name: LAMBDA_FUNCTION_NAME,
@@ -24,8 +22,15 @@ class VideoTranscodeExtractMetadataJob < ApplicationJob
     response_json = JSON.parse(response.payload.string)
     response_body = response_json['body']
 
-    media_item.video_data = {} if media_item.video_data.blank?
-    media_item.video_data['ffprobe'] = {} if media_item.video_data['ffprobe'].blank?
+    media_item = MediaItem.find(media_item_id)
+    # Update media item immediately to avoid race conditions when multiple jobs are called on the same media item
+    media_item.update(video_data: {}) if media_item.video_data.class != Hash
+    media_item.reload
+    if media_item.video_data['ffprobe'].class != Hash
+      media_item.video_data.merge!('ffprobe' => {})
+      media_item.update(video_data: media_item.video_data)
+      media_item.reload
+    end
     media_item.video_data['ffprobe'][object_path] = response_body
 
     media_item.save if media_item.changed?

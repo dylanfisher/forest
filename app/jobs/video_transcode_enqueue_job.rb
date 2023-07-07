@@ -1,7 +1,9 @@
 class VideoTranscodeEnqueueJob < ApplicationJob
   LAMBDA_FUNCTION_NAME = 'TranscodeVideo'
+  ERROR_TOO_MANY_REQUESTS = 'too many requests'
 
-  def perform(media_item_id)
+  def perform(media_item_id, retry_count: 0)
+    retry_count += 1
     media_item = MediaItem.find(media_item_id)
     object_path = "#{Shrine.storages[:store].prefix}/#{media_item.attachment_data['id']}"
 
@@ -23,10 +25,26 @@ class VideoTranscodeEnqueueJob < ApplicationJob
     end
 
     response_json = JSON.parse(response.payload.string)
+
+    if retry_count > 20
+      Rails.logger.error { "[Forest][Error] VideoTranscodeEnqueueJob retry count exceeded. Video transcode failed to enqueue." }
+      return
+    elsif response_json['errorMessage'].to_s.downcase == ERROR_TOO_MANY_REQUESTS
+      VideoTranscodeEnqueueJob.set(wait: rand(30..90).seconds).perform_later(media_item_id, retry_count: retry_count)
+      return
+    elsif response_json['body'].blank?
+      if retry_count < 6
+        VideoTranscodeEnqueueJob.set(wait: rand(30..90).seconds).perform_later(media_item_id, retry_count: retry_count)
+      else
+        Rails.logger.error { "[Forest][Error] VideoTranscodeEnqueueJob lambda response was blank.\nStatus Code: #{response.status_code}\n#{response_json}" }
+      end
+      return
+    end
+
     response_body = JSON.parse(response_json['body'])
     job_id = response_body['createJobResponse']['Job']['Id']
 
-    VideoTranscodePollJob.perform_later(media_item_id: media_item_id, job_id: job_id)
+    VideoTranscodePollJob.set(wait: rand(60..90).seconds).perform_later(media_item_id: media_item_id, job_id: job_id)
   end
 
   private

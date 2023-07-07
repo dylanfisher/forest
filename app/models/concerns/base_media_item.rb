@@ -303,14 +303,14 @@ module BaseMediaItem
     object_paths << "#{Shrine.storages[:store].prefix}/#{attachment_data['id']}"
 
     if include_derivatives
-      video_list.files.each do |video_list_file|
+      video_list.jobs.each do |video_list_file|
         path_with_name_modifier = path_with_just_filename.sub(/\.#{attachment.extension}/, "#{video_list_file.file_data['name_modifier']}.#{attachment.extension}")
         object_paths << "#{Shrine.storages[:store].prefix}/#{path_without_filename}/transcoded/#{path_with_name_modifier}"
       end
     end
 
     object_paths.each do |object_path|
-      VideoTranscodeExtractMetadataJob.perform_later(media_item_id: id, object_path: object_path)
+      VideoTranscodeExtractMetadataJob.set(wait: rand(1..30).seconds).perform_later(media_item_id: id, object_path: object_path)
     end
   end
 

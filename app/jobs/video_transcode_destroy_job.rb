@@ -1,17 +1,18 @@
 class VideoTranscodeDestroyJob < ApplicationJob
   def perform(video_data)
-    video = Forest::Video.new(video_data)
+    video_list = Forest::VideoList.new(video_data)
 
-    # media_item_id = media_item_path.match(/mediaitem\/(\d*)\/attachment\//)[1].to_i
-    # prefix = "#{Shrine.storages[:store].prefix}/mediaitem/#{media_item_id}/attachment/transcoded/"
+    video_list.files.each do |file|
+      key = file[:filename]
 
-    # response = client.list_objects({
-    #   bucket: Forest.config[:aws_bucket],
-    #   prefix: prefix
-    # })
+      # We don't need to delete the source file because the attachment destroy job already does this
+      next unless key.split('/').include?('transcoded')
 
-    # response.contents
-    # binding.pry
+      response = client.delete_object({
+        bucket: Forest.config[:aws_bucket],
+        key: key
+      })
+    end
   end
 
   private

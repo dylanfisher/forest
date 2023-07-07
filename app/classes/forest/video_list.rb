@@ -20,6 +20,8 @@ class Forest::VideoList
 
   # Jobs are ordered ascending by bitrate, which means low quality jobs are first, and high quality jobs are last
   def parse_job_outputs
+    return @jobs = [] if video_data.dig('job', 'settings', 'output_groups').blank?
+
     @jobs ||= video_data['job']['settings']['output_groups'][0]['outputs'].collect do |file_data|
       Forest::Video.new(file_data)
     end.flatten.sort_by(&:bitrate)
@@ -27,6 +29,8 @@ class Forest::VideoList
 
   def parse_files
     @files ||= begin
+      return @files = [] if video_data['ffprobe'].blank?
+
       video_data['ffprobe'].collect do |k, v|
         {
           filename: k,

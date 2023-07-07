@@ -1,7 +1,5 @@
 class VideoTranscodePollJob < ApplicationJob
   def perform(media_item_id:, job_id:, poll_count: 0)
-    media_item = MediaItem.find(media_item_id)
-
     media_convert_client = Aws::MediaConvert::Client.new({
       endpoint: media_convert_endpoint
     })
@@ -13,13 +11,22 @@ class VideoTranscodePollJob < ApplicationJob
     # https://docs.aws.amazon.com/mediaconvert/latest/ug/how-mediaconvert-jobs-progress.html
     # Potential statuses: SUBMITTED, PROGRESSING, COMPLETE, ERROR, CANCELED
     status = media_convert_response.job.status
-    media_item.video_data = {} if media_item.video_data.blank?
+
+    media_item = MediaItem.find(media_item_id)
+    # Update media item immediately to avoid race conditions when multiple jobs are called on the same media item
+    media_item.update(video_data: {}) if media_item.video_data.class != Hash
+    if media_item.video_data['ffprobe'].class != Hash
+      media_item.video_data.merge!('ffprobe' => {})
+      media_item.update(video_data: media_item.video_data)
+      media_item.reload
+    end
     media_item.video_data['status'] = status
 
     if %w(SUBMITTED PROGRESSING).include?(status)
       wait_time = 1.minute
       wait_time = 5.minutes if poll_count > 4
       wait_time = 10.minutes if poll_count > 8
+      wait_time += rand(30).seconds
       if poll_count < 15
         VideoTranscodePollJob.set(wait: wait_time).perform_later(media_item_id: media_item_id, job_id: job_id, poll_count: (poll_count + 1))
       else

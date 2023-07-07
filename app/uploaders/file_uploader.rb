@@ -43,7 +43,7 @@ class FileUploader < Shrine
 
       # TODO: don't reprocess if video is already present, but do reprocess if video has changed
       if record.video?
-        VideoTranscodeEnqueueJob.perform_later(self.record.id)
+        VideoTranscodeEnqueueJob.set(wait: rand(1..30).seconds).perform_later(self.record.id)
       end
     end
   end
