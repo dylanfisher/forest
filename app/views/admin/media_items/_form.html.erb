@@ -56,7 +56,9 @@
                         <% if @media_item.class.column_names.include?('enable_audio') %>
                           <%= f.input :enable_audio, hint: 'Optionally enable audio for videos that support an audio track. Users still need to interact with the video before audio is enabled.' %>
                         <% end %>
-                        <%= video_tag @media_item.attachment_url, controls: true %>
+                        <% video_preview_url = @media_item.attachment_url %>
+                        <% video_preview_url = @media_item.video_list.low_res.url if (@media_item.try(:video_list).present? && @media_item.video_list.low_res.present?) %>
+                        <%= video_tag video_preview_url, controls: true %>
                       <% elsif @media_item.try(:file?) %>
                         <div class="mt-2">
                           <%= bootstrap_icon 'file-richtext', style: 'width: 36px;' %>
@@ -68,46 +70,89 @@
                 </div>
                 <% if @media_item.attachment.present? %>
                   <div class="form-group">
-                    <label class="control-label">Attachment URLs:</label>
+                    <% unless @media_item.try(:video?) && !@media_item.video_list.nil? %>
+                      <label class="control-label">Attachment URLs:</label>
+                    <% end %>
                     <% if @media_item.supports_derivatives? %>
-                      <ul>
-                        <li><%= link_to 'Original', @media_item.attachment_url, target: '_blank' %></li>
-                        <li>
-                          <% if @media_item.attachment_derivatives[:large].present? %>
-                            <%= link_to 'Large', @media_item.attachment_url(:large), target: '_blank' %>
-                          <% else %>
-                            <span class="text-muted">Large <%= @media_item.updated_at < DateTime.current - 1.hour ? "(failed, #{link_to(content_tag(:u, 'reprocess derivative'), reprocess_admin_media_item_path(@media_item, derivative_name: :large), method: :post, class: 'text-muted')})".html_safe : " – processing" %></span>
+                      <table class="table table-sm table-bordered">
+                        <thead>
+                          <tr>
+                            <th>Name</th>
+                            <th>Size</th>
+                            <th>Width</th>
+                            <th>Height</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td><%= link_to "Original", @media_item.attachment_url, target: '_blank' %></td>
+                            <td><%= number_to_human_size(@media_item.attachment.size) %></td>
+                            <td><%= @media_item.attachment.width %></td>
+                            <td><%= @media_item.attachment.height %></td>
+                          </tr>
+                          <% %i(large medium small thumb).each do |size| %>
+                            <tr>
+                              <% if @media_item.attachment_derivatives[size].present? %>
+                                <td><%= link_to size.to_s.titleize, @media_item.attachment_url(size), target: '_blank' %></td>
+                                <td><%= number_to_human_size(@media_item.attachment(size).size) %></td>
+                                <td><%= @media_item.attachment(size).width %></td>
+                                <td><%= @media_item.attachment(size).height %></td>
+                              <% else %>
+                                <td colspan="4">
+                                  <span class="text-muted"><%= size.to_s.titleize %> <%= @media_item.updated_at < DateTime.current - 1.hour ? "(failed, #{link_to(content_tag(:u, 'reprocess derivative'), reprocess_admin_media_item_path(@media_item, derivative_name: size), method: :post, class: 'text-muted')})".html_safe : " – processing" %></span>
+                                </td>
+                              <% end %>
+                            </tr>
                           <% end %>
-                        </li>
-                        <li>
-                          <% if @media_item.attachment_derivatives[:medium].present? %>
-                            <%= link_to 'Medium', @media_item.attachment_url(:medium), target: '_blank' %>
-                          <% else %>
-                            <span class="text-muted">Medium <%= @media_item.updated_at < DateTime.current - 1.hour ? "(failed, #{link_to(content_tag(:u, 'reprocess derivative'), reprocess_admin_media_item_path(@media_item, derivative_name: :medium), method: :post, class: 'text-muted')})".html_safe : " – processing" %></span>
-                          <% end %>
-                        </li>
-                        <li>
-                          <% if @media_item.attachment_derivatives[:small].present? %>
-                            <%= link_to 'Small', @media_item.attachment_url(:small), target: '_blank' %>
-                          <% else %>
-                            <span class="text-muted">Small <%= @media_item.updated_at < DateTime.current - 1.hour ? "(failed, #{link_to(content_tag(:u, 'reprocess derivative'), reprocess_admin_media_item_path(@media_item, derivative_name: :small), method: :post, class: 'text-muted')})".html_safe : " – processing" %></span>
-                          <% end %>
-                        </li>
-                        <li>
-                          <% if @media_item.attachment_derivatives[:thumb].present? %>
-                            <%= link_to 'Thumb', @media_item.attachment_url(:thumb), target: '_blank' %>
-                          <% else %>
-                            <span class="text-muted">Thumb <%= @media_item.updated_at < DateTime.current - 1.hour ? "(failed, #{link_to(content_tag(:u, 'reprocess derivative'), reprocess_admin_media_item_path(@media_item, derivative_name: :thumb), method: :post, class: 'text-muted')})".html_safe : " – processing" %></span>
-                          <% end %>
-                        </li>
-                      </ul>
+                        </tbody>
+                      </table>
+                    <% elsif @media_item.try(:video?) && !@media_item.video_list.nil? %>
+                      <% if @media_item.video_list.present? %>
+                        <p>
+                          <strong>Direct file links</strong>: Use the direct file when embedding directly into an HTML video tag or an mp4 file is required. Use an appropriately
+                          sized video depending on where you embed the video. In most cases, you should use the <strong>High Res</strong> video file.
+                        </p>
+                        <label>Video URLs:</label>
+                        <table class="table table-sm table-bordered">
+                          <thead>
+                            <tr>
+                              <th>Name</th>
+                              <th>Size</th>
+                              <th>Width</th>
+                              <th>Height</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <% if @media_item.video_list.blank? %>
+                              <tr>
+                                <td><%= link_to "Original", @media_item.attachment_url, target: '_blank' %></td>
+                                <td><%= number_to_human_size(@media_item.attachment.size) %></td>
+                                <td><%= @media_item.attachment.width %></td>
+                                <td><%= @media_item.attachment.height %></td>
+                              </tr>
+                            <% end %>
+                            <tr>
+                              <td><%= link_to @media_item.video_list.original.quality.titleize, @media_item.video_list.original.url, target: '_blank' %></td>
+                              <td><%= number_to_human_size(@media_item.video_list.original.size) %></td>
+                              <td><%= @media_item.video_list.original.width %></td>
+                              <td><%= @media_item.video_list.original.height %></td>
+                            </tr>
+                            <% @media_item.video_list.reverse.each do |video| %>
+                              <% next if video.original? %>
+                              <tr>
+                                <td><%= link_to video.quality.titleize, video.url, target: '_blank' %></td>
+                                <td><%= number_to_human_size(video.size) %></td>
+                                <td><%= video.width %></td>
+                                <td><%= video.height %></td>
+                              </tr>
+                            <% end %>
+                          </tbody>
+                        </table>
+                      <% end %>
                     <% else %>
                       <ul>
                         <li><%= link_to 'Original', @media_item.attachment_url, target: '_blank' %></li>
                       </ul>
-                    <% end %>
-                    <% if @media_item.video? && !@media_item.try(:vimeo_video?) %>
-                      <%= f.association :poster_image, as: :image, scope: 'images', hint: 'Add a poster image to video files. This image is used when initially loading the video, or displayed in some contexts on mobile devices.' %>
                     <% end %>
                   </div>
                 <% end %>
@@ -123,10 +168,45 @@
           </div>
         </div>
       </div>
+
+      <% if @media_item.video? && !@media_item.try(:vimeo_video?) %>
+        <div class="row small-gutters my-3">
+          <div class="col">
+            <div class="card">
+              <h1 class="h2 card-header">
+                Video Metadata
+              </h1>
+              <div class="card-body">
+                <div class="row small-gutters">
+                  <div class="col-md-6">
+                    <% if @media_item.video? && !@media_item.try(:vimeo_video?) %>
+                      <%= f.association :poster_image, as: :image, scope: 'images', hint: 'Add a poster image to video files. This image is used when initially loading the video, or displayed in some contexts on mobile devices.' %>
+                    <% end %>
+                  </div>
+                  <div class="col-md-6">
+                    <% if @media_item.try(:video?) && !@media_item.video_list.nil? %>
+                      <% if @media_item.video_list.transcode_in_progress? %>
+                        <div class="alert alert-warning" role="alert">
+                          This video has not finished transcoding yet. The CMS will automatically check the transcoding status
+                          every minute until the video is processed and ready to view.
+                        </div>
+                      <% elsif @media_item.video_list.transcode_failed? %>
+                        <div class="alert alert-danger" role="alert">
+                          This video has failed to transcode. If you believe this is an error press the "Refresh Video Metadata" button below.
+                        </div>
+                        <%= link_to 'Refresh Video Metadata', transcode_admin_media_item_path(@media_item), class: 'btn btn-primary', method: 'patch' %>
+                      <% end %>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
       <% if @media_item.try(:vimeo_video?) && lookup_context.exists?('admin/shared/forest/vimeo/vimeo_data', [], true) %>
         <%= render 'admin/shared/forest/vimeo/vimeo_data', f: f, record: @media_item %>
-      <% elsif @media_item.try(:video?) && !@media_item.video_list.nil? %>
-        <%= render 'admin/media_items/video_data', f: f, record: @media_item %>
       <% end %>
     </div>
   </div>

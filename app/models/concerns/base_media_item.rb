@@ -314,6 +314,15 @@ module BaseMediaItem
     end
   end
 
+  def enqueue_transcode_job
+    if video_data.class != Hash
+      update_columns(video_data: { 'status' => Forest::VideoList::TRANSCODE_STATUS_ENQUEUED })
+    else
+      update_columns(video_data: video_data.merge('status' => Forest::VideoList::TRANSCODE_STATUS_ENQUEUED))
+    end
+    VideoTranscodeEnqueueJob.set(wait: rand(1..30).seconds).perform_later(id)
+  end
+
   def destroy_video_list!
     VideoTranscodeDestroyJob.perform_later(video_data) unless Forest.config[:keep_files]
     self.update_columns(video_data: nil) unless self.destroyed?

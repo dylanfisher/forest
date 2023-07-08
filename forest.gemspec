@@ -18,7 +18,6 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'aws-sdk-s3'
   s.add_dependency 'aws-sdk-lambda'
-  s.add_dependency 'aws-sdk-sns'
   s.add_dependency 'aws-sdk-mediaconvert'
   s.add_dependency 'bootstrap', '~> 4.0'
   s.add_dependency 'cocoon'

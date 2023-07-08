@@ -3,10 +3,7 @@ module Admin
     extend ActiveSupport::Concern
 
     included do
-      skip_before_action :authenticate_user!, only: :transcode
-      skip_forgery_protection only: :transcode
-
-      before_action :set_media_item, only: [:show, :edit, :update, :reprocess, :destroy]
+      before_action :set_media_item, only: [:show, :edit, :update, :reprocess, :transcode, :destroy]
 
       has_scope :by_date
       has_scope :by_content_type
@@ -114,44 +111,13 @@ module Admin
       redirect_to admin_media_items_url, notice: notice
     end
 
-    # TODO: Remove obsolete transcode action
-    # GET /media_items/transcode
+    # PATCH/PUT /media_items/transcode
     def transcode
-      skip_authorization
+      authorize @media_item
 
-      begin
-        sns_message = JSON.parse(request.body.string)
-      rescue JSON::ParserError => e
-        logger.error { "[Forest][Error] MediaItem transcode failed to parse SNS message\n#{e.inspect}" }
-        return head :bad_request
-      end
+      @media_item.enqueue_transcode_job
 
-      verifier = Aws::SNS::MessageVerifier.new
-      unless verifier.authentic?(request.body.string)
-        logger.error { '[Forest][Error] SNS message was not verified to be authentic.' }
-        return head :bad_request
-      end
-
-      message_type = sns_message['Type']
-      topic_arn = sns_message['TopicArn']
-      subject = sns_message['Subject']
-
-      if message_type == 'SubscriptionConfirmation'
-        subscribe_url = sns_message['SubscribeURL']
-        VideoTranscodeConfirmSnsJob.perform_later(subscribe_url)
-      elsif message_type == 'Notification'
-        message = JSON.parse(sns_message['Message'])
-        status = message.dig('detail', 'status')
-        output_file_path = message.dig('detail', 'outputGroupDetails').try(:[], 0).try(:[], 'outputDetails').try(:[], 0).try(:[], 'outputFilePaths').try(:[], 0)
-
-        if output_file_path.present?
-          media_item_id = output_file_path.match(/\/media\/mediaitem\/(3)\/attachment\//)[1].to_i
-          media_item = MediaItem.find(media_item_id)
-          media_item.update(video_data: message) if media_item.present?
-        end
-      end
-
-      head :ok
+      redirect_to edit_admin_media_item_path(@media_item), notice: 'Media item has been enqueued for transcoding. Please check back in several minutes.'
     end
 
     # DELETE /media_items/1

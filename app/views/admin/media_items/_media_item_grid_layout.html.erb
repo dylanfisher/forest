@@ -46,7 +46,9 @@
                     style: "background-image: url(#{attachment_or_placeholder_url}); #{css_style}" %>
     <% if media_item.try(:video?) && !media_item.try(:vimeo_video?) %>
       <%# TODO: replace with poster image when present %>
-      <%= video_tag media_item.attachment_url, preload: 'metadata', class: 'media-item--grid__video rounded-lg' %>
+      <% video_preview_url = media_item.attachment_url %>
+      <% video_preview_url = media_item.video_list.low_res.url if (media_item.try(:video_list).present? && media_item.video_list.low_res.present?) %>
+      <%= video_tag video_preview_url, preload: 'metadata', class: 'media-item--grid__video rounded-lg' %>
     <% end %>
   <% end %>
   <div class="media-item--grid__buttons">

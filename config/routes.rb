@@ -13,9 +13,9 @@ Rails.application.routes.draw do
     resources :cache_purge, path: 'cache-purge', only: [:index]
     resources :imports, only: [:edit, :create]
     resources :media_items, except: [:show], path: 'media-items' do
-      post 'transcode', on: :collection
       post 'update_multiple', on: :collection
       post 'reprocess', on: :member
+      patch 'transcode', on: :member
     end
     resources :menus, except: [:show]
     resources :pages, except: [:show]
