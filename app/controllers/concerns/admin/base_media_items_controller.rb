@@ -115,7 +115,7 @@ module Admin
     def transcode
       authorize @media_item
 
-      @media_item.enqueue_transcode_job
+      @media_item.enqueue_transcode_job!
 
       redirect_to edit_admin_media_item_path(@media_item), notice: 'Media item has been enqueued for transcoding. Please check back in several minutes.'
     end

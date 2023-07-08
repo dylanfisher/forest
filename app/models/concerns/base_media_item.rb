@@ -297,6 +297,8 @@ module BaseMediaItem
   end
 
   def extract_video_metadata!(include_derivatives: true)
+    return unless supports_video_transcoding?
+
     path_with_just_filename = attachment_data['id'].split('/').last
     path_without_filename = attachment_data['id'].split('/')[0..-2].join('/')
     object_paths = []
@@ -314,7 +316,9 @@ module BaseMediaItem
     end
   end
 
-  def enqueue_transcode_job
+  def enqueue_transcode_job!
+    return unless supports_video_transcoding?
+
     if video_data.class != Hash
       update_columns(video_data: { 'status' => Forest::VideoList::TRANSCODE_STATUS_ENQUEUED })
     else
@@ -324,8 +328,14 @@ module BaseMediaItem
   end
 
   def destroy_video_list!
+    return unless supports_video_transcoding?
+
     VideoTranscodeDestroyJob.perform_later(video_data) unless Forest.config[:keep_files]
     self.update_columns(video_data: nil) unless self.destroyed?
+  end
+
+  def supports_video_transcoding?
+    Rails.application.credentials.dig(:aws_media_convert_endpoint).present?
   end
 
   private
