@@ -1,6 +1,6 @@
 {
   "Queue": "Default",
-  "Role": "",
+  "Name": "forest-transcode-video",
   "Settings": {
     "TimecodeConfig": {
       "Source": "ZEROBASED"
@@ -15,7 +15,6 @@
               "Mp4Settings": {}
             },
             "VideoDescription": {
-              "Width": 1280,
               "Height": 720,
               "CodecSettings": {
                 "Codec": "H_264",
@@ -52,7 +51,6 @@
               "Mp4Settings": {}
             },
             "VideoDescription": {
-              "Width": 1920,
               "Height": 1080,
               "CodecSettings": {
                 "Codec": "H_264",
