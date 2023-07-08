@@ -1,7 +1,7 @@
 class Forest::VideoList
   attr_accessor :video_data, :status, :videos, :jobs
 
-  delegate :width, :height, :duration, :extension, to: :original, allow_nil: true
+  delegate :width, :height, :duration, :extension, :aspect_ratio, to: :original, allow_nil: true
   delegate_missing_to :videos
 
   TRANSCODE_STATUS_COMPLETE = 'COMPLETE'
