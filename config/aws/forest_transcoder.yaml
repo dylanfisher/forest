@@ -66,8 +66,6 @@ Resources:
           ROLE: !GetAtt MediaConvertRole.Arn
       Code:
         ZipFile: |
-          console.log('the function is running');
-
           const path = require('path')
           const { MediaConvertClient, CreateJobCommand, DescribeEndpointsCommand } = require("@aws-sdk/client-mediaconvert");
 
@@ -114,11 +112,19 @@ Resources:
               };
 
               const command = new CreateJobCommand(input);
-              console.log(command);
-              const response = await client.send(command);
-              console.log(response);
+              const createJobResponse = await client.send(command);
 
-              cb(null, [response])
+              let responseBody = {
+                input: event,
+                createJobResponse: createJobResponse
+              };
+
+              let lambdaResponse = {
+                statusCode: 200,
+                body: JSON.stringify(responseBody)
+              };
+
+              cb(null, lambdaResponse)
             } catch (e) {
               cb(e.message)
             }
