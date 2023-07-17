@@ -62,6 +62,8 @@ class Forest::VideoList
           metadata: v
         }
       end.sort_by do |data_set|
+        next if data_set[:metadata].blank?
+
         data_set[:metadata]['streams'].find { |s| s['codec_type'] == 'video' }['bit_rate'].to_i
       end
     end

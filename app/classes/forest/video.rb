@@ -8,6 +8,13 @@ class Forest::Video
     @file_path = file_data[:file_path]
     @filename = file_path.split('/').last
     metadata = file_data[:metadata]
+
+    if file_data[:metadata].blank?
+      Rails.logger.warn { 'Forest::Error Forest::Video metadata is blank' } if Rails.env.development?
+
+      return
+    end
+
     file_format = metadata['format']
     @size = file_format['size'] if file_format.present?
     video_stream = metadata['streams'].find { |x| x['codec_type'] == 'video' }

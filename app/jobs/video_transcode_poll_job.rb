@@ -47,6 +47,7 @@ class VideoTranscodePollJob < ApplicationJob
     @media_convert_endpoint ||= ENV['AWS_MEDIA_CONVERT_ENDPOINT'].presence || Rails.application.credentials&.dig(:aws_media_convert_endpoint)
   end
 
+  # https://gist.github.com/ifightcrime/1251339
   def deep_compact!(hash_or_array)
     p = proc do |*args|
       v = args.last
