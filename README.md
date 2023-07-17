@@ -104,6 +104,11 @@ Optional arguments:
 ## Custom SimpleForm inputs
 A number of custom SimpleForm inputs and components are baked into Forest: https://github.com/dylanfisher/forest/wiki/SimpleForm-inputs-&-components
 
+## On Demand Video Transcoder
+
+A serverless on demand video transcoding workflow is built into Forest and relies on a few AWS services. Follow the setup guide for these
+services at: https://github.com/dylanfisher/forest/wiki/AWS-Serverless-Video-Transcoding.
+
 ## Video associations uploaded as Media Items
 ```ruby
 # in your migration
@@ -194,14 +199,6 @@ Forest relies heavily on the following gems, software and frameworks:
 - simpleform
 
 ## TODO
-
-### On Demand Video Transcoder
-
-- Add video metadata information to MediaItem#edit views
-- Add documentation on using the transcoder and Forest::Video class
-- Add documentation and additional template to create Lambda, etc.
-- Replacing a video currently overwrites the existing video data on the media item. This seems fine, unless you were testing the upload on
-  a dev server (or locally), in which case the production video would get overwritten. Figure out a solution to avoid this.
 
 Version 2
 - [ ] Update settings to support an optional default fallback value for situations where a client may forget to enter a value.

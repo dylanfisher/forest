@@ -125,22 +125,6 @@ Resources:
           }
       Runtime: nodejs18.x
 
-  # S3Bucket:
-  #   Type: 'AWS::S3::Bucket'
-  #   DependsOn:
-  #     - S3ExecutionPermission
-  #   Properties:
-  #     BucketName: !Ref BucketName
-  #     NotificationConfiguration:
-  #       LambdaConfigurations:
-  #         - Event: 's3:ObjectCreated:*'
-  #           Function: !GetAtt TranscodeVideoFunction.Arn
-  #           Filter:
-  #             S3Key:
-  #               Rules:
-  #                 - Name: prefix
-  #                   Value: 'originals/'
-
   S3ExecutionPermission:
     Type: AWS::Lambda::Permission
     Properties:
