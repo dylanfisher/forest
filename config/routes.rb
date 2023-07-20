@@ -39,11 +39,11 @@ Rails.application.routes.draw do
   # Devise
   unless Forest.override_devise_for_route_declaration
     devise_for :users, class_name: 'User', module: :devise
-  end
-  devise_scope :user do
-    get 'admin', to: 'devise/sessions#new'
-    get 'login', to: 'devise/sessions#new'
-    get 'logout', to: 'devise/sessions#destroy'
+    devise_scope :user do
+      get 'admin', to: 'devise/sessions#new'
+      get 'login', to: 'devise/sessions#new'
+      get 'logout', to: 'devise/sessions#destroy'
+    end
   end
 
   get '/edit', to: 'pages#edit'
