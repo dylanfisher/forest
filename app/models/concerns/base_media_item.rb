@@ -184,6 +184,10 @@ module BaseMediaItem
     (attachment_content_type =~ %r{^video\/}).present?
   end
 
+  def forest_video?
+    video_list.present? && video_list.videos.present?
+  end
+
   def audio?
     (attachment_content_type =~ %r{^audio\/}).present?
   end
@@ -223,8 +227,8 @@ module BaseMediaItem
 
   def dimensions
     {
-      width: (attachment.width.presence || attachment_derivatives[:large].try(:width) || (try(:vimeo_video?) ? vimeo_video_width : nil)),
-      height: (attachment.height.presence || attachment_derivatives[:large].try(:height) || (try(:vimeo_video?) ? vimeo_video_height : nil))
+      width: (video_list.try(:width) || attachment.width.presence || attachment_derivatives[:large].try(:width) || (try(:vimeo_video?) ? vimeo_video_width : nil)),
+      height: (video_list.try(:height) || attachment.height.presence || attachment_derivatives[:large].try(:height) || (try(:vimeo_video?) ? vimeo_video_height : nil))
     }
   end
 
