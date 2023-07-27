@@ -2,6 +2,8 @@ module Sluggable
   extend ActiveSupport::Concern
 
   included do
+    # TODO: In some edge cases it seems like a record can be saved without generating a slug.
+    # It may make sense to generate the slug in an after_commit hook in case that edge case happens.
     before_validation :generate_slug
     before_validation :parameterize_slug, if: :will_save_change_to_slug?
 

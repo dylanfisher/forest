@@ -9,7 +9,7 @@ class VideoTranscodeEnqueueJob < ApplicationJob
 
     if media_item.video_data.class != Hash
       media_item.update_columns(video_data: { 'status' => Forest::VideoList::TRANSCODE_STATUS_ENQUEUED })
-    else
+    elsif media_item.video_data['status'] != Forest::VideoList::TRANSCODE_STATUS_ENQUEUED
       media_item.update_columns(video_data: media_item.video_data.merge('status' => Forest::VideoList::TRANSCODE_STATUS_ENQUEUED))
     end
 

@@ -325,7 +325,7 @@ module BaseMediaItem
 
     if video_data.class != Hash
       update_columns(video_data: { 'status' => Forest::VideoList::TRANSCODE_STATUS_ENQUEUED })
-    else
+    elsif video_data['status'] != Forest::VideoList::TRANSCODE_STATUS_ENQUEUED
       update_columns(video_data: video_data.merge('status' => Forest::VideoList::TRANSCODE_STATUS_ENQUEUED))
     end
     VideoTranscodeEnqueueJob.set(wait: rand(1..30).seconds).perform_later(id)
