@@ -24,7 +24,7 @@ class VideoTranscodeExtractMetadataJob < ApplicationJob
 
     # multipart_copy is necessary if the object is 5GB+
     if s3_object.size >= 5_000_000_000
-      options.merge!({multipart_copy: true})
+      options.merge!({ multipart_copy: true })
     else
       # Only used if multipart_copy is true
       options.delete(:content_length)

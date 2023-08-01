@@ -28,7 +28,7 @@ module Sluggable
     elsif respond_to?(:name)
       name
     else
-      raise Forest::Error.new("Slug attribute :title does not exist on #{self.class.name}. Define a `slug_attribute` method with a valid attribue.")
+      raise Forest::Error.new("Slug attribute :title does not exist on #{self.class.name}. Define a `slug_attribute` method with a valid attribue, or have the method return false to generate a random slug.")
     end
   end
 
