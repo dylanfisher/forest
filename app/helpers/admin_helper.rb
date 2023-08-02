@@ -15,10 +15,18 @@ module AdminHelper
       class: "#{active_class}#{(is_default_order ? 'order--default' : 'order--reverse')}"
   end
 
-  def table_thumbnail(image)
-    if image&.attachment.present?
+  def table_thumbnail(media_item)
+    if media_item.try(:video?)
       content_tag :div, class: 'table-thumbnail' do
-        image_tag image.attachment_url(:thumb)
+        if media_item.try(:vimeo_video?)
+          if media_item.vimeo_video_thumbnail.present?
+            image_tag media_item.vimeo_video_thumbnail
+          end
+        end
+      end
+    elsif media_item&.attachment.present?
+      content_tag :div, class: 'table-thumbnail' do
+        image_tag media_item.attachment_url(:thumb)
       end
     end
   end
