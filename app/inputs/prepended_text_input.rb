@@ -9,7 +9,8 @@ class PrependedTextInput < SimpleForm::Inputs::Base
   private
 
   def input_group(prepended_text, merged_input_options)
-    "#{prepended_text_addon(prepended_text)} #{@builder.number_field(attribute_name, merged_input_options)}".html_safe
+    field_type = options.delete(:field_type) || :text_field
+    "#{prepended_text_addon(prepended_text)} #{@builder.send(field_type, attribute_name, merged_input_options)}".html_safe
   end
 
   def prepended_text_addon(prepended_text)
