@@ -40,7 +40,12 @@ class ImageInput < SimpleForm::Inputs::StringInput
     buttons = ActiveSupport::SafeBuffer.new
 
     if image_object.try(:video?) && !image_object.try(:vimeo_video?)
-      image_thumbnail = template.video_tag((img_src || image_input_uri_image_placeholder),
+      if image_object.try(:video_list).present? && image_object.video_list.low_res.present?
+        video_src = image_object.video_list.low_res.url
+      else
+        video_src = img_src
+      end
+      image_thumbnail = template.video_tag((video_src || image_input_uri_image_placeholder),
                           class: "media-item-chooser__image media-item-chooser__image--video mb-3 rounded cursor-pointer #{image_tag_classes}",
                           id: "#{field_name}_preview",
                           controls: true,
