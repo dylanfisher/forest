@@ -303,14 +303,15 @@ module BaseMediaItem
   def extract_video_metadata!(include_derivatives: true)
     return unless supports_video_transcoding?
 
-    path_with_just_filename = attachment_data['id'].split('/').last
+    path_with_just_filename = File.basename(attachment_data['id'])
     path_without_filename = attachment_data['id'].split('/')[0..-2].join('/')
     object_paths = []
     object_paths << "#{Shrine.storages[:store].prefix}/#{attachment_data['id']}"
 
     if include_derivatives
       video_list.jobs.each do |video_list_file|
-        path_with_name_modifier = path_with_just_filename.sub(/\.#{attachment.extension}/, "#{video_list_file['name_modifier']}.#{attachment.extension}")
+        # Derivative extension will always be mp4 after they've been transcoded
+        path_with_name_modifier = path_with_just_filename.sub(/\.#{attachment.extension}/, "#{video_list_file['name_modifier']}.mp4")
         object_paths << "#{Shrine.storages[:store].prefix}/#{path_without_filename}/transcoded/#{path_with_name_modifier}"
       end
     end
