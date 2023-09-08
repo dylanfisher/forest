@@ -111,6 +111,12 @@ module BaseMediaItem
       end
     end
 
+    # Re-transcode all videos, e.g. if you add or change job settings in MediaConvert. Do note that
+    # this is a potentially expensive operation depending on how many videos are in your database.
+    def retranscode_all_videos!
+      MediaItem.videos.each { |v| v.enqueue_transcode_job! }
+    end
+
     private
 
     def grouped_by_year_month
@@ -319,12 +325,6 @@ module BaseMediaItem
     object_paths.each do |object_path|
       VideoTranscodeExtractMetadataJob.set(wait: rand(1..30).seconds).perform_later(media_item_id: id, object_path: object_path)
     end
-  end
-
-  # Re-transcaode all videos, e.g. if you add or change job settings in MediaConvert. Do note that
-  # this is a potentially expensive operation depending on how many videos are in your database.
-  def retranscode_all_videos!
-    MediaItem.videos.each { |v| v.enqueue_transcode_job! }
   end
 
   def enqueue_transcode_job!
