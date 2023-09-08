@@ -18,6 +18,10 @@ class Forest::VideoList
     parse_videos
   end
 
+  def lower_res
+    videos.find(&:lower_res?)
+  end
+
   def low_res
     videos.find(&:low_res?)
   end

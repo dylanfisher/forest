@@ -15,14 +15,50 @@
               "Mp4Settings": {}
             },
             "VideoDescription": {
+              "Height": 480,
+              "CodecSettings": {
+                "Codec": "H_264",
+                "H264Settings": {
+                  "MaxBitrate": 1000000,
+                  "RateControlMode": "QVBR",
+                  "QvbrSettings": {
+                    "QvbrQualityLevel": 7
+                  },
+                  "SceneChangeDetect": "TRANSITION_DETECTION",
+                  "QualityTuningLevel": "SINGLE_PASS_HQ"
+                }
+              }
+            },
+            "AudioDescriptions": [
+              {
+                "AudioSourceName": "Audio Selector 1",
+                "CodecSettings": {
+                  "Codec": "AAC",
+                  "AacSettings": {
+                    "VbrQuality": "MEDIUM_LOW",
+                    "RateControlMode": "VBR",
+                    "CodingMode": "CODING_MODE_2_0",
+                    "SampleRate": 44100
+                  }
+                }
+              }
+            ],
+            "NameModifier": "_LOWER_RES"
+          },
+          {
+            "ContainerSettings": {
+              "Container": "MP4",
+              "Mp4Settings": {}
+            },
+            "VideoDescription": {
               "Height": 720,
               "CodecSettings": {
                 "Codec": "H_264",
                 "H264Settings": {
-                  "MaxBitrate": 6000000,
+                  "MaxBitrate": 4000000,
                   "RateControlMode": "QVBR",
                   "QvbrSettings": {
-                    "QvbrQualityLevel": 9
+                    "QvbrQualityLevel": 7
                   },
                   "SceneChangeDetect": "TRANSITION_DETECTION",
                   "QualityTuningLevel": "SINGLE_PASS_HQ"
@@ -55,7 +91,7 @@
               "CodecSettings": {
                 "Codec": "H_264",
                 "H264Settings": {
-                  "MaxBitrate": 9000000,
+                  "MaxBitrate": 6000000,
                   "RateControlMode": "QVBR",
                   "QvbrSettings": {
                     "QvbrQualityLevel": 9

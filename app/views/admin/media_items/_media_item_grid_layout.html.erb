@@ -47,7 +47,7 @@
     <% if media_item.try(:video?) && !media_item.try(:vimeo_video?) %>
       <%# TODO: replace with poster image when present %>
       <% video_preview_url = media_item.attachment_url %>
-      <% video_preview_url = media_item.video_list.low_res.url if (media_item.try(:video_list).present? && media_item.video_list.low_res.present?) %>
+      <% video_preview_url = media_item.video_list.lower_res.url if (media_item.try(:video_list).present? && media_item.video_list.lower_res.present?) %>
       <%= video_tag video_preview_url, preload: 'metadata', class: 'media-item--grid__video rounded-lg' if video_preview_url.present? %>
     <% end %>
   <% end %>

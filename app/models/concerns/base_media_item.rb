@@ -321,6 +321,12 @@ module BaseMediaItem
     end
   end
 
+  # Re-transcaode all videos, e.g. if you add or change job settings in MediaConvert. Do note that
+  # this is a potentially expensive operation depending on how many videos are in your database.
+  def retranscode_all_videos!
+    MediaItem.videos.each { |v| v.enqueue_transcode_job! }
+  end
+
   def enqueue_transcode_job!
     return unless supports_video_transcoding?
 

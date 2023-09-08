@@ -1,6 +1,7 @@
 class Forest::Video
   attr_accessor :file_path, :filename, :duration, :width, :height, :bitrate, :quality, :extension, :url, :size
 
+  SUFFIX_LOWER_RES = '_LOWER_RES'
   SUFFIX_LOW_RES = '_LOW_RES'
   SUFFIX_HIGH_RES = '_HIGH_RES'
 
@@ -25,7 +26,9 @@ class Forest::Video
     @bitrate = video_stream['bit_rate'].to_i
     @extension = File.extname(filename)
 
-    if filename.match(/#{SUFFIX_LOW_RES}#{extension}$/)
+    if filename.match(/#{SUFFIX_LOWER_RES}#{extension}$/)
+      @quality = 'LOWER_RES'
+    elsif filename.match(/#{SUFFIX_LOW_RES}#{extension}$/)
       @quality = 'LOW_RES'
     elsif filename.match(/#{SUFFIX_HIGH_RES}#{extension}$/)
       @quality = 'HIGH_RES'
@@ -38,6 +41,10 @@ class Forest::Video
 
   def aspect_ratio
     height.to_f / width.to_f
+  end
+
+  def lower_res?
+    quality == 'LOWER_RES'
   end
 
   def low_res?
