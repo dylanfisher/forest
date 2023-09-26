@@ -22,6 +22,7 @@ namespace :forest do
       end
     end
 
+    # TODO: This doesn't seem to be working
     desc 'Re-transcode all derivatives for every video'
     task retranscode_all_videos: :environment do
       MediaItem.retranscode_all_videos!
