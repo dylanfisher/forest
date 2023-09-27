@@ -52,6 +52,8 @@
                         <% else %>
                           <%= image_tag @media_item.attachment_url %>
                         <% end %>
+                      <% elsif @media_item.try(:audio?) %>
+                        <%= audio_tag @media_item.attachment_url, controls: true, class: 'w-100' %>
                       <% elsif @media_item.try(:video?) %>
                         <% if @media_item.class.column_names.include?('enable_audio') %>
                           <%= f.input :enable_audio, hint: 'Optionally enable audio for videos that support an audio track. Users still need to interact with the video before audio is enabled.' %>
