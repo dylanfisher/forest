@@ -6,7 +6,7 @@ def lambda_handler(event:, context:)
   bucket_name = event['bucket']
   object_path = event['object_path']
 
-  client = Aws::S3::Client.new(region: region)
+  client = Aws::S3::Client.new(credentials: Forest.config[:credentials], region: region)
   resource = Aws::S3::Resource.new(client: client)
   signer = Aws::S3::Presigner.new(client: client)
   s3_source_signed_url = signer.presigned_url(:get_object,

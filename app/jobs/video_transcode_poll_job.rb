@@ -1,6 +1,8 @@
 class VideoTranscodePollJob < ApplicationJob
   def perform(media_item_id:, job_id:, poll_count: 0)
     media_convert_client = Aws::MediaConvert::Client.new({
+      credentials: Forest.config[:credentials],
+      region: Forest.config[:aws_region],
       endpoint: media_convert_endpoint
     })
 

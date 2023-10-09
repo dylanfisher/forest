@@ -58,7 +58,7 @@ class VideoTranscodeEnqueueJob < ApplicationJob
   def lambda_client
     @lambda_client ||= Aws::Lambda::Client.new({
       region: Forest.config[:aws_region],
-      credentials: Aws::Credentials.new(Aws.config[:credentials].access_key_id, Aws.config[:credentials].secret_access_key)
+      credentials: Forest.config[:credentials]
     })
   end
 end

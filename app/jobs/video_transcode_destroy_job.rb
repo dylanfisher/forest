@@ -18,6 +18,6 @@ class VideoTranscodeDestroyJob < ApplicationJob
   private
 
   def client
-    @client ||= Aws::S3::Client.new
+    @client ||= Aws::S3::Client.new(credentials: Forest.config[:credentials], region: Forest.config[:aws_region])
   end
 end
