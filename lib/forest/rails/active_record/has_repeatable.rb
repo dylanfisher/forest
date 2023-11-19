@@ -6,7 +6,7 @@ module Forest
 
     class_methods do
       def has_repeatable(attribute, options = {})
-        serialize attribute
+        serialize attribute, type: Array
 
         before_save :"remove_blank_#{attribute}"
 
