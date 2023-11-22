@@ -37,7 +37,9 @@ module Sluggable
         if slug_as_key?
           slug_attr = slug_attribute.parameterize.underscore
         end
-      else
+      end
+
+      if slug_attr.blank?
         slug_attr = SecureRandom.uuid
       end
 
