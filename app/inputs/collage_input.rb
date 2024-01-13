@@ -60,7 +60,7 @@ class CollageInput < SimpleForm::Inputs::CollectionSelectInput
                                                     association_insertion_node: "##{field_name}_preview",
                                                     association_insertion_method: 'append' })
 
-    content << template.content_tag(:div, cocoon_link, class: 'collage-input__cocoon-links links inline-block')
+    content << template.content_tag(:div, cocoon_link, class: 'collage-input__cocoon-links links d-inline-block')
 
     if include_text_box
       cocoon_text_box_link = template.link_to_add_association('Add text box item',
@@ -78,7 +78,7 @@ class CollageInput < SimpleForm::Inputs::CollectionSelectInput
                                                                association_insertion_node: "##{field_name}_preview",
                                                                association_insertion_method: 'append' })
 
-      content << template.content_tag(:div, cocoon_text_box_link, class: 'collage-input__cocoon-links links inline-block', style: 'margin-left: 10px;')
+      content << template.content_tag(:div, cocoon_text_box_link, class: 'collage-input__cocoon-links links d-inline-block', style: 'margin-left: 10px;')
     end
 
     content << @builder.hidden_field(:collage_height_ratio, class: 'collage-input__input--height-ratio')

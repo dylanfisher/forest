@@ -49,6 +49,7 @@
   cursor: move;
   transition: opacity 0.2s;
   margin-bottom: 0;
+  min-width: 100px;
 
   &:hover {
     .media-item__buttons {
@@ -86,6 +87,12 @@
   .media-item__button {
     position: absolute;
     top: -4px;
+    right: -$gutter;
+
+    &:before {
+      margin-top: -1px;
+      margin-left: -1px;
+    }
   }
 
   label {
@@ -147,4 +154,8 @@
   .form-group {
     display: block;
   }
+}
+
+.collage-input__input--text-box {
+  resize: both;
 }
