@@ -43,6 +43,11 @@
   }
 }
 
+.media-item-chooser__image--svg {
+  width: 100%;
+  height: auto;
+}
+
 .media-item-chooser__image--file {
   color: #aaa;
   font-size: 80px;

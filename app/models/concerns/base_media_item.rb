@@ -186,6 +186,10 @@ module BaseMediaItem
     (attachment_content_type =~ %r{^(image|(x-)?application)/(bmp|gif|jpeg|jpg|pjpeg|png|tiff|webp|x-png|svg\+xml)$}).present?
   end
 
+  def svg?
+    attachment_content_type =~ %r{^image\/svg\+xml}
+  end
+
   def video?
     (attachment_content_type =~ %r{^video\/}).present?
   end

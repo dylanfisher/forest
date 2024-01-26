@@ -33,6 +33,7 @@ class ImageInput < SimpleForm::Inputs::StringInput
 
     image_tag_classes = []
     image_tag_classes << path_class
+    image_tag_classes << 'media-item-chooser__image--svg' if image_object.try(:svg?)
     image_tag_classes << (img_src.blank? ? 'd-none' : '')
     image_tag_classes = image_tag_classes.join(' ')
 
