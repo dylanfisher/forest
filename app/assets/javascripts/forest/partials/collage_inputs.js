@@ -63,6 +63,7 @@
     var $inputTop = $item.find('.collage-input__input--position-top');
     var $inputItemWidth = $item.find('.collage-input__input--item-width');
     var $inputItemHeight = $item.find('.collage-input__input--item-height');
+    var $inputRotation = $item.find('.collage-input__input--collage-rotation');
 
     if ( !isTextBox ) {
       $item.css({ width: '', height: '' });
@@ -74,6 +75,10 @@
     $inputTop.val( itemPosition.top / canvasHeight * 100 );
     $inputItemWidth.val( imageOrTextBoxWidth / canvasWidth * 100 );
     $inputItemHeight.val( imageOrTextBoxHeight / canvasHeight * 100 );
+
+    if ( $inputRotation.length ) {
+      $inputRotation.val( parseFloat($item.attr('data-rotation')) || 0 );
+    }
   };
 
   var setRelativeImageSizes = function($canvas) {
@@ -172,6 +177,22 @@
     }
   };
 
+  var rotatableOptions = {
+    wheelRotate: false,
+    start: function(event, ui) {
+      uiInteractionInProgress = true;
+    },
+    stop: function(event, ui) {
+      var $item = ui.element.closest(collageItemSelector);
+
+      $item.attr('data-rotation', ui.angle.degrees);
+
+      updateInputValues($item);
+
+      uiInteractionInProgress = false;
+    }
+  };
+
   var init = function() {
     var $canvases = $('.collage-input__canvas:not(.pre-initialized)');
 
@@ -197,6 +218,19 @@
         $items.draggable(draggableOptions);
         $images.resizable(resizableImageOptions);
         $images.resizable('option', 'containment', canvasId);
+
+        $items.each(function() {
+          var $item = $(this);
+          var $thisInputRotation = $item.find('.collage-input__input--collage-rotation');
+
+          if ( !$thisInputRotation.length ) return;
+
+          var initialRotation = parseFloat($item.find('.collage-input__input--collage-rotation').val()) || 0;
+          var rotatableOptionsWithCurrentRotation = rotatableOptions;
+          rotatableOptionsWithCurrentRotation['degrees'] = initialRotation;
+          $item.rotatable(rotatableOptionsWithCurrentRotation);
+          $item.attr('data-rotation', initialRotation);
+        });
 
         setRelativeImageSizes($canvas);
 
@@ -284,6 +318,7 @@
         $newImage.resizable(resizableImageOptions)
                  .css({ opacity: 1 });
         $newImage.resizable('option', 'containment', canvasId);
+        $newItem.rotatable(rotatableOptions);
 
         updateInputValues($newItem);
       });

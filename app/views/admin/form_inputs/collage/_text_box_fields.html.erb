@@ -1,6 +1,7 @@
 <% classes = [] %>
 <% classes << 'collage-input__item collage-input__item--text-box' %>
 <% classes << "collage-input__item--#{f.object.media_item.present? ? 'with-image' : 'without-image'}" %>
+<% classes << 'collage-input__item--rotatable' if f.object.has_attribute?(:collage_rotation) %>
 <% classes << 'nested-fields' %>
 
 <% styles = [] %>
@@ -21,6 +22,7 @@
   <%= f.hidden_field :collage_z_index, class: 'collage-input__input--z-index' %>
   <%= f.hidden_field :collage_item_width, class: 'collage-input__input--item-width' %>
   <%= f.hidden_field :collage_item_height, class: 'collage-input__input--item-height' %>
+  <%= f.hidden_field :collage_rotation, class: 'collage-input__input--collage-rotation' if f.object.has_attribute?(:collage_rotation) %>
 
   <%= f.hidden_field :id %>
 

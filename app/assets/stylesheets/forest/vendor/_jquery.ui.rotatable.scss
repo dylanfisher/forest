@@ -1,0 +1,25 @@
+.ui-rotatable-handle {
+  height: 26.8px;
+  width: 26.8px;
+  cursor: pointer;
+  background-image: image-url('bootstrap/arrow-clockwise.svg');
+  background-size: 18px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  top: 0;
+  left: 0;
+  position: absolute;
+  background-color: white;
+  border-top-left-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+  border: 1px solid #ced4da;
+  opacity: 0.8;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  .collage-input__item--text-box & {
+    left: -15px;
+  }
+}

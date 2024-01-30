@@ -103,6 +103,20 @@
   textarea {
     width: 100%;
   }
+
+  .form-group.text {
+    padding: 0 5px 5px;
+    background: white;
+    border-radius: 0.25rem;
+  }
+
+  &:has(.ui-rotatable-handle) {
+    .form-group.text {
+      label {
+        padding-left: 35px;
+      }
+    }
+  }
 }
 
 .collage-input__item__image {
