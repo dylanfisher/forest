@@ -226,7 +226,7 @@
           if ( !$thisInputRotation.length ) return;
 
           var initialRotation = parseFloat($item.find('.collage-input__input--collage-rotation').val()) || 0;
-          var rotatableOptionsWithCurrentRotation = rotatableOptions;
+          var rotatableOptionsWithCurrentRotation =  $.extend({}, rotatableOptions);
           rotatableOptionsWithCurrentRotation['degrees'] = initialRotation;
           $item.rotatable(rotatableOptionsWithCurrentRotation);
           $item.attr('data-rotation', initialRotation);
