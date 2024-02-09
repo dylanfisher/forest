@@ -135,6 +135,12 @@ class Setting < Forest::ApplicationRecord
     end
   end
 
+  # Define methods to check the value type of a setting
+  # setting.boolean?, setting.text?, setting.integer?, etc.
+  VALID_VALUE_TYPES.each do |vt|
+    define_method :"#{vt}?" { value_type == vt }
+  end
+
   def slug_as_key?
     true
   end
