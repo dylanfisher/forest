@@ -8,10 +8,10 @@ module Forest
       def has_repeatable(attribute, options = {})
         serialize attribute, type: Array
 
-        before_save :"remove_blank_#{attribute}"
+        before_validation :"remove_blank_#{attribute}"
 
         define_method(:"remove_blank_#{attribute}") do
-          if self.send(attribute).all? { |a| a[:key].blank? && a[:value].blank? }
+          if self.send(attribute).blank? || self.send(attribute).all? { |a| a[:key].blank? && a[:value].blank? }
             self.send "#{attribute}=", []
           end
         end
