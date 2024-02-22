@@ -3,8 +3,8 @@
 
 <%= content_tag :div, class: "media-item--grid mb-3 col-xs-4 col-sm-3 col-md-2" do %>
   <% if media_item.image? %>
-    <% attachment_or_placeholder_url = media_item.attachment.present? ? media_item.attachment_url(:small) : '#TODO' %>
-    <% attachment_or_placeholder_url_large = media_item.attachment.present? ? media_item.attachment_url(:medium) : '#TODO' %>
+    <% attachment_or_placeholder_url = media_item.attachment.present? ? (media_item.attachment(:small)&.url.presence || media_item.attachment(:medium)&.url.presence || media_item.attachment_url(:large)) : '#TODO' %>
+    <% attachment_or_placeholder_url_large = media_item.attachment.present? ? (media_item.attachment(:medium)&.url.presence || media_item.attachment_url(:large)) : '#TODO' %>
 
     <% if media_item.try(:point_of_interest_x).present? && media_item.try(:point_of_interest_y).present? %>
       <% point_of_interest_x = media_item.point_of_interest_x %>
