@@ -16,12 +16,13 @@
       <div class="col-sm-8">
         <%= link_to media_item.title.presence || media_item.slug, edit_admin_media_item_path(media_item) %>
         <br>
-        <%= media_item.attachment_file_name %>
+        <small><%= media_item.attachment_file_name %></small>
       </div>
     </div>
   </td>
   <td><%= md(media_item.alternative_text) %></td>
   <td><%= md(media_item.caption) %></td>
+  <td><%= media_item.attachment.present? ? number_to_human_size(media_item.attachment.size) : '—' %></td>
   <td><%= forest_date media_item.created_at %></td>
   <td><%= forest_date media_item.updated_at %></td>
   <td width="1">
