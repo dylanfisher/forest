@@ -6,6 +6,7 @@ class Forest::ScaffoldGenerator < Rails::Generators::NamedBase
   source_root File.expand_path('../templates', __FILE__)
 
   argument :attributes, type: :array, default: [], banner: "field[:type][:index] field[:type][:index]"
+  class_option :skip_all, type: :boolean, default: false, description: 'Skip all scaffold options'
   class_option :skip_public, type: :boolean, default: false, description: 'Skip public controller and views'
   class_option :skip_blockable, type: :boolean, default: false, description: 'Skip blockable concern'
   class_option :skip_statusable, type: :boolean, default: false, description: 'Skip statusable concern'
@@ -28,7 +29,7 @@ class Forest::ScaffoldGenerator < Rails::Generators::NamedBase
 
     template "views/admin/index.json.jbuilder", File.join("app/views/admin", plural_name, 'index.json.jbuilder')
 
-    unless options.skip_public?
+    unless options.skip_public? || options.skip_all?
       public_views.each do |view|
         filename = "#{view}.html.erb"
         template "views/public/#{filename}", File.join("app/views", plural_name, filename)
@@ -45,7 +46,7 @@ class Forest::ScaffoldGenerator < Rails::Generators::NamedBase
   def create_controller
     template 'admin_controller.rb', "app/controllers/admin/#{plural_name}_controller.rb"
 
-    unless options.skip_public?
+    unless options.skip_public? || options.skip_all?
       template 'controller.rb', "app/controllers/#{plural_name}_controller.rb"
     end
 
@@ -55,7 +56,7 @@ class Forest::ScaffoldGenerator < Rails::Generators::NamedBase
     route_lines << "  resources :#{plural_name}"
     route_lines << "end\n"
 
-    unless options.skip_public?
+    unless options.skip_public? || options.skip_all?
       route_lines << "# TODO: sort these new public routes"
       route_lines << "resources :#{plural_name}, only: [:index, :show]\n\n"
     end

@@ -13,7 +13,7 @@
         <th width="1">Position</th>
 <%- end -%>
         <th><%%= table_sorter title: 'ID', path: :admin_<%= plural_name %>_path, scope: :by_id, default_order: :desc %></th>
-<%- unless options.skip_sluggable? -%>
+<%- unless options.skip_sluggable? || options.skip_all? -%>
         <th><%%= table_sorter title: 'Slug', path: :admin_<%= plural_name %>_path, scope: :by_slug, default_order: :asc %></th>
 <% end -%>
 <%- for attribute in attributes -%>
@@ -39,7 +39,7 @@
           <td><%%= sortable_table_field records: records, position: <%= singular_name %>.position %></td>
 <%- end -%>
           <td><%%= <%= singular_name %>.id %></td>
-<%- unless options.skip_sluggable? -%>
+<%- unless options.skip_sluggable? || options.skip_all? -%>
           <td><%%= <%= singular_name %>.slug %></td>
 <% end -%>
 <%- for attribute in attributes -%>

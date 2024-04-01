@@ -49,8 +49,8 @@ class Admin::<%= plural_name.camelize %>Controller < Admin::ForestController
     # Add blockable params to the permitted attributes if this record is blockable `**BlockSlot.blockable_params`
 <%
       additional_attributes = []
-      additional_attributes.prepend(':status') unless options.skip_statusable?
-      additional_attributes.prepend(':slug') unless options.skip_sluggable?
+      additional_attributes.prepend(':status') unless (options.skip_statusable? || options.skip_all?)
+      additional_attributes.prepend(':slug') unless (options.skip_sluggable? || options.skip_all?)
       additional_attributes = additional_attributes.join(', ')
       additional_attributes = additional_attributes << ', ' if additional_attributes.present?
 -%>

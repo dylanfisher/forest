@@ -93,6 +93,8 @@ rails generate forest:scaffold Project title:string media_item:references descri
 
 Optional arguments:
 
+`--skip_all` Equivalent to passing all of the below skip flags
+
 `--skip_public` Don't create public controller actions and views
 
 `--skip_blockable` Don't add blockable associations

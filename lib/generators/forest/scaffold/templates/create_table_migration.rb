@@ -4,13 +4,13 @@ class <%= migration_class_name %> < ActiveRecord::Migration[<%= ActiveRecord::Mi
 <% attributes.each do |attribute| -%>
       t.<%= attribute.type %> :<%= attribute.name %><%= attribute.inject_options %>
 <% end -%>
-<% unless options.skip_sluggable? -%>
+<% unless options.skip_sluggable? || options.skip_all? -%>
       t.string :slug
 <% end -%>
-<% unless options.skip_statusable? -%>
+<% unless options.skip_statusable? || options.skip_all? -%>
       t.integer :status, default: 1, null: false
 <% end -%>
-<% unless options.skip_blockable? -%>
+<% unless options.skip_blockable? || options.skip_all? -%>
       t.jsonb :blockable_metadata, default: {}
 <% end -%>
 
@@ -22,13 +22,13 @@ class <%= migration_class_name %> < ActiveRecord::Migration[<%= ActiveRecord::Mi
 <% attributes_with_index.each do |attribute| -%>
     add_index :<%= table_name %>, :<%= attribute.index_name %><%= attribute.inject_index_options %>
 <% end -%>
-<% unless options.skip_sluggable? -%>
+<% unless options.skip_sluggable? || options.skip_all? -%>
     add_index :<%= table_name %>, :slug, unique: true
 <% end -%>
-<% unless options.skip_statusable? -%>
+<% unless options.skip_statusable? || options.skip_all? -%>
     add_index :<%= table_name %>, :status
 <% end -%>
-<% unless options.skip_blockable? -%>
+<% unless options.skip_blockable? || options.skip_all? -%>
     add_index :<%= table_name %>, :blockable_metadata, using: :gin
 <% end -%>
   end
