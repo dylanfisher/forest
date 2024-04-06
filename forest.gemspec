@@ -25,7 +25,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'has_scope'
   s.add_dependency 'jbuilder'
   s.add_dependency 'jquery-rails'
-  s.add_dependency 'jquery-ui-rails'
+  s.add_dependency 'jquery-ui-rails', '~> 6.0'
   s.add_dependency 'nokogiri'
   s.add_dependency 'pagy', '~> 7.0'
   s.add_dependency 'pundit'
