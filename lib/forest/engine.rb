@@ -33,7 +33,7 @@ module Forest
     config.after_initialize do
       if database_exists?
         ActiveRecord::Base.connection_pool.with_connection do |c|
-          unless Migrations.new(config, engine_name).missing_migrations.present? || c.migration_context.needs_migration?
+          unless Migrations.new(config, engine_name).missing_migrations.present? || (c.respond_to?(:migration_context) ? c.migration_context.needs_migration? : c.pool.migration_context.needs_migration?)
             Setting.initialize_from_i18n if c.data_source_exists? 'settings'
           end
         end
@@ -41,7 +41,7 @@ module Forest
     end
 
     def database_exists?
-      ActiveRecord::Base.connection
+      return ActiveRecord::Base.connection && ActiveRecord::Base.connection.database_exists?
     rescue ActiveRecord::NoDatabaseError
       false
     else
