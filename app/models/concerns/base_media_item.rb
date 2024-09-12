@@ -70,6 +70,12 @@ module BaseMediaItem
       end.flatten.reject(&:blank?)
     end
 
+    # Override this method if you want to do additional processing of a media item after it is saved,
+    # for example processing audio metadata of an uploaded mp3 file, or analyzing color information
+    # of an image.
+    def after_save_callbacks
+    end
+
     # Override this method to add additional permitted params to the Admin::MediaItemsController
     def additional_permitted_params
       []
