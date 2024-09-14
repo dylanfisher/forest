@@ -7,7 +7,7 @@ module Statusable
   included do
     parent_class = self
 
-    enum status: {
+    enum :status, {
       published: 1,
       # draft: 2,
       scheduled: 3,

@@ -12,7 +12,7 @@ class Setting < Forest::ApplicationRecord
   after_commit :touch_associations
   after_commit :expire_cache
 
-  enum setting_status: {
+  enum :setting_status, {
     is_not_hidden: 0,
     hidden: 1
   }

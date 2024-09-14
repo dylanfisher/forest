@@ -19,7 +19,7 @@ module BaseMediaItem
 
     before_save :set_default_metadata
 
-    enum media_item_status: {
+    enum :media_item_status, {
       is_not_hidden: 0,
       hidden: 1
     }
