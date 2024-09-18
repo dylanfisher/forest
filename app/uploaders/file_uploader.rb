@@ -44,7 +44,7 @@ class FileUploader < Shrine
       # TODO: don't reprocess if video is already present, but do reprocess if video has changed
       record.enqueue_transcode_job! if record.video?
 
-      record.after_save_callbacks
+      record.try(:after_save_callbacks)
     end
   end
 
