@@ -11,8 +11,14 @@ module Forest
         singular = association.to_s.singularize
         singular_id = (has_many_options.fetch(:source, nil).try(:to_s).try(:singularize) || singular).to_s + '_id'
 
-        has_many through, -> { reorder(order_by) }, options.reverse_merge(dependent: :destroy, **through_options)
-        has_many association, -> { reorder("#{through}.#{order_by}") }, options.merge(through: through, **has_many_options)
+        if RUBY_VERSION.start_with?('3')
+          has_many through, -> { reorder(order_by) }, **options.reverse_merge(dependent: :destroy, **through_options)
+          has_many association, -> { reorder("#{through}.#{order_by}") }, **options.merge(through: through, **has_many_options)
+        else
+          has_many through, -> { reorder(order_by) }, options.reverse_merge(dependent: :destroy, **through_options)
+          has_many association, -> { reorder("#{through}.#{order_by}") }, options.merge(through: through, **has_many_options)
+        end
+
         accepts_nested_attributes_for through, allow_destroy: true
 
         define_method("#{singular}_ids=") do |ids|
