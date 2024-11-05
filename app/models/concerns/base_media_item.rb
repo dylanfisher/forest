@@ -112,6 +112,8 @@ module BaseMediaItem
       FileUploader::IMAGE_DERIVATIVES.keys.each do |style|
         images_with_issing_derivatives = MediaItem.where("(attachment_data->'derivatives'->'#{style}') is null")
         images_with_issing_derivatives.find_each do |media_item|
+          next unless media_item.supports_derivatives?
+
           media_item.reprocess_derivative(style)
         end
       end
