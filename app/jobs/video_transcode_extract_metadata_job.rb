@@ -44,7 +44,7 @@ class VideoTranscodeExtractMetadataJob < ApplicationJob
     })
 
     # If response is not equal to a 200, log an error
-    if (response.status_code.to_s =~ /2\d{2}/).nil?
+    if (response.status_code.to_s =~ /2\d{2}/).nil? || response.payload.string.include?('errorMessage')
       Rails.logger.error { '[Forest][Error] VideoTranscodeExtractMetadataJob failed to invoke lambda client.' }
       return
     end
