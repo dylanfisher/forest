@@ -4,7 +4,6 @@
 (function() {
   var collageCanvasSelector = '.collage-input__canvas';
   var collageItemSelector = '.collage-input__item';
-  var totalGridColumnNumber = 12;
   var uiInteractionInProgress = false;
 
   var updateZIndexes = function($canvas) {
@@ -128,6 +127,17 @@
     handles: 's',
     start: function(event, ui) {
       uiInteractionInProgress = true;
+
+      // Force `left` and `top` to be pixels explicitly so they don't move around when canvas size is changed
+      var $items = ui.element.find(collageItemSelector);
+      $items.each(function() {
+        var $item = $(this);
+        var position = $item.position();
+        $item.css({
+          left: position.left + 'px',
+          top: position.top + 'px',
+        });
+      });
     },
     stop: function(event, ui) {
       var $canvas = ui.helper;
@@ -143,6 +153,19 @@
       });
 
       uiInteractionInProgress = false;
+
+      // Convert back to relative position
+      var $items = ui.element.find(collageItemSelector);
+      $items.each(function() {
+        var $item = $(this);
+        var position = $item.position();
+        var leftPercentage = (position.left / ui.element.width()) * 100;
+        var topPercentage = (position.top / ui.element.height()) * 100;
+        $item.css({
+          left: leftPercentage + '%',
+          top: topPercentage + '%',
+        });
+      });
     }
   };
 
@@ -164,6 +187,7 @@
 
   var draggableOptions = {
     containment: 'parent',
+    snap: collageItemSelector,
     start: function(event, ui) {
       uiInteractionInProgress = true;
       setMaxZIndexForItem(ui.helper);
@@ -338,6 +362,25 @@
 
     updateInputValues($item);
   });
+
+  $(document).on('keyup.collageInput', '.collage-input__input--item-width', $.debounce(500, function() {
+    var $input = $(this);
+    var $item = $input.closest('.collage-input__item');
+    var $canvas = $item.closest(collageCanvasSelector);
+    var $image = $item.find('.media-item-chooser__image');
+    var value = $input.val();
+    var newWidth = $canvas.width() * (value / 100);
+    var aspectRatio = $image[0].naturalHeight / $image[0].naturalWidth;
+    var newHeight = newWidth * aspectRatio;
+
+    if ( value < 10 ) return;
+
+    $item.css({ width: newWidth, height: newHeight });
+    $image.css({ width: newWidth, height: newHeight });
+    $image.closest('.ui-wrapper').css({ width: newWidth, height: newHeight });
+
+    updateInputValues($item);
+  }));
 
   $(document).on('click', collageItemSelector, function() {
     setMaxZIndexForItem( $(this) );

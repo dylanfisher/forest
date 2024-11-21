@@ -10,6 +10,7 @@ class CollageInput < SimpleForm::Inputs::CollectionSelectInput
     input_html_options.merge! id: object_name.parameterize
 
     include_text_box = options.delete(:text_box)
+    include_image_width = options.delete(:include_image_width)
     text_box_attr = options.delete(:text_box_attr) || :text
 
     associated_records = obj.send(reflection_or_attribute_name)
@@ -26,7 +27,7 @@ class CollageInput < SimpleForm::Inputs::CollectionSelectInput
       if f.object.try(text_box_attr).present?
         cocoon_content << template.render('admin/form_inputs/collage/text_box_fields', f: f, obj: obj, text_box_attr: text_box_attr)
       else
-        cocoon_content << template.render('admin/form_inputs/collage/media_item_fields', f: f, obj: obj)
+        cocoon_content << template.render('admin/form_inputs/collage/media_item_fields', f: f, obj: obj, include_image_width: include_image_width)
       end
     end
 
@@ -42,9 +43,8 @@ class CollageInput < SimpleForm::Inputs::CollectionSelectInput
     end
 
     cocoon_content = template.content_tag(:div, cocoon_content, class: "collage-input__canvas", id: "#{field_name}_preview", style: canvas_styles.join('; '))
-    cocoon_content = template.content_tag(:div, cocoon_content, class: "row")
 
-    content << template.content_tag(:div, cocoon_content, class: "collage-input__canvas-wrapper card bg-light p-3")
+    content << template.content_tag(:div, cocoon_content, class: "collage-input__canvas-wrapper card bg-light pb-3")
 
     cocoon_link = template.link_to_add_association('Add collage item',
                                                    @builder,
@@ -53,7 +53,8 @@ class CollageInput < SimpleForm::Inputs::CollectionSelectInput
                                                    partial: 'admin/form_inputs/collage/media_item_fields',
                                                    render_options: {
                                                      locals: {
-                                                       obj: obj
+                                                       obj: obj,
+                                                       include_image_width: include_image_width
                                                      }
                                                    },
                                                    data: {

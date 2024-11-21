@@ -10,8 +10,8 @@
   .ui-resizable-s {
     height: 20px;
     bottom: -20px;
-    left: map-get($spacers, 3) / -2;
-    width: calc(100% + #{map-get($spacers, 3)});
+    left: 0;
+    width: 100%;
     border-bottom-left-radius: $border-radius;
     border-bottom-right-radius: $border-radius;
     border-top: 1px solid $card-border-color;
@@ -50,6 +50,7 @@
   transition: opacity 0.2s;
   margin-bottom: 0;
   min-width: 100px;
+  display: flex;
 
   &:hover {
     .media-item__buttons {
@@ -72,6 +73,7 @@
     max-height: none;
     pointer-events: none;
     margin: 0 !important;
+    border-radius: 0 !important;
   }
 
   .btn-group {
@@ -81,6 +83,29 @@
   .media-item-chooser__edit-image {
     display: none;
   }
+}
+
+.collage-input__input--item-width-label {
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+  opacity: 0.5;
+  transition: opacity 0.2s;
+  max-width: calc(100% - 10px);
+
+  &:hover {
+    opacity: 1;
+  }
+
+  label {
+    color: $white;
+    display: block;
+    margin-bottom: 0;
+  }
+}
+
+.collage-input__input--item-width {
+  max-width: 100%;
 }
 
 .collage-input__item--text-box {
@@ -107,7 +132,7 @@
   .form-group.text {
     padding: 0 5px 5px;
     background: white;
-    border-radius: 0.25rem;
+    // border-radius: 0.25rem;
   }
 
   &:has(.ui-rotatable-handle) {

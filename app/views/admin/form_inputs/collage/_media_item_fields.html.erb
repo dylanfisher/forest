@@ -10,15 +10,25 @@
 <% styles << "width: #{f.object.collage_item_width}%" %>
 <% styles << "z-index: #{f.object.collage_z_index}" %>
 
+<% include_image_width = local_assigns.fetch(:include_image_width, false) %>
+
 <%= content_tag :div, class: classes.join(' '), style: styles.join(';') do %>
   <%= f.association :media_item, as: :image, label: false %>
   <%# If you're host app view displays captions in the collage, you may want to show this css class in a admin css override in the host app. %>
   <%= content_tag(:div, md(f.object.media_item.caption), class: 'collage-input__caption') if f.object.media_item.present? %>
 
+  <% if include_image_width %>
+    <div class="collage-input__input--item-width-label">
+      <%= f.label :collage_item_width, 'Width' %>
+      <%= f.number_field :collage_item_width, class: 'collage-input__input--item-width' %>
+    </div>
+  <% else %>
+      <%= f.hidden_field :collage_item_width, class: 'collage-input__input--item-width' %>
+  <% end %>
+
   <%= f.hidden_field :collage_position_left, class: 'collage-input__input--position-left' %>
   <%= f.hidden_field :collage_position_top, class: 'collage-input__input--position-top' %>
   <%= f.hidden_field :collage_z_index, class: 'collage-input__input--z-index' %>
-  <%= f.hidden_field :collage_item_width, class: 'collage-input__input--item-width' %>
   <%= f.hidden_field :collage_item_height, class: 'collage-input__input--item-height' %>
   <%= f.hidden_field :collage_rotation, class: 'collage-input__input--collage-rotation' if f.object.has_attribute?(:collage_rotation) %>
 
