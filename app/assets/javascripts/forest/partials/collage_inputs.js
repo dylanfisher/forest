@@ -386,3 +386,24 @@
     setMaxZIndexForItem( $(this) );
   });
 })();
+
+$(document).on('mousemove', '.collage-input__canvas-wrapper .collage-input__item', function (event) {
+  const $item = $(this);
+  const offset = $item.offset(); // Get the element's offset
+  const width = $item.outerWidth();
+  const height = $item.outerHeight();
+  const mouseX = event.pageX - offset.left;
+  const mouseY = event.pageY - offset.top;
+
+  // Determine whether to set axis to 'x' or 'y'
+  if (mouseY < 20 || mouseY > height - 20) {
+    // Mouse is near the top or bottom
+    $item.draggable('option', 'axis', 'y').addClass('vertical-movement');
+  } else if (mouseX < 20 || mouseX > width - 20) {
+    // Mouse is near the left or right
+    $item.draggable('option', 'axis', 'x').addClass('horizontal-movement');
+  } else {
+    // Reset to free movement
+    $item.draggable('option', 'axis', false).removeClass('vertical-movement horizontal-movement');
+  }
+});

@@ -58,6 +58,14 @@
     }
   }
 
+  &.horizontal-movement {
+    cursor: ew-resize;
+  }
+
+  &.vertical-movement {
+    cursor: ns-resize;
+  }
+
   .form-group {
     display: inline-block;
     position: relative;
