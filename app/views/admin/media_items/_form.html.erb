@@ -21,7 +21,7 @@
                 <% I18n.available_locales.each_with_index do |locale, index| %>
                   <%= content_tag :div, class: "locale-panel #{'display-none' unless index.zero?}", data: { locale: locale } do %>
                     <%= localized_input f, :alternative_text, locale, hint: 'The alt attribute provides alternative information for an image if a user for some reason cannot view it (because of slow connection, an error in the src attribute, or if the user uses a screen reader).' %>
-                    <%= localized_input f, :caption, locale, markdown: true %>
+                    <%= localized_input f, :caption, locale, markdown: true, hint: t('forest.admin.media_item.caption.hint', default: nil) %>
                   <% end %>
                 <% end %>
                 <%= f.button :submit, class: 'btn-success' %>

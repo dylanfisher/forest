@@ -15,5 +15,8 @@ en:
           scheduled: Scheduled
           pending: Pending
           hidden: Hidden
+      media_item:
+        caption:
+          hint:
     translations:
     settings:
