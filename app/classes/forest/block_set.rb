@@ -16,6 +16,13 @@ class Forest::BlockSet
     end
   end
 
+  def except(block_kinds)
+    block_kinds = Array(block_kinds).collect(&:to_s)
+    @blocks.reject do |block|
+      block_kinds.include?(block.class.name)
+    end
+  end
+
   def first_of_kind(block_kind)
     kind(block_kind).first
   end
