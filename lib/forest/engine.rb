@@ -10,6 +10,7 @@ end
 module Forest
   class Engine < ::Rails::Engine
     config.autoload_paths << "#{config.root}/app/models/blocks"
+    config.autoload_paths += %W[#{config.root}/app/validators]
 
     config.assets.paths << Pagy.root.join('javascripts')
 
