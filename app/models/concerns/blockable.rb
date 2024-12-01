@@ -52,7 +52,7 @@ module Blockable
 
   def touch_self
     if self.respond_to?(:updated_at)
-      self.updated_at = Time.now
+      self.updated_at = Time.current
     end
   end
 

@@ -165,7 +165,7 @@ class Setting < Forest::ApplicationRecord
 
   # Pages may depend on settings and should be updated each time a setting is changed
   def touch_associations
-    Page.update_all(updated_at: Time.now)
+    Page.update_all(updated_at: Time.current)
   end
 
   def set_title

@@ -37,7 +37,7 @@ namespace :forest do
     with_config do |app, db, user|
       check_for_s3_env_variables!
 
-      timestamp = Time.now.to_i
+      timestamp = Time.current.to_i
 
       object_key = "forest/forest_db_dumps/#{app}_#{timestamp}.dump"
       filename = "#{Rails.root}/db/#{app}.dump"
