@@ -9,9 +9,9 @@
           <div class="form-inputs">
             <div class="row small-gutters">
               <div class="col-md-6">
-                <%= f.input :name, hint: 'Optional name for organizational purposes.' %>
                 <%= f.input :from_path, hint: 'The relative path this redirect should match.' %>
                 <%= f.input :to_path, hint: 'The relative or absolute path to where this redirect should go.' %>
+                <%= f.input :name, hint: 'Optional name for organizational purposes.' %>
                 <%#= f.input :redirect_type %>
                 <%= f.button :submit, class: 'btn-success d-md-none' %>
               </div>
