@@ -124,7 +124,7 @@ module BasePage
     end
 
     if media_item_ids.present?
-      MediaItem.where(id: media_item_ids.uniq)
+      MediaItem.images.where(id: media_item_ids.uniq)
     else
       MediaItem.none
     end
