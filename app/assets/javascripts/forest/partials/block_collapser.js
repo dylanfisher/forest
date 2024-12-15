@@ -60,6 +60,7 @@ $(document).on('click', '[data-collapse-parent] .card-header', function(e) {
   var $target = $(e.target);
 
   if ( $target.closest('.block-slot-field__buttons').length ) return;
+  if ( $target.closest('.js-no-collapse').length ) return;
 
   var $parent = $(this).closest('[data-collapse-parent]');
   var $trigger = $parent.find('[data-collapse-trigger]').first();
