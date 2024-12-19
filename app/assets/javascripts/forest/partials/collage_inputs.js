@@ -173,6 +173,11 @@
     aspectRatio: true,
     start: function(event, ui) {
       uiInteractionInProgress = true;
+
+      var $video = ui.element.find('video');
+      if ( $video.length ) {
+        $video.addClass('has-been-resized');
+      }
     },
     stop: function(event, ui) {
       var $item = ui.helper.closest(collageItemSelector);
@@ -235,7 +240,17 @@
 
       $canvas.imagesLoaded(function() {
         var $items = $canvas.find(collageItemSelector);
-        var $images = $items.find('.media-item-chooser__image');
+        var $images = $items.find('.media-item-chooser__image:not(.media-item-chooser__image--video)');
+
+        $images = $images.add($items.find('.media-item-chooser__image--video').parent());
+
+        $items.find('.media-item-chooser__image').each(function() {
+          var $image = $(this);
+
+          if ( $image.is('video') ) {
+            $image.attr('controls', false);
+          }
+        });
 
         $canvas.resizable(resizableCanvasOptions);
 
@@ -326,6 +341,14 @@
       var $newItem = $(insertedMediaItem).closest(collageItemSelector);
       var $newImage = $newItem.find('.media-item-chooser__image');
       var $emptyCanvasMessage = $canvas.find('.collage-input__empty-canvas-message');
+
+      if ( $newImage.is('video') ) {
+        $newImage.attr('controls', false);
+      }
+
+      if ( $newImage.hasClass('media-item-chooser__image--video') ) {
+        $newImage = $newImage.parent();
+      }
 
       setMaxZIndexForItem($newItem);
       $newImage.css({
