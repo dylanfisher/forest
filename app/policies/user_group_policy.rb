@@ -1,2 +1,0 @@
-class UserGroupPolicy < ApplicationPolicy
-end

@@ -1,6 +1,4 @@
-namespace :forest do
-  desc "Clear the Rails cache."
-  task 'cache:clear' => :environment do
-    Rails.cache.clear
-  end
-end
+# desc "Explaining what the task does"
+# task :forest do
+#   # Task goes here
+# end

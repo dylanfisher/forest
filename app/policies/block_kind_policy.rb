@@ -1,2 +1,0 @@
-class BlockKindPolicy < BlockRecordPolicy
-end

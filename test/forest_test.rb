@@ -1,7 +1,7 @@
-require 'test_helper'
+require "test_helper"
 
-class Forest::Test < ActiveSupport::TestCase
-  test "truth" do
-    assert_kind_of Module, Forest
+class ForestTest < ActiveSupport::TestCase
+  test "it has a version number" do
+    assert Forest::VERSION
   end
 end

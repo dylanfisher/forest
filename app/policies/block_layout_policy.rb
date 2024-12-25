@@ -1,2 +1,0 @@
-class BlockLayoutPolicy < BlockRecordPolicy
-end

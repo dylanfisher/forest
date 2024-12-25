@@ -1,5 +1,0 @@
-<% if menu.present? %>
-  <%= content_tag :ul, class: "menu menu--#{menu.slug}" do -%>
-    <%= render partial: 'shared/menu_item', collection: menu.structure_as_json, as: 'item' -%>
-  <% end -%>
-<% end %>

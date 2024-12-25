@@ -1,2 +1,0 @@
-class MenuPolicy < ApplicationPolicy
-end
