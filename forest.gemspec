@@ -23,4 +23,7 @@ Gem::Specification.new do |spec|
   end
 
   spec.add_dependency "rails", ">= 8.0.1"
+
+  # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
+  spec.add_dependency "bcrypt", "~> 3.1.7"
 end
