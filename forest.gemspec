@@ -26,4 +26,6 @@ Gem::Specification.new do |spec|
 
   # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
   spec.add_dependency "bcrypt", "~> 3.1.7"
+
+  spec.add_dependency "bootstrap_form", "~> 5.4"
 end
