@@ -1,15 +1,12 @@
 <div class="container h-100 d-flex flex-column">
   <div class="row justify-content-center my-auto">
     <div class="col-md-4">
-      <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+      <h1 class="h3 mb-3 fw-normal">Forest</h1>
 
-      <%= tag.div(flash[:alert], style: "color:red") if flash[:alert] %>
-      <%= tag.div(flash[:notice], style: "color:green") if flash[:notice] %>
-
-      <%= bootstrap_form_with url: session_path do |form| %>
-        <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "Enter your email address", value: params[:email_address], floating: true %>
-        <%= form.password_field :password, required: true, autocomplete: "current-password", placeholder: "Enter your password", maxlength: 72, floating: true %>
-        <%= form.submit "Sign in" %>
+      <%= bootstrap_form_with url: session_path, class: 'mb-3' do |f| %>
+        <%= f.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "Enter your email address", value: params[:email_address], floating: true %>
+        <%= f.password_field :password, required: true, autocomplete: "current-password", placeholder: "Enter your password", maxlength: 72, floating: true %>
+        <%= f.primary "Log in" %>
       <% end %>
 
       <%= link_to "Forgot password?", new_password_path %>

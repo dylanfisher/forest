@@ -1,0 +1,15 @@
+<% if flash.present? %>
+  <div class="container-fluid mt-2">
+    <div class="row">
+      <div class="col">
+        <% flash.each do |type, message| %>
+          <% alert_class = type == "alert" ? "alert-danger" : "alert-primary" %>
+          <%= tag.div class: ["alert alert-dismissible fade show", alert_class], role: "alert" do %>
+            <%= message %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>
