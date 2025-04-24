@@ -7,7 +7,6 @@
     </div>
     <div class="col-sm-5 col-sm-offset-1">
       Version <%= Gem.loaded_specs['forest'].version %><br>
-      <%= Gem.loaded_specs['forest'].date.to_formatted_s(:long_ordinal).sub(/ 00:00/, '') %><br>
       <% if Gem.loaded_specs['forest'].homepage.present? %>
         </strong> <%= link_to Gem.loaded_specs['forest'].homepage, Gem.loaded_specs['forest'].homepage %><br>
       <% end %>
