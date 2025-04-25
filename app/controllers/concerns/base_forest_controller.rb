@@ -30,8 +30,8 @@ module BaseForestController
 
       @html_classes ||= []
       @html_classes << controller_heirarchy
-      @html_classes << "controller--#{controller_name}"
-      @html_classes << "action--#{action_name}"
+      @html_classes << "controller--#{@html_controller_name.presence || controller_name}"
+      @html_classes << "action--#{@html_action_name.presence || action_name}"
       @html_classes << 'current-user--admin' if current_user&.admin?
     end
 
