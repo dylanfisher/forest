@@ -44,7 +44,7 @@ module Forest
 
 
     def database_exists?
-      ActiveRecord::Base.connection
+      return ActiveRecord::Base.connection && ActiveRecord::Base.connection.database_exists?
     rescue ActiveRecord::NoDatabaseError
       false
     else
