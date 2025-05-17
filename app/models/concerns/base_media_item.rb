@@ -179,7 +179,7 @@ module BaseMediaItem
   end
 
   def display_file_name
-    attachment_file_name.sub(/(--\d*)?#{Regexp.quote(file_extension)}$/i, '')
+    title.presence || attachment_file_name.sub(/(--\d*)?#{Regexp.quote(file_extension)}$/i, '')
   end
 
   def get_attachment_content_type
@@ -272,7 +272,7 @@ module BaseMediaItem
   end
 
   def to_label
-    attachment_file_name
+    display_name
   end
 
   def select2_image_thumbnail
