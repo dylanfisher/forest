@@ -272,7 +272,7 @@ module BaseMediaItem
   end
 
   def to_label
-    display_name
+    display_file_name
   end
 
   def select2_image_thumbnail
