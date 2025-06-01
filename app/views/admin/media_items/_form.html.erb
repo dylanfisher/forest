@@ -64,7 +64,7 @@
                       <% elsif @media_item.try(:file?) %>
                         <div class="mt-2">
                           <%= bootstrap_icon 'file-richtext', style: 'width: 36px;' %>
-                          <%= @media_item.display_title.presence || @media_item.title %>
+                          <%= @media_item.display_file_name %>
                         </div>
                       <% end %>
                     </div>
