@@ -182,6 +182,10 @@ module BaseMediaItem
     title.presence || attachment_file_name.sub(/(--\d*)?#{Regexp.quote(file_extension)}$/i, '')
   end
 
+  def display_file_name_with_extension
+    "<span class=\"media-item-file-name\">#{display_file_name} <span class=\"media-item-file-extension small text-muted\">#{file_extension}</span></span>"
+  end
+
   def get_attachment_content_type
     attachment_data['metadata']['mime_type'] if attachment_data.present?
   end

@@ -39,6 +39,11 @@
           Name <span class="text-muted"><%= record.name %></span>
         </div>
       <% end %>
+      <% if record.try(:attachment_file_name).present? %>
+        <div class="small">
+          Filename <span class="text-muted"><%= record.attachment_file_name %></span>
+        </div>
+      <% end %>
       <% unless record.new_record? %>
         <div class="small">
           Record ID <span class="text-muted"><%= record.id %></span>

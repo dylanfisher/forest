@@ -155,3 +155,17 @@
   position: relative;
   z-index: 1;
 }
+
+.media-item-file-name {
+  position: relative;
+}
+
+.media-item-file-extension {
+  position: absolute;
+  background-color: #ffffff;
+  border-radius: 0.25rem;
+  border: 1px solid #e6e6e6;
+  padding: 0 3px 2px;
+  top: 0;
+  right: 0;
+}
