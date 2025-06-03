@@ -12,7 +12,7 @@ class Admin::ForestController < ApplicationController
 
   after_action :verify_authorized, unless: :devise_controller?
 
-  rescue_from ActiveRecord::InvalidForeignKey, with: :foreign_key_contraint
+  rescue_from ActiveRecord::InvalidForeignKey, with: :foreign_key_constraint
   rescue_from ActiveRecord::RecordNotUnique, with: :record_not_unique
 
   # rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
@@ -78,7 +78,7 @@ class Admin::ForestController < ApplicationController
     instance_variable_get("@#{controller_name.singularize}")
   end
 
-  def foreign_key_contraint(exception)
+  def foreign_key_constraint(exception)
     if record
       statusable_message = record.try(:statusable?) ? ' Alternatively, you may want to set this record\'s status to hidden instead.' : ''
       error_messages = ["This record can't be deleted because another record depends on it. First remove the association to the other record before deleting this one.#{statusable_message}", "<code>#{exception.message}</code>"]
