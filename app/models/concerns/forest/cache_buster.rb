@@ -48,7 +48,7 @@ module Forest::CacheBuster
         # Update the associations currently attached to the record
         association_groups.each do |records|
           if records.try :any?
-            if records.class.parent.name == 'ActiveRecord::Associations'
+            if records.class.module_parent_name == 'ActiveRecord::Associations'
               if records.column_names.include?('updated_at')
                 logger.debug { "[Forest] CacheBuster is updating associations for #{records.length} #{records.first.model_name.plural}" }
                 records.unscope(:order).update_all updated_at: time_now
