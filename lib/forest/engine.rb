@@ -43,12 +43,20 @@ module Forest
     end
 
 
+    # Try to establish a connection. If the database doesn't exist,
+    # Rails will raise ActiveRecord::NoDatabaseError.
     def database_exists?
-      return ActiveRecord::Base.connection && ActiveRecord::Base.connection.database_exists?
+      connection = ActiveRecord::Base.connection
+      if connection.respond_to?(:database_exists?)
+        # Use modern Rails API if available
+        connection.database_exists?
+      else
+        # Fallback: simply attempt a connection
+        ActiveRecord::Base.connection
+        true
+      end
     rescue ActiveRecord::NoDatabaseError
       false
-    else
-      true
     end
   end
 end
