@@ -4,6 +4,42 @@
 (function() {
   var multiFileUploadUppy;
 
+  var cssUrl = function(url) {
+    return 'url("' + url.replace(/"/g, '\\"') + '")';
+  };
+
+  var applyMediaItemPreview = function($mediaItem, preview) {
+    if ( !preview ) return;
+
+    $mediaItem.find('.media-item--grid__image').css('background-image', cssUrl(preview));
+    $mediaItem.find('.media-library-link').attr('data-image-url', preview).attr('data-image-url-large', preview);
+  };
+
+  var persistPreview = function(preview, callback) {
+    if ( !preview || preview.indexOf('blob:') !== 0 ) {
+      callback(preview);
+      return;
+    }
+
+    fetch(preview)
+      .then(function(response) {
+        return response.blob();
+      })
+      .then(function(blob) {
+        var reader = new FileReader();
+
+        reader.onloadend = function() {
+          callback(reader.result);
+        };
+
+        reader.readAsDataURL(blob);
+      })
+      .catch(function(error) {
+        console.warn('Unable to persist Uppy thumbnail preview', error);
+        callback(null);
+      });
+  };
+
   var disableForm = function($form) {
     var $inputs = $form.find('input[type="submit"]');
 
@@ -34,7 +70,7 @@
            };
   };
 
-  var createMediaItemFromUploadedFileData = function($fileUpload, uploadedFileData, uppy) {
+  var createMediaItemFromUploadedFileData = function($fileUpload, uploadedFileData, uppy, fileId, previews, pendingMediaItems) {
     var url = $fileUpload.attr('data-media-item-url');
     var $mediaLibary = $('#media-library-infinite-load');
 
@@ -47,7 +83,16 @@
       }
     })
     .done(function(data) {
-      $mediaLibary.prepend(data['attachmentPartial']);
+      var $mediaItem = $(data['attachmentPartial']);
+      var preview = previews[fileId];
+
+      if ( preview ) {
+        applyMediaItemPreview($mediaItem, preview);
+      } else {
+        pendingMediaItems[fileId] = $mediaItem;
+      }
+
+      $mediaLibary.prepend($mediaItem);
     })
     .fail(function(data) {
       console.warn('Media item failed to create', data);
@@ -125,6 +170,9 @@
   };
 
   var multiFileUpload = function($fileUpload) {
+    var previews = {};
+    var pendingMediaItems = {};
+
     var uppy = Uppy.Core({
         autoProceed: true
       })
@@ -149,6 +197,19 @@
 
     initializeUppyDashboardModal(uppy, $fileUpload);
 
+    uppy.on('thumbnail:generated', function(file, preview) {
+      persistPreview(preview, function(persistedPreview) {
+        if ( !persistedPreview ) return;
+
+        previews[file.id] = persistedPreview;
+
+        if ( pendingMediaItems[file.id] ) {
+          applyMediaItemPreview(pendingMediaItems[file.id], persistedPreview);
+          delete pendingMediaItems[file.id];
+        }
+      });
+    });
+
     uppy.on('dashboard:modal-closed', function() {
       initializeUppyDashboardModal(uppy, $fileUpload);
     });
@@ -156,8 +217,18 @@
     uppy.on('upload-success', function(file, response) {
       // construct uploaded file data in the format that Shrine expects
       var uploadedFileData = generateFileDataForAjaxPost(file, response);
+      persistPreview(file.preview, function(persistedPreview) {
+        if ( !persistedPreview ) return;
 
-      createMediaItemFromUploadedFileData($fileUpload, uploadedFileData, uppy);
+        previews[file.id] = persistedPreview;
+
+        if ( pendingMediaItems[file.id] ) {
+          applyMediaItemPreview(pendingMediaItems[file.id], persistedPreview);
+          delete pendingMediaItems[file.id];
+        }
+      });
+
+      createMediaItemFromUploadedFileData($fileUpload, uploadedFileData, uppy, file.id, previews, pendingMediaItems);
     });
   };
 
